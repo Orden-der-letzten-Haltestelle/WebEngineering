@@ -13,8 +13,8 @@ services:
       - db_data:/var/lib/postgresql/data
   backend:
     build: .
-    container_name: webshop_backend
     image: webshop_backend
+    container_name: webshop_backend
     restart: always
     ports:
       - '3000:3000'
@@ -23,6 +23,18 @@ services:
       POSTGRES: 'postgres://user:1234@db:3001/webshop'
     depends_on:
       - db
+
+  frontend:
+    build:
+      dockerfile: Dockerfile.nginx
+    image: webshop_frontend
+    container_name: webshop_frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
 
 volumes:
   db_data:

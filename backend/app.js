@@ -1,18 +1,12 @@
-// Load the Database
-// const pg = require('pg-promise');
-// const db = pg(process.env.POSTGRES);
-
-// The App
-const express = require('express');
-
-const app = express();
-
-app.get('/', (req, res) => {
-    res.send('Welcome to our Webshop');
-});
+const http = require('http');
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+const server = http.createServer((req, res) => {
+    res.write('Hello World!');
+    res.end();
+});
+
+server.listen(PORT, () => {
     console.log(`Server läuft auf http://localhost:${PORT}`);
 });
