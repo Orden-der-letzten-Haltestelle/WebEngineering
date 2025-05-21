@@ -1,0 +1,13 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "App",
+  "main": "app.js",
+  "scripts": {
+    "start": "node ./backend/app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg-promise": "^11.13.0"
+  }
+}

@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: webshop_db
+    restart: always
+    ports:
+      - '3001:3001'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: webshop
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  backend:
+    build: .
+    container_name: webshop_backend
+    image: webshop_backend
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      PORT: 3000
+      POSTGRES: 'postgres://user:1234@db:3001/webshop'
+    depends_on:
+      - db
+
+volumes:
+  db_data:
