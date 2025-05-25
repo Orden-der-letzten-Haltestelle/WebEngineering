@@ -19,24 +19,35 @@ This will:
 - build the application in docker containers
 - start the server
 
+### Links
+
+* Access frontend: [http://localhost:80](http://localhost:80)
+* Access backend: [http://localhost:3000/api](http://localhost:3000/api)
+
 ### To Do
 - [x] Docker Compose Structure
-- [ ] Implementation of DB with PostgreSQL
+- [x] Implementation of DB with PostgreSQL
 - [x] `index.html` working using `nginx`
+- [ ] Have the DB Data displayed in `index.html`
+- [ ] How to do `Auth`?
 - [ ] everything else
 
 ## Project Structure
 
 ```bash
 ├── backend/                # Node.js & PostgreSQL
+│   ├── Dockerfile          # Container Configuration of backed
 │   ├── app.js              
 │   └── package.json        
 ├── frontend/               # Static website
 │   ├── css/                
 │   ├── views/              
 │   └── index.html          
+├── db/                     
+│   └── init.sql            # Initial DB
+├── nginx/                  
+│   └── nginx.conf          # Web Server Configuration
 ├── docker-compose.yml      # Container Configuration
-├── nginx.conf              # Web Server Configuration
 └── start.bat               # Startup Script
 ```
 
