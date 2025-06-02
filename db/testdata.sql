@@ -47,7 +47,7 @@ INSERT INTO webshop.User_wishlist_relation (id, userId, wishlistId, wishlistRole
   (2, 3, 1, 3), -- leon sieht moritz seine Liste
   (3, 3, 2, 1), -- leon ist owner seiner Liste
   (4, 2, 2, 3), -- moritz darf leons liste ansehen
-  (4, 2, 2, 2); -- moritz darf leons liste bearbeiten
+  (5, 2, 2, 2); -- moritz darf leons liste bearbeiten
 
 -- Wunschlisten-Einträge
 INSERT INTO webshop.WishlistItems (id, productId, wishlistId, amount, addedAt) VALUES
