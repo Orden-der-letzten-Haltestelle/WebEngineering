@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 // === Externe Endpoints und Connectors === || === To Do
 app.get('/api/products', async (req, res) => {
     try {
-        const result = await pool.query('SELECT * FROM products');
+        const result = await pool.query('SELECT * FROM webshop.products');
         const data = JSON.stringify(result.rows);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
