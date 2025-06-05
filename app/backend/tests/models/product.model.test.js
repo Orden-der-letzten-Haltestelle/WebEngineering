@@ -31,21 +31,29 @@ const ProductModel = await import("../../src/models/product.model.js")
 const { pool } = await import("../../src/models/pool.js")
 
 // Tests findAllProducts
-describe("Test findAllProducts", () => {
-    it("goodcase01", async () => {
-        const products = await ProductModel.default.findAllProducts()
+describe("Test ProductModel", () => {
+    describe("findAllProducts", () => {
+        it("goodcase01: Should return all Products from the database", async () => {
+            const products = await ProductModel.default.findAllProducts()
 
-        // proof that return is as expected
-        expect(products).toEqual(
-            mockProductsData.map(
-                (p) =>
-                    new Product(p.id, p.name, p.description, p.amount, p.price)
+            // proof that return is as expected
+            expect(products).toEqual(
+                mockProductsData.map(
+                    (p) =>
+                        new Product(
+                            p.id,
+                            p.name,
+                            p.description,
+                            p.amount,
+                            p.price
+                        )
+                )
             )
-        )
 
-        // Proof if query go executed as expected
-        expect(pool.query).toHaveBeenCalledWith(
-            "SELECT * FROM webshop.products"
-        )
+            // Proof if query go executed as expected
+            expect(pool.query).toHaveBeenCalledWith(
+                "SELECT * FROM webshop.products"
+            )
+        })
     })
 })
