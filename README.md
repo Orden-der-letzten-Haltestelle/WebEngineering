@@ -13,8 +13,10 @@ You will also need to have [Node.js](https://nodejs.org/en) installed.
 That you can start the applikation, you need to be in `/app`
 
 ### install
-
-`npm install`
+```
+cd .\app
+npm install
+```
 
 ### Start server
 
@@ -30,7 +32,10 @@ DB_NAME=webshop
 
 ### run unittests
 
-`npm test`
+```
+cd .\app
+npm test
+```
 
 ## Start Docker Containers
 To update the Docker image and containers run:
@@ -53,14 +58,14 @@ This will:
 
 ```bash
 ├── app/                        # Node.js server
-|   ├── /backend
-|   |   ├── /src
-|   |   |   ├── /controllers    # All Funktion that define the endpoint and handles errors
-|   |   |   ├── /models         # DataAccess (Everything that access the Database)
-|   |   |   ├── /objects        # All objects
-|   |   |   ├── /routes         # Defining the Endpoints and routing them to the function
-|   |   |   └── /services       # Business logic
-|   |   └── /tests              # All testcases
+│   ├── /backend
+│   │   ├── /src
+│   │   │   ├── /controllers    # All Funktion that define the endpoint and handles errors
+│   │   │   ├── /models         # DataAccess (Everything that access the Database)
+│   │   │   ├── /objects        # All objects
+│   │   │   ├── /routes         # Defining the Endpoints and routing them to the function
+│   │   │   └── /services       # Business logic
+│   │   └── /tests              # All testcases
 │   ├── /config
 │   ├── /frontend               # Static HTML, CSS & JS
 │   ├── Dockerfile              # Container Configuration of backed
@@ -74,10 +79,10 @@ This will:
 
 ## Tech Stack
 
-| Link                                          | Description            |
-| --------------------------------------------- | ---------------------- |
-| [Node.js](https://nodejs.org/en)              | Runtime Environment    |
-| [jest](https://www.npmjs.com/package/jest)    | Testing Framwork       |
-| [express](https://expressjs.com/)             | Web Framework          |
-| [PostgrSQL](https://www.postgresql.org/)      | Database               |
-| [Docker](https://www.docker.com/)             | Container & Image Tool |
+| Link                                       | Description            |
+| ------------------------------------------ | ---------------------- |
+| [Node.js](https://nodejs.org/en)           | Runtime Environment    |
+| [jest](https://www.npmjs.com/package/jest) | Testing Framwork       |
+| [express](https://expressjs.com/)          | Web Framework          |
+| [PostgrSQL](https://www.postgresql.org/)   | Database               |
+| [Docker](https://www.docker.com/)          | Container & Image Tool |
