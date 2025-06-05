@@ -9,7 +9,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // Import all routers
-const products = require('./routes/product.routes');
+const products = require('./backend/routes/product.routes');
 
 // Endpoints
 app.get('/', (req, res) => {
