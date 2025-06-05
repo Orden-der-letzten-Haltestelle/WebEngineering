@@ -14,10 +14,19 @@ async function listProducts(req, res) {
         res.writeHead(200, { "Content-Type": "application/json" })
         res.end(data)
     } catch (error) {
-        // === Genauere Fehler Meldungen === || === To Do More
         console.error(error)
-        res.writeHead(500, { "Content-Type": "text/plain" })
-        res.end("Interner Server Fehler")
+
+        //handle expected errors
+        if (error instanceof DatabaseError) {
+            res.writeHead(error.statusCode, {
+                "Content-Type": "application/json",
+            })
+            res.end(JSON.stringify({ error: error.message }))
+        } else {
+            //unexpected error
+            res.writeHead(500, { "Content-Type": "text/plain" })
+            res.end("Interner Server Fehler")
+        }
     }
 }
 
