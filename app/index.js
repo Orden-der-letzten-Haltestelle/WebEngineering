@@ -3,7 +3,7 @@ import path from "path"
 import { fileURLToPath } from "url"
 
 // Import all routers
-import ProductRouter from "./backend/routes/product.routes.js"
+import ProductRouter from "./backend/src/routes/product.routes.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
