@@ -1,5 +1,6 @@
 //import
 import ProductService from "../services/product.service.js"
+import DatabaseError from "../exceptions/DatabaseError.js"
 
 /*
 Der Controller con Produkte validiert die Eingaben und Implementiert die Logik.
