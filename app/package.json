@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Webshop for DHBW",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node ./index.js"
   },

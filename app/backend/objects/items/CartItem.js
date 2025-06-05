@@ -1,4 +1,6 @@
-class CartItem extends Item {
+import Item from "./Item"
+
+export default class CartItem extends Item {
     /**
      *
      * @param {int} id

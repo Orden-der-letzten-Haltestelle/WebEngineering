@@ -1,4 +1,4 @@
-class Product{
+export default class Product{
     /**
      * 
      * @param {int} id 

@@ -1,6 +1,6 @@
-//imports
-// PostgreSQL
-const pool = require("./pool")
+// import PostgreSQL
+import { pool } from "./pool.js"
+
 
 /*
 Das Model Product beinhalted alle SQL-Abfragen
@@ -9,6 +9,7 @@ Das Model Product beinhalted alle SQL-Abfragen
 /**
  * Finds all Products in the Database
  * @returns {Promise<Product[]>}
+ * @returns
  */
 async function findAllProducts() {
     const result = await pool.query("SELECT * FROM webshop.products")
@@ -16,5 +17,6 @@ async function findAllProducts() {
     return products
 }
 
-module.exports = {
+export default {
     findAllProducts,
+}

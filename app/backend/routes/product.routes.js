@@ -1,17 +1,15 @@
+//imports
+import express from "express"
+const router = express.Router()
+
+//controlle
+import ProductController from "../controllers/product.controller.js"
+
 /*
 Hier wird einfach nur den verschieden Routes von Products den Funktionen zugeordnet
 */
 
-const express = require('express');
-const router = express.Router();
-
-// Middleware
-// 
-
-// Import
-const ProductController = require('../controllers/product.controller');
-
 // define routes
-router.get('/', ProductController.listProducts);
+router.get("/", ProductController.listProducts)
 
-module.exports = router;
+export default router

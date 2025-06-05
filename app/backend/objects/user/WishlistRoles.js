@@ -12,3 +12,5 @@ const WishlistRoles = {
         roleName: "viewer",
     },
 }
+
+export default WishlistRoles

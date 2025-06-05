@@ -1,4 +1,6 @@
-class User extends BasicUser{
+import BasicUser from "./BasicUser"
+
+export default class User extends BasicUser{
     /**
      * @param {int} id 
      * @param {string} name 

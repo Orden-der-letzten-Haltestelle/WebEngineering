@@ -1,4 +1,6 @@
-class WishlistMember extends BasicUser {
+
+import BasicUser from "./BasicUser"
+export default class WishlistMember extends BasicUser {
     /**
      *
      * @param {int} id

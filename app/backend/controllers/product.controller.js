@@ -1,8 +1,9 @@
+//import
+import ProductService from "../services/product.service.js"
+
 /*
 Der Controller con Produkte validiert die Eingaben und Implementiert die Logik.
 */
-
-const ProductService = require("../services/product.service")
 
 async function listProducts(req, res) {
     try {
@@ -20,6 +21,6 @@ async function listProducts(req, res) {
     }
 }
 
-module.exports = {
+export default {
     listProducts,
 }

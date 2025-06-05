@@ -8,3 +8,5 @@ const Roles = {
         roleName: "admin",
     },
 }
+
+export default Roles

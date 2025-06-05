@@ -1,18 +1,19 @@
+//import
+import ProductModel from "../models/product.model.js"
+
 /**
  * Buisiness logic für den Produkt service
  */
 
-const ProductModel = require('../models/product.model')
-
 /**
  * Gets all Products
- * @returns 
+ * @returns
  */
-async function getAllProducts(){
+async function getAllProducts() {
     const result = ProductModel.findAllProducts()
     return result
 }
 
-module.exports = {
+export default {
     getAllProducts
 }

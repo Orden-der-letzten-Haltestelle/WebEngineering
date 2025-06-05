@@ -1,4 +1,4 @@
-class Item{
+export default class Item{
     /**
      * 
      * @param {int} id 

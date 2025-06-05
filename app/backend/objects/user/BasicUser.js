@@ -1,4 +1,4 @@
-class BasicUser{
+export default class BasicUser{
     /**
      * 
      * @param {int} id 

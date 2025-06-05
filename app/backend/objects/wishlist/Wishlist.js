@@ -1,4 +1,6 @@
-class Wishlist extends BasicWishlist {
+import BasicWishlist from "./BasicWishlist"
+
+export default class Wishlist extends BasicWishlist {
     /**
      *
      * @param {int} id
