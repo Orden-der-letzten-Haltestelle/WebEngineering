@@ -1,4 +1,5 @@
 import ProductController from "../../src/controllers/product.controller.js"
+import DatabaseError from "../../src/exceptions/DatabaseError.js"
 import ProductService from "../../src/services/product.service.js"
 import { jest } from "@jest/globals"
 
