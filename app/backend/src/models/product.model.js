@@ -16,8 +16,8 @@ async function findAllProducts() {
     const result = await pool.query("SELECT * FROM webshop.products")
 
     //map result into objects
-    const products = result.rows.map((p) => {
-        return new Product(p.id, p.name, p.description, p.amount, p.price)
+    const products = result.rows.map((row) => {
+        return new Product(row.id, row.name, row.description, row.amount, row.price)
     })
     return products
 }
