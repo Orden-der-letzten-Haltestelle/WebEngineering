@@ -9,7 +9,7 @@ async function listProducts(req, res) {
     try {
         const products = await ProductService.getAllProducts()
 
-        const data = JSON.stringify(products.rows)
+        const data = JSON.stringify(products)
 
         res.writeHead(200, { "Content-Type": "application/json" })
         res.end(data)
