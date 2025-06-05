@@ -14,6 +14,7 @@ async function listProducts(req, res) {
         res.end(data)
     } catch (error) {
         // === Genauere Fehler Meldungen === || === To Do More
+        console.error(error)
         res.writeHead(500, { "Content-Type": "text/plain" })
         res.end("Interner Server Fehler")
     }

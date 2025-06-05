@@ -9,7 +9,7 @@ const ProductModel = require('../models/product.model')
  * @returns 
  */
 async function getAllProducts(){
-    const result = ProductModel.getAllProducts()
+    const result = ProductModel.findAllProducts()
     return result
 }
 
