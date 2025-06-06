@@ -1,4 +1,4 @@
-export default class Item{
+export default class Item {
     /**
      * 
      * @param {int} id 
@@ -11,8 +11,8 @@ export default class Item{
         product,
         amount,
         addedAt,
-    ){
-        if(new.target === Item){
+    ) {
+        if (new.target === Item) {
             throw new Error("Cannot instantiate abstract class")
         }
         this.id = id

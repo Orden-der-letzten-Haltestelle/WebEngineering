@@ -1,10 +1,10 @@
 //import
 import ProductService from "../services/product.service.js"
-import DatabaseError from "../exceptions/DatabaseError.js"
 
-/*
-Der Controller con Produkte validiert die Eingaben und Implementiert die Logik.
-*/
+/**
+ * Used for the responses and error handling
+ * And Verify Inputs
+ */
 
 async function listProducts(req, res) {
     try {
@@ -15,19 +15,9 @@ async function listProducts(req, res) {
         res.writeHead(200, { "Content-Type": "application/json" })
         res.end(data)
     } catch (error) {
-        console.error(error)
-
-        //handle expected errors
-        if (error instanceof DatabaseError) {
-            res.writeHead(error.statusCode, {
-                "Content-Type": "application/json",
-            })
-            res.end(JSON.stringify({ error: error.message }))
-        } else {
-            //unexpected error
-            res.writeHead(500, { "Content-Type": "text/plain" })
-            res.end("Interner Server Fehler")
-        }
+        console.error(error.stack);
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
     }
 }
 

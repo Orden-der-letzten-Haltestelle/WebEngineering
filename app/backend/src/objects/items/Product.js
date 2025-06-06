@@ -1,4 +1,4 @@
-export default class Product{
+export default class Product {
     /**
      * 
      * @param {int} id 
@@ -8,12 +8,12 @@ export default class Product{
      * @param {int} price 
      */
     constructor(
-        id, 
-        name, 
+        id,
+        name,
         description,
         amount,
         price
-    ){
+    ) {
         this.id = id
         this.name = name
         this.description = description
