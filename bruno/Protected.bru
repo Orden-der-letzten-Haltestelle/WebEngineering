@@ -1,0 +1,15 @@
+meta {
+  name: Protected
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:3000/api/auth/protected
+  body: none
+  auth: inherit
+}
+
+headers {
+  authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ5MjIxMTY4LCJleHAiOjE3NDkyMjQ3Njh9.ErRbpWZspP9hU3NHl6AJbc0WrMH7aSa6lB-XCSnweVQ
+}

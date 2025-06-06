@@ -1,10 +1,31 @@
 // Import
 import AuthService from "../services/auth.service.js"
 
+// Import other
+import jwt from "jsonwebtoken"
+
+const SECRET_KEY = 'your-secret-key'; // In production, use environment variables
+
 /**
  * Used for the responses and error handling
  * And Verify Inputs
  */
+
+async function authenticateJWT(req, res, next) {
+    const token = req.headers.authorization;
+    if (token) {
+        jwt.verify(token, SECRET_KEY, (err, user) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+            req.user = user;
+            console.log(`validated User: `, user);
+            next();
+        });
+    } else {
+        res.sendStatus(401);
+    }
+}
 
 async function register(req, res) {
     try {
@@ -37,5 +58,6 @@ async function login(req, res) {
 
 export default {
     register,
-    login
+    login,
+    authenticateJWT
 }
