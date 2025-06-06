@@ -5,9 +5,9 @@ INSERT INTO webshop.Roles (roleName) VALUES
 
 -- Benutzer
 INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdAt) VALUES
-  ('admin', 'admin', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()),
-  ('moritz', 'moritz', 'moritz@letzteHaltestelle.de', FALSE, TRUE, NOW()),
-  ('leon', 'leon', 'leon@salenbacher.com', FALSE, TRUE, NOW());
+  ('admin', '$2b$10$aFcNkMCp5MTydjaSRCfQ1O3WjkqPmNozdQMQQGplm7OlwqidbBJkS', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is admin
+  ('moritz', 'moritz', 'moritz@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is moritz
+  ('leon', 'leon', 'leon@salenbacher.com', FALSE, TRUE, NOW()); -- password is leon
 
 -- Rollenvergabe an Benutzer
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
