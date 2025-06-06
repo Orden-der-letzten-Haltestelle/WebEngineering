@@ -10,9 +10,9 @@ CREATE TABLE IF NOT EXISTS Users (
   name VARCHAR(45) NOT NULL,
   password VARCHAR(45) NOT NULL,
   email VARCHAR(45) NOT NULL UNIQUE,
-  isBanned BOOLEAN,
-  isVerified BOOLEAN,
-  createdAt TIMESTAMP
+  isBanned BOOLEAN DEFAULT FALSE,
+  isVerified BOOLEAN DEFAULT FALSE,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabelle Roles
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS CartItems (
   amount INTEGER,
   bought BOOLEAN,
   boughtAt TIMESTAMP,
-  addedAt TIMESTAMP
+  addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Tabelle Wishlist
@@ -75,6 +75,6 @@ CREATE TABLE IF NOT EXISTS WishlistItems (
   productId INTEGER REFERENCES Products(id),
   wishlistId INTEGER REFERENCES Wishlists(id),
   amount INTEGER,
-  addedAt TIMESTAMP
+  addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
