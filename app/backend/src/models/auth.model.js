@@ -1,44 +1,44 @@
 // Import PostgreSQL
-import { pool } from "./pool.js"
+import { pool } from "./pool.js";
 
 // Imports objects
-import User from "../objects/user/User.js"
-import DatabaseError from "../exceptions/DatabaseError.js"
-
-/*
-Das Model Product beinhalted alle SQL-Abfragen
-*/
+import User from "../objects/user/User.js";
+import HttpError from "../exceptions/HttpError.js";
 
 /**
- * Creates a User
+ * Das Model Product beinhalted alle SQL-Abfragen
  */
-async function createUser(username, password, email) {
+
+/**
+ * Creates a User in the Database
+ * @returns User
+ */
+async function createUser(username, hashedPassword, email) {
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await pool.query(`INSERT INTO webshop.users (name, password, email) VALUES ('${username}','${hashedPassword}','${email}')`)
-        return result
-    } catch (error) {
-        throw new DatabaseError(`Could not create User ${username} in the database`, {
-            cause: error,
-        })
-        // ERROR: username, password, email are to
-        // ERROR: duplicate key value email
+        const result = await pool.query(`INSERT INTO webshop.users (name, password, email) VALUES ('${username}','${hashedPassword}','${email}')`);
+        return getUserByEmail(email);
+    } catch (cause) {
+        throw new HttpError(`Email ${email} is already used`, 400, { cause });
     }
 }
 
+/**
+ * Returns a User Object if one was found in the Database
+ * @returns User
+ */
 async function getUserByEmail(email) {
-    try {
-        const result = await pool.query(`SELECT * FROM webshop.users WHERE email='${email}'`);
-        const user = createUserFromQueryRow(result.rows[0]);
-        return user;
-    } catch (error) {
-        throw new DatabaseError(`Could not find User ${email} in the database`, {
-            cause: error,
-        })
-        // ERROR: user was not found OR just retunr NULL
+    const result = await pool.query(`SELECT * FROM webshop.users WHERE email='${email}'`);
+    if (result.rows.length == 0) {
+        throw new HttpError(`User ${email} was not found`, 400);
     }
+    const user = createUserFromQueryRow(result.rows[0]);
+    return user;
 }
 
+/**
+ * Creates a User Object from a SQL SELECT row
+ * @returns User Object
+ */
 async function createUserFromQueryRow(row) {
     return new User(
         row.id,
@@ -51,7 +51,7 @@ async function createUserFromQueryRow(row) {
         row.createdat,
         [],
         []
-    )
+    );
 }
 
 export default {
