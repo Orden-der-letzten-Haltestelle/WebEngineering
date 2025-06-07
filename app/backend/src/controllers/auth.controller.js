@@ -23,12 +23,11 @@ async function verifyJWTtoken(req, res, next) {
         }
 
         //proof token and extract information form token
-        const [information] = await AuthService.getUserInformationByJWTtoken(
-            token
-        )
+        const user = await AuthService.getUserInformationByJWTtoken(token)
+        req.user = user
         next() //move to the next step
     } catch (error) {
-        console.error(error.stack)
+        console.log(`failed to verify jwt token; ${error.message}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
@@ -44,34 +43,34 @@ async function register(req, res) {
             email
         )
 
-        res.writeHead(201, { "Content-Type": "text/plain" })
-        res.json({
+        console.log(`Signed up Successfully, with id ${user.id}`)
+        res.status(201).json({
             user: user,
             token: token,
         })
-        res.end("User Created Successfully")
     } catch (error) {
-        console.error(error.stack)
+        console.log(`Failed sign up; ${error.message}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
 async function login(req, res) {
+    const { email, password } = req.body
     try {
-        const { email, password } = req.body
-
         const [user, token] = await AuthService.verifyLoginInformation(
             email,
             password
         )
-
+        console.log(`User with email ${email}, successfully signed in`)
         res.json({
             token: token,
             user: user,
         })
     } catch (error) {
-        console.error(error.stack)
+        console.log(
+            `User with email ${email}, failed sign in; ${error.message}`
+        )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }

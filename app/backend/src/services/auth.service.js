@@ -28,7 +28,7 @@ const PASSWORD_HASH_SALT = 10
 async function createUser(username, password, email) {
     //verify, that email and password are fitting requirements.
     AuthValidator.isSecurePassword(password)
-    AuthValidator.isValidEmail(email)
+    await AuthValidator.isValidEmail(email)
 
     //hash password
     const hashedPassword = await bcrypt.hash(password, PASSWORD_HASH_SALT)
@@ -60,15 +60,15 @@ async function verifyLoginInformation(email, password) {
     //generate JWT token
     const jwtToken = generateJWTtoken(authUser)
     //return user with out password and jwt token
-    return [new AuthUser(...authUser), jwtToken]
+    return [new AuthUser({ ...authUser }), jwtToken]
 }
 
 /**
  * Generates a JWT-Token for the given user
  * @param {AuthUser} authUser
- * @returns {Promise<string>}
+ * @returns {string}
  */
-async function generateJWTtoken(authUser) {
+function generateJWTtoken(authUser) {
     const token = jwt.sign(
         { id: authUser.id, username: authUser.username, roles: authUser.roles },
         SECRET_KEY,
@@ -90,6 +90,7 @@ async function generateJWTtoken(authUser) {
  *      ]
  * }
  * @param {string} token
+ * @returns {Promise<AuthUser>} without email
  * @throws {TokenVerificationError}
  */
 async function getUserInformationByJWTtoken(token) {
