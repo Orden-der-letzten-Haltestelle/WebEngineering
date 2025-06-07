@@ -8,7 +8,9 @@ import AuthService from "../services/auth.service.js"
  */
 
 /**
- * Verify given JWT token and return user Information
+ * Verify given JWT token and puts User information in req.user.
+ * can be put in front of other requests, to verify the user.
+ *
  * @param {*} req
  * @param {*} res
  * @param {*} next
