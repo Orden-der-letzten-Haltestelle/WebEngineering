@@ -11,7 +11,6 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 const PORT = 3000
-console.log(process.env.DB_PASSWORD)
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
