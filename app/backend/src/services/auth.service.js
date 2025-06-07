@@ -94,23 +94,27 @@ function generateJWTtoken(authUser) {
  * @throws {TokenVerificationError}
  */
 async function getUserInformationByJWTtoken(token) {
-    const [bearerstr, extractedToken] = token && authHeader.split(" ")[1]
-    if (bearerstr != BEARER_PREFIX) {
+    //proof for bearer prefix
+    if (!token.startsWith(BEARER_PREFIX)) {
         throw new TokenVerificationError(
             `Bearer token doesn't fit format, 'Bearer' infront of token is missing`
         )
     }
 
-    jwt.verify(extractedToken, SECRET_KEY, (error, user) => {
-        if (error) {
-            throw new TokenVerificationError(
-                `Failed to verify User by given token ${token} \n Erro: ${error.message}`,
-                { cause: error }
-            )
-        }
+    //remove Bearer prefix
+    const extractedToken = token.slice(BEARER_PREFIX.length).trim()
+
+    //verify token
+    try {
+        const user = jwt.verify(extractedToken, SECRET_KEY)
         console.log(`validated User: `, user)
         return user
-    })
+    } catch (error) {
+        throw new TokenVerificationError(
+            `Failed to verify User by given token ${token} \n Erro: ${error.message}`,
+            { cause: error }
+        )
+    }
 }
 
 export default {
