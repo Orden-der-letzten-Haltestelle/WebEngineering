@@ -23,7 +23,9 @@ async function verifyJWTtoken(req, res, next) {
         }
 
         //proof token and extract information form token
-        const information = AuthService.getUserInformationByJWTtoken(token)
+        const [information] = await AuthService.getUserInformationByJWTtoken(
+            token
+        )
         next() //move to the next step
     } catch (error) {
         console.error(error.stack)
@@ -36,10 +38,17 @@ async function register(req, res) {
     try {
         const { username, password, email } = req.body
 
-        const user = await AuthService.createUser(username, password, email)
+        const [user, token] = await AuthService.createUser(
+            username,
+            password,
+            email
+        )
 
-        //TODO give back created user
         res.writeHead(201, { "Content-Type": "text/plain" })
+        res.json({
+            user: user,
+            token: token,
+        })
         res.end("User Created Successfully")
     } catch (error) {
         console.error(error.stack)
@@ -52,9 +61,15 @@ async function login(req, res) {
     try {
         const { email, password } = req.body
 
-        const token = await AuthService.verifyLoginInformation(email, password)
+        const [user, token] = await AuthService.verifyLoginInformation(
+            email,
+            password
+        )
 
-        res.json(token)
+        res.json({
+            token: token,
+            user: user,
+        })
     } catch (error) {
         console.error(error.stack)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })

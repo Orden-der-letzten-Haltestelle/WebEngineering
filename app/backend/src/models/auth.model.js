@@ -6,23 +6,48 @@ import User from "../objects/user/User.js"
 import AuthUser from "../objects/user/AuthUser.js"
 import HttpError from "../exceptions/HttpError.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
+import AdvancedAuthUser from "../objects/user/AdvancedAuthUser.js"
 
 /**
  * Das Model Product beinhalted alle SQL-Abfragen
  */
+const DEFAULT_ROLE_ID = 1
 
 /**
  * Creates a User in the Database
  * @returns User
  */
 async function createUser(username, hashedPassword, email) {
+    const client = await pool.connect()
     try {
-        const result = await pool.query(
-            `INSERT INTO webshop.users (name, password, email) VALUES ('${username}','${hashedPassword}','${email}')`
+        //start query client, to be abel to rollback if needed
+        await client.query("BEGIN")
+
+        //save user information in db
+        const result = await client.query(
+            `INSERT INTO webshop.users (name, password, email) VALUES ($1, $2, $3) RETURNING id`,
+            [username, hashedPassword, email]
         )
-        return getUserByEmail(email)
-    } catch (cause) {
-        throw new HttpError(`Email ${email} is already used`, 400, { cause })
+        const userId = result.rows[0].id
+
+        //add default role to user
+        await client.query(
+            `INSERT INTO webshop.user_has_role (userid, roleid) VALUES ($1, $2)`,
+            [userId, DEFAULT_ROLE_ID]
+        )
+
+        //executing all querys
+        await client.query("COMMIT")
+        return new AuthUser(userId, username, email, undefined, ["user"])
+    } catch (error) {
+        //When error is thrown, rollback
+        await client.query("ROLLBACK")
+        throw new DatabaseError(
+            `Failed storing user data in the DB: ${error.message}`,
+            { cause: error }
+        )
+    } finally {
+        client.release()
     }
 }
 
@@ -44,9 +69,9 @@ async function getUserByEmail(email) {
 /**
  * finds an auth user by its email
  * @param {string} email
- * @return {AuthUser | null}
+ * @return {Promise<AdvancedAuthUser | null>}
  */
-async function findAuthUserByEmail(email) {
+async function findAdvancedAuthUserByEmail(email) {
     try {
         const result = await pool.query(
             `SELECT * FROM webshop.users WHERE email = $1`,
@@ -87,6 +112,6 @@ async function createUserFromQueryRow(row) {
 
 export default {
     createUser,
-    findAuthUserByEmail,
+    findAdvancedAuthUserByEmail,
     getUserByEmail,
 }

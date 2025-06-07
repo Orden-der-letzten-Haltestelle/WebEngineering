@@ -1,14 +1,18 @@
 //import
 import AuthModel from "../models/auth.model.js"
-import HttpError from "../exceptions/HttpError.js"
 import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 
 // Import other
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
+import AuthValidator from "../validator/validator.auth.js"
+import AuthUser from "../objects/user/AuthUser.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
+const JWT_TOKEN_EXPIRES_IN = "1h"
+const BEARER_PREFIX = "Bearer"
+const PASSWORD_HASH_SALT = 10
 
 /**
  * Buisiness logic für den Auth service
@@ -19,26 +23,34 @@ const SECRET_KEY = "your-secret-key" // In production, use environment variables
  * @param {string} username
  * @param {string} password
  * @param {string} email
- * @returns
+ * @returns {Promise<[AuthUser, string]>} [user, jwtToken]
  */
 async function createUser(username, password, email) {
-    // TO DO: Is the password secure enough?
+    //verify, that email and password are fitting requirements.
+    AuthValidator.isSecurePassword(password)
+    AuthValidator.isValidEmail(email)
 
-    const hashedPassword = await bcrypt.hash(password, 10)
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, PASSWORD_HASH_SALT)
+
+    //create user
     const user = await AuthModel.createUser(username, hashedPassword, email)
-    // TO DO: Send out the Email if succesfull
 
-    return user
+    // TODO Send out the Email if succesfull
+
+    //generate jwtToken
+    const jwtToken = generateJWTtoken(user)
+    return [user, jwtToken]
 }
 
 /**
  * Verifys Login information and returns a valid JWT token, with the user Information
  * @param {string} email
  * @param {string} password
- * @returns {string} JWT-token
+ * @returns {Promise<[BasicUser, string]>} JWT-token
  */
 async function verifyLoginInformation(email, password) {
-    const authUser = await AuthModel.findAuthUserByEmail(email)
+    const authUser = await AuthModel.findAdvancedAuthUserByEmail(email)
 
     //compare given password and stored password
     if (!bcrypt.compareSync(password, authUser.password)) {
@@ -47,21 +59,22 @@ async function verifyLoginInformation(email, password) {
 
     //generate JWT token
     const jwtToken = generateJWTtoken(authUser)
-    return jwtToken
+    //return user with out password and jwt token
+    return [new AuthUser(...authUser), jwtToken]
 }
 
 /**
  * Generates a JWT-Token for the given user
  * @param {AuthUser} authUser
- * @returns {string}
+ * @returns {Promise<string>}
  */
 async function generateJWTtoken(authUser) {
     const token = jwt.sign(
         { id: authUser.id, username: authUser.username, roles: authUser.roles },
         SECRET_KEY,
-        { expiresIn: "1h" }
+        { expiresIn: JWT_TOKEN_EXPIRES_IN }
     )
-    return token
+    return `${BEARER_PREFIX} ${token}`
 }
 
 /**
@@ -70,6 +83,7 @@ async function generateJWTtoken(authUser) {
  * in This format:
  * user: {
  *      id: "3945786",
+ *      username: "negroberd",
  *      roles: [
  *          "admin",
  *          "user"
@@ -79,7 +93,14 @@ async function generateJWTtoken(authUser) {
  * @throws {TokenVerificationError}
  */
 async function getUserInformationByJWTtoken(token) {
-    jwt.verify(token, SECRET_KEY, (error, user) => {
+    const [bearerstr, extractedToken] = token && authHeader.split(" ")[1]
+    if (bearerstr != BEARER_PREFIX) {
+        throw new TokenVerificationError(
+            `Bearer token doesn't fit format, 'Bearer' infront of token is missing`
+        )
+    }
+
+    jwt.verify(extractedToken, SECRET_KEY, (error, user) => {
         if (error) {
             throw new TokenVerificationError(
                 `Failed to verify User by given token ${token} \n Erro: ${error.message}`,

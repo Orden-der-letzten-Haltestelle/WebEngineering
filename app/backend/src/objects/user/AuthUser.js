@@ -6,12 +6,10 @@ export default class AuthUser extends BasicUser {
      * @param {int} id
      * @param {string} name
      * @param {string} email
-     * @param {string} password
      * @param {Roles[]} roles
      */
-    constructor(id, name, email, password, roles) {
+    constructor(id, name, email, roles) {
         super(id, name, email)
-        this.password = password
         this.roles = roles
     }
 }
