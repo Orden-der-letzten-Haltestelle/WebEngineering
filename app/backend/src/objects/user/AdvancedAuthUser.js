@@ -13,4 +13,12 @@ export default class AdvancedAuthUser extends AuthUser {
         super(id, name, email, roles)
         this.password = password
     }
+
+    /**
+     * Returns a authUser, with out password
+     * @returns {AuthUser}
+     */
+    getAuthUser() {
+        return new AuthUser(this.id, this.name, this.email, this.roles)
+    }
 }

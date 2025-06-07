@@ -37,16 +37,15 @@ async function register(req, res) {
     try {
         const { username, password, email } = req.body
 
-        const [user, token] = await AuthService.createUser(
+        const userAndToken = await AuthService.createUser(
             username,
             password,
             email
         )
 
-        console.log(`Signed up Successfully, with id ${user.id}`)
+        console.log(`Signed up Successfully, with id ${userAndToken.user.id}`)
         res.status(201).json({
-            user: user,
-            token: token,
+            ...userAndToken,
         })
     } catch (error) {
         console.log(`Failed sign up; ${error.message}`)
@@ -58,14 +57,13 @@ async function register(req, res) {
 async function login(req, res) {
     const { email, password } = req.body
     try {
-        const [user, token] = await AuthService.verifyLoginInformation(
+        const userAndToken = await AuthService.verifyLoginInformation(
             email,
             password
         )
         console.log(`User with email ${email}, successfully signed in`)
         res.json({
-            token: token,
-            user: user,
+            ...userAndToken,
         })
     } catch (error) {
         console.log(

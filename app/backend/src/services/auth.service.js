@@ -4,6 +4,7 @@ import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 
 // Import other
 import bcrypt from "bcryptjs"
+import ms from "ms"
 import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
@@ -23,7 +24,7 @@ const PASSWORD_HASH_SALT = 10
  * @param {string} username
  * @param {string} password
  * @param {string} email
- * @returns {Promise<[AuthUser, string]>} [user, jwtToken]
+ * @returns {Promise<Object>} [user, jwt]
  */
 async function createUser(username, password, email) {
     //verify, that email and password are fitting requirements.
@@ -39,42 +40,51 @@ async function createUser(username, password, email) {
     // TODO Send out the Email if succesfull
 
     //generate jwtToken
-    const jwtToken = generateJWTtoken(user)
-    return [user, jwtToken]
+    const jwt = generateJWTtoken(user)
+    return {
+        user: user,
+        jwt: jwt,
+    }
 }
 
 /**
  * Verifys Login information and returns a valid JWT token, with the user Information
  * @param {string} email
  * @param {string} password
- * @returns {Promise<[BasicUser, string]>} JWT-token
+ * @returns {Promise<Object>} JWT-token
  */
 async function verifyLoginInformation(email, password) {
-    const authUser = await AuthModel.findAdvancedAuthUserByEmail(email)
+    const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
 
     //compare given password and stored password
-    if (!bcrypt.compareSync(password, authUser.password)) {
+    if (!bcrypt.compareSync(password, advancedAuthUser.password)) {
         throw new AuthenticationError()
     }
 
     //generate JWT token
-    const jwtToken = generateJWTtoken(authUser)
+    const jwt = generateJWTtoken(advancedAuthUser)
     //return user with out password and jwt token
-    return [new AuthUser({ ...authUser }), jwtToken]
+    return { user: advancedAuthUser.getAuthUser(), jwt: jwt }
 }
 
 /**
  * Generates a JWT-Token for the given user
  * @param {AuthUser} authUser
- * @returns {string}
+ * @returns {Object} {token, expiresAt}
  */
 function generateJWTtoken(authUser) {
+    const expiresInMs = ms(JWT_TOKEN_EXPIRES_IN)
+    const expiresAt = Date.now() + expiresInMs
+
     const token = jwt.sign(
         { id: authUser.id, username: authUser.username, roles: authUser.roles },
         SECRET_KEY,
         { expiresIn: JWT_TOKEN_EXPIRES_IN }
     )
-    return `${BEARER_PREFIX} ${token}`
+    return {
+        token: `${BEARER_PREFIX} ${token}`,
+        epiresAt: expiresAt,
+    }
 }
 
 /**
