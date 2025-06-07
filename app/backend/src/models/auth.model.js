@@ -71,23 +71,36 @@ async function findUserByEmail(email) {
 async function findAdvancedAuthUserByEmail(email) {
     try {
         const result = await pool.query(
-            `SELECT * FROM webshop.users WHERE email = $1`,
+            `SELECT 
+                u.id, 
+                u.name, 
+                u.email, 
+                u.password, 
+                r.rolename 
+            FROM webshop.users as u 
+	            JOIN webshop.user_has_role as ur ON ur.userId = u.id
+	            JOIN webshop.roles as r ON r.id = ur.roleId
+            WHERE u.email = $1 ;`,
             [email]
         )
-        const row = result.rows[0]
-        if (!row) {
+        const rows = result.rows
+        if (rows.length === 0) {
             throw new NotFoundError(`User with email ${email} doesn't exist`)
         }
 
-        //TODO get roles
-        const roles = ["user", "admin"]
+        //extract roles
+        const roles = []
+        rows.forEach((row) => {
+            roles.push(row.rolename)
+        })
 
+        //create user
         return new AdvancedAuthUser(
-            row.id,
-            row.name,
-            row.email,
+            rows[0].id,
+            rows[0].name,
+            rows[0].email,
             roles,
-            row.password
+            rows[0].password
         )
     } catch (error) {
         if (error instanceof NotFoundError) {
