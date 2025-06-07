@@ -1,63 +1,69 @@
 // Import
+import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import AuthService from "../services/auth.service.js"
-
-// Import other
-import jwt from "jsonwebtoken"
-
-const SECRET_KEY = 'your-secret-key'; // In production, use environment variables
 
 /**
  * Used for the responses and error handling
  * And Verify Inputs
  */
 
-async function authenticateJWT(req, res, next) {
-    const token = req.headers.authorization;
-    if (token) {
-        jwt.verify(token, SECRET_KEY, (err, user) => {
-            if (err) {
-                return res.sendStatus(403);
-            }
-            req.user = user;
-            console.log(`validated User: `, user);
-            next();
-        });
-    } else {
-        res.sendStatus(401);
+/**
+ * Verify given JWT token and return user Information
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
+async function verifyJWTtoken(req, res, next) {
+    try {
+        const token = req.headers.authorization
+
+        //when token empty, throw 401
+        if (!token) {
+            throw new UnauthorizedError()
+        }
+
+        //proof token and extract information form token
+        const information = AuthService.getUserInformationByJWTtoken(token)
+        next() //move to the next step
+    } catch (error) {
+        console.error(error.stack)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
 async function register(req, res) {
     try {
-        const { username, password, email } = req.body;
+        const { username, password, email } = req.body
 
-        const user = await AuthService.createUser(username, password, email);
+        const user = await AuthService.createUser(username, password, email)
 
+        //TODO give back created user
         res.writeHead(201, { "Content-Type": "text/plain" })
         res.end("User Created Successfully")
     } catch (error) {
-        console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+        console.error(error.stack)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
 async function login(req, res) {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body
 
-        const token = await AuthService.getTokenFromEmail(email, password);
+        const token = await AuthService.verifyLoginInformation(email, password)
 
         res.json(token)
     } catch (error) {
-        console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+        console.error(error.stack)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
 export default {
     register,
     login,
-    authenticateJWT
+    verifyJWTtoken,
 }
