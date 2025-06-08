@@ -1,6 +1,8 @@
 // Import
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import AuthService from "../services/auth.service.js"
+import ForbiddenError from "../exceptions/ForbiddenError.js"
+import Roles from "../objects/user/Roles.js"
 
 /**
  * Used for the responses and error handling
@@ -11,27 +13,48 @@ import AuthService from "../services/auth.service.js"
  * Verify given JWT token and puts User information in req.user.
  * can be put in front of other requests, to verify the user.
  *
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * This function takes an requiredRole as parameter,
+ * it will test if the jwt token has the required role. When not it will throw 403
+ * If you don't need the role provement, just let requiredRole === undefined, then it will not test for anyrole
+ *
+ * @param {Roles} requiredRole
+ * @returns {function}
+ * @throws {UnauthorizedError}
+ * @throws {ForbiddenError}
  */
-async function verifyJWTtoken(req, res, next) {
-    try {
-        const token = req.headers.authorization
+function verifyJWTtoken(requiredRole) {
+    return async function (req, res, next) {
+        try {
+            const token = req.headers.authorization
 
-        //when token empty, throw 401
-        if (!token) {
-            throw new UnauthorizedError()
+            //when token empty, throw 401
+            if (!token) {
+                throw new UnauthorizedError()
+            }
+
+            //proof token and extract information form token
+            const user = await AuthService.getUserInformationByJWTtoken(token)
+
+            //check if the user has the required role
+            if (
+                requiredRole !== undefined &&
+                (!user.roles || !user.roles.includes(requiredRole.roleName))
+            ) {
+                throw new ForbiddenError()
+            }
+
+            //store user information in req, so it can be used in next steps
+            req.user = user
+
+            //move to the next step
+            next()
+        } catch (error) {
+            console.log(`failed to verify jwt token; ${error.message}`)
+            res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+            res.end(
+                error.stack + (error.cause ? "\n\n[cause] " + error.cause : "")
+            )
         }
-
-        //proof token and extract information form token
-        const user = await AuthService.getUserInformationByJWTtoken(token)
-        req.user = user
-        next() //move to the next step
-    } catch (error) {
-        console.log(`failed to verify jwt token; ${error.message}`)
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
