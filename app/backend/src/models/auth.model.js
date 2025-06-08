@@ -8,11 +8,12 @@ import DatabaseError from "../exceptions/DatabaseError.js"
 import AdvancedAuthUser from "../objects/user/AdvancedAuthUser.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
+import Roles from "../objects/user/Roles.js"
 
 /**
  * Das Model Product beinhalted alle SQL-Abfragen
  */
-const DEFAULT_ROLE_ID = 1
+const DEFAULT_ROLE = Roles.user
 
 /**
  * returnes true or false, based on if a user with that email exist.
@@ -137,12 +138,12 @@ async function createUser(username, hashedPassword, email) {
         //add default role to user
         await client.query(
             `INSERT INTO webshop.user_has_role (userid, roleid) VALUES ($1, $2)`,
-            [userId, DEFAULT_ROLE_ID]
+            [userId, DEFAULT_ROLE.id]
         )
 
         //executing all querys
         await client.query("COMMIT")
-        return new AuthUser(userId, username, email, ["user"])
+        return new AuthUser(userId, username, email, [DEFAULT_ROLE.roleName])
     } catch (error) {
         //When error is thrown, rollback
         await client.query("ROLLBACK")
