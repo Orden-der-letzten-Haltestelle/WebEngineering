@@ -96,7 +96,7 @@ async function extractTokenAndVerify(token, requiredRole) {
     }
 
     //proof token and extract information from token
-    const user = await AuthService.getUserInformationByJWTtoken(token)
+    const user = await getUserInformationByJWTtoken(token)
 
     //check if the user has the required role
     if (
@@ -125,7 +125,7 @@ async function extractTokenAndVerify(token, requiredRole) {
  *      ]
  * }
  * @param {string} token
- * @returns {Promise<AuthUser>} without email
+ * @returns {Promise<object>} without email
  * @throws {TokenVerificationError}
  */
 async function getUserInformationByJWTtoken(token) {
