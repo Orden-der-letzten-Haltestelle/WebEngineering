@@ -12,18 +12,35 @@ You will also need to have [Node.js](https://nodejs.org/en) installed.
 
 That you can start the applikation, you need to be in `/app`
 
+## start dev database
+
+`./startDevDB.bat`
+When you start the db like that, all data will be lost, when you delete the container
+
+```
+docker-compose -f docker-compose.dev.yml up -d --build
+```
+
+When you want to start a database, where the data stays also after rebuild you need to start it like that:
+
+```
+docker-compose -f docker-compose.yml up -d --build
+```
+
 ### install
+
 ```
 cd .\app
 npm install
 ```
 
 ### Start dev server
+
 `npm run dev`
-Note: That the applikation can work probably, you need to have access to the database. So you make sure that the database is setup right (you can just start the docker container and close the app container)
 The dev server applies all changes directly, you don't need to restart the server when you change a file.
 
 To be able to connect to the database through the applikation, you need to set environment variables:
+
 ```
 DB_HOST=localhost
 DB_USER=postgres
@@ -39,6 +56,7 @@ npm test
 ```
 
 ## Start Docker Containers
+
 To update the Docker image and containers run:
 
 ```bash
