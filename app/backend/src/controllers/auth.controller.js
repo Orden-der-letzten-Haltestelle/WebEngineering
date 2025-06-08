@@ -1,7 +1,5 @@
 // Import
-import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import AuthService from "../services/auth.service.js"
-import ForbiddenError from "../exceptions/ForbiddenError.js"
 import Roles from "../objects/user/Roles.js"
 
 /**
@@ -27,21 +25,10 @@ function verifyJWTtoken(requiredRole) {
         try {
             const token = req.headers.authorization
 
-            //when token empty, throw 401
-            if (!token) {
-                throw new UnauthorizedError()
-            }
-
-            //proof token and extract information form token
-            const user = await AuthService.getUserInformationByJWTtoken(token)
-
-            //check if the user has the required role
-            if (
-                requiredRole !== undefined &&
-                (!user.roles || !user.roles.includes(requiredRole.roleName))
-            ) {
-                throw new ForbiddenError()
-            }
+            const user = await AuthService.extractTokenAndVerify(
+                token,
+                requiredRole
+            )
 
             //store user information in req, so it can be used in next steps
             req.user = user
