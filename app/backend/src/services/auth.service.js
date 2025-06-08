@@ -110,6 +110,8 @@ async function extractTokenAndVerify(token, requiredRole) {
 
 
     //TODO check if user isVerified
+
+    return user
 }
 
 /**
