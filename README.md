@@ -13,22 +13,14 @@ You will also need to have [Node.js](https://nodejs.org/en) installed.
 That you can start the applikation, you need to be in `/app`
 
 ## start dev database
-
-`./startDevDB.bat`
-When you start the db like that, all data will be lost, when you delete the container
-
 ```
-docker-compose -f docker-compose.dev.yml up -d --build
+./startDevDB.bat
 ```
+When you start the db like that, all data will be lost, when you delete the container.
+Everytime you execute the `./startDevDB.bat`, the DB will be cleaned and you have a fresh data set based on the data in testdata.sql
 
-When you want to start a database, where the data stays also after rebuild you need to start it like that:
-
-```
-docker-compose -f docker-compose.yml up -d --build
-```
 
 ### install
-
 ```
 cd .\app
 npm install
