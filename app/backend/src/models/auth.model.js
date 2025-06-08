@@ -44,7 +44,7 @@ async function existByEmail(email) {
 async function findUserByEmail(email) {
     try {
         const result = await pool.query(
-            `SELECT * FROM webshop.users WHERE email= $1`,
+            `SELECT u.id, u.name, u.email, u.createdAt FROM webshop.users as u WHERE email= $1`,
             [email]
         )
         if (result.rows.length == 0) {
@@ -75,7 +75,10 @@ async function findAdvancedAuthUserByEmail(email) {
             `SELECT 
                 u.id, 
                 u.name, 
-                u.email, 
+                u.email,
+                u.createdAt,
+                u.isVerified,
+                u.isBanned, 
                 u.password, 
                 r.rolename 
             FROM webshop.users as u 
@@ -100,6 +103,9 @@ async function findAdvancedAuthUserByEmail(email) {
             rows[0].id,
             rows[0].name,
             rows[0].email,
+            rows[0].createdAt,
+            rows[0].isVerified,
+            rows[0].isBanned,
             roles,
             rows[0].password
         )
@@ -143,7 +149,9 @@ async function createUser(username, hashedPassword, email) {
 
         //executing all querys
         await client.query("COMMIT")
-        return new AuthUser(userId, username, email, [DEFAULT_ROLE.roleName])
+        return new AuthUser(userId, username, email, Date.now(), false, false, [
+            DEFAULT_ROLE.roleName,
+        ])
     } catch (error) {
         //When error is thrown, rollback
         await client.query("ROLLBACK")

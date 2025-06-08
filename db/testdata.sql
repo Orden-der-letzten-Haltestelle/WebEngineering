@@ -38,8 +38,8 @@ INSERT INTO webshop.Wishlists (name, description) VALUES
 -- Wishlist-Rollen
 INSERT INTO webshop.WishlistRoles (roleName) VALUES
   ('owner'),
-  ('writer'),
-  ('viewer');
+  ('write'),
+  ('read');
 
 -- Verknüpfung User <-> Wishlist <-> Rolle
 INSERT INTO webshop.User_wishlist_relation (userId, wishlistId, wishlistRoleId) VALUES
