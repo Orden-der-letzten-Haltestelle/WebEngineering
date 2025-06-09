@@ -58,6 +58,8 @@ async function createUser(username, password, email) {
 async function verifyLoginInformation(email, password) {
     const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
 
+    await AuthModel.findUserByEmail(email)
+
     //compare given password and stored password
     if (!bcrypt.compareSync(password, advancedAuthUser.password)) {
         throw new AuthenticationError()

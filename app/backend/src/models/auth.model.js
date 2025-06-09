@@ -44,13 +44,15 @@ async function existByEmail(email) {
 async function findUserByEmail(email) {
     try {
         const result = await pool.query(
-            `SELECT u.id, u.name, u.email, u.createdAt FROM webshop.users as u WHERE email= $1`,
+            `SELECT u.id, u.name, u.email, u.createdAt as createdAt FROM webshop.users as u WHERE email= $1`,
             [email]
         )
-        if (result.rows.length == 0) {
+        if (result.rows.length <= 0) {
             throw new NotFoundError(`User with email: ${email} doesn't exist`)
         }
-        return new BasicUser({ ...result.rows[0] })
+        const row = result.rows[0]
+        const user = new BasicUser(row.id, row.name, row.email, row.createdat)
+        return user
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
@@ -97,18 +99,18 @@ async function findAdvancedAuthUserByEmail(email) {
         rows.forEach((row) => {
             roles.push(row.rolename)
         })
-
         //create user
-        return new AdvancedAuthUser(
+        const user = new AdvancedAuthUser(
             rows[0].id,
             rows[0].name,
             rows[0].email,
-            rows[0].createdAt,
-            rows[0].isVerified,
-            rows[0].isBanned,
+            rows[0].createdat,
+            rows[0].isverified,
+            rows[0].isbanned,
             roles,
             rows[0].password
         )
+        return user
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
