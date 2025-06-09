@@ -16,6 +16,9 @@ const PORT = 3000
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
+//allow all frontend files to be accessed by public
+app.use(express.static(path.join(__dirname, "frontend")));
+
 // Endpoints
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "index.html"))

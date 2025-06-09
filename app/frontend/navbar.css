@@ -1,0 +1,33 @@
+.navbar-container {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto min-content;
+    background-color: var(--highlight-color);
+}
+
+/* Title "Orden der letzten Haltestelle" */
+.navbar-container > .title {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+/* Searchbar */
+.navbar-container > .searchBar-container {
+    grid-area: 1 / 2 / 2 / 3;
+    align-self: center;
+    justify-self: center;
+}
+
+/* Navbar */
+.navbar-container > .nav {
+    grid-area: 2 / 1 / 3 / 4;
+}
+.navbar-container > .nav > a {
+    text-decoration: none;
+    color: black;
+}
+
+/* IconButtons */
+.navbar-container > .icons-container {
+    grid-area: 1 / 3 / 2 / 4;
+}
