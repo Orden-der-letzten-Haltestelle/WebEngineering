@@ -4,7 +4,7 @@
     </a>
     <!-- Searchbar -->
     <form class="searchBar-container" method="GET" action="/products">
-        <input placeholder="Suche" name="value" />
+        <input placeholder="Suche" name="value" id="searchValue"/>
         <button class="filterButton" id="filterButton" type="button">
             <svg
                 viewBox="0 0 24 24"
@@ -191,14 +191,4 @@
             </button>
         </a>
     </div>
-    <script>
-        // JavaScript function to toggle filter overlay visibility
-        const filterButton = document.getElementById("filterButton")
-        const filterOverlay = document.getElementById("filterOverlay")
-
-        filterButton.addEventListener("click", function () {
-            filterOverlay.classList.toggle("hide")
-        })
-    </script>
-    <link rel="stylesheet" href="components/navbar/navbar.css" />
 </header>

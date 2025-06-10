@@ -27,7 +27,6 @@ app.get("/products", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "pages/products.html"))
 })
 
-
 // Backend routes
 app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)

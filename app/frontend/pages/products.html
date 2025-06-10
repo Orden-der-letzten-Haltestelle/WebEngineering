@@ -10,11 +10,6 @@
         <div id="header-placeholder"></div>
         <h1>Tolle Produkte :)</h1>
     </body>
-    <script>
-        fetch("/components/navbar/navbar.html")
-            .then((response) => response.text())
-            .then((data) => {
-                document.getElementById("header-placeholder").innerHTML = data
-            })
-    </script>
+
+    <script src="/components/navbar/navbar.js"></script>
 </html>
