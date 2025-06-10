@@ -1,6 +1,5 @@
 import BadRequestError from "../exceptions/BadRequestError.js"
 import authModel from "../models/auth.model.js"
-import AuthModel from "../models/auth.model.js"
 
 const MIN_PASSWORD_LENGTH = 4
 

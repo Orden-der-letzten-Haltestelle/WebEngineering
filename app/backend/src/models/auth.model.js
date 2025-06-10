@@ -8,11 +8,12 @@ import DatabaseError from "../exceptions/DatabaseError.js"
 import AdvancedAuthUser from "../objects/user/AdvancedAuthUser.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
+import Roles from "../objects/user/Roles.js"
 
 /**
  * Das Model Product beinhalted alle SQL-Abfragen
  */
-const DEFAULT_ROLE_ID = 1
+const DEFAULT_ROLE = Roles.user
 
 /**
  * returnes true or false, based on if a user with that email exist.
@@ -43,13 +44,15 @@ async function existByEmail(email) {
 async function findUserByEmail(email) {
     try {
         const result = await pool.query(
-            `SELECT * FROM webshop.users WHERE email= $1`,
+            `SELECT u.id, u.name, u.email, u.createdAt as createdAt FROM webshop.users as u WHERE email= $1`,
             [email]
         )
-        if (result.rows.length == 0) {
+        if (result.rows.length <= 0) {
             throw new NotFoundError(`User with email: ${email} doesn't exist`)
         }
-        return new BasicUser({ ...result.rows[0] })
+        const row = result.rows[0]
+        const user = new BasicUser(row.id, row.name, row.email, row.createdat)
+        return user
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
@@ -74,7 +77,10 @@ async function findAdvancedAuthUserByEmail(email) {
             `SELECT 
                 u.id, 
                 u.name, 
-                u.email, 
+                u.email,
+                u.createdAt,
+                u.isVerified,
+                u.isBanned, 
                 u.password, 
                 r.rolename 
             FROM webshop.users as u 
@@ -93,15 +99,18 @@ async function findAdvancedAuthUserByEmail(email) {
         rows.forEach((row) => {
             roles.push(row.rolename)
         })
-
         //create user
-        return new AdvancedAuthUser(
+        const user = new AdvancedAuthUser(
             rows[0].id,
             rows[0].name,
             rows[0].email,
+            rows[0].createdat,
+            rows[0].isverified,
+            rows[0].isbanned,
             roles,
             rows[0].password
         )
+        return user
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
@@ -137,12 +146,14 @@ async function createUser(username, hashedPassword, email) {
         //add default role to user
         await client.query(
             `INSERT INTO webshop.user_has_role (userid, roleid) VALUES ($1, $2)`,
-            [userId, DEFAULT_ROLE_ID]
+            [userId, DEFAULT_ROLE.id]
         )
 
         //executing all querys
         await client.query("COMMIT")
-        return new AuthUser(userId, username, email, ["user"])
+        return new AuthUser(userId, username, email, Date.now(), false, false, [
+            DEFAULT_ROLE.roleName,
+        ])
     } catch (error) {
         //When error is thrown, rollback
         await client.query("ROLLBACK")

@@ -5,11 +5,11 @@ const WishlistRoles = {
     },
     write: {
         id: 2,
-        roelName: "writer",
+        roelName: "write",
     },
-    viewer: {
+    read: {
         id: 3,
-        roleName: "viewer",
+        roleName: "read",
     },
 }
 

@@ -3,6 +3,8 @@ import AuthModel from "../models/auth.model.js"
 import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 
 // Import other
+import ForbiddenError from "../exceptions/ForbiddenError.js"
+import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import bcrypt from "bcryptjs"
 import ms from "ms"
 import jwt from "jsonwebtoken"
@@ -56,6 +58,8 @@ async function createUser(username, password, email) {
 async function verifyLoginInformation(email, password) {
     const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
 
+    await AuthModel.findUserByEmail(email)
+
     //compare given password and stored password
     if (!bcrypt.compareSync(password, advancedAuthUser.password)) {
         throw new AuthenticationError()
@@ -87,6 +91,31 @@ function generateJWTtoken(authUser) {
     }
 }
 
+async function extractTokenAndVerify(token, requiredRole) {
+    //when token empty, throw 401
+    if (!token) {
+        throw new UnauthorizedError()
+    }
+
+    //proof token and extract information from token
+    const user = await getUserInformationByJWTtoken(token)
+
+    //check if the user has the required role
+    if (
+        requiredRole !== undefined &&
+        (!user.roles || !user.roles.includes(requiredRole.roleName))
+    ) {
+        throw new ForbiddenError()
+    }
+
+    //TODO check if user isBanned
+
+
+    //TODO check if user isVerified
+
+    return user
+}
+
 /**
  * Verify, that the given JWT token is valid and return the Userinformation.
  * saves user information in the req, for the next request to use
@@ -100,7 +129,7 @@ function generateJWTtoken(authUser) {
  *      ]
  * }
  * @param {string} token
- * @returns {Promise<AuthUser>} without email
+ * @returns {Promise<object>} without email
  * @throws {TokenVerificationError}
  */
 async function getUserInformationByJWTtoken(token) {
@@ -129,6 +158,6 @@ async function getUserInformationByJWTtoken(token) {
 
 export default {
     createUser,
-    getUserInformationByJWTtoken,
+    extractTokenAndVerify,
     verifyLoginInformation,
 }

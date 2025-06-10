@@ -5,9 +5,6 @@ export default class User extends BasicUser {
      * @param {int} id
      * @param {string} name
      * @param {string} email
-     * @param {Array<Role>} roles
-     * @param {Boolean} isBanned
-     * @param {Boolean} isVerified
      * @param {Date} createdAt
      * @param {Array<OrderItem>} orderHistory
      * @param {Array<CartItem>} cart
@@ -16,9 +13,6 @@ export default class User extends BasicUser {
         id,
         name,
         email,
-        roles,
-        isBanned,
-        isVerified,
         createdAt,
         orderHistory,
         cart
