@@ -23,7 +23,7 @@ npm install
 Note: That the applikation can work probably, you need to have access to the database. So you make sure that the database is setup right (you can just start the docker container and close the app container)
 The dev server applies all changes directly, you don't need to restart the server when you change a file.
 
-To be able to connect to the database through the applikation, you need to set environment variables:
+To be able to connect to the database through the applikation, you need to set environment variables in your windows installation:
 ```
 DB_HOST=localhost
 DB_USER=postgres
