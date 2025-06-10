@@ -4,8 +4,17 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link rel="stylesheet" href="/index.css" />
     </head>
     <body>
+        <div id="header-placeholder"></div>
         <h1>Tolle Produkte :)</h1>
     </body>
+    <script>
+        fetch("/components/navbar/navbar.html")
+            .then((response) => response.text())
+            .then((data) => {
+                document.getElementById("header-placeholder").innerHTML = data
+            })
+    </script>
 </html>
