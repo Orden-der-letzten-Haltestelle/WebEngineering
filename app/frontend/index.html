@@ -12,10 +12,23 @@
         <div id="outer-container">
             <div id="header">
                 <header class="navbar-container">
-                    <h3 class="title">Orden der letzten <br />Haltestelle</h3>
-                    <form class="searchBar-container">
-                        <input placeholder="Suche" />
-                        <button class="filterButton" type="button">
+                    <a href="/">
+                        <h3 class="title">
+                            Orden der letzten <br />Haltestelle
+                        </h3>
+                    </a>
+                    <!-- Searchbar -->
+                    <form
+                        class="searchBar-container"
+                        method="GET"
+                        action="/products"
+                    >
+                        <input placeholder="Suche" name="value" />
+                        <button
+                            class="filterButton"
+                            id="filterButton"
+                            type="button"
+                        >
                             <svg
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -38,6 +51,7 @@
                                 </g>
                             </svg>
                         </button>
+
                         <button class="searchButton" type="submit">
                             <svg
                                 viewBox="0 0 32 32"
@@ -81,19 +95,35 @@
                                 </g>
                             </svg>
                         </button>
-                        <div class="filterOverlay">
-                            <label for="minPrice">Min. Preis:</label>
-                            <input name="minPrice" id="minPrice" />
-                            <label for="maxPrice">Max. Preis:</label>
-                            <input name="maxPrice" id="maxPrice" />
+                        <div class="filterOverlay hide" id="filterOverlay">
+                            <label for="minPrice"
+                                >Min. Preis <strong>(cent)</strong>:</label
+                            >
+                            <input
+                                placeholder="1000"
+                                name="minPrice"
+                                type="number"
+                                id="minPrice"
+                            />
+                            <label for="maxPrice"
+                                >Max. Preis <strong>(cent)</strong>:</label
+                            >
+                            <input
+                                placeholder="2800"
+                                name="maxPrice"
+                                type="number"
+                                id="maxPrice"
+                            />
                         </div>
                     </form>
+                    <!-- Navbar -->
                     <nav class="nav">
                         <a href="/cart"><span>Warenkorb</span></a>
                         <a href="/wishlist"><span>Wunschlisten</span></a>
                         <a href="/profile"><span>Profil</span></a>
                         <a href="/orders"><span>Bestellhistorie</span></a>
                     </nav>
+                    <!-- Icons -->
                     <div class="icons-container">
                         <a href="/profile">
                             <button class="icon-button profile">
@@ -199,7 +229,6 @@
                     </div>
                 </header>
             </div>
-            <header>Header</header>
             <main>
                 <div id="inner-container">Inner Container</div>
             </main>
@@ -208,6 +237,12 @@
         <!--<script src="script.js"></script>-->
     </body>
     <script>
-        document.getElementById("header")
+        // JavaScript function to toggle filter overlay visibility
+        const filterButton = document.getElementById("filterButton")
+        const filterOverlay = document.getElementById("filterOverlay")
+
+        filterButton.addEventListener("click", function () {
+            filterOverlay.classList.toggle("hide")
+        })
     </script>
 </html>
