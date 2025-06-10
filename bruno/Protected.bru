@@ -7,9 +7,9 @@ meta {
 get {
   url: http://localhost:3000/api/auth/protected
   body: none
-  auth: inherit
+  auth: bearer
 }
 
-headers {
-  authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzQ5MjIxMTY4LCJleHAiOjE3NDkyMjQ3Njh9.ErRbpWZspP9hU3NHl6AJbc0WrMH7aSa6lB-XCSnweVQ
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOlsiYWRtaW4iLCJ1c2VyIl0sImlhdCI6MTc0OTU3MTM3NSwiZXhwIjoxNzQ5NTc0OTc1fQ.cPRAOGqvb15x4Xi_aWkCqLJrL0tt2N17W7yt5cjfxDw
 }
