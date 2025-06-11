@@ -1,3 +1,5 @@
+import { isTokenGiven } from "../../helper.js"
+
 // Function to load the navbar HTML and attach event listeners
 async function loadNavbar() {
     const headerPlaceholder = document.getElementById("header-placeholder")
@@ -71,7 +73,8 @@ async function loadNavbar() {
             "signup-button-container"
         )
 
-        const tokenGiven = true //TODO replace with is token given in cockies
+        //when no token, show signUp button | when token given, show icons
+        const tokenGiven = isTokenGiven()
         if (tokenGiven) {
             signupButtonContainer.classList.add("hide")
         } else {
