@@ -64,8 +64,12 @@ async function loadNavbar() {
         fillFormInputsFromUrl()
 
         //when token given hide signUp Button and show icon buttons
-        const iconButtonsContainer = document.getElementById("navbar-icon-container")
-        const signupButtonContainer = document.getElementById("signup-button-container")
+        const iconButtonsContainer = document.getElementById(
+            "navbar-icon-container"
+        )
+        const signupButtonContainer = document.getElementById(
+            "signup-button-container"
+        )
 
         const tokenGiven = true //TODO replace with is token given in cockies
         if (tokenGiven) {
@@ -73,6 +77,34 @@ async function loadNavbar() {
         } else {
             iconButtonsContainer.classList.add("hide")
         }
+
+        //handle hamburger navigatino
+        function handleHamburgerNavigation() {
+            const hamburgerButton = document.getElementById(
+                "navbar-hamburger-button"
+            )
+            const navbarOverlay = document.querySelector(
+                ".navbar-overlay-container"
+            )
+            const closeButton = document.getElementById(
+                "navbar-overlay-close-button"
+            )
+
+            if (hamburgerButton && navbarOverlay && closeButton) {
+                hamburgerButton.addEventListener("click", () => {
+                    navbarOverlay.classList.remove("hide")
+                })
+
+                closeButton.addEventListener("click", () => {
+                    navbarOverlay.classList.add("hide")
+                })
+            } else {
+                console.error(
+                    "Hamburger button or overlay not found after navbar HTML was loaded."
+                )
+            }
+        }
+        handleHamburgerNavigation()
 
         // Import css
         const link = document.createElement("link")
