@@ -7,6 +7,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.hide{
+    display: none;
+}
+
 html,
 body {
     margin: 0;

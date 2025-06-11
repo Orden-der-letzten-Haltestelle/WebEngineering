@@ -63,6 +63,17 @@ async function loadNavbar() {
         }
         fillFormInputsFromUrl()
 
+        //when token given hide signUp Button and show icon buttons
+        const iconButtonsContainer = document.getElementById("navbar-icon-container")
+        const signupButtonContainer = document.getElementById("signup-button-container")
+
+        const tokenGiven = true //TODO replace with is token given in cockies
+        if (tokenGiven) {
+            signupButtonContainer.classList.add("hide")
+        } else {
+            iconButtonsContainer.classList.add("hide")
+        }
+
         // Import css
         const link = document.createElement("link")
         link.rel = "stylesheet"
