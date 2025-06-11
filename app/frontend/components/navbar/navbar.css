@@ -1,7 +1,7 @@
 .navbar-container {
     position: relative;
     display: grid;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-columns: 1fr 4fr 2fr;
     padding: 10px 20px;
     padding-bottom: 5px;
     grid-template-rows: auto min-content;
@@ -9,18 +9,23 @@
 }
 
 /* Title "Orden der letzten Haltestelle" */
-.navbar-container > a {
+.navbar-container>a {
     text-decoration: none;
     color: black;
     height: min-content;
     width: 170px;
 }
-.navbar-container > a > .title {
+
+.navbar-container>a>.title {
     grid-area: 1 / 1 / 2 / 2;
 }
 
+.navbar-container>a>.title.small {
+    display: none;
+}
+
 /* Searchbar */
-.navbar-container > .searchBar-container {
+.navbar-container>.searchBar-container {
     grid-area: 1 / 2 / 2 / 3;
     position: relative;
     width: 60%;
@@ -33,24 +38,26 @@
     grid-template-columns: auto 45px 45px;
 }
 
-.navbar-container > .searchBar-container:focus-within {
+.navbar-container>.searchBar-container:focus-within {
     outline: 2px solid #7e7e7e;
     border-radius: 100px;
 }
-.navbar-container > .searchBar-container > input {
+
+.navbar-container>.searchBar-container>input {
     border: 1px solid grey;
     border-radius: 100px 0 0 100px;
     height: 100%;
 }
-.navbar-container > .searchBar-container > input:focus {
+
+.navbar-container>.searchBar-container>input:focus {
     outline: none;
 }
 
-.navbar-container > .searchBar-container > .searchButton {
+.navbar-container>.searchBar-container>.searchButton {
     border-radius: 0 100px 100px 0;
 }
 
-.navbar-container > .searchBar-container > button {
+.navbar-container>.searchBar-container>button {
     z-index: 10;
     height: 100%;
     width: 100%;
@@ -64,14 +71,16 @@
     align-items: center;
     justify-content: center;
 }
-.navbar-container > .searchBar-container > button:hover {
+
+.navbar-container>.searchBar-container>button:hover {
     background-color: #313131;
 }
 
-.navbar-container > .searchBar-container > button > svg {
+.navbar-container>.searchBar-container>button>svg {
     width: 20px;
     height: 20px;
 }
+
 /* overlay */
 .filterOverlay {
     position: absolute;
@@ -95,23 +104,24 @@
 }
 
 /* Navbar */
-.navbar-container > .nav {
+.navbar-container>.nav {
     grid-area: 2 / 1 / 3 / 4;
     display: flex;
     gap: 20px;
     margin-left: 5%;
 }
-.navbar-container > .nav > a {
+
+.navbar-container>.nav>a {
     text-decoration: none;
     color: black;
 }
 
-.navbar-container > .nav > a:hover {
+.navbar-container>.nav>a:hover {
     text-decoration: underline;
 }
 
 /* IconButtons */
-.navbar-container > .icons-container {
+.navbar-container>.icons-container {
     grid-area: 1 / 3 / 2 / 4;
     align-self: center;
     justify-self: right;
@@ -120,7 +130,7 @@
     margin-right: 10%;
 }
 
-.navbar-container > .icons-container > a > .icon-button {
+.navbar-container>.icons-container>a>.icon-button {
     width: 50px;
     height: 50px;
     display: flex;
@@ -132,6 +142,42 @@
     border-radius: 8px;
 }
 
-.navbar-container > .icons-container > a > .icon-button:hover {
+.navbar-container>.icons-container>a>.icon-button:hover {
     border: 1px solid black;
+}
+
+@media screen and (max-width: 700px) {
+    .navbar-container>a>.title.big {
+        display: none;
+
+    }
+
+    .navbar-container>a>.title.small {
+        display: flex;
+        width: 50px;
+    }
+
+    .navbar-container {
+        grid-template-columns: 50px auto min-content;
+    }
+}
+
+
+@media screen and (max-width: 620px) {
+    .navbar-container {
+        grid-template-columns: 50px auto;
+    }
+
+    .navbar-container>.icons-container {
+        display: none;
+    }
+
+    .navbar-container>.nav {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+
+    .navbar-container>.searchBar-container {
+        justify-self: end;
+    }
 }
