@@ -3,7 +3,7 @@ import CartService from "../services/cart.service.js"
 function getCart(req, res) {
     try {
         const userId = req.user.id
-        const res = CartService.getCart()
+        const res = CartService.getCart(userId)
 
         res.status(200).json({
             ...res,
