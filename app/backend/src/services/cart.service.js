@@ -1,3 +1,4 @@
+import BadRequestError from "../exceptions/BadRequestError.js"
 import CartModel from "../models/cart.model.js"
 import CartItem from "../objects/items/CartItem.js"
 import OrderItem from "../objects/items/OrderItem.js"
@@ -16,7 +17,19 @@ async function getCart(userId) {
     return cartItems
 }
 
+/**
+ * Sets all items in the users shopping cart on bought.
+ * And sends an email, with the order confirmation
+ * @param {int} userId
+ * @returns
+ * @throws {BadRequestError}
+ */
 async function buyCart(userId) {
+    const numberOfCartItems = await CartModel.countCartItemsByUserId(userId)
+    if (numberOfCartItems <= 0) {
+        throw new BadRequestError("Empty Cart, please add an product first.")
+    }
+
     //set all cartItems with bough=false, on bought
     const orderItems = await CartModel.setCartItemsOnBoughtByUserId(userId)
 

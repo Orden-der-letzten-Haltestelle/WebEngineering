@@ -5,6 +5,33 @@ import CartItem from "../objects/items/CartItem.js"
 import OrderItem from "../objects/items/OrderItem.js"
 
 /**
+ * Counts all cartItems, that the user has, that have bought=true
+ * @param {int} userId
+ * @returns {Promise<int>}
+ * @throws {DatabaseError}
+ */
+async function countCartItemsByUserId(userId) {
+    try {
+        const result = await pool.query(
+            `
+                SELECT COUNT(*)
+                FROM webshop.cartitems as c 
+                WHERE 
+                    c.userid = $1 AND 
+                    c.bought = false;
+            `,
+            [userId]
+        )
+        return parseInt(result.rows[0].count, 10)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed counting Cart items for user with id: ${userId} from db: ${error}`,
+            error
+        )
+    }
+}
+
+/**
  * Returns a list of all cartItems, that the user has, that are not already bought.
  *
  * @param {string} userId
@@ -123,6 +150,7 @@ async function setCartItemsOnBoughtByUserId(userId) {
 }
 
 export default {
+    countCartItemsByUserId,
     findCartItemsByUserId,
     setCartItemsOnBoughtByUserId,
 }
