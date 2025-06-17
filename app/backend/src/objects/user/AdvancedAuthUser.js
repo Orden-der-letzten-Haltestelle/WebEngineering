@@ -36,9 +36,9 @@ export default class AdvancedAuthUser extends AuthUser {
             this.name,
             this.email,
             this.createdAt,
-            this.roles,
             this.isVerified,
-            this.isBanned
+            this.isBanned,
+            this.roles
         )
     }
 }

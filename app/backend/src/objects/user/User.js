@@ -17,11 +17,8 @@ export default class User extends BasicUser {
         orderHistory,
         cart
     ) {
-        super(id, name, email)
+        super(id, name, email, createdAt)
         this.roles = roles
-        this.isBanned = isBanned
-        this.isVerified = isVerified
-        this.createdAt = createdAt
         this.orderHistory = orderHistory
         this.cart = cart
     }
