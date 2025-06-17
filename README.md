@@ -29,6 +29,7 @@ DB_HOST=localhost
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=webshop
+WEBSHOP_EMAIL_PASSWORD=(password is in whatsapp chat)
 ```
 
 ### run unittests
