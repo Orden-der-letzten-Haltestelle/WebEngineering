@@ -27,8 +27,8 @@ async function findCartItemsByUserId(userId) {
                 FROM webshop.cartitems as c 
                     JOIN webshop.products as p ON p.id = c.productid
                 WHERE 
-                	serId = $1 AND 
-                	bought = false;
+                	c.userid = $1 AND 
+                	c.bought = false;
             `,
             [userId]
         )
@@ -39,7 +39,7 @@ async function findCartItemsByUserId(userId) {
                 row.productid,
                 row.name,
                 row.description,
-                row.amount,
+                row.storageamount,
                 row.price
             )
             const cartItem = new CartItem(
@@ -48,7 +48,7 @@ async function findCartItemsByUserId(userId) {
                 row.cartamount,
                 row.addedat
             )
-            mappedRes.mappedRes(cartItem)
+            mappedRes.push(cartItem)
         })
         return mappedRes
     } catch (error) {
@@ -60,5 +60,5 @@ async function findCartItemsByUserId(userId) {
 }
 
 export default {
-    findCartItemsByUserId
+    findCartItemsByUserId,
 }
