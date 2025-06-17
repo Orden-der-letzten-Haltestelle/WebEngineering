@@ -10,5 +10,10 @@ router.get(
     AuthController.verifyJWTtoken(Roles.user),
     CartController.getCart
 )
+router.post(
+    "/buy",
+    AuthController.verifyJWTtoken(Roles.user),
+    CartController.buyCart
+)
 
 export default router
