@@ -20,6 +20,12 @@ router.put(
     AuthController.verifyJWTtoken(Roles.user),
     CartController.changeAmount
 )
+router.post(
+    `/product/:productId`
+    ,
+    AuthController.verifyJWTtoken(Roles.user),
+    CartController.addProduct
+)
 router.delete(
     `/`,
     AuthController.verifyJWTtoken(Roles.user),

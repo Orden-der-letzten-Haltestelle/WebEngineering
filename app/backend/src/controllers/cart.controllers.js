@@ -45,12 +45,32 @@ async function changeAmount(req, res) {
     }
 }
 
+async function addProduct(req, res) {
+    const userId = req.user.id
+    const productId = req.params.productId
+    try {
+        //extract amount from path, when none given, set on 1
+        let amount = parseInt(req.query.amount, 10)
+        if (isNaN(amount)) {
+            amount = 1
+        }
+
+        const cartItems = await CartService.addProduct(userId, productId)
+        console.log(cartItems)
+        res.json(201).json([...cartItems])
+    } catch (error) {
+        console.log(`Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error}`)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+    }
+}
+
 async function deleteCart(req, res) {
     const userId = req.user.id
-    try{
+    try {
         await CartService.deleteCart(userId)
         res.status(200).json()
-    }catch(error){
+    } catch (error) {
         console.log(`Failed Deleting Cart for user with id ${userId}: ${error}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
@@ -61,5 +81,6 @@ export default {
     getCart,
     buyCart,
     changeAmount,
+    addProduct,
     deleteCart
 }

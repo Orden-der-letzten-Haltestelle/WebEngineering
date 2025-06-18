@@ -7,6 +7,7 @@ import EmailService from "./email.service.js"
 import UserService from "./user.service.js"
 import CartValidator from "../validator/validator.cart.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
+import ProductService from "./product.service.js"
 
 /**
  * Returns all CartItems with bought == false, that the user has.
@@ -141,6 +142,18 @@ async function sendBuyEmail(email, orderItems) {
     )
 }
 
+async function addProduct(userId, productId, amount) {
+    //test for valid amount and if product exists
+    await CartValidator.isValidAmount(productId, amount)
+
+    //TODO proof, if product already in users cart.
+
+    //store new cartitem on db 
+    await CartModel.createCartItem(userId, productId, amount)
+
+    //return new cart
+    return await getCart(userId)
+}
 
 /**
  * Delets all cartItems of the given user. 
@@ -154,5 +167,6 @@ export default {
     getCart,
     buyCart,
     updateCartItemAmount,
+    addProduct,
     deleteCart
 }

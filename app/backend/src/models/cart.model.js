@@ -211,7 +211,13 @@ async function setCartItemsOnBoughtByUserId(userId) {
     }
 }
 
-
+/**
+ * Updates the amount of an cartitem.
+ * @param {int} cartItemId 
+ * @param {int} newAmount 
+ * @returns {Promise}
+ * @throws {DatabaseError}
+ */
 async function updateCartItemAmount(cartItemId, newAmount) {
     try {
         const result = await pool.query(`
@@ -228,6 +234,37 @@ async function updateCartItemAmount(cartItemId, newAmount) {
             error
         )
     }
+}
+
+/**
+ * Creates a new CartItem object in the database.
+ * @param {int} userId 
+ * @param {int} productId 
+ * @param {int} amount
+ * @returns {Promise}
+ * @throws {DatabaseError} 
+ */
+async function createCartItem(userId, productId, amount) {
+    try {
+        await pool.query(`
+            INSERT INTO 
+                webshop.cartitems as c 
+            (
+                userid, 
+                productid, 
+                amount, 
+                bought) 
+            VALUES (
+                $1, 
+                $2, 
+                $3, 
+                false
+            );
+            `, [userId, productId, amount])
+    } catch (error) {
+        throw new DatabaseError(`Failed on createCartItem: ${error}`, error)
+    }
+
 }
 
 /**
@@ -255,6 +292,7 @@ export default {
     findCartItemByIdAndBoughtFalse,
     findCartItemsByUserId,
     updateCartItemAmount,
+    createCartItem,
     setCartItemsOnBoughtByUserId,
     deleteAllCartItemsByUserId,
 }

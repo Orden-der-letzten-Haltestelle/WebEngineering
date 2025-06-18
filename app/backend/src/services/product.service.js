@@ -14,6 +14,15 @@ async function getAllProducts() {
     return result
 }
 
+/**
+ * returns a product by its Id
+ * @param {int} productId 
+ */
+async function getProductById(productId) {
+    const result = ProductModel.findProductById(productId)
+    return result
+}
+
 export default {
-    getAllProducts
+    getAllProducts, getProductById
 }
