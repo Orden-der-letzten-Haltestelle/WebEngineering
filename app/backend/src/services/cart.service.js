@@ -20,8 +20,13 @@ async function getCart(userId) {
 }
 
 async function updateCartItemAmount(userId, cartItemId, newAmount) {
-    //get cartitem, only when its on bought = false and the with the userId
-    const cartItem = await CartModel.findCartItemByIdAndUserIdAndBoughtFalse(cartItemId, userId)
+    //get cartitem, only when its on bought = false 
+    const cartItem = await CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
+
+    //proof requesting user owns cartItem
+    if (cartItem.ownerId !== userId) {
+        throw new ForbiddenError(`CartItem with the id ${cartItemId} isn't owned by the requesting user`)
+    }
 
     //proof if enough is in storage
     await CartValidator.isValidAmount(cartItem.product.id, newAmount)
@@ -49,6 +54,7 @@ async function buyCart(userId) {
 
     //set all cartItems with bough=false, on bought
     const orderItems = await CartModel.setCartItemsOnBoughtByUserId(userId)
+    //TODO update product amount 
 
     //get email
     const user = await UserService.getBasicUserById(userId)

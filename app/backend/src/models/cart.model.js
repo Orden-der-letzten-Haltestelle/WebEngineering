@@ -33,7 +33,7 @@ async function countCartItemsByUserId(userId) {
 }
 
 /**
- * Returns a CartItem by the id, only when the given userId is the same and bought=false
+ * Returns a CartItem by the id and bought=false
  * when thats not true, an NotFoundError will be thrown.
  * @param {int} id 
  * @param {int} userId 
@@ -41,7 +41,7 @@ async function countCartItemsByUserId(userId) {
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
-async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
+async function findCartItemByIdAndBoughtFalse(id) {
     try {
         const result = await pool.query(
             `
@@ -50,6 +50,7 @@ async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
                     c.addedat, 
                     c.amount as cartamount, 
                     c.addedat,
+                    c.userid,
                     p.id as productid, 
                     p.name, 
                     p.description, 
@@ -59,12 +60,11 @@ async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
                     JOIN webshop.products as p ON p.id = c.productid
                 WHERE 
                 	c.id = $1 AND
-                    c.userid = $2 AND
                     c.bought = false
-            `, [id, userId]
+            `, [id]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`CartItem with id ${id} and userId = ${userId} and bought=false doesn't exist `)
+            throw new NotFoundError(`CartItem with id ${id} and bought=false doesn't exist `)
         }
         const row = result.rows[0]
         const product = new Product(
@@ -78,7 +78,8 @@ async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
             row.cartitemid,
             product,
             row.cartamount,
-            row.addedat
+            row.addedat,
+            row.userid
         )
         return cartItem
 
@@ -86,7 +87,7 @@ async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(`Failed findCartItemById ${id}; ${error}`, error)
+        throw new DatabaseError(`Failed findCartItemById And bought False ${id}; ${error}`, error)
     }
 }
 
@@ -106,6 +107,7 @@ async function findCartItemsByUserId(userId) {
                     c.addedat, 
                     c.amount as cartamount, 
                     c.addedat,
+                    c.userid,
                     p.id as productid, 
                     p.name, 
                     p.description, 
@@ -133,7 +135,8 @@ async function findCartItemsByUserId(userId) {
                 row.cartitemid,
                 product,
                 row.cartamount,
-                row.addedat
+                row.addedat,
+                row.userid
             )
             mappedRes.push(cartItem)
         })
@@ -229,7 +232,7 @@ async function updateCartItemAmount(cartItemId, newAmount) {
 
 export default {
     countCartItemsByUserId,
-    findCartItemByIdAndUserIdAndBoughtFalse,
+    findCartItemByIdAndBoughtFalse,
     findCartItemsByUserId,
     updateCartItemAmount,
     setCartItemsOnBoughtByUserId,
