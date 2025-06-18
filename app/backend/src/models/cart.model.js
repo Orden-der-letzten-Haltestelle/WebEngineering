@@ -4,6 +4,7 @@ import Product from "../objects/items/Product.js"
 import CartItem from "../objects/items/CartItem.js"
 import OrderItem from "../objects/items/OrderItem.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
+import ProductModel from "./product.model.js"
 
 /**
  * Counts all cartItems, that the user has, that have bought=true
@@ -33,11 +34,77 @@ async function countCartItemsByUserId(userId) {
 }
 
 /**
+ * Returns true or false, when an cartitem with the userId and productId already exist
+ * @param {int} userId
+ * @param {int} productId
+ * @returns {Promise<CartItem>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function findByUserIdAndProductIdAndBoughtFalse(userId, productId) {
+    try {
+        const result = await pool.query(
+            `
+                SELECT 
+                    c.id as cartitemid, 
+                    c.addedat, 
+                    c.amount as cartamount, 
+                    c.addedat,
+                    c.userid,
+                    p.id as productid, 
+                    p.name, 
+                    p.description, 
+                    p.amount as storageAmount,
+                    p.price
+                FROM 
+                    webshop.cartitems as c
+                    JOIN webshop.products as p ON p.id = c.productid
+                WHERE 
+                    c.userid = $1 AND 
+                    c.bought = false AND
+                    c.productid = $2;
+            `,
+            [userId, productId]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(
+                `CartItem with userId ${userId} and productId ${productId} and bought=false doesn't exist`
+            )
+        }
+
+        const row = result.rows[0]
+        const product = new Product(
+            row.productid,
+            row.name,
+            row.description,
+            row.storageamount,
+            row.price
+        )
+        const cartItem = new CartItem(
+            row.cartitemid,
+            product,
+            row.cartamount,
+            row.addedat,
+            row.userid
+        )
+        return cartItem
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed on findByUserIdAndProductIdAndBoughtFalse with userId ${userId} and productId ${productId}: ${error}`,
+            error
+        )
+    }
+}
+
+/**
  * Returns a CartItem by the id and bought=false
  * when thats not true, an NotFoundError will be thrown.
- * @param {int} id 
- * @param {int} userId 
- * @returns 
+ * @param {int} id
+ * @param {int} userId
+ * @returns
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
@@ -61,10 +128,13 @@ async function findCartItemByIdAndBoughtFalse(id) {
                 WHERE 
                 	c.id = $1 AND
                     c.bought = false
-            `, [id]
+            `,
+            [id]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`CartItem with id ${id} and bought=false doesn't exist `)
+            throw new NotFoundError(
+                `CartItem with id ${id} and bought=false doesn't exist `
+            )
         }
         const row = result.rows[0]
         const product = new Product(
@@ -82,12 +152,14 @@ async function findCartItemByIdAndBoughtFalse(id) {
             row.userid
         )
         return cartItem
-
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(`Failed findCartItemById And bought False ${id}; ${error}`, error)
+        throw new DatabaseError(
+            `Failed findCartItemById And bought False ${id}; ${error}`,
+            error
+        )
     }
 }
 
@@ -152,13 +224,16 @@ async function findCartItemsByUserId(userId) {
 /**
  * Sets all cartitems of the given user on bought = true
  * and returns all new OrderItems
+ * Takes a client object, to be able to rollback, bc. change storage amount is also required to full fill the purchase
+ *
+ * @param {Pool} client
  * @param {int} userId
  * @returns {Promise<OrderItem[]>}
  * @throws {DatabaseError}
  */
-async function setCartItemsOnBoughtByUserId(userId) {
+async function setCartItemsOnBoughtByUserIdWithClient(client, userId) {
     try {
-        const result = await pool.query(
+        const result = await client.query(
             `
                 UPDATE 
                     webshop.cartitems as c 
@@ -212,22 +287,67 @@ async function setCartItemsOnBoughtByUserId(userId) {
 }
 
 /**
+ * Handels the full Purchase process, first updates the amount of all products in the cart.
+ * And then sets all items in the cart on bought=true and returns all updated cartItems as OrderItems
+ * @param {int} userId
+ * @param {CartItem[]} items
+ * @returns {Promise<OrderItem[]>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function completePurchase(userId, cart) {
+    const client = await pool.connect()
+    try {
+        await client.query("BEGIN")
+
+        //update storage amount on all products
+        await Promise.all(
+            cart.map((cartItem) => {
+                const newStorageAmount =
+                    cartItem.product.amount - cartItem.amount
+                return ProductModel.changeStorageAmountByIdWithClient(
+                    client,
+                    item.product.id,
+                    newStorageAmount
+                )
+            })
+        )
+
+        //set all cartItems on bought and return orderITems
+        const orderItems = await setCartItemsOnBoughtByUserIdWithClient(
+            client,
+            userId
+        )
+        await client.query("COMMIT")
+        return orderItems
+    } catch (error) {
+        await client.query("ROLLBACK")
+        throw error
+    } finally {
+        client.release
+    }
+}
+
+/**
  * Updates the amount of an cartitem.
- * @param {int} cartItemId 
- * @param {int} newAmount 
+ * @param {int} cartItemId
+ * @param {int} newAmount
  * @returns {Promise}
  * @throws {DatabaseError}
  */
 async function updateCartItemAmount(cartItemId, newAmount) {
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             UPDATE 
                 webshop.cartitems as c 
             SET 
                 amount = $1 
             WHERE 
                 c.id = $2;
-            `, [newAmount, cartItemId])
+            `,
+            [newAmount, cartItemId]
+        )
     } catch (error) {
         throw new DatabaseError(
             `Failed on updateCartItemAmount of cartitem with id ${cartItemId}: ${error}`,
@@ -238,15 +358,16 @@ async function updateCartItemAmount(cartItemId, newAmount) {
 
 /**
  * Creates a new CartItem object in the database.
- * @param {int} userId 
- * @param {int} productId 
+ * @param {int} userId
+ * @param {int} productId
  * @param {int} amount
  * @returns {Promise}
- * @throws {DatabaseError} 
+ * @throws {DatabaseError}
  */
 async function createCartItem(userId, productId, amount) {
     try {
-        await pool.query(`
+        await pool.query(
+            `
             INSERT INTO 
                 webshop.cartitems as c 
             (
@@ -260,39 +381,47 @@ async function createCartItem(userId, productId, amount) {
                 $3, 
                 false
             );
-            `, [userId, productId, amount])
+            `,
+            [userId, productId, amount]
+        )
     } catch (error) {
         throw new DatabaseError(`Failed on createCartItem: ${error}`, error)
     }
-
 }
 
 /**
  * Deletes all CartItems in Database, that are owned by the user with the given id.
- * @param {int} userId 
+ * @param {int} userId
  * @throws {DatabaseError}
  */
 async function deleteAllCartItemsByUserId(userId) {
     try {
-        await pool.query(`
+        await pool.query(
+            `
             DELETE FROM
                 webshop.cartitems as c
             WHERE
                 c.userid = $1
                 AND c.bought = false
-            `, [userId])
+            `,
+            [userId]
+        )
         return
     } catch (error) {
-        throw new DatabaseError(`Failed on deleteAllCartItemsByUserId with userId ${userId}: ${error}`, error)
+        throw new DatabaseError(
+            `Failed on deleteAllCartItemsByUserId with userId ${userId}: ${error}`,
+            error
+        )
     }
 }
 
 export default {
     countCartItemsByUserId,
+    findByUserIdAndProductIdAndBoughtFalse,
     findCartItemByIdAndBoughtFalse,
     findCartItemsByUserId,
     updateCartItemAmount,
     createCartItem,
-    setCartItemsOnBoughtByUserId,
+    completePurchase,
     deleteAllCartItemsByUserId,
 }

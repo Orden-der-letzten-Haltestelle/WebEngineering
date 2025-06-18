@@ -8,6 +8,7 @@ import UserService from "./user.service.js"
 import CartValidator from "../validator/validator.cart.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import ProductService from "./product.service.js"
+import NotFoundError from "../exceptions/NotFoundError.js"
 
 /**
  * Returns all CartItems with bought == false, that the user has.
@@ -21,12 +22,14 @@ async function getCart(userId) {
 }
 
 async function updateCartItemAmount(userId, cartItemId, newAmount) {
-    //get cartitem, only when its on bought = false 
+    //get cartitem, only when its on bought = false
     const cartItem = await CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
 
     //proof requesting user owns cartItem
     if (cartItem.ownerId !== userId) {
-        throw new ForbiddenError(`CartItem with the id ${cartItemId} isn't owned by the requesting user`)
+        throw new ForbiddenError(
+            `CartItem with the id ${cartItemId} isn't owned by the requesting user`
+        )
     }
 
     //proof if enough is in storage
@@ -53,13 +56,21 @@ async function buyCart(userId) {
         throw new BadRequestError("Empty Cart, please add an product first.")
     }
 
-    //set all cartItems with bough=false, on bought
-    const orderItems = await CartModel.setCartItemsOnBoughtByUserId(userId)
-    //TODO update product amount 
+    //proof that every product has enough storage to be purchased
+    const cart = await getCart()
+    cart.forEach((item) => {
+        if (item.amount > item.product.amount) {
+            throw new BadRequestError(
+                `The product with id ${item.product.id} hasn't enough amount in storage as you request.`
+            )
+        }
+    })
 
-    //get email
+    //set all cartItems with bough=false, on bought And update the product storage amount
+    const orderItems = await CartModel.completePurchase(userId, cart)
+
+    //get email and send mail
     const user = await UserService.getBasicUserById(userId)
-    //send mail
     await sendBuyEmail(user.email, orderItems)
 
     return orderItems
@@ -110,8 +121,9 @@ async function sendBuyEmail(email, orderItems) {
                 <tr>
                     <th>Name</th>
                     <th>Beschreibung</th>
-                    <th>Preis</th>
+                    <th>Einzel Preis</th>
                     <th>Menge</th>
+                    <th>Gesammt Preis</th>
                 </tr>
             </thead>
             <tbody>
@@ -125,6 +137,9 @@ async function sendBuyEmail(email, orderItems) {
                 <td>${item.product.description}</td>
                 <td>${item.product.getConvertedPrice()}</td> 
                 <td>${item.amount}</td> 
+                <td>${item.product.getConvertedPriceMultiplied(
+                    item.amount
+                )}</td>
             </tr>
             `
     })
@@ -146,18 +161,36 @@ async function addProduct(userId, productId, amount) {
     //test for valid amount and if product exists
     await CartValidator.isValidAmount(productId, amount)
 
-    //TODO proof, if product already in users cart.
+    //get cartitem, when an item with the product id is already in the cart
+    let existingCartItem = null
+    try {
+        existingCartItem =
+            await CartModel.findByUserIdAndProductIdAndBoughtFalse(
+                userId,
+                productId
+            )
+    } catch (error) {
+        //ignore NotFoundError
+        if (!(error instanceof NotFoundError)) {
+            throw error
+        }
+    }
 
-    //store new cartitem on db 
-    await CartModel.createCartItem(userId, productId, amount)
-
+    if (existingCartItem !== null) {
+        // handle product already in cart, change amount
+        const newAmount = existingCartItem.amount + amount
+        await CartModel.updateCartItemAmount(existingCartItem.id, newAmount)
+    } else {
+        //product not in cart, create new
+        await CartModel.createCartItem(userId, productId, amount)
+    }
     //return new cart
     return await getCart(userId)
 }
 
 /**
- * Delets all cartItems of the given user. 
- * @param {int} userId 
+ * Delets all cartItems of the given user.
+ * @param {int} userId
  */
 async function deleteCart(userId) {
     return await CartModel.deleteAllCartItemsByUserId(userId)
@@ -168,5 +201,5 @@ export default {
     buyCart,
     updateCartItemAmount,
     addProduct,
-    deleteCart
+    deleteCart,
 }

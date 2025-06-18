@@ -10,19 +10,20 @@ import ProductModel from "../models/product.model.js"
  * @returns
  */
 async function getAllProducts() {
-    const result = ProductModel.findAllProducts()
+    const result = await ProductModel.findAllProducts()
     return result
 }
 
 /**
  * returns a product by its Id
- * @param {int} productId 
+ * @param {int} productId
  */
 async function getProductById(productId) {
-    const result = ProductModel.findProductById(productId)
+    const result = await ProductModel.findProductById(productId)
     return result
 }
 
 export default {
-    getAllProducts, getProductById
+    getAllProducts,
+    getProductById,
 }

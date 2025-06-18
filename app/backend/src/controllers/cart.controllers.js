@@ -32,14 +32,21 @@ async function changeAmount(req, res) {
         const newAmount = parseInt(req.query.amount, 10)
 
         if (isNaN(newAmount)) {
-            throw new BadRequestError(`Paramter amount is not given, but required`)
+            throw new BadRequestError(
+                `Paramter amount is not given, but required`
+            )
         }
 
-        const cartItems = await CartService.updateCartItemAmount(userId, cartItemId, newAmount)
+        const cartItems = await CartService.updateCartItemAmount(
+            userId,
+            cartItemId,
+            newAmount
+        )
         res.status(200).json([...cartItems])
-
     } catch (error) {
-        console.log(`Failed changing amount for cartitem with id: ${cartItemId}; ${error}`)
+        console.log(
+            `Failed changing amount for cartitem with id: ${cartItemId}; ${error}`
+        )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
@@ -55,11 +62,17 @@ async function addProduct(req, res) {
             amount = 1
         }
 
-        const cartItems = await CartService.addProduct(userId, productId)
-        console.log(cartItems)
-        res.json(201).json([...cartItems])
+        const cartItems = await CartService.addProduct(
+            userId,
+            productId,
+            amount
+        )
+        res.status(201).json([...cartItems])
     } catch (error) {
-        console.log(`Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error}`)
+        console.log(error)
+        console.log(
+            `Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error}`
+        )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
@@ -82,5 +95,5 @@ export default {
     buyCart,
     changeAmount,
     addProduct,
-    deleteCart
+    deleteCart,
 }
