@@ -230,10 +230,31 @@ async function updateCartItemAmount(cartItemId, newAmount) {
     }
 }
 
+/**
+ * Deletes all CartItems in Database, that are owned by the user with the given id.
+ * @param {int} userId 
+ * @throws {DatabaseError}
+ */
+async function deleteAllCartItemsByUserId(userId) {
+    try {
+        await pool.query(`
+            DELETE FROM
+                webshop.cartitems as c
+            WHERE
+                c.userid = $1
+                AND c.bought = false
+            `, [userId])
+        return
+    } catch (error) {
+        throw new DatabaseError(`Failed on deleteAllCartItemsByUserId with userId ${userId}: ${error}`, error)
+    }
+}
+
 export default {
     countCartItemsByUserId,
     findCartItemByIdAndBoughtFalse,
     findCartItemsByUserId,
     updateCartItemAmount,
     setCartItemsOnBoughtByUserId,
+    deleteAllCartItemsByUserId,
 }

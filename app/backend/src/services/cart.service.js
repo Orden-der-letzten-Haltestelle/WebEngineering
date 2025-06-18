@@ -141,8 +141,18 @@ async function sendBuyEmail(email, orderItems) {
     )
 }
 
+
+/**
+ * Delets all cartItems of the given user. 
+ * @param {int} userId 
+ */
+async function deleteCart(userId) {
+    return await CartModel.deleteAllCartItemsByUserId(userId)
+}
+
 export default {
     getCart,
     buyCart,
     updateCartItemAmount,
+    deleteCart
 }

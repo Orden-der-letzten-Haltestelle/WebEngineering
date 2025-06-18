@@ -20,5 +20,10 @@ router.put(
     AuthController.verifyJWTtoken(Roles.user),
     CartController.changeAmount
 )
+router.delete(
+    `/`,
+    AuthController.verifyJWTtoken(Roles.user),
+    CartController.deleteCart
+)
 
 export default router
