@@ -1,4 +1,4 @@
-import BadRequestError from "../exceptions/BadRequestError";
+import BadRequestError from "../exceptions/BadRequestError.js";
 import ProductModel from "../models/product.model.js";
 
 /**

@@ -20,20 +20,18 @@ async function getCart(userId) {
 }
 
 async function updateCartItemAmount(userId, cartItemId, newAmount) {
-    //get cartitem, only when its on bought = false 
-    const cartItem = CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
-
-    //proof if cart item is owned by requesting user
-    if (cartItem.userId !== userId) {
-        throw new ForbiddenError(`The cartItem with the id ${cartItemId} isn't owned by the requesting user`)
-    }
+    //get cartitem, only when its on bought = false and the with the userId
+    const cartItem = await CartModel.findCartItemByIdAndUserIdAndBoughtFalse(cartItemId, userId)
 
     //proof if enough is in storage
-    await CartValidator.isValidAmount(cartItem.product.id, amount)
+    await CartValidator.isValidAmount(cartItem.product.id, newAmount)
 
-    
-    
+    //update amount
+    await CartModel.updateCartItemAmount(cartItemId, newAmount)
 
+    //return new cart
+    const newCart = await getCart(userId)
+    return newCart
 }
 
 /**
@@ -54,7 +52,6 @@ async function buyCart(userId) {
 
     //get email
     const user = await UserService.getBasicUserById(userId)
-    console.log(user)
     //send mail
     await sendBuyEmail(user.email, orderItems)
 
@@ -141,4 +138,5 @@ async function sendBuyEmail(email, orderItems) {
 export default {
     getCart,
     buyCart,
+    updateCartItemAmount,
 }

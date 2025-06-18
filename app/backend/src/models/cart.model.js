@@ -32,7 +32,16 @@ async function countCartItemsByUserId(userId) {
     }
 }
 
-async function findCartItemByIdAndBoughtFalse(id) {
+/**
+ * Returns a CartItem by the id, only when the given userId is the same and bought=false
+ * when thats not true, an NotFoundError will be thrown.
+ * @param {int} id 
+ * @param {int} userId 
+ * @returns 
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function findCartItemByIdAndUserIdAndBoughtFalse(id, userId) {
     try {
         const result = await pool.query(
             `
@@ -50,13 +59,28 @@ async function findCartItemByIdAndBoughtFalse(id) {
                     JOIN webshop.products as p ON p.id = c.productid
                 WHERE 
                 	c.id = $1 AND
+                    c.userid = $2 AND
                     c.bought = false
-            `
+            `, [id, userId]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`CartItem with id ${id} and bought=false doesn't exist `)
+            throw new NotFoundError(`CartItem with id ${id} and userId = ${userId} and bought=false doesn't exist `)
         }
-
+        const row = result.rows[0]
+        const product = new Product(
+            row.productid,
+            row.name,
+            row.description,
+            row.storageamount,
+            row.price
+        )
+        const cartItem = new CartItem(
+            row.cartitemid,
+            product,
+            row.cartamount,
+            row.addedat
+        )
+        return cartItem
 
     } catch (error) {
         if (error instanceof NotFoundError) {
@@ -187,7 +211,7 @@ async function setCartItemsOnBoughtByUserId(userId) {
 
 async function updateCartItemAmount(cartItemId, newAmount) {
     try {
-        const result = pool.query(`
+        const result = await pool.query(`
             UPDATE 
                 webshop.cartitems as c 
             SET 
@@ -205,7 +229,7 @@ async function updateCartItemAmount(cartItemId, newAmount) {
 
 export default {
     countCartItemsByUserId,
-    findCartItemByIdAndBoughtFalse,
+    findCartItemByIdAndUserIdAndBoughtFalse,
     findCartItemsByUserId,
     updateCartItemAmount,
     setCartItemsOnBoughtByUserId,

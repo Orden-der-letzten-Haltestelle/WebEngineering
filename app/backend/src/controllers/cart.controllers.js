@@ -12,6 +12,7 @@ async function getCart(req, res) {
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
+
 async function buyCart(req, res) {
     const userId = req.user.id
     try {
@@ -29,9 +30,11 @@ async function changeAmount(req, res) {
     const cartItemId = req.params.cartItemId
     const newAmount = parseInt(req.query.amount, 10)
 
-    if (isNaN(amount)) {
+
+    if (isNaN(newAmount)) {
         throw new BadRequestError(`Paramter amount is not given, but required`)
     }
+
 
     try {
         const cartItems = await CartService.updateCartItemAmount(userId, cartItemId, newAmount)
