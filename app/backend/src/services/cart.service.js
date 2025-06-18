@@ -5,6 +5,8 @@ import OrderItem from "../objects/items/OrderItem.js"
 import Product from "../objects/items/Product.js"
 import EmailService from "./email.service.js"
 import UserService from "./user.service.js"
+import CartValidator from "../validator/validator.cart.js"
+import ForbiddenError from "../exceptions/ForbiddenError.js"
 
 /**
  * Returns all CartItems with bought == false, that the user has.
@@ -15,6 +17,23 @@ import UserService from "./user.service.js"
 async function getCart(userId) {
     const cartItems = await CartModel.findCartItemsByUserId(userId)
     return cartItems
+}
+
+async function updateCartItemAmount(userId, cartItemId, newAmount) {
+    //get cartitem, only when its on bought = false 
+    const cartItem = CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
+
+    //proof if cart item is owned by requesting user
+    if (cartItem.userId !== userId) {
+        throw new ForbiddenError(`The cartItem with the id ${cartItemId} isn't owned by the requesting user`)
+    }
+
+    //proof if enough is in storage
+    await CartValidator.isValidAmount(cartItem.product.id, amount)
+
+    
+    
+
 }
 
 /**

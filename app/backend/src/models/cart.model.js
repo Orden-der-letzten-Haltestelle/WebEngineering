@@ -3,6 +3,7 @@ import { pool } from "./pool.js"
 import Product from "../objects/items/Product.js"
 import CartItem from "../objects/items/CartItem.js"
 import OrderItem from "../objects/items/OrderItem.js"
+import NotFoundError from "../exceptions/NotFoundError.js"
 
 /**
  * Counts all cartItems, that the user has, that have bought=true
@@ -28,6 +29,40 @@ async function countCartItemsByUserId(userId) {
             `Failed counting Cart items for user with id: ${userId} from db: ${error}`,
             error
         )
+    }
+}
+
+async function findCartItemByIdAndBoughtFalse(id) {
+    try {
+        const result = await pool.query(
+            `
+            SELECT 
+                    c.id as cartitemid, 
+                    c.addedat, 
+                    c.amount as cartamount, 
+                    c.addedat,
+                    p.id as productid, 
+                    p.name, 
+                    p.description, 
+                    p.amount as storageAmount,
+                    p.price
+                FROM webshop.cartitems as c 
+                    JOIN webshop.products as p ON p.id = c.productid
+                WHERE 
+                	c.id = $1 AND
+                    c.bought = false
+            `
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`CartItem with id ${id} and bought=false doesn't exist `)
+        }
+
+
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(`Failed findCartItemById ${id}; ${error}`, error)
     }
 }
 
@@ -149,8 +184,29 @@ async function setCartItemsOnBoughtByUserId(userId) {
     }
 }
 
+
+async function updateCartItemAmount(cartItemId, newAmount) {
+    try {
+        const result = pool.query(`
+            UPDATE 
+                webshop.cartitems as c 
+            SET 
+                amount = $1 
+            WHERE 
+                c.id = $2;
+            `, [newAmount, cartItemId])
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed on updateCartItemAmount of cartitem with id ${cartItemId}: ${error}`,
+            error
+        )
+    }
+}
+
 export default {
     countCartItemsByUserId,
+    findCartItemByIdAndBoughtFalse,
     findCartItemsByUserId,
+    updateCartItemAmount,
     setCartItemsOnBoughtByUserId,
 }
