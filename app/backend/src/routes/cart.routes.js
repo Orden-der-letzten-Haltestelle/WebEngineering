@@ -21,10 +21,14 @@ router.put(
     CartController.changeAmount
 )
 router.post(
-    `/product/:productId`
-    ,
+    `/product/:productId`,
     AuthController.verifyJWTtoken(Roles.user),
     CartController.addProduct
+)
+router.delete(
+    `/item/:cartItemId`,
+    AuthController.verifyJWTtoken(Roles.user),
+    CartController.deleteCartItem
 )
 router.delete(
     `/`,

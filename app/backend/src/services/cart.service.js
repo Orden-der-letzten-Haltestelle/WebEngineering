@@ -188,6 +188,24 @@ async function addProduct(userId, productId, amount) {
     return await getCart(userId)
 }
 
+async function deleteCartItem(userId, cartItemId) {
+    //get cartitem, only when its on bought = false
+    const cartItem = await CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
+
+    //proof requesting user owns cartItem
+    if (cartItem.ownerId !== userId) {
+        throw new ForbiddenError(
+            `CartItem with the id ${cartItemId} isn't owned by the requesting user`
+        )
+    }
+
+    //delte cartitem on db
+    await CartModel.deleteCartItemById(cartItemId)
+
+    //get new cart
+    return getCart(userId)
+}
+
 /**
  * Delets all cartItems of the given user.
  * @param {int} userId
@@ -201,5 +219,6 @@ export default {
     buyCart,
     updateCartItemAmount,
     addProduct,
+    deleteCartItem,
     deleteCart,
 }

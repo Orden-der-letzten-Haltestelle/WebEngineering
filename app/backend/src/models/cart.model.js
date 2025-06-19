@@ -390,6 +390,41 @@ async function createCartItem(userId, productId, amount) {
 }
 
 /**
+ * Deletes an cartItem by its id
+ * @param {int} id
+ * @returns {Promise}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function deleteCartItemById(id) {
+    try {
+        const result = await pool.query(
+            `
+            DELETE FROM 
+                webshop.cartitems as c
+            WHERE
+                c.id = $1
+            RETURNING
+                *
+            `,
+            [id]
+        )
+        if (result.rows.length === 0) {
+            throw NotFoundError(`CartItem with id ${id} doesn't exist`)
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `
+            Failed on deleteCartItemById for cartItem with id ${id}: ${error}`,
+            error
+        )
+    }
+}
+
+/**
  * Deletes all CartItems in Database, that are owned by the user with the given id.
  * @param {int} userId
  * @throws {DatabaseError}
@@ -423,5 +458,6 @@ export default {
     updateCartItemAmount,
     createCartItem,
     completePurchase,
+    deleteCartItemById,
     deleteAllCartItemsByUserId,
 }

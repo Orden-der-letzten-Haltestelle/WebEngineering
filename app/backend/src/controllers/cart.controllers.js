@@ -78,6 +78,21 @@ async function addProduct(req, res) {
     }
 }
 
+async function deleteCartItem(req, res) {
+    const userId = req.user.id
+    const cartItemId = req.params.cartItemId
+    try {
+        const cartItems = await CartService.deleteCartItem(userId, cartItemId)
+        res.status(200).json([...cartItems])
+    } catch (error) {
+        console.log(
+            `Failed Deleting CartItem for user with id ${userId}: ${error}`
+        )
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+    }
+}
+
 async function deleteCart(req, res) {
     const userId = req.user.id
     try {
@@ -95,5 +110,6 @@ export default {
     buyCart,
     changeAmount,
     addProduct,
+    deleteCartItem,
     deleteCart,
 }
