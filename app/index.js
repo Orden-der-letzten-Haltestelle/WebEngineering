@@ -5,6 +5,7 @@ import { fileURLToPath } from "url"
 // Import all routers
 import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
+import CartRouter from "./backend/src/routes/cart.routes.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -30,6 +31,7 @@ app.get("/products", (req, res) => {
 // Backend routes
 app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)
+app.use("/api/cart", CartRouter)
 
 // Server starten
 app.listen(PORT, () => {
