@@ -16,12 +16,18 @@ const PORT = 3000
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-// Endpoints
+//allow all frontend files to be accessed by public
+app.use(express.static(path.join(__dirname, "frontend")))
+
+// frontend Routes
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "index.html"))
 })
+app.get("/products", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend", "pages/products.html"))
+})
 
-// Use the imported Routers
+// Backend routes
 app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)
 
