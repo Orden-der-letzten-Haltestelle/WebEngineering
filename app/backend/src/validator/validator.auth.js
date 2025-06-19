@@ -6,6 +6,8 @@ const MIN_PASSWORD_LENGTH = 4
 /**
  * Validate, that the password fit the requirements, throws error when not
  * @param {string} password
+ * @returns {boolean}
+ * @throws {BadRequestError}
  */
 function isSecurePassword(password) {
     if (password.length < MIN_PASSWORD_LENGTH) {
