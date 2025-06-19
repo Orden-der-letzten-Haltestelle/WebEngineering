@@ -1,0 +1,16 @@
+FROM postgres:16
+
+# Set up environment variables
+ENV POSTGRES_DB=webshop \
+    POSTGRES_USER=postgres \
+    POSTGRES_PASSWORD=postgres
+
+# Override the default data directory
+ENV PGDATA=/tmp/pgdata
+
+# Create custom data directory
+RUN mkdir -p /tmp/pgdata && chown -R postgres:postgres /tmp/pgdata
+
+# Copy SQL initialization files into the correct init directory
+COPY ./db/init.sql /docker-entrypoint-initdb.d/01-init.sql
+COPY ./db/testdata.sql /docker-entrypoint-initdb.d/02-testdata.sql
