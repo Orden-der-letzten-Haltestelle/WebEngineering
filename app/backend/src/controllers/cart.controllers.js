@@ -7,7 +7,9 @@ async function getCart(req, res) {
         const cartItems = await CartService.getCart(userId)
         res.status(200).json([...cartItems])
     } catch (error) {
-        console.log(`Failed getting cart for user with id: ${userId}; ${error}`)
+        console.log(
+            `Failed getting cart for user with id: ${userId}; ${error.stack}`
+        )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
@@ -20,7 +22,7 @@ async function getOrderHistory(req, res) {
         res.status(200).json([...orderItems])
     } catch (error) {
         console.log(
-            `Failed getting orderHistory for user with id: ${userId}; ${error}`
+            `Failed getting orderHistory for user with id: ${userId}; ${error.stack}`
         )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
@@ -33,7 +35,9 @@ async function buyCart(req, res) {
         const orderItems = await CartService.buyCart(userId)
         res.status(200).json([...orderItems])
     } catch (error) {
-        console.log(`Failed buy cart for user with id: ${userId}; ${error}`)
+        console.log(
+            `Failed buy cart for user with id: ${userId}; ${error.stack}`
+        )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
@@ -59,7 +63,7 @@ async function changeCartAmount(req, res) {
         res.status(200).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed changing amount for cartitem with id: ${cartItemId}; ${error}`
+            `Failed changing amount for cartitem with id: ${cartItemId}; ${error.stack}`
         )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
@@ -83,9 +87,8 @@ async function addProductToCart(req, res) {
         )
         res.status(201).json([...cartItems])
     } catch (error) {
-        console.log(error)
         console.log(
-            `Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error}`
+            `Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error.stack}`
         )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
@@ -100,7 +103,7 @@ async function deleteCartItem(req, res) {
         res.status(200).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed Deleting CartItem for user with id ${userId}: ${error}`
+            `Failed Deleting CartItem for user with id ${userId}: ${error.stack}`
         )
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
@@ -113,7 +116,7 @@ async function deleteCart(req, res) {
         await CartService.deleteCart(userId)
         res.status(200).json()
     } catch (error) {
-        console.log(`Failed Deleting Cart for user with id ${userId}: ${error}`)
+        console.log(`Failed Deleting Cart for user with id ${userId}: ${error.stack}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
