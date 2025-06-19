@@ -1,0 +1,15 @@
+meta {
+  name: changeCartAmount
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/api/cart/item/5?amount=5
+  body: none
+  auth: inherit
+}
+
+params:query {
+  amount: 5
+}
