@@ -10,6 +10,11 @@ router.get(
     AuthController.verifyJWTtoken(Roles.user),
     CartController.getCart
 )
+router.get(
+    `/orders`,
+    AuthController.verifyJWTtoken(Roles.user),
+    CartController.getOrderHistory
+)
 router.post(
     "/buy",
     AuthController.verifyJWTtoken(Roles.user),

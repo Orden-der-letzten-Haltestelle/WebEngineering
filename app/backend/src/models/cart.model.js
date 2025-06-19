@@ -34,6 +34,66 @@ async function countCartItemsByUserId(userId) {
 }
 
 /**
+ * Returns a list of all OrderItems, that are owned by the given user
+ * @param {int} userId 
+ * @returns {Promise<OrderItem[]>}
+ * @throws {DatabaseError}
+ */
+async function findOrderItemsByUserId(userId) {
+    try {
+        const result = await pool.query(
+            `
+                SELECT 
+                    c.id as cartitemid, 
+                    c.addedat, 
+                    c.amount as cartamount, 
+                    c.addedat,
+                    c.boughtat, 
+                    p.id as productid, 
+                    p.name, 
+                    p.description, 
+                    p.amount as storageAmount,
+                    p.price
+                FROM 
+                    webshop.cartitems as c
+                JOIN 
+                    webshop.products as p ON p.id = c.productId
+                WHERE 
+                    c.userId = $1 AND 
+                    c.bought = true;
+            `,
+            [userId]
+        )
+
+        //map result to OrderItem Objects
+        const mappedOrderItems = []
+        result.rows.forEach((row) => {
+            const product = new Product(
+                row.productid,
+                row.name,
+                row.description,
+                row.storageamount,
+                row.price
+            )
+            const orderItem = new OrderItem(
+                row.cartitemid,
+                product,
+                row.cartamount,
+                row.addedat,
+                row.boughtat
+            )
+            mappedOrderItems.push(orderItem)
+        })
+        return mappedOrderItems
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed on findOrderItemsByUserId with userId ${userId} from db: ${error}`,
+            error
+        )
+    }
+}
+
+/**
  * Returns true or false, when an cartitem with the userId and productId already exist
  * @param {int} userId
  * @param {int} productId
@@ -452,6 +512,7 @@ async function deleteAllCartItemsByUserId(userId) {
 
 export default {
     countCartItemsByUserId,
+    findOrderItemsByUserId,
     findCartItemByUserIdAndProductId,
     findCartItemById,
     findCartItemsByUserId,

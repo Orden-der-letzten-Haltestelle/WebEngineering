@@ -21,6 +21,16 @@ async function getCart(userId) {
     return cartItems
 }
 
+/**
+ * Returns a list of all Orderitems that are owned by the given userId
+ * @param {int} userId
+ * @returns {Promise<OrderItem[]>}
+ */
+async function getOrderHistory(userId) {
+    const orderItems = await CartModel.findOrderItemsByUserId(userId)
+    return orderItems
+}
+
 async function updateCartItemAmount(userId, cartItemId, newAmount) {
     //get cartitem, only when its on bought = false
     const cartItem = await CartModel.findCartItemById(cartItemId)
@@ -216,6 +226,7 @@ async function deleteCart(userId) {
 
 export default {
     getCart,
+    getOrderHistory,
     buyCart,
     updateCartItemAmount,
     addProductToCart,

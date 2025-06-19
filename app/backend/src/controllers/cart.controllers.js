@@ -13,6 +13,20 @@ async function getCart(req, res) {
     }
 }
 
+async function getOrderHistory(req, res) {
+    const userId = req.user.id
+    try {
+        const orderItems = await CartService.getOrderHistory(userId)
+        res.status(200).json([...orderItems])
+    } catch (error) {
+        console.log(
+            `Failed getting orderHistory for user with id: ${userId}; ${error}`
+        )
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+    }
+}
+
 async function buyCart(req, res) {
     const userId = req.user.id
     try {
@@ -107,6 +121,7 @@ async function deleteCart(req, res) {
 
 export default {
     getCart,
+    getOrderHistory,
     buyCart,
     changeCartAmount,
     addProductToCart,

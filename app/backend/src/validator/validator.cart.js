@@ -19,8 +19,6 @@ async function isValidAmount(productId, newAmount) {
 
     //proof, if product as enough items in storage.
     const product = await ProductService.getProductById(productId)
-    console.log(product)
-    console.log(newAmount)
     if (product.amount < newAmount) {
         throw new BadRequestError(
             `New amount ${newAmount} is higher then storage amount of product`
