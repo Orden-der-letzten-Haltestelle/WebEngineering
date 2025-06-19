@@ -4,13 +4,13 @@ import { fileURLToPath } from "url"
 
 // Import all routers
 import ProductRouter from "./backend/src/routes/product.routes.js"
+import AuthRouter from "./backend/src/routes/auth.routes.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const app = express()
 const PORT = 3000
-console.log(process.env.DB_PASSWORD)
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
 
 // Use the imported Routers
 app.use("/api/products", ProductRouter)
+app.use("/api/auth", AuthRouter)
 
 // Server starten
 app.listen(PORT, () => {

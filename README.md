@@ -31,7 +31,7 @@ npm install
 `npm run dev`
 The dev server applies all changes directly, you don't need to restart the server when you change a file.
 
-To be able to connect to the database through the applikation, you need to set environment variables:
+To be able to connect to the database through the applikation, you need to set environment variables in your windows installation:
 
 ```
 DB_HOST=localhost
