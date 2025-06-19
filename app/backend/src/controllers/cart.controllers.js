@@ -25,7 +25,7 @@ async function buyCart(req, res) {
     }
 }
 
-async function changeAmount(req, res) {
+async function changeCartAmount(req, res) {
     const userId = req.user.id
     const cartItemId = req.params.cartItemId
     try {
@@ -52,7 +52,7 @@ async function changeAmount(req, res) {
     }
 }
 
-async function addProduct(req, res) {
+async function addProductToCart(req, res) {
     const userId = req.user.id
     const productId = req.params.productId
     try {
@@ -62,7 +62,7 @@ async function addProduct(req, res) {
             amount = 1
         }
 
-        const cartItems = await CartService.addProduct(
+        const cartItems = await CartService.addProductToCart(
             userId,
             productId,
             amount
@@ -108,8 +108,8 @@ async function deleteCart(req, res) {
 export default {
     getCart,
     buyCart,
-    changeAmount,
-    addProduct,
+    changeCartAmount,
+    addProductToCart,
     deleteCartItem,
     deleteCart,
 }

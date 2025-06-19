@@ -18,12 +18,12 @@ router.post(
 router.put(
     "/item/:cartItemId",
     AuthController.verifyJWTtoken(Roles.user),
-    CartController.changeAmount
+    CartController.changeCartAmount
 )
 router.post(
     `/product/:productId`,
     AuthController.verifyJWTtoken(Roles.user),
-    CartController.addProduct
+    CartController.addProductToCart
 )
 router.delete(
     `/item/:cartItemId`,

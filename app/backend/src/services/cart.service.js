@@ -23,7 +23,7 @@ async function getCart(userId) {
 
 async function updateCartItemAmount(userId, cartItemId, newAmount) {
     //get cartitem, only when its on bought = false
-    const cartItem = await CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
+    const cartItem = await CartModel.findCartItemById(cartItemId)
 
     //proof requesting user owns cartItem
     if (cartItem.ownerId !== userId) {
@@ -157,18 +157,16 @@ async function sendBuyEmail(email, orderItems) {
     )
 }
 
-async function addProduct(userId, productId, amount) {
-    //test for valid amount and if product exists
-    await CartValidator.isValidAmount(productId, amount)
-
+async function addProductToCart(userId, productId, amount) {
     //get cartitem, when an item with the product id is already in the cart
     let existingCartItem = null
     try {
-        existingCartItem =
-            await CartModel.findByUserIdAndProductIdAndBoughtFalse(
-                userId,
-                productId
-            )
+        existingCartItem = await CartModel.findCartItemByUserIdAndProductId(
+            userId,
+            productId
+        )
+        //add already existing amount to requesting amount
+        amount = existingCartItem.amount + amount
     } catch (error) {
         //ignore NotFoundError
         if (!(error instanceof NotFoundError)) {
@@ -176,10 +174,12 @@ async function addProduct(userId, productId, amount) {
         }
     }
 
+    //test for valid amount and if product exists
+    await CartValidator.isValidAmount(productId, amount)
+
     if (existingCartItem !== null) {
         // handle product already in cart, change amount
-        const newAmount = existingCartItem.amount + amount
-        await CartModel.updateCartItemAmount(existingCartItem.id, newAmount)
+        await CartModel.updateCartItemAmount(existingCartItem.id, amount)
     } else {
         //product not in cart, create new
         await CartModel.createCartItem(userId, productId, amount)
@@ -190,7 +190,7 @@ async function addProduct(userId, productId, amount) {
 
 async function deleteCartItem(userId, cartItemId) {
     //get cartitem, only when its on bought = false
-    const cartItem = await CartModel.findCartItemByIdAndBoughtFalse(cartItemId)
+    const cartItem = await CartModel.findCartItemById(cartItemId)
 
     //proof requesting user owns cartItem
     if (cartItem.ownerId !== userId) {
@@ -218,7 +218,7 @@ export default {
     getCart,
     buyCart,
     updateCartItemAmount,
-    addProduct,
+    addProductToCart,
     deleteCartItem,
     deleteCart,
 }

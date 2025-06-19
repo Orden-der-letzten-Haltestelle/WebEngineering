@@ -41,7 +41,7 @@ async function countCartItemsByUserId(userId) {
  * @throws {DatabaseError}
  * @throws {NotFoundError}
  */
-async function findByUserIdAndProductIdAndBoughtFalse(userId, productId) {
+async function findCartItemByUserIdAndProductId(userId, productId) {
     try {
         const result = await pool.query(
             `
@@ -108,7 +108,7 @@ async function findByUserIdAndProductIdAndBoughtFalse(userId, productId) {
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
-async function findCartItemByIdAndBoughtFalse(id) {
+async function findCartItemById(id) {
     try {
         const result = await pool.query(
             `
@@ -452,8 +452,8 @@ async function deleteAllCartItemsByUserId(userId) {
 
 export default {
     countCartItemsByUserId,
-    findByUserIdAndProductIdAndBoughtFalse,
-    findCartItemByIdAndBoughtFalse,
+    findCartItemByUserIdAndProductId,
+    findCartItemById,
     findCartItemsByUserId,
     updateCartItemAmount,
     createCartItem,
