@@ -8,7 +8,7 @@ const MIN_PASSWORD_LENGTH = 4
  * @param {string} password
  */
 function isSecurePassword(password) {
-    if (password.length !== MIN_PASSWORD_LENGTH) {
+    if (password.length < MIN_PASSWORD_LENGTH) {
         throw new BadRequestError(
             `Given Password doesn't fit requirments, password needs at least ${MIN_PASSWORD_LENGTH} Characters.`
         )
