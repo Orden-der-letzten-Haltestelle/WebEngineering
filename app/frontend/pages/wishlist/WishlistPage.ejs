@@ -1,3 +1,7 @@
 <div id="wishlistPage-content">
     <h1><%= title %></h1>
+    <!-- Hier werden die Beispiel Componenten geladen. -->
+    <% beispielComponents.forEach(function(item) { %> <%-
+    include("../../components/BeispielComponent/BeispielComponent", { title:
+    item.title, text: item.text }) %> <% }) %>
 </div>

@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     const pageData = await ProductPageLoader(req, res)
     const pagePath = "pages/products/ProductPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -33,7 +33,7 @@ router.get("/cart", async (req, res) => {
     const pageData = await CartPageLoader(req, res)
     const pagePath = "pages/cart/CartPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -44,7 +44,7 @@ router.get("/checkout", async (req, res) => {
     const pageData = await CheckoutPageLoader(req, res)
     const pagePath = "pages/checkout/CheckoutPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -55,7 +55,7 @@ router.get("/login", async (req, res) => {
     const pageData = await LoginPageLoader(req, res)
     const pagePath = "pages/login/LoginPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: true,
         excludeFooter: true,
     })
@@ -66,7 +66,7 @@ router.get("/orders", async (req, res) => {
     const pageData = await OrderPageLoader(req, res)
     const pagePath = "pages/orders/OrderPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -77,7 +77,7 @@ router.get("/profile", async (req, res) => {
     const pageData = await ProfilePageLoader(req, res)
     const pagePath = "pages/profile/ProfilePage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -88,7 +88,7 @@ router.get("/register", async (req, res) => {
     const pageData = await RegisterPageLoader(req, res)
     const pagePath = "pages/register/RegisterPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: true,
         excludeFooter: true,
     })
@@ -99,7 +99,7 @@ router.get("/wishlist", async (req, res) => {
     const pageData = await WishlistPageLoader(req, res)
     const pagePath = "pages/wishlist/WishlistPage"
 
-    renderPage(res, pagePath, pageData, {
+    renderPage(req, res, pagePath, pageData, {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -107,27 +107,37 @@ router.get("/wishlist", async (req, res) => {
 
 /**
  * Handle Page render
+ * @param {*} req
  * @param {*} res
  * @param {*} page
  * @param {*} pageData
  * @param {*} layoutOptions
  */
-function renderPage(res, page, pageData, layoutOptions = {}) {
-    const fullPagePath = path.join(__dirname, page + ".ejs")
+function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
+    const fullPagePath = path.join(__dirname, pagePath + ".ejs")
 
     ejs.renderFile(fullPagePath, pageData, (err, html) => {
         if (err) {
             return res.status(500).send("Rendering Error: " + err.message)
         }
 
-        // Extract filename for CSS (e.g., "ContactPage.css")
-        const cssFile = path.basename(page) + ".css"
+        // Compose CSS file paths from components:
+        // Each component's CSS assumed at /components/<ComponentName>/<ComponentName>.css
+        const componentCssFiles = (pageData.components || []).map(
+            (name) => `/components/${name}/${name}.css`
+        )
+
+        // Also add page-specific CSS:
+        const pageCssFile = `${pagePath}.css`
+
+        // Pass all CSS files as array to template
+        const cssFiles = [pageCssFile, ...componentCssFiles]
 
         res.render("index", {
             ...layoutOptions,
             title: pageData.title || "Webshop",
             bodyContent: html,
-            cssFile,
+            cssFiles: cssFiles,
         })
     })
 }
