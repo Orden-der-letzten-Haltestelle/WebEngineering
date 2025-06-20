@@ -1,5 +1,5 @@
 :root {
-    --highlight-color: #DBC70C;
+    --highlight-color: #dbc70c;
 }
 
 * {
@@ -7,14 +7,24 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.hide{
+.hide {
     display: none;
 }
 
 html,
-body {
+body,
+#outer-container {
     margin: 0;
     padding: 0;
     min-height: 100vh;
     min-width: 100%;
+}
+
+#outer-container {
+    display: grid;
+    grid-template-rows: min-content auto min-content;
+}
+
+main {
+    height: 100%;
 }

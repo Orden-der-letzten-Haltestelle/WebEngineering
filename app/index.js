@@ -1,4 +1,5 @@
 import express from "express"
+import ejs from "ejs"
 import path from "path"
 import { fileURLToPath } from "url"
 
@@ -6,6 +7,9 @@ import { fileURLToPath } from "url"
 import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
 import CartRouter from "./backend/src/routes/cart.routes.js"
+
+//frontend router
+import FrontendRouter from "./frontend/frontend.index.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -20,13 +24,12 @@ app.use(express.json())
 //allow all frontend files to be accessed by public
 app.use(express.static(path.join(__dirname, "frontend")))
 
+//setup view engine ejs
+app.set("view engine", "ejs")
+app.set("views", path.join(__dirname, "frontend"))
+
 // frontend Routes
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "index.html"))
-})
-app.get("/products", (req, res) => {
-    res.sendFile(path.join(__dirname, "frontend", "pages/products.html"))
-})
+app.use("/", FrontendRouter)
 
 // Backend routes
 app.use("/api/products", ProductRouter)
