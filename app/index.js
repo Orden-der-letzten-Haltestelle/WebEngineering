@@ -7,8 +7,8 @@ import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
 import CartRouter from "./backend/src/routes/cart.routes.js"
 
-//import frontend routes
-import CartPageRouter from "./frontend/pages/cart/CartPage.js"
+//frontend router
+import FrontendRouter from "./frontend/frontend.routes.js"
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -28,10 +28,11 @@ app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "frontend"))
 
 // frontend Routes
-app.use("/cart", CartPageRouter)
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "frontend", "index.html"))
 })
+//set up all frontend routes
+FrontendRouter(app)
 
 // Backend routes
 app.use("/api/products", ProductRouter)

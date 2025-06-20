@@ -1,0 +1,12 @@
+#cartPage-content {
+    width: 100%;
+}
+
+.cartItems-container {
+    display: grid;
+    row-gap: 10px;
+    max-width: 1200px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}

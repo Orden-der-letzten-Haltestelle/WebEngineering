@@ -5,18 +5,19 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Webshop</title>
         <link rel="stylesheet" href="/index.css" />
+        <link rel="stylesheet" href="/pages/cart/cartPage.css" />
     </head>
     <body>
         <div id="outer-container">
             <div id="header-placeholder"></div>
-            <main>
+            <main id="cartPage-content">
                 <div id="inner-container">
                     <div class="cartItems-container">
                         <% if (cartItems.length === 0) { %>
                         <p>Your cart is empty</p>
-                        <% } else { cartItems.forEach(item => { %> <%-
-                        include('../../components/cartItem/CartItem', { item })
-                        %> <% }) } %>
+                        <% } else { cartItems.forEach(cartItem => { %> <%-
+                        include('../../components/cartItem/CartItem', { cartItem
+                        }) %> <% }) } %>
                     </div>
                 </div>
             </main>

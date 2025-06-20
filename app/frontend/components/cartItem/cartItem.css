@@ -1,0 +1,8 @@
+.cartItem-container {
+    width: 100%;
+    background-color: grey;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
