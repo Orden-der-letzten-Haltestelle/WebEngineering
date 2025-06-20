@@ -1,4 +1,4 @@
-// Function to load the navbar HTML and attach event listeners
+// Function to load the footer HTML and attach event listener for possible about page
 async function loadFooter() {
     const footerPlaceholder = document.getElementById("footer-placeholder")
 
