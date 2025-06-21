@@ -2,6 +2,10 @@ import express from "express"
 import ejs from "ejs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { getToken } from "./helper.js"
+
+//api
+import { fetchUser } from "./api/user.js"
 
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
@@ -29,7 +33,7 @@ router.get("/", async (req, res) => {
 })
 
 /* CartPage */
-router.get("/cart", async (req, res) => {
+router.get("/cart", requireAuth, async (req, res) => {
     const pageData = await CartPageLoader(req, res)
     const pagePath = "pages/cart/CartPage"
 
@@ -40,7 +44,7 @@ router.get("/cart", async (req, res) => {
 })
 
 /* checkoutPage */
-router.get("/checkout", async (req, res) => {
+router.get("/checkout", requireAuth, async (req, res) => {
     const pageData = await CheckoutPageLoader(req, res)
     const pagePath = "pages/checkout/CheckoutPage"
 
@@ -62,7 +66,7 @@ router.get("/login", async (req, res) => {
 })
 
 /* orders */
-router.get("/orders", async (req, res) => {
+router.get("/orders", requireAuth, async (req, res) => {
     const pageData = await OrderPageLoader(req, res)
     const pagePath = "pages/orders/OrderPage"
 
@@ -73,7 +77,7 @@ router.get("/orders", async (req, res) => {
 })
 
 /* profile */
-router.get("/profile", async (req, res) => {
+router.get("/profile", requireAuth, async (req, res) => {
     const pageData = await ProfilePageLoader(req, res)
     const pagePath = "pages/profile/ProfilePage"
 
@@ -95,7 +99,7 @@ router.get("/register", async (req, res) => {
 })
 
 /* wishlist */
-router.get("/wishlist", async (req, res) => {
+router.get("/wishlist", requireAuth, async (req, res) => {
     const pageData = await WishlistPageLoader(req, res)
     const pagePath = "pages/wishlist/WishlistPage"
 
@@ -104,6 +108,37 @@ router.get("/wishlist", async (req, res) => {
         excludeFooter: false,
     })
 })
+
+/* Secure Pages, that require signIn */
+async function requireAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        return res.redirect("/login")
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            return res.redirect("/login")
+        }
+
+        // Render a server error page
+        const errorPageContent = {
+            title: "Unexpected Error, try again later",
+            message: err.message || "",
+        }
+        renderPage(req, res, "pages/error/ErrorPage", errorPageContent, {
+            excludeNavbar: false,
+            excludeFooter: false,
+        })
+    }
+}
 
 /**
  * Handle Page render

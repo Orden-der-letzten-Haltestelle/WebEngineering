@@ -2,6 +2,7 @@ import express from "express"
 import ejs from "ejs"
 import path from "path"
 import { fileURLToPath } from "url"
+import cookieParser from "cookie-parser"
 
 // Import all routers
 import ProductRouter from "./backend/src/routes/product.routes.js"
@@ -16,6 +17,9 @@ const __dirname = path.dirname(__filename)
 
 const app = express()
 const PORT = 3000
+
+//add cookie parser
+app.use(cookieParser())
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
