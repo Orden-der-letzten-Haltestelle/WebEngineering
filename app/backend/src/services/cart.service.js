@@ -67,7 +67,7 @@ async function buyCart(userId) {
     }
 
     //proof that every product has enough storage to be purchased
-    const cart = await getCart()
+    const cart = await getCart(userId)
     cart.forEach((item) => {
         if (item.amount > item.product.amount) {
             throw new BadRequestError(

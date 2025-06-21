@@ -19,8 +19,10 @@ body,
     min-height: 100vh;
     min-width: 100%;
 }
+
 #outer-container {
     display: grid;
+    height: 100%;
     grid-template-rows: min-content auto min-content;
 }
 

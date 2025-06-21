@@ -35,7 +35,7 @@ async function countCartItemsByUserId(userId) {
 
 /**
  * Returns a list of all OrderItems, that are owned by the given user
- * @param {int} userId 
+ * @param {int} userId
  * @returns {Promise<OrderItem[]>}
  * @throws {DatabaseError}
  */
@@ -367,7 +367,7 @@ async function completePurchase(userId, cart) {
                     cartItem.product.amount - cartItem.amount
                 return ProductModel.changeStorageAmountByIdWithClient(
                     client,
-                    item.product.id,
+                    cartItem.product.id,
                     newStorageAmount
                 )
             })

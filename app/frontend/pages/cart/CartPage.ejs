@@ -1,17 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Webshop</title>
-        <link rel="stylesheet" href="/index.css" />
-        <link rel="stylesheet" href="/pages/cart/cartPage.css" />
-    </head>
-    <body>
-        <div id="outer-container">
-            <div id="header-placeholder"></div>
-            <main id="cartPage-content">
-                <div id="inner-container">
+<div id="cartPage-content">
+    <h1><%= title %></h1>
+    <!-- Hier werden die Beispiel Componenten geladen. -->
+    <% beispielComponents.forEach(function(item) { %> <%-
+    include("../../components/BeispielComponent/BeispielComponent", { title:
+    item.title, text: item.text }) %> <% }) %>
+
+    <div id="inner-container">
                     <div class="cartItems-container">
                         <% if (cartItems.length === 0) { %>
                         <p>Your cart is empty</p>
@@ -20,10 +14,4 @@
                         }) %> <% }) } %>
                     </div>
                 </div>
-            </main>
-            <footer>Footer</footer>
-        </div>
-
-        <script src="/components/navbar/navbar.js" type="module"></script>
-    </body>
-</html>
+</div>

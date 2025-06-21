@@ -4,10 +4,10 @@
  * @param {*} req
  * @param {*} res
  */
-export default async function CartPageLoader(req, res) {
+export default async function RegisterPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     return {
-        title: "CartPage",
+        title: "RegisterPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         beispielComponents: [
             {

@@ -1,0 +1,63 @@
+/* General styles for the footer */
+.footer {
+    position: relative;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: var(--highlight-color);
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Styles for the icon container */
+.footer-icon-container {
+    display: flex;
+    align-items: left;
+}
+
+.icon-button {
+    width: 5px;
+    height: auto;
+    fill: #000;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1px;
+    padding-top: 10px;
+}
+
+/* Styles for the copyright container */
+.copyright-container {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 20px;
+    font-size: 14px;
+    color: #333;
+    padding-bottom: 25px;
+    padding-right: 25px;
+}
+footer {
+    display: flex;
+    align-items: right;
+    justify-content: left;
+}
+
+footer span {
+    display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    footer {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .footer-icon {
+        margin-right: 0;
+        margin-top: 5px;
+    }
+
+    footer span {
+        text-align: center;
+    }
+}

@@ -118,7 +118,7 @@ async function changeStorageAmountByIdWithClient(client, id, newStorageAmount) {
             UPDATE 
                 webshop.products as p 
             SET
-                p.amount = $1
+                amount = $1
             WHERE
                 p.id = $2
             RETURNING *;
