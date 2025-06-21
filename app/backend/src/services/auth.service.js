@@ -11,6 +11,8 @@ import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
 import AuthUser from "../objects/user/AuthUser.js"
+import DatabaseError from "../exceptions/DatabaseError.js"
+import NotFoundError from "../exceptions/NotFoundError.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
 const JWT_TOKEN_EXPIRES_IN = "1h"
@@ -20,6 +22,17 @@ const PASSWORD_HASH_SALT = 10
 /**
  * Buisiness logic für den Auth service
  */
+
+/**
+ * Returns an auth user by his id
+ * @param {int} userId
+ * @returns {Promise<AuthUser>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function getAuthUser(userId) {
+    return await AuthModel.findAuthUserById(userId)
+}
 
 /**
  * Create a User in the DB, hashes the password and sends out an Email
@@ -110,7 +123,6 @@ async function extractTokenAndVerify(token, requiredRole) {
 
     //TODO check if user isBanned
 
-
     //TODO check if user isVerified
 
     return user
@@ -157,6 +169,7 @@ async function getUserInformationByJWTtoken(token) {
 }
 
 export default {
+    getAuthUser,
     createUser,
     extractTokenAndVerify,
     verifyLoginInformation,

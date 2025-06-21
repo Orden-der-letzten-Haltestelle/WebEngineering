@@ -8,6 +8,27 @@ import Roles from "../objects/user/Roles.js"
  */
 
 /**
+ * Handles endpoint to return personal user information
+ * @param {*} req
+ * @param {*} res
+ */
+async function getAuthUser(req, res) {
+    try {
+        const userId = req.user.id
+
+        const authUser = await AuthService.getAuthUser(userId)
+
+        res.status(200).json({
+            authUser,
+        })
+    } catch (error) {
+        console.log(`Failed getAuthUser; ${error.stack}`)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+    }
+}
+
+/**
  * Verify given JWT token and puts User information in req.user.
  * can be put in front of other requests, to verify the user.
  *
@@ -87,6 +108,7 @@ async function login(req, res) {
 }
 
 export default {
+    getAuthUser,
     register,
     login,
     verifyJWTtoken,
