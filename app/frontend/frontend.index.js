@@ -7,7 +7,6 @@ import { getToken } from "./helper.js"
 //api
 import { fetchUser } from "./api/user.js"
 
-
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
 import CheckoutPageLoader from "./pages/checkout/CheckoutPage.js"
@@ -17,7 +16,6 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
-
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -111,7 +109,7 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
         try {
             const pageData = await pageLoader(req, res)
             renderPage(req, res, pagePath, pageData, layoutOptions)
-        } catch (err) {
+        } catch (error) {
             renderErrorPage(req, res, error)
         }
     }
