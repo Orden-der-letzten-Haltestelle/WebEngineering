@@ -1,3 +1,5 @@
+import { getToken } from "../../helper.js"
+
 /**
  * Diese funktion läd alle daten, und returned ein object, um diese im .ejs zu laden
  *
@@ -6,6 +8,11 @@
  */
 export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+    //const jwtToken = getToken()
+
+
+    //load cart objects
+
     return {
         title: "CartPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
@@ -27,7 +34,18 @@ export default async function CartPageLoader(req, res) {
                 text: "Das ist der Text des vierten Elements",
             },
         ],
+        cartItems: [
+            {
+                product: {
+                    name: "T-Shirt",
+                },
+            },
+        ],
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: ["BeispielComponent"],
+        components: ["BeispielComponent", "CartItem"],
     }
+}
+
+async function loadCart(jwtToken) {
+    const url = "http://localhost:3000/api/cart"
 }

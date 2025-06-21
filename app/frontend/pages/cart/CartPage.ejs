@@ -1,17 +1,17 @@
 <div id="cartPage-content">
     <h1><%= title %></h1>
     <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
+   <!--  <% beispielComponents.forEach(function(item) { %> <%-
     include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
+    item.title, text: item.text }) %> <% }) %> -->
 
     <div id="inner-container">
-                    <div class="cartItems-container">
-                        <% if (cartItems.length === 0) { %>
-                        <p>Your cart is empty</p>
-                        <% } else { cartItems.forEach(cartItem => { %> <%-
-                        include('../../components/cartItem/CartItem', { cartItem
-                        }) %> <% }) } %>
-                    </div>
-                </div>
+        <div class="cartItems-container">
+            <% if (cartItems.length === 0) { %>
+            <p>Your cart is empty</p>
+            <% } else { cartItems.forEach(cartItem => { %> <%-
+            include('../../components/CartItem/CartItem', { cartItem }) %> <% })
+            } %>
+        </div>
+    </div>
 </div>
