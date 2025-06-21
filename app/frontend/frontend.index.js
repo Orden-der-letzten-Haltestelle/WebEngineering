@@ -1,11 +1,12 @@
 import express from "express"
 import ejs from "ejs"
 import path from "path"
-import { fileURLToPath } from "url"
+import { fileURLToPath } from "url
 import { getToken } from "./helper.js"
 
 //api
 import { fetchUser } from "./api/user.js"
+
 
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
@@ -16,7 +17,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
-import { error } from "console"
+
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
