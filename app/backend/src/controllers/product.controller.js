@@ -57,8 +57,31 @@ async function getProductById(req, res) {
     }
 }
 
+async function updateProduct(req, res) {
+    try {
+        const { name, description, amount, price } = req.body
+        const productId = req.params.productId
+        const product = await ProductService.updateProduct(
+            productId,
+            name,
+            description,
+            amount,
+            price
+        )
+
+        res.status(200).json({
+            ...product,
+        })
+    } catch (error) {
+        console.error(error.stack);
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+    }
+}
+
 export default {
     listProducts,
     createProduct,
     getProductById,
+    updateProduct,
 }

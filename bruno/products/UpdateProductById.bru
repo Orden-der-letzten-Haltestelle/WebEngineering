@@ -1,0 +1,18 @@
+meta {
+  name: UpdateProductById
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/api/products/1
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: test name
+  description: test description
+  amount: 10
+  price: 1999
+}

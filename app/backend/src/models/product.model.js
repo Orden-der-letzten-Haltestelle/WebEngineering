@@ -155,9 +155,29 @@ async function createProduct(name, description, amount, price) {
     }
 }
 
+async function updateProduct(id, name, description, amount, price) {
+    try {
+        const result = await pool.query(
+            `
+            UPDATE webshop.products
+            SET name=$2, description=$3, amount=$4, price=$5
+            WHERE id=$1
+            `,
+            [id, name, description, amount, price]
+        )
+        return new Product(id, name, description, amount, price)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to create a new Product ${error}`,
+            error
+        )
+    }
+}
+
 export default {
     findAllProducts,
     findProductById,
     changeStorageAmountByIdWithClient,
     createProduct,
+    updateProduct,
 }

@@ -25,11 +25,11 @@ router.get(
     "/:productId",
     ProductController.getProductById
 )
-// router.put(
-//     "/:productId",
-//     AuthController.verifyJWTtoken(Roles.admin),
-//     ProductController.
-// )
+router.put(
+    "/:productId",
+    AuthController.verifyJWTtoken(Roles.admin),
+    ProductController.updateProduct
+)
 // router.delete(
 //     "/:productId",
 //     AuthController.verifyJWTtoken(Roles.admin),
