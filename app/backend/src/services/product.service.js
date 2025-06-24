@@ -44,9 +44,15 @@ async function updateProduct(id, name, description, amount, price) {
     return result
 }
 
+async function deleteProductById(id) {
+    const result = await ProductModel.deleteProductById(id)
+    return result
+}
+
 export default {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
+    deleteProductById,
 }

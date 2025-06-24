@@ -174,10 +174,48 @@ async function updateProduct(id, name, description, amount, price) {
     }
 }
 
+async function deleteProductById(productId) {
+    try {
+        await pool.query("BEGIN")
+
+        // Delete all Cart Entries of this Product
+        // If Bought or not
+        const result_cart = await pool.query(
+            `DELETE FROM webshop.cartItems 
+            WHERE productId=$1`,
+            [productId]
+        )
+
+        // Delete all Wishlists Entries of this Product
+        const result_wishlist = await pool.query(
+            `DELETE FROM webshop.wishlistItems 
+            WHERE productId=$1`,
+            [productId]
+        )
+
+        // Delete the Product
+        const result_products = await pool.query(
+            `DELETE FROM webshop.products 
+            WHERE id=$1`,
+            [productId]
+        )
+
+        await pool.query("COMMIT")
+
+        return result_products
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to delete Product with Id: ${productId} ${error}`,
+            error
+        )
+    }
+}
+
 export default {
     findAllProducts,
     findProductById,
     changeStorageAmountByIdWithClient,
     createProduct,
     updateProduct,
+    deleteProductById,
 }

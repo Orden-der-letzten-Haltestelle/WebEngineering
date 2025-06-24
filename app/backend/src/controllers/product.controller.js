@@ -78,9 +78,23 @@ async function updateProduct(req, res) {
     }
 }
 
+async function deleteProductById(req, res) {
+    try {
+        const productId = req.params.productId
+        const product = await ProductService.deleteProductById(productId)
+
+        res.status(200).json({ message: `Deleted Product with Id: ${productId}` })
+    } catch (error) {
+        console.error(error.stack);
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+    }
+}
+
 export default {
     listProducts,
     createProduct,
     getProductById,
     updateProduct,
+    deleteProductById,
 }

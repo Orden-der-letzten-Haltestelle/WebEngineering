@@ -114,7 +114,7 @@ async function deleteCart(req, res) {
     const userId = req.user.id
     try {
         await CartService.deleteCart(userId)
-        res.status(200).json()
+        res.status(200).json({ message: `Deleted Cart of User with Id: ${userId}` })
     } catch (error) {
         console.log(`Failed Deleting Cart for user with id ${userId}: ${error.stack}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })

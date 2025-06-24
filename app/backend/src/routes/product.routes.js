@@ -30,10 +30,10 @@ router.put(
     AuthController.verifyJWTtoken(Roles.admin),
     ProductController.updateProduct
 )
-// router.delete(
-//     "/:productId",
-//     AuthController.verifyJWTtoken(Roles.admin),
-//     ProductController.
-// )
+router.delete(
+    "/:productId",
+    AuthController.verifyJWTtoken(Roles.admin),
+    ProductController.deleteProductById
+)
 
 export default router
