@@ -12,8 +12,9 @@ async function listProducts(req, res) {
 
         const data = JSON.stringify(products)
 
-        res.writeHead(200, { "Content-Type": "application/json" })
-        res.end(data)
+        res.status(200).json({
+            ...data,
+        })
     } catch (error) {
         console.error(error.stack);
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
@@ -41,7 +42,23 @@ async function createProduct(req, res) {
     }
 }
 
+async function getProductById(req, res) {
+    try {
+        const productId = req.params.productId
+        const product = await ProductService.getProductById(productId)
+
+        res.status(200).json({
+            ...product,
+        })
+    } catch (error) {
+        console.error(error.stack);
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+    }
+}
+
 export default {
     listProducts,
     createProduct,
+    getProductById,
 }

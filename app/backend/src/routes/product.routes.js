@@ -21,10 +21,10 @@ router.post(
     AuthController.verifyJWTtoken(Roles.admin),
     ProductController.createProduct
 )
-// router.get(
-//     "/:productId",
-//     ProductController.
-// )
+router.get(
+    "/:productId",
+    ProductController.getProductById
+)
 // router.put(
 //     "/:productId",
 //     AuthController.verifyJWTtoken(Roles.admin),
