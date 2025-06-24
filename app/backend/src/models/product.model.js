@@ -139,8 +139,25 @@ async function changeStorageAmountByIdWithClient(client, id, newStorageAmount) {
     }
 }
 
+async function createProduct(name, description, amount, price) {
+    try {
+        const result = await pool.query(
+            `INSERT INTO webshop.products (name, description, amount, price) VALUES ($1, $2, $3, $4) RETURNING id`,
+            [name, description, amount, price]
+        )
+        const productId = result.rows[0].id
+        return new Product(productId, name, description, amount, price)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to create a new Product ${error}`,
+            error
+        )
+    }
+}
+
 export default {
     findAllProducts,
     findProductById,
     changeStorageAmountByIdWithClient,
+    createProduct,
 }

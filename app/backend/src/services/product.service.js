@@ -23,7 +23,18 @@ async function getProductById(productId) {
     return result
 }
 
+async function createProduct(name, description, amount, price) {
+    const result = await ProductModel.createProduct(
+        name,
+        description,
+        amount,
+        price
+    )
+    return result
+}
+
 export default {
     getAllProducts,
     getProductById,
+    createProduct,
 }

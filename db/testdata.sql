@@ -13,6 +13,7 @@ INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdA
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
   (1, 2), -- admin -> admin
   (1, 1), -- admin -> user
+  (2, 2), -- moritz -> admin
   (2, 1), -- moritz -> user
   (3, 1); -- leon -> user
 

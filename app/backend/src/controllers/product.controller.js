@@ -21,6 +21,27 @@ async function listProducts(req, res) {
     }
 }
 
+async function createProduct(req, res) {
+    try {
+        const { name, description, amount, price } = req.body
+        const product = await ProductService.createProduct(
+            name,
+            description,
+            amount,
+            price
+        )
+
+        res.status(201).json({
+            ...product,
+        })
+    } catch (error) {
+        console.error(error.stack);
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+    }
+}
+
 export default {
     listProducts,
+    createProduct,
 }
