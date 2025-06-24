@@ -8,6 +8,12 @@ import ProductService from "../services/product.service.js"
 
 async function listProducts(req, res) {
     try {
+        const { value = "", minPrice = "", maxPrice = "" } = req.query
+        console.log({
+            value: value,
+            minPrice: minPrice,
+            maxPrice: maxPrice
+        })
         const products = await ProductService.getAllProducts()
 
         const data = JSON.stringify(products)
