@@ -1,0 +1,27 @@
+/* Dropdown */
+.dropdown-container {
+    position: relative;
+    height: 25px;
+    background-color: red;
+}
+
+.dropdown-button {
+    height: 100%;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    position: absolute;
+    top: 100%;
+    display: grid;
+    z-index: 1000;
+    background-color: white;
+}
+
+
+
+.dropdown-item {
+    cursor: pointer;
+
+
+}

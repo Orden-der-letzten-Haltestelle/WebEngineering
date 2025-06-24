@@ -15,3 +15,33 @@ export async function fetchCart(token) {
     }
     return res.json()
 }
+
+export async function updateAmount(cartItemId, newAmount, token) {
+    const res = await fetch(`${config.host}/cart/item/${cartItemId}?amount=${newAmount}`, {
+        method: "PUT",
+        headers: {
+            Authorization: token,
+        }
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to fetch cart"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+}
+
+export async function deleteCart(cartItemId, token) {
+    const res = await fetch(`${config.host}/cart/item/${cartItemId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token,
+        }
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to fetch cart"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+}

@@ -12,19 +12,25 @@ export default async function CartPageLoader(req, res) {
     //load cart
     const cartItems = await fetchCart(req.token);
 
-    console.log(cartItems)
+
+    function handleDeleteItem(cartItemId) {
+        console.log(cartItemId)
+    }
+
     return {
         title: "CartPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         cartItems: cartItems,
+        token: req.token,
         handleDeleteItem: handleDeleteItem,
-
+        handleDropdownClick: test,
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: ["CartItem", "DeleteButton"],
+        components: ["CartItem"],
     }
 }
 
 
-function handleDeleteItem(cartItemId) {
-    console.log(cartItemId)
+
+export function test() {
+    console.log("here")
 }
