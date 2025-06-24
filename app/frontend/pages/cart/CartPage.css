@@ -1,3 +1,6 @@
-#cartPage-content{
-    
+#cartPage-content {}
+
+#cartPage-content>.cartitems-container {
+    display: grid;
+    row-gap: 20px;
 }

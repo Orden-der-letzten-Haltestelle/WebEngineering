@@ -1,0 +1,28 @@
+<div class="cartitem-container">
+    <img src="http://localhost:3000/img/BeispielImg.png" />
+    <p>
+        <%= item.product.name %>
+    </p>
+    <p>
+        <%= item.product.id %>
+    </p>
+    <p>
+        <%= item.amount %>
+    </p>
+    <%- include("../Dropdown/Dropdown", {
+        dropdown: {
+            label: "3",
+            items: [
+                {
+                    label: "5",
+                    onclick: () => console.log("click dropdown")
+                },
+                {
+                    label: "5",
+                    onclick: () => console.log("click dropdown")
+                }
+            ]
+        }
+    }) %>
+    <%- include("../DeleteButton/DeleteButton", {}) %>
+</div>

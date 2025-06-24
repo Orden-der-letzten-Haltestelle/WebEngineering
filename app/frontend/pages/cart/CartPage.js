@@ -1,3 +1,5 @@
+import { fetchCart } from "../../api/CartApiHandler.js"
+
 /**
  * Diese funktion läd alle daten, und returned ein object, um diese im .ejs zu laden
  *
@@ -6,28 +8,23 @@
  */
 export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+
+    //load cart
+    const cartItems = await fetchCart(req.token);
+
+    console.log(cartItems)
     return {
         title: "CartPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
-        beispielComponents: [
-            {
-                title: "1. Element",
-                text: "Das ist der Text des ersten Elements",
-            },
-            {
-                title: "2. Element",
-                text: "Das ist der Text des zweiten Elements",
-            },
-            {
-                title: "3. Element",
-                text: "Das ist der Text des dritten Elements",
-            },
-            {
-                title: "4. Element",
-                text: "Das ist der Text des vierten Elements",
-            },
-        ],
+        cartItems: cartItems,
+        handleDeleteItem: handleDeleteItem,
+
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: ["BeispielComponent"],
+        components: ["CartItem", "DeleteButton"],
     }
+}
+
+
+function handleDeleteItem(cartItemId) {
+    console.log(cartItemId)
 }
