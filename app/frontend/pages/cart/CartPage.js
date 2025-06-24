@@ -10,26 +10,17 @@ export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
 
     //load cart
-    const cartItems = await fetchCart(req.token);
-
-
-    function handleDeleteItem(cartItemId) {
-        console.log(cartItemId)
-    }
+    const cartItems = await fetchCart(req.token)
 
     return {
         title: "CartPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         cartItems: cartItems,
         token: req.token,
-        handleDeleteItem: handleDeleteItem,
-        handleDropdownClick: test,
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
         components: ["CartItem"],
     }
 }
-
-
 
 export function test() {
     console.log("here")

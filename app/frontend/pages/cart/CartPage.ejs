@@ -1,19 +1,14 @@
 <div id="cartPage-content">
-    <h1>
-        <%= title %>
-    </h1>
     <!-- Load CartItems -->
     <div class="cartitems-container">
-        <% cartItems.forEach((item)=> { %>
-            <%- include("../../components/CartItem/CartItem", { item: item, token: token }) %>
-                <% }) %>
-                    <button class="cart-delete">
-
-                    </button>
-                    <a>
-                        <button class="cart-checkout">
-
-                        </button>
-                    </a>
+        <% cartItems.forEach((item)=> { %> <%-
+        include("../../components/CartItem/CartItem", { item: item, token: token
+        }) %> <% }) %>
+    </div>
+    <div class="cartPage-button-container">
+        <button class="cartPage-button cart-delete">Lösche Warenkorb</button>
+        <a href="/checkout">
+            <button class="cartPage-button cart-checkout">Zur Kasse</button>
+        </a>
     </div>
 </div>

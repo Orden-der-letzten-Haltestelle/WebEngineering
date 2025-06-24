@@ -2,7 +2,7 @@
     width: auto;
 }
 
-#cartPage-content>.cartitems-container {
+#cartPage-content > .cartitems-container {
     display: grid;
     row-gap: 20px;
     width: 80%;
@@ -11,8 +11,13 @@
     margin-left: auto;
 }
 
+.cartPage-button-container {
+}
+
+.cartPage-button
+
 @media screen and (max-width: 400px) {
-    #cartPage-content>.cartitems-container {
+    #cartPage-content > .cartitems-container {
         /*     margin-right: 10px;
         margin-left: 10px; */
     }
