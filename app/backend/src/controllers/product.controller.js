@@ -12,9 +12,8 @@ async function listProducts(req, res) {
 
         const data = JSON.stringify(products)
 
-        res.status(200).json({
-            ...data,
-        })
+        res.writeHead(200, { "Content-Type": "application/json" })
+        res.end(data)
     } catch (error) {
         console.error(error.stack);
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
