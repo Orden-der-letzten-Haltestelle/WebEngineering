@@ -36,6 +36,66 @@ async function existByEmail(email) {
 }
 
 /**
+ *  Returns a AuthUser Object if one was found in the Database
+ * @param {int} id
+ * @returns {Promise<AuthUser>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function findAuthUserById(id) {
+    try {
+        const result = await pool.query(
+            `SELECT 
+                u.id, 
+                u.name, 
+                u.email, 
+                u.createdAt as createdAt,
+                u.isverified,
+                u.isbanned,
+                r.rolename 
+            FROM 
+                webshop.users as u 
+	        JOIN 
+                webshop.user_has_role as ur ON ur.userId = u.id
+	        JOIN 
+                webshop.roles as r ON r.id = ur.roleId
+            WHERE 
+                u.id= $1`,
+            [id]
+        )
+        const rows = result.rows
+        if (rows.length <= 0) {
+            throw new NotFoundError(`User with id: ${id} doesn't exist`)
+        }
+        //extract roles
+        const roles = []
+        rows.forEach((row) => {
+            roles.push(row.rolename)
+        })
+
+        const row = result.rows[0]
+        const user = new AuthUser(
+            row.id,
+            row.name,
+            row.email,
+            row.createdat,
+            row.isverified,
+            row.isbanned,
+            roles
+        )
+        return user
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed to find user By email with email: ${email}.`,
+            { cause: error }
+        )
+    }
+}
+
+/**
  * Returns a User Object if one was found in the Database
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError} User with Email doesn't exist
@@ -167,6 +227,7 @@ async function createUser(username, hashedPassword, email) {
 }
 
 export default {
+    findAuthUserById,
     createUser,
     findAdvancedAuthUserByEmail,
     existByEmail,

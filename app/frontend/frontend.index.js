@@ -2,6 +2,10 @@ import express from "express"
 import ejs from "ejs"
 import path from "path"
 import { fileURLToPath } from "url"
+import { getToken } from "./helper.js"
+
+//api
+import { fetchUser } from "./api/user.js"
 
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
@@ -18,92 +22,143 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 /* ProductPage / MainPage */
-router.get("/", async (req, res) => {
-    const pageData = await ProductPageLoader(req, res)
-    const pagePath = "pages/products/ProductPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/",
+    handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
 
 /* CartPage */
-router.get("/cart", async (req, res) => {
-    const pageData = await CartPageLoader(req, res)
-    const pagePath = "pages/cart/CartPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/cart",
+    requireAuth,
+    handlePage(CartPageLoader, "pages/cart/CartPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
 
 /* checkoutPage */
-router.get("/checkout", async (req, res) => {
-    const pageData = await CheckoutPageLoader(req, res)
-    const pagePath = "pages/checkout/CheckoutPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/checkout",
+    requireAuth,
+    handlePage(CheckoutPageLoader, "pages/checkout/CheckoutPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
 
 /* LoginPage */
-router.get("/login", async (req, res) => {
-    const pageData = await LoginPageLoader(req, res)
-    const pagePath = "pages/login/LoginPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/login",
+    handlePage(LoginPageLoader, "pages/login/LoginPage", {
         excludeNavbar: true,
         excludeFooter: true,
     })
-})
+)
 
 /* orders */
-router.get("/orders", async (req, res) => {
-    const pageData = await OrderPageLoader(req, res)
-    const pagePath = "pages/orders/OrderPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/orders",
+    requireAuth,
+    handlePage(OrderPageLoader, "pages/orders/OrderPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
 
 /* profile */
-router.get("/profile", async (req, res) => {
-    const pageData = await ProfilePageLoader(req, res)
-    const pagePath = "pages/profile/ProfilePage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/profile",
+    requireAuth,
+    handlePage(ProfilePageLoader, "pages/profile/ProfilePage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
 
 /* register */
-router.get("/register", async (req, res) => {
-    const pageData = await RegisterPageLoader(req, res)
-    const pagePath = "pages/register/RegisterPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/register",
+    handlePage(RegisterPageLoader, "pages/register/RegisterPage", {
         excludeNavbar: true,
         excludeFooter: true,
     })
-})
+)
 
 /* wishlist */
-router.get("/wishlist", async (req, res) => {
-    const pageData = await WishlistPageLoader(req, res)
-    const pagePath = "pages/wishlist/WishlistPage"
-
-    renderPage(req, res, pagePath, pageData, {
+router.get(
+    "/wishlist",
+    requireAuth,
+    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
-})
+)
+
+/**
+ * handles page loading, and loads error page when PageLoader throws an error
+ * @param {*} pageLoader
+ * @param {*} pagePath
+ * @param {*} layoutOptions
+ */
+function handlePage(pageLoader, pagePath, layoutOptions = {}) {
+    return async function (req, res) {
+        try {
+            const pageData = await pageLoader(req, res)
+            renderPage(req, res, pagePath, pageData, layoutOptions)
+        } catch (error) {
+            renderErrorPage(req, res, error)
+        }
+    }
+}
+
+/**
+ * Renders the error page
+ * @param {*} req
+ * @param {*} res
+ * @param {*} error
+ */
+async function renderErrorPage(req, res, error) {
+    const errorPageContent = {
+        title: `Unexpected Error${
+            error.status == undefined ? "" : " with Status:" + error.status
+        }, try again later`,
+        message: error.message == undefined ? "" : error.message,
+    }
+
+    renderPage(req, res, "pages/error/ErrorPage", errorPageContent, {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+}
+
+/* Secure Pages, that require signIn */
+async function requireAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        return res.redirect("/login")
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            return res.redirect("/login")
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
+}
 
 /**
  * Handle Page render
