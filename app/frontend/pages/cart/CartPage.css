@@ -1,6 +1,19 @@
-#cartPage-content {}
+#cartPage-content {
+    width: auto;
+}
 
 #cartPage-content>.cartitems-container {
     display: grid;
     row-gap: 20px;
+    width: 80%;
+    min-width: 300px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media screen and (max-width: 400px) {
+    #cartPage-content>.cartitems-container {
+        /*     margin-right: 10px;
+        margin-left: 10px; */
+    }
 }

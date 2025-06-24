@@ -2,7 +2,6 @@
 .dropdown-container {
     position: relative;
     height: 25px;
-    background-color: red;
 }
 
 .dropdown-button {
@@ -11,6 +10,7 @@
 }
 
 .dropdown-content {
+    width: 100%;
     position: absolute;
     top: 100%;
     display: grid;

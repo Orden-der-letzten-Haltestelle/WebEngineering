@@ -5,22 +5,19 @@
 </script>
 
 <div class="cartitem-container">
-    <img src="http://localhost:3000/img/BeispielImg.png" />
-    <p>
+    <img class="cartitem-img" src="http://localhost:3000/img/BeispielImg.png" />
+    <span class="cartitem-name">
         <%= item?.product?.name %>
-    </p>
-    <p>
-        <%= item?.product?.id %>
-    </p>
-    <p>
-        <%= item?.amount %>
-    </p>
+    </span>
+    <span class="cartitem-id">
+        ID: <%= item?.product?.id %>
+    </span>
 
-    <div class="dropdown-container cartitem">
+    <div class="dropdown-container cartitem-amount cartitem-dropdown">
         <button class="dropdown-button" onclick="toggleDropdown(this)">
-            <%= item?.amount %>
+            Anzahl: <%= item?.amount %>
         </button>
-        <div class="dropdown-content hide">
+        <div class="dropdown-content hide ">
             <% for(let i=1; i<=5; i++){ %>
                 <button class="dropdown-item"
                     onclick="handleUpdateCartItemAmount('<%= item.id %>' ,'<%= i %>', '<%= token %>')">
@@ -30,7 +27,7 @@
         </div>
     </div>
 
-    <button class="delete-button" onclick="handleDeleteCartItem('<%= item.id %>', '<%= token %>')">
+    <button class="delete-button cartitem-delete" onclick="handleDeleteCartItem('<%= item.id %>', '<%= token %>')">
         <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
