@@ -7,17 +7,24 @@
 }
 
 #cartPage-content>.cartitems-container {
-    display: grid;
-    row-gap: 20px;
     width: 100%;
-    justify-items: center;
     min-width: 300px;
+    height: 100%;
+}
+
+#cartPage-content>.cartitems-container>.cartitems-inner-container {
+    justify-items: center;
+    row-gap: 20px;
+
+    display: grid;
+    height: min-content;
 }
 
 .cartPage-button-container {
     justify-self: flex-end;
     display: flex;
     gap: 10px;
+    margin-top: 20px;
 }
 
 .cartPage-button {

@@ -31,7 +31,7 @@ export async function updateAmount(cartItemId, newAmount, token) {
     }
 }
 
-export async function deleteCart(cartItemId, token) {
+export async function deleteCartItem(cartItemId, token) {
     const res = await fetch(`${config.host}/cart/item/${cartItemId}`, {
         method: "DELETE",
         headers: {
@@ -41,7 +41,22 @@ export async function deleteCart(cartItemId, token) {
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || "Failed to fetch cart"
+        const errorMessage = errorData.message || "Failed to delete cartItem"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+}
+
+export async function deleteCart(token) {
+    const res = await fetch(`${config.host}/cart`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token
+        }
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to delete cart"
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }

@@ -17,6 +17,7 @@ export default async function CartPageLoader(req, res) {
         /* Hier werden die Daten der BeispielComponenten übergeben */
         cartItems: cartItems,
         token: req.token,
+        url: "http://localhost:3000",
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
         components: ["CartItem"],
     }

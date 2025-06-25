@@ -1,11 +1,13 @@
 <div class="cartitem-container">
-    <img class="cartitem-img" src="http://localhost:3000/img/BeispielImg.png" />
-    <span class="cartitem-name">
-        <%= item?.product?.name %>
-    </span>
-    <span class="cartitem-id">
-        ID: <%= item?.product?.id %>
-    </span>
+    <a href="<%= url %>/product/<%= item.product.id %>">
+        <img class="cartitem-img" src="<%= url %>/img/BeispielImg.png" />
+        <span class="cartitem-name">
+            <%= item?.product?.name %>
+        </span>
+        <span class="cartitem-id">
+            ID: <%= item?.product?.id %>
+        </span>
+    </a>
 
     <div class="dropdown-container cartitem-amount cartitem-dropdown">
         <button class="cartitem dropdown-button" onclick="toggleDropdown(this)">

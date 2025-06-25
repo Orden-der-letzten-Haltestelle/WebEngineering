@@ -1,12 +1,15 @@
 <div id="cartPage-content">
     <!-- Load CartItems -->
     <div class="cartitems-container">
-        <% cartItems.forEach((item)=> { %> <%-
-        include("../../components/CartItem/CartItem", { item: item, token: token
-        }) %> <% }) %>
+        <div class="cartitems-inner-container">
+
+            <% cartItems.forEach((item)=> { %> <%- include("../../components/CartItem/CartItem", { item: item, url: url, token:
+                    token }) %>
+                    <% }) %>
+        </div>
     </div>
     <div class="cartPage-button-container">
-        <button class="cartPage-button cart-delete">Lösche Warenkorb</button>
+        <button class="cartPage-button cart-delete" onclick="handleDeleteCart('<%= token %>')">Lösche Warenkorb</button>
         <a href="/checkout">
             <button class="cartPage-button cart-checkout">Zur Kasse</button>
         </a>
