@@ -1,5 +1,5 @@
 .cartitem-container {
-    background-color: gray;
+    background-color: #D9D9D980;
     width: 80%;
     min-width: 300px;
 
@@ -48,11 +48,12 @@
 .dropdown-button.cartitem {
     display: flex;
     align-items: center;
-    opacity: 0.9;
+    opacity: 0.5;
     gap: 5px;
     border-radius: 2px;
     background-color: var(--button-color);
     background-color: #989898;
+
     border: 1px solid transparent
 }
 
