@@ -20,27 +20,17 @@ html, body {
     align-items: center;
 }
 a {
-    color: rgb(50, 48, 48);
+    color: var(--highlight-color);
     text-decoration: underline;
+    font-size: 10px;
 }
 a:hover {
-    color:var(--highlight-color); 
-    text-decoration:none; 
+    color:rgb(50, 48, 48); 
+    text-decoration:underline; 
     cursor:pointer;  
 }
 .small-text {
     font-size: 12px;
-}
-.form-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#RegisterForm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 .form-container {
     position: relative;
@@ -72,7 +62,4 @@ a:hover {
     border: none;
     cursor: pointer;
     background-color: var(--highlight-color);
-}
-.form-container button:hover {
-    background-color: rgb(211, 211, 211);
 }
