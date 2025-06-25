@@ -38,9 +38,53 @@
     grid-area: 1 / 4 / 3 / 5;
     white-space: nowrap;
     background-color: #989898;
-    opacity: 0.8;
 }
 
 .cartitem-delete {
     grid-area: 1 / 5 / 3 / 6
+}
+
+/* Special dropdown design for cartitems */
+.dropdown-button.cartitem {
+    display: flex;
+    align-items: center;
+    opacity: 0.9;
+    gap: 5px;
+    border-radius: 2px;
+    background-color: var(--button-color);
+    background-color: #989898;
+    border: 1px solid transparent
+}
+
+.dropdown-button.cartitem:hover {
+    opacity: 0.7;
+}
+
+
+.dropdown-content.cartitem>.dropdown-item {
+    background-color: var(--button-color);
+    border: 1px solid transparent;
+}
+
+.dropdown-content {
+    background-color: white;
+}
+
+.dropdown-content.cartitem>.dropdown-item:hover {
+    opacity: 0.8;
+
+}
+
+.dropdown-button.cartitem:hover {
+    opacity: 0.8;
+}
+
+
+.cartitem.dropdown-arrow {
+    width: 20px;
+    height: 20px;
+}
+
+.cartitem.dropdown-arrow.rotated {
+    transform: rotate(90deg);
 }

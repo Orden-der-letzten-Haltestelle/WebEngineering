@@ -1,5 +1,6 @@
 :root {
     --highlight-color: #dbc70c;
+    --button-color: #DBC70C;
 }
 
 * {
@@ -29,4 +30,3 @@ body,
 main {
     height: 100%;
 }
-
