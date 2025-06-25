@@ -18,11 +18,11 @@ async function loadFooter() {
         // Insert the fetched HTML into the placeholder
         footerPlaceholder.innerHTML = footerHtml
 
-        
+
         // Import css
         const link = document.createElement("link")
         link.rel = "stylesheet"
-        link.href = "components/footer/footer.css"
+        link.href = "http://localhost:3000/components/footer/footer.css"
         document.head.appendChild(link)
     } catch (error) {
         console.error("Error loading or processing footer:", error)
