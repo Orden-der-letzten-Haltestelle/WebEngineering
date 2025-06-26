@@ -1,7 +1,17 @@
 <div id="cartPage-content">
-    <h1><%= title %></h1>
-    <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
-    include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
+    <!-- Load CartItems -->
+    <div class="cartitems-container">
+        <div class="cartitems-inner-container">
+
+            <% cartItems.forEach((item)=> { %> <%- include("../../components/CartItem/CartItem", { item: item, url: url, token:
+                    token }) %>
+                    <% }) %>
+        </div>
+    </div>
+    <div class="cartPage-button-container">
+        <button class="cartPage-button cart-delete" onclick="handleDeleteCart('<%= token %>')">Lösche Warenkorb</button>
+        <a href="/checkout">
+            <button class="cartPage-button cart-checkout">Zur Kasse</button>
+        </a>
+    </div>
 </div>
