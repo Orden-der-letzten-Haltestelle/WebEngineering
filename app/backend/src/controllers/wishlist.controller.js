@@ -12,7 +12,11 @@ async function verifyWishlistRole(userId, wishlistRole, wishlistId) {
         try {
             const userId = req.user.id
 
+<<<<<<< Updated upstream
             const res = 
+=======
+            const res = WishlistService.
+>>>>>>> Stashed changes
         } catch (error) {
             console.log(`failed to verify wishlist Role; ${error.message}; ${error.stack}`)
             res.json({
