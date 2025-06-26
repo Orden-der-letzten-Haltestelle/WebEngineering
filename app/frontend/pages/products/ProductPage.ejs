@@ -4,4 +4,17 @@
     <% beispielComponents.forEach(function(item) { %> <%-
     include("../../components/BeispielComponent/BeispielComponent", { title:
     item.title, text: item.text }) %> <% }) %>
+    <pre><%= JSON.stringify(product, null, 2) %></pre>
+
+    <div class="products-grid">
+        <% products.forEach(p => {%>
+        <div class="products-card">
+            <img src="<%= p.image || '/images/default.jpg' %>" alt="Produktblid">
+            <h2><%= products.name %></h2>
+            <p><%= products.description %></p>
+            <span class="price"><%= p.price %></span>
+            <button>Kaufen</button>
+        </div>
+    <% }) %>
+    </div>
 </div>
