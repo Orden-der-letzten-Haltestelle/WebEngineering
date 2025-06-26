@@ -15,7 +15,25 @@ export async function registerUser(username, email, password){
     })
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || "Failed to fetch cart"
+        const errorMessage = errorData.message || "Failed to register user"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+export async function logInUser(email, password){
+    const res = await fetch(`${config.host}/auth/login`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+            password: password
+        })
+    })
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to login"
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
