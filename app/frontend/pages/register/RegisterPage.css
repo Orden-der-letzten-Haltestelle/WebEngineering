@@ -1,2 +1,112 @@
 #registerPage-content {
+    max-height: 100%;
+    margin: none;
+    padding: none;
+    border: none;
+    overflow: hidden;
+}
+
+.text-container {
+    position: absolute;
+    left: 0px;
+    width: 50%;
+    height: 100%;
+}
+
+.picture {
+    position: fixed;
+    right: 0;
+    width: 45%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#picture {
+    position: absolute;
+    right: 0;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+#golden-writing {
+    color: var(--highlight-color);
+    padding-left: 15%;
+    padding-top: 5px;
+}
+
+#welcome {
+    padding-top: 20%;
+    padding-left: 15%;
+}
+
+#small-text {
+    font-size: 12px;
+    color: rgb(50, 48, 48);
+    padding-left: 15%;
+    padding-top: 15px;
+}
+
+a {
+    color: var(--highlight-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(50, 48, 48);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-container {
+    position: relative;
+    float: left;
+    max-width: 650px;
+    margin: auto;
+    padding: 30px;
+    padding-left: 25%;
+    padding-top: 60px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-container input {
+    width: 300px;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.button-wrapper {
+    text-align: center;
+}
+
+.form-container button {
+    width: auto;
+    padding: 15px 30px;
+    margin-top: 50px;
+    border-radius: 50px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    background-color: var(--highlight-color);
+}
+
+.form-container button:hover {
+    background-color: rgb(211, 211, 211);
+}
+
+@media screen and (max-width: 900px) {
+    .text-container {
+        width: 100%;
+    }
+
+    .picture {
+        display: none;
+    }
 }
