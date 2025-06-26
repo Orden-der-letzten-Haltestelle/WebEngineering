@@ -183,7 +183,6 @@ function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
 
         // Also add page-specific CSS:
         const pageCssFile = `http://localhost:3000/${pagePath}.css`
-        console.log(pageCssFile)
 
         // Pass all CSS files as array to template
         const cssFiles = [pageCssFile, ...componentCssFiles]
