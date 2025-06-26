@@ -23,7 +23,36 @@ async function getProductById(productId) {
     return result
 }
 
+async function createProduct(name, description, amount, price) {
+    const result = await ProductModel.createProduct(
+        name,
+        description,
+        amount,
+        price
+    )
+    return result
+}
+
+async function updateProduct(id, name, description, amount, price) {
+    const result = await ProductModel.updateProduct(
+        id,
+        name,
+        description,
+        amount,
+        price
+    )
+    return result
+}
+
+async function deleteProductById(id) {
+    const result = await ProductModel.deleteProductById(id)
+    return result
+}
+
 export default {
     getAllProducts,
     getProductById,
+    createProduct,
+    updateProduct,
+    deleteProductById,
 }

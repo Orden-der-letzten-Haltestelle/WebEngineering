@@ -139,8 +139,83 @@ async function changeStorageAmountByIdWithClient(client, id, newStorageAmount) {
     }
 }
 
+async function createProduct(name, description, amount, price) {
+    try {
+        const result = await pool.query(
+            `INSERT INTO webshop.products (name, description, amount, price) VALUES ($1, $2, $3, $4) RETURNING id`,
+            [name, description, amount, price]
+        )
+        const productId = result.rows[0].id
+        return new Product(productId, name, description, amount, price)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to create a new Product ${error}`,
+            error
+        )
+    }
+}
+
+async function updateProduct(id, name, description, amount, price) {
+    try {
+        const result = await pool.query(
+            `
+            UPDATE webshop.products
+            SET name=$2, description=$3, amount=$4, price=$5
+            WHERE id=$1
+            `,
+            [id, name, description, amount, price]
+        )
+        return new Product(id, name, description, amount, price)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to create a new Product ${error}`,
+            error
+        )
+    }
+}
+
+async function deleteProductById(productId) {
+    try {
+        await pool.query("BEGIN")
+
+        // Delete all Cart Entries of this Product
+        // If Bought or not
+        const result_cart = await pool.query(
+            `DELETE FROM webshop.cartItems 
+            WHERE productId=$1`,
+            [productId]
+        )
+
+        // Delete all Wishlists Entries of this Product
+        const result_wishlist = await pool.query(
+            `DELETE FROM webshop.wishlistItems 
+            WHERE productId=$1`,
+            [productId]
+        )
+
+        // Delete the Product
+        const result_products = await pool.query(
+            `DELETE FROM webshop.products 
+            WHERE id=$1`,
+            [productId]
+        )
+
+        await pool.query("COMMIT")
+
+        return result_products
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to delete Product with Id: ${productId} ${error}`,
+            error
+        )
+    }
+}
+
 export default {
     findAllProducts,
     findProductById,
     changeStorageAmountByIdWithClient,
+    createProduct,
+    updateProduct,
+    deleteProductById,
 }
