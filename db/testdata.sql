@@ -8,10 +8,10 @@ INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdA
   ( 'admin', '$2b$10$aFcNkMCp5MTydjaSRCfQ1O3WjkqPmNozdQMQQGplm7OlwqidbBJkS', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is admin
   ( 'moritz', '$2b$10$sIdNQt3or1jrca7ZUKVl7OHh3aXrCo3kXdFP3/k9J5ckfFOBKDYt6', 'tg2020.45059@gmail.com', FALSE, TRUE, NOW()), -- password is moritz
   ( 'leon', '$2b$10$FhmNHW7wN4Q2p0FLTPzYQOIxz4QE9EoB0RI82B8bKsXE0M5rKAnm6', 'leon@salenbacher.com', FALSE, TRUE, NOW()), -- password is leon
-  ( 'rosalie', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'scaramouche5@web.de', FALSE, TRUE, NOW()), -- password is test
-  ( 'sophie', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'inf24170@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
-  ( 'oliver', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'inf24229@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
-  ( 'niklas', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'nikreu06@gmail.com', FALSE, TRUE, NOW()); -- password is test
+  ( 'rosalie', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'scaramouche5@web.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'sophie', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'inf24170@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'oliver', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'inf24229@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'niklas', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'nikreu06@gmail.com', FALSE, TRUE, NOW()); -- password is test
 
 -- Rollenvergabe an Benutzer
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
