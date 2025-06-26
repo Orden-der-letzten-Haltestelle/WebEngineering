@@ -1,5 +1,7 @@
 .navbar-container {
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 4fr 2fr;
     padding: 10px 20px;
