@@ -178,7 +178,7 @@ function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
         // Compose CSS file paths from components:
         // Each component's CSS assumed at /components/<ComponentName>/<ComponentName>.css
         const componentCssFiles = (pageData.components || []).map(
-            (name) => "http://localhost:3000/" + pagePath + ".css"
+            (name) => `http://localhost:3000/components/${name}/${name}.css`
         )
 
         // Also add page-specific CSS:
