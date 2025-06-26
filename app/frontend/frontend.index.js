@@ -14,7 +14,6 @@ import LoginPasswordPageLoader from "./pages/login/loginPassword/LoginPage.js"
 import LoginChoicePageLoader from "./pages/login/loginChoice/LoginPage.js"
 import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSupport.js"
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
-import LoginMailCodePageLoader from "./pages/login/loginMail/Code/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
@@ -70,14 +69,6 @@ router.get(
         excludeFooter: true,
     })
 )
-/* LoginPage with Mail Code */
-router.get(
-    "/loginMail/Code",
-    handlePage(LoginMailCodePageLoader, "pages/login/loginMail/Code/LoginPage", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
-)
 /* LoginPage with Mail Link */
 router.get(
     "/loginMail/Link",
@@ -89,7 +80,7 @@ router.get(
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(LoginMailLinkPageLoader, "pages/login/PasswordSupport/passwordSupport", {
+    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
         excludeNavbar: true,
         excludeFooter: true,
     })
