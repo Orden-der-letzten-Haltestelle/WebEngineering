@@ -22,7 +22,3 @@ export default async function CartPageLoader(req, res) {
         components: ["CartItem"],
     }
 }
-
-export function test() {
-    console.log("here")
-}
