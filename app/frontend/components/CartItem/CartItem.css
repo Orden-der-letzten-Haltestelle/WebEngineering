@@ -86,10 +86,11 @@
 
 
 .cartitem.dropdown-arrow {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height:  12px;
+    transform: rotate(90deg);
 }
 
 .cartitem.dropdown-arrow.rotated {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
 }
