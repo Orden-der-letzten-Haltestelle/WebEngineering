@@ -9,25 +9,15 @@
     </a>
     </p>
     <div class="form-container">
-        <form id="RegisterForm" action="/submit-form" method="post">
+        <form id="RegisterForm">
             <label for="email">E-mail</label>
             <input type="email" id="email" name="email" required>
 
             <label for="username">Benutzername</label>
-            <input type="text" id="username" name="username">
+            <input type="text" id="username" name="username" required>
             
             <label for="password">Passwort</label>
             <input type="password" id="password" name="password" required>
-            
-            
-            <div class="password-requirements">
-                <span class="requirement" id="length-requirement"><div class="dot"></div>At least 8 characters</span>
-                <span class="requirement" id="uppercase-requirement"><div class="dot"></div>At least one uppercase letter</span>
-                <span class="requirement" id="lowercase-requirement"><div class="dot"></div>At least one lowercase letter</span>
-                <span class="requirement" id="number-requirement"><div class="dot"></div>At least one number</span>
-                <span class="requirement" id="specialchar-requirement"><div class="dot"></div>At least one special character</span>
-            </div>
-
             <div class="button-wrapper">
                 <button type="submit">Erstelle Account</button>
             </div>

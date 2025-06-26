@@ -48,7 +48,7 @@ a:hover {
 .form-container {
     position: relative;
     float: left;
-    max-width: 550px;
+    max-width: 650px;
     margin: auto;
     padding: 30px;
     padding-left: 25%;
@@ -59,7 +59,7 @@ a:hover {
     margin-bottom: 5px;
 }
 .form-container input {
-    width: 100%;
+    width: 300px;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -80,29 +80,6 @@ a:hover {
 }
 .form-container button:hover {
     background-color: rgb(211, 211, 211);
-}
-.password-requirements {
-    font-size: 8px;
-    color: gray;
-    margin-top: 10px;
-}
-.password-requirements span {
-    display: inline-block;
-    margin-bottom: 9px;
-    margin-right: 5px;
-}
-.requirement {
-    display: flex;
-    align-items: center;
-}
-.requirement .dot {
-    height: 5px;
-    width: 5px;
-    border-radius: 50%;
-    background-color: red;
-}
-.requirement.valid .dot {
-    background-color: green;
 }
 
 @media screen and (max-width: 900px) {
