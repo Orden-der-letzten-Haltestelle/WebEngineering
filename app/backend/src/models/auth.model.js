@@ -9,6 +9,7 @@ import AdvancedAuthUser from "../objects/user/AdvancedAuthUser.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
 import Roles from "../objects/user/Roles.js"
+import { compareSync } from "bcryptjs"
 
 /**
  * Das Model Product beinhalted alle SQL-Abfragen
@@ -132,6 +133,8 @@ async function findUserByEmail(email) {
  * @throws {NotFoundError} user with email doesn't exist
  */
 async function findAdvancedAuthUserByEmail(email) {
+    console.log("here")
+    console.log(email)
     try {
         const result = await pool.query(
             `SELECT 
