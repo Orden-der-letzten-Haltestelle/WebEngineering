@@ -4,6 +4,9 @@ html, body {
     height: 100%;
     background-color: var(--highlight-color);
 }
+#heading {
+    text-align: center;
+}
 #text {
     position: absolute;
     top: 50%;
