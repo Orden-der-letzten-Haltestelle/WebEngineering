@@ -123,9 +123,8 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${
-            error.status == undefined ? "" : " with Status:" + error.status
-        }, try again later`,
+        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
+            }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
@@ -179,11 +178,11 @@ function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
         // Compose CSS file paths from components:
         // Each component's CSS assumed at /components/<ComponentName>/<ComponentName>.css
         const componentCssFiles = (pageData.components || []).map(
-            (name) => `/components/${name}/${name}.css`
+            (name) => "http://localhost:3000/" + pagePath + ".css"
         )
 
         // Also add page-specific CSS:
-        const pageCssFile = `${pagePath}.css`
+        const pageCssFile = `http://localhost:3000/${pagePath}.css`
 
         // Pass all CSS files as array to template
         const cssFiles = [pageCssFile, ...componentCssFiles]
