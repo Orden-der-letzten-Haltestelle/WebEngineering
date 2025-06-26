@@ -112,7 +112,7 @@ async function loadNavbar() {
         // Import css
         const link = document.createElement("link")
         link.rel = "stylesheet"
-        link.href = "components/navbar/navbar.css"
+        link.href = "http://localhost:3000/components/navbar/navbar.css"
         document.head.appendChild(link)
     } catch (error) {
         console.error("Error loading or processing navbar:", error)
