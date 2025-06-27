@@ -12,6 +12,16 @@ async function getBasicUserById(userId) {
     return await UserModel.findBasicUserById(userId)
 }
 
+/**
+ * deletes an User by the id, if no user with that id is found, an NotFoundError is thrown
+ * @param {int} userId
+ * @throws {NotFoundError}
+ */
+async function deleteUser(userId) {
+    return await UserModel.deleteUserById(userId)
+}
+
 export default {
     getBasicUserById,
+    deleteUser,
 }
