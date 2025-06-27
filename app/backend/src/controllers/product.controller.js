@@ -8,8 +8,6 @@ import { pool } from "../models/pool.js"
  */
 
 async function listProducts(req, res) {
-    console.log(pool.password)
-    return
     try {
         const products = await ProductService.getAllProducts()
 

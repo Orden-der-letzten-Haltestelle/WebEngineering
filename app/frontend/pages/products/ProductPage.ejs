@@ -1,20 +1,22 @@
 <div id="productPage-content">
-    <h1><%= title %></h1>
+    <!-- <h1><%= title %></h1> -->
     <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
-    include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
-    <pre><%= JSON.stringify(product, null, 2) %></pre>
-
+    
     <div class="products-grid">
-        <% products.forEach(p => {%>
+        <% products.forEach(products => {%>
         <div class="products-card">
-            <img src="<%= p.image || '/images/default.jpg' %>" alt="Produktblid">
-            <h2><%= products.name %></h2>
-            <p><%= products.description %></p>
-            <span class="price"><%= p.price %></span>
-            <button>Kaufen</button>
+            <div class="image-wrapper">
+            <img src="<%= products.image || '/img/BeispielImg.png' %>" alt="Produktblid">
+            </div>
+            <div class="products-info">
+                <h2><%= products.name %></h2>
+                <p><%= products.description %></p>
+                <div class="price-buy">
+                    <span class="price"><%= products.price %>.-</span>
+                    <button class="buy-button">Kaufen</button>
+                </div>
+            </div>
         </div>
-    <% }) %>
+        <% }) %>
     </div>
 </div>
