@@ -1,0 +1,4 @@
+#errorPage-content {
+    margin-top: 90px;
+    height: 90%;    /* to make sure navbar doesn't cover the page! Look at it again when used please*/
+}

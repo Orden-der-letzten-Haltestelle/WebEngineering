@@ -2,7 +2,8 @@
     width: auto;
     display: grid;
     grid-template-rows: auto min-content;
-    height: 100%;
+    margin-top: 90px;
+    height: 90%;    /* to make sure navbar doesn't cover the page!*/
     padding: 35px 5%;
 }
 
