@@ -121,9 +121,20 @@ async function extractTokenAndVerify(token, requiredRole) {
         throw new ForbiddenError()
     }
 
-    //TODO check if user isBanned
+    const authUser = await getAuthUser(user.id)
+    //TODO see below
+    console.log(authUser)
+    console.log(authUser.isBanned)
 
-    //TODO check if user isVerified
+    if (authUser.isBanned) {
+        throw new ForbiddenError("User is banned!");
+    }
+
+
+    //TODO Redirects must be changed to make sure they check if user is authenticated!
+    if (!authUser.isVerified) {
+        throw new ForbiddenError("User is not verified yet!")
+    }
 
     return user
 }
