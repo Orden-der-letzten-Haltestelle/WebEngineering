@@ -133,8 +133,6 @@ async function findUserByEmail(email) {
  * @throws {NotFoundError} user with email doesn't exist
  */
 async function findAdvancedAuthUserByEmail(email) {
-    console.log("here")
-    console.log(email)
     try {
         const result = await pool.query(
             `SELECT 
