@@ -135,17 +135,19 @@
 
 .navbar-container > .signup-button-container > a > .signup-button {
     background-color: rgb(249, 249, 249);
-    border: 1px solid black;
-    cursor: pointer;
     border-radius: 100px;
     padding: 10px 18px;
-    background-color: rgb(190, 7, 190);
+    background-color: var(--signup-button-color);
     color: white;
     font-weight: bold;
-    border-color: white;
+    /*border-color: white;*/
+    border:none;
 }
 .navbar-container > .signup-button-container > a > .signup-button:hover {
     opacity: 0.8;
+    border: 1px solid black;
+    cursor: pointer;
+    border-radius: 100px;
     border-color: black;
 }
 
