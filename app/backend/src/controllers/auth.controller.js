@@ -22,9 +22,15 @@ async function getAuthUser(req, res) {
             authUser,
         })
     } catch (error) {
-        console.log(`Failed getAuthUser; ${error.stack}`)
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        console.log(
+            `Failed getAuthUser; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -58,10 +64,12 @@ function verifyJWTtoken(requiredRole) {
             next()
         } catch (error) {
             console.log(`failed to verify jwt token; ${error.message}`)
-            res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-            res.end(
-                error.stack + (error.cause ? "\n\n[cause] " + error.cause : "")
-            )
+
+            const statusCode = error?.statusCode || 500
+            res.status(statusCode).json({
+                message: error?.message || "Unexpected Error",
+                stack: error?.stack,
+            })
         }
     }
 }
@@ -81,9 +89,15 @@ async function register(req, res) {
             ...userAndToken,
         })
     } catch (error) {
-        console.log(`Failed sign up; ${error.message}`)
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        console.log(
+            `Failed sign up with email ${email}; \Message: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -100,10 +114,13 @@ async function login(req, res) {
         })
     } catch (error) {
         console.log(
-            `User with email ${email}, failed sign in; ${error.message}`
+            `Failed Login with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
