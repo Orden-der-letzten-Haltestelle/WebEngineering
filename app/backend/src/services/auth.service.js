@@ -163,7 +163,7 @@ async function getUserInformationByJWTtoken(token) {
     } catch (error) {
         throw new TokenVerificationError(
             `Failed to verify User by given token ${token} \n Erro: ${error.message}`,
-            { cause: error }
+            { originalError: error }
         )
     }
 }

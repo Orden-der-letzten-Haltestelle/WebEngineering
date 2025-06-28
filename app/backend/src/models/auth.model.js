@@ -30,7 +30,8 @@ async function existByEmail(email) {
         return result.rows.length > 0
     } catch (error) {
         throw new DatabaseError(
-            `Failed proofing if user with email ${email} exist.`
+            `Failed proofing if user with email ${email} exist.`,
+            { originalError: error }
         )
     }
 }
@@ -90,7 +91,7 @@ async function findAuthUserById(id) {
         }
         throw new DatabaseError(
             `Failed to find user By email with email: ${email}.`,
-            { cause: error }
+            { originalError: error }
         )
     }
 }
@@ -119,7 +120,7 @@ async function findUserByEmail(email) {
         }
         throw new DatabaseError(
             `Failed to find user By email with email: ${email}.`,
-            { cause: error }
+            { originalError: error }
         )
     }
 }
@@ -177,7 +178,7 @@ async function findAdvancedAuthUserByEmail(email) {
         }
         throw new DatabaseError(
             `failed to fetch authUser by email ${email}, from database: ${error.message}`,
-            { cause: error }
+            { originalError: error }
         )
     }
 }
@@ -219,7 +220,7 @@ async function createUser(username, hashedPassword, email) {
         await client.query("ROLLBACK")
         throw new DatabaseError(
             `Failed storing user data in the DB: ${error.message}`,
-            { cause: error }
+            { originalError: error }
         )
     } finally {
         client.release()
