@@ -3,23 +3,19 @@ import AuthService from "../services/auth.service";
 import WishlistService from "../services/wishlist.service.js"
 
 /**
- * Proofs, if the given user has the rights to access the wishlist
- * @param {string} userId 
- * @param {WishlistRoles} wishlistRole 
+ * Returns all wishlists, a user with the given userId has.
+ * @param {int} userId 
+ * @param {P} wishlistRole 
  */
-async function verifyWishlistRole(userId, wishlistRole, wishlistId) {
-    return async function (req, res, next) {
-        try {
-            const userId = req.user.id
-            const res = WishlistService.
-        } catch (error) {
-            console.log(`failed to verify wishlist Role; ${error.message}; ${error.stack}`)
-            res.json({
-                error: {
-                    message: error.message,
-                    stack: error.stack
-                }
-            })
-        }
+async function getWishlistsByUserId(req, res) {
+    try {
+        const userId = req.user.id
+        await WishlistService.verifyWishlistRoleByWishlistId()
+    } catch (error) {
+        console.log(`failed to getWishlistsByUserId for user with id ${userId}; ${error.message}; ${error.stack}`)
+        res.json({
+            message: error.message,
+            stack: error.stack
+        })
     }
 }

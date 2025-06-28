@@ -6,12 +6,19 @@ export default class WishlistMember extends BasicUser {
      * @param {string} name
      * @param {string} email
      * @param {Date} createdAt
-     * @param {int} userWishlistRelationId
      * @param {Array<WishlistRoles>} roles
      */
-    constructor(id, name, email, createdAt, userWishlistRelationId, roles) {
+    constructor(id, name, email, createdAt, roles) {
         super(id, name, email, createdAt)
-        this.userWishlistRelationId = userWishlistRelationId
         this.roles = roles
+    }
+
+    /**
+     * Check if the user has a given role.
+     * @param {WishlistRoles} role 
+     * @returns {boolean} - True if the user has the role, false otherwise.
+     */
+    hasRole(role) {
+        return this.roles.some(userRole => userRole.id === role.id);
     }
 }
