@@ -62,7 +62,7 @@ async function findWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
         }
         throw new DatabaseError(
             `Failed fetching Wishlist user with userId ${userId} and wishlistId ${wishlistId}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -98,14 +98,14 @@ async function findWishlistItemById(id) {
             throw new NotFoundError(`WishlistItem with id ${id} doesn't exist`)
         }
         const row = result.rows[0]
-        const product = Product(
+        const product = new Product(
             row.productid,
             row.name,
             row.description,
             row.storage,
             row.price
         )
-        const wishlistItem = WishlistItem(
+        const wishlistItem = new WishlistItem(
             row.id,
             product,
             row.amount,
@@ -117,10 +117,9 @@ async function findWishlistItemById(id) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(
-            `Failed fetching WishlistItem with id ${id}`,
-            error
-        )
+        throw new DatabaseError(`Failed fetching WishlistItem with id ${id}`, {
+            originalError: error,
+        })
     }
 }
 
@@ -155,21 +154,19 @@ async function findWishlistsByUserId(userId) {
             [userId]
         )
         const rows = result.rows
-        let lastWishlistId = undefined
 
         if (rows.length <= 0) {
             return []
         }
-        console.log("here1")
-        const basicUser = BasicUser(
+        const basicUser = new BasicUser(
             rows[0].userid,
             rows[0].username,
             rows[0].email,
             rows[0].createdat
         )
-        console.log("here1")
 
         const wishlists = []
+        let lastWishlistId = undefined
         rows.forEach((row) => {
             //only edit roles
             const role =
@@ -181,32 +178,34 @@ async function findWishlistsByUserId(userId) {
                     "set Wishlistroles in enum doesn't match the wishlistroles in DB."
                 )
             }
-            console.log("here2")
-            if (lastWishlistId == undefined || lastWishlistId != row.id) {
+            if (
+                lastWishlistId == undefined ||
+                wishlists.length <= 0 ||
+                lastWishlistId != row.id
+            ) {
                 //add new wishlist
                 lastWishlistId = row.id
 
-                const wishlistMember = WishlistMember(
+                const wishlistMember = new WishlistMember(
                     basicUser.id,
                     basicUser.name,
                     basicUser.email,
-                    basicUser.createdat,
+                    basicUser.createdAt,
                     [role]
                 )
-                const newWishlist = BasicWishlist(
+                const newWishlist = new BasicWishlist(
                     row.id,
                     row.name,
                     row.description,
                     wishlistMember
                 )
-                wishlists.append(newWishlist)
-                console.log("here3")
+                wishlists.push(newWishlist)
             } else {
                 //wishlist already in list, just add role
-                wishlists[wishlists.length - 1].member.roles.append(role)
-                console.log("here4")
+                wishlists[wishlists.length - 1].member.roles.push(role)
             }
         })
+        return wishlists
     } catch (error) {
         console.error(error.stack)
         if (error instanceof ServerError) {
@@ -214,7 +213,7 @@ async function findWishlistsByUserId(userId) {
         }
         throw new DatabaseError(
             `Failed fetching Wishlists for user with id ${userId}`,
-            error
+            { originalError: error }
         )
     }
 }
