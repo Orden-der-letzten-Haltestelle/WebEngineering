@@ -8,22 +8,8 @@ import NotFoundError from "../exceptions/NotFoundError.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import WishlistItem from "../objects/items/WishlistItem.js"
 import ServerError from "../exceptions/ServerError.js"
-
-/**
- * Returns an WishlistMember by userId and wishlistId.
- * @param {int} userId
- * @param {int} wishlistId
- * @returns {Promise<WishlistMember>}
- * @throws {NotFoundError}
- * @throws {DatabaseError}
- */
-async function getWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
-    const member = WishlistModel.findWishlistMemberByUserIdAndWishlistId(
-        userId,
-        wishlistId
-    )
-    return member
-}
+import Wishlist from "../objects/wishlist/Wishlist.js"
+import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
 
 /**
  * Returns a WishlistItem by its id
@@ -35,6 +21,19 @@ async function getWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
 async function getWishlistItemById(wishlistItemId) {
     const wishlistItem = WishlistModel.findWishlistItemById(wishlistItemId)
     return wishlistItem
+}
+
+/**
+ * Returns a list of all wishlistItems, the given wishlist contains
+ * @param {int} wishlistId
+ * @returns {Promise<WishlistItem[]>}
+ * @throws {DatabaseError}
+ */
+async function getWishlistItemsByWishlistId(wishlistId) {
+    const wishlistItems = await WishlistModel.findWishlistItemsByWishlistId(
+        wishlistId
+    )
+    return wishlistItems
 }
 
 /**
@@ -97,4 +96,78 @@ async function getWishlistsByUserId(userId) {
     return await WishlistModel.findWishlistsByUserId(userId)
 }
 
-export default { getWishlistsByUserId }
+async function getWishlistMembersByWishlistId(wishlistId) {
+    return await WishlistModel.findWishlistMembersByWishlistId(wishlistId)
+}
+
+/**
+ * Returns the basicwishlist with the given wishlist id and verifys,
+ * that the given user is authorized to access this wishlist
+ * @param {int} userId
+ * @param {int} wishlistId
+ * @returns {Promise<BasicWishlist>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ * @throws {ForbiddenError}
+ */
+async function getBasicWishlistById(userId, wishlistId) {
+    //verify required role
+    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.read)
+
+    const wishlistMember = await getWishlistMemberByUserIdAndWishlistId(
+        userId,
+        wishlistId
+    )
+    const basicWishlist = await WishlistModel.findBasicWishlistByWishlistId(
+        wishlistId
+    )
+    basicWishlist.member = wishlistMember
+    return basicWishlist
+}
+
+/**
+ * Returns the wishlistMember for a wishlist.
+ * @param {int} userId
+ * @param {int} wishlistId
+ * @returns {Promise<WishlistMember>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function getWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
+    const wishlistMember =
+        await WishlistModel.findWishlistMemberByUserIdAndWishlistId(
+            userId,
+            wishlistId
+        )
+    return wishlistMember
+}
+
+/**
+ * Returns a wishlist by its id and user id, verifys, that a user is authorized to access this wishlist
+ * @param {int} userId
+ * @param {int} wishlistId
+ * @returns {Promise<Wishlist>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ * @throws {ServerError}
+ */
+async function getWishlistById(userId, wishlistId) {
+    //get all wishlist informations
+    const basicWishlist = await getBasicWishlistById(userId, wishlistId)
+    const wishlistMembers = await getWishlistMembersByWishlistId(wishlistId)
+    console.log(wishlistMembers)
+    const wishlistItems = await getWishlistItemsByWishlistId(wishlistId)
+
+    //build full wishlist
+    const wishlist = new Wishlist(
+        basicWishlist.id,
+        basicWishlist.name,
+        basicWishlist.description,
+        basicWishlist.member,
+        wishlistMembers,
+        wishlistItems
+    )
+    return wishlist
+}
+
+export default { getWishlistById, getWishlistsByUserId }

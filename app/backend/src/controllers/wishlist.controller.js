@@ -25,6 +25,27 @@ async function getWishlistsByUserId(req, res) {
     }
 }
 
+async function getWishlistById(req, res) {
+    const userId = req.user.id
+    const wishlistId = req.params.wishlistId
+    try {
+        const wishlist = await WishlistService.getWishlistById(
+            userId,
+            wishlistId
+        )
+        res.status(200).json({ ...wishlist })
+    } catch (error) {
+        console.log(
+            `failed to getWishlistById for user with id ${userId} and wishlistId ${wishlistId}; ${error.message}; ${error.stack}`
+        )
+        res.status(error?.statusCode || 500).json({
+            message: error.message,
+            stack: error.stack,
+        })
+    }
+}
+
 export default {
     getWishlistsByUserId,
+    getWishlistById,
 }

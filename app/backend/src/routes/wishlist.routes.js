@@ -11,5 +11,10 @@ router.get(
     WishlistController.getWishlistsByUserId
 )
 
+router.get(
+    "/:wishlistId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.getWishlistById
+)
 
 export default router
