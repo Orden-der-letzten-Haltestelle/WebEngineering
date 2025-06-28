@@ -114,7 +114,20 @@ async function findWishlistItemById(id) {
 
 async function findWishlistsByUserId() {
     try {
-
+`SELECT 
+   	w.id,
+	w.name,
+	w.description,
+	u.id as userid,
+	u.name as username,
+	u.email as email,
+	uwr.id as user_wishlist_relation_id,
+	wr.id as roleid
+FROM webshop.wishlists as w 
+JOIN webshop.user_wishlist_relation as uwr ON uwr.wishlistid = w.id
+JOIN webshop.wishlistroles as wr ON uwr.wishlistroleid = wr.id
+JOIN webshop.users as u ON u.id = uwr.userid
+WHERE uwr.userid = 3; `
     } catch (error) {
         throw new DatabaseError(
             `Failed fetching Wishlists for user with id ${userId}`, error
