@@ -1,4 +1,4 @@
-import BasicWishlist from "./BasicWishlist"
+import BasicWishlist from "./BasicWishlist.js"
 
 export default class Wishlist extends BasicWishlist {
     /**

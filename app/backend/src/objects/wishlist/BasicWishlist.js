@@ -1,4 +1,4 @@
-import WishlistMember from "../user/WishlistMember"
+import WishlistMember from "../user/WishlistMember.js"
 
 export default class BasicWishlist {
 

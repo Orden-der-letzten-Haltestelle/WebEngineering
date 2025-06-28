@@ -2,6 +2,14 @@ import express from "express"
 const router = express.Router()
 
 import AuthController from "../controllers/auth.controller.js"
-import WishlistRoles from "../objects/user/WishlistRoles.js"
+import WishlistController from "../controllers/wishlist.controller.js"
+import Roles from "../objects/user/Roles.js"
 
-router.get("/", )
+router.get(
+    "/",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.getWishlistsByUserId
+)
+
+
+export default router

@@ -1,4 +1,4 @@
-import BasicUser from "./BasicUser"
+import BasicUser from "./BasicUser.js"
 export default class WishlistMember extends BasicUser {
     /**
      *
