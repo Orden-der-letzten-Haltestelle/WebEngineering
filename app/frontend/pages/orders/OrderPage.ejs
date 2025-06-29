@@ -9,7 +9,7 @@
             </div>
             </div>
             <div id="buttons">
-                <button>Preis: <%=item.product.price %></button>
+                <button>Preis: <%=item.product.price/100 %> €</button>
                 <button>Anzahl: <%=item.amount %></button>
                 <button onclick="handleAddtocart('<%= item.product.id %>', '<%= token %>')">In den Warenkorb</button>
             </div>

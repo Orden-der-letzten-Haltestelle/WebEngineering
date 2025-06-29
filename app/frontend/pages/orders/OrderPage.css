@@ -27,7 +27,6 @@ flex: 1;
 }
 
 #Informationen img {
-    border: 2px red solid;
     margin-right: 10%;
     height: 80%;
     object-fit: cover;
@@ -50,10 +49,6 @@ flex: 1;
     padding-left: 5%;
     padding-right: 5%;
     flex: 1.5;
-}
-
-#Bildvorschau {
-    border: 2px solid red;
 }
 
 @media (min-width: 519px) and (max-width: 588px) {
