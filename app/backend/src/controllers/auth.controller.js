@@ -103,8 +103,12 @@ async function login(req, res) {
         console.log(
             `User with email ${email}, failed sign in; ${error.message}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        res.status(error.statusCode || 500).json({
+            error: {
+                message: error.message,
+                stack: error.stack
+            }
+        })
     }
 }
 

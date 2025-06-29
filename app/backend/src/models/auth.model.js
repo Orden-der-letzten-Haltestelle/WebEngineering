@@ -9,6 +9,7 @@ import AdvancedAuthUser from "../objects/user/AdvancedAuthUser.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
 import Roles from "../objects/user/Roles.js"
+import { compareSync } from "bcryptjs"
 
 /**
  * Das Model Product beinhalted alle SQL-Abfragen
