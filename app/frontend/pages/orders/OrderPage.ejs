@@ -1,44 +1,18 @@
 <div id="orderPage-content">
-    <div id="Beispieldiv">
-        <div id="Informationen">
-        <img src="https://via.placeholder.com/200" alt="Testbild">
-        <div> 
-            <p>Artikel-Name</p>
-            <p>Artikel-Nr.</p>
+    <% orderItems.forEach((item)=>{%>
+        <div id="OrderhistoryItem">
+            <div id="Informationen">
+            <img src="https://via.placeholder.com/200" alt="Testbild">
+            <div> 
+                <p>Artikel-Name: <%=item.product.name %></p>
+                <p>Artikel-Nr.:<%=item.product.id %></p>
+            </div>
+            </div>
+            <div id="buttons">
+                <button>Preis: <%=item.product.price %></button>
+                <button>Anzahl: <%=item.amount %></button>
+                <button onclick="handleAddtocart('<%= item.product.id %>', '<%= token %>')">In den Warenkorb</button>
+            </div>
         </div>
-        </div>
-        <div id="buttons">
-            <button>Preis: -</button>
-            <button>Anzahl: X</button>
-            <button>In den Warenkorb</button>
-        </div>
-    </div>
-    <div id="Beispieldiv">
-        <div id="Informationen">
-        <img src="https://via.placeholder.com/200" alt="Testbild">
-        <div> 
-            <p>Artikel-Name</p>
-            <p>Artikel-Nr.</p>
-        </div>
-        </div>
-        <div id="buttons">
-            <button>Preis. -</button>
-            <button>Anzahl: X</button>
-            <button>In den Warenkorb</button>
-        </div>
-    </div>
-        <div id="Beispieldiv">
-        <div id="Informationen">
-        <img src="https://via.placeholder.com/200" alt="Testbild">
-        <div> 
-            <p>Artikel-Name</p>
-            <p>Artikel-Nr.</p>
-        </div>
-        </div>
-        <div id="buttons">
-            <button>Preis: -</button>
-            <button>Anzahl: X</button>
-            <button>In den Warenkorb</button>
-        </div>
-    </div>
+    <%}) %>
 </div>

@@ -5,7 +5,7 @@ align-items: center;
 flex: 1;
 }
 
-#Beispieldiv {
+#OrderhistoryItem {
     display: flex;
     justify-content: space-between;
     padding-left: 2%;
@@ -33,13 +33,13 @@ flex: 1;
     object-fit: cover;
 }
 
-#Beispieldiv button {
+#OrderhistoryItem button {
     background-color: rgb(215, 215, 19);
     border: none;
     border-radius: 2px;
 }
 
-#Beispieldiv button:hover {
+#OrderhistoryItem button:hover {
     opacity: 0.7;
 }
 
@@ -57,13 +57,13 @@ flex: 1;
 }
 
 @media (min-width: 519px) and (max-width: 588px) {
-    #Beispieldiv p {
+    #OrderhistoryItem p {
         font-size: 11px;
     }
-    #Beispieldiv button {
+    #OrderhistoryItem button {
         font-size: 12px;
     }
-    #Beispieldiv img {
+    #OrderhistoryItem img {
         width: 50%;
         height: 65%;
         object-fit: cover;
@@ -71,13 +71,13 @@ flex: 1;
 }
 
 @media (min-width: 0px) and (max-width: 519px) {
-    #Beispieldiv p {
+    #OrderhistoryItem p {
         font-size: 11px;
     }
-    #Beispieldiv button {
+    #OrderhistoryItem button {
         font-size: 10px;
     }
-    #Beispieldiv img {
+    #OrderhistoryItem img {
         width: 35%;
         height: 50%;
         object-fit: cover;
