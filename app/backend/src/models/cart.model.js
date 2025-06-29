@@ -13,6 +13,7 @@ import ProductModel from "./product.model.js"
  * @throws {DatabaseError}
  */
 async function countCartItemsByUserId(userId) {
+    
     try {
         const result = await pool.query(
             `
