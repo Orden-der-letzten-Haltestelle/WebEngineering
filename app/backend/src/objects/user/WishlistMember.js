@@ -14,11 +14,13 @@ export default class WishlistMember extends BasicUser {
     }
 
     /**
-     * Check if the user has a given role.
-     * @param {WishlistRoles} role 
+     * Check if the user has a given role or a role, that is higher then the required role
+     * @param {WishlistRoles} requiredRole
      * @returns {boolean} - True if the user has the role, false otherwise.
      */
-    hasRole(role) {
-        return this.roles.some(userRole => userRole.id === role.id);
+    hasRole(requiredRole) {
+        return this.roles.some(
+            (userRole) => userRole.level >= requiredRole.level
+        )
     }
 }

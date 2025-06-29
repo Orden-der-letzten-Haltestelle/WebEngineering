@@ -170,4 +170,22 @@ async function getWishlistById(userId, wishlistId) {
     return wishlist
 }
 
-export default { getWishlistById, getWishlistsByUserId }
+/**
+ * Creates a new wishlist
+ * @param {int} userId
+ * @param {string} name
+ * @param {string} description
+ * @returns {Promise<BasicWishlist>}
+ * @throws {DatabaseError}
+ */
+async function createWishlist(userId, name, description) {
+    const wishlistId = await WishlistModel.createWishlist(
+        userId,
+        name,
+        description
+    )
+    const basicWishlist = await getBasicWishlistById(userId, wishlistId)
+    return basicWishlist
+}
+
+export default { getWishlistById, getWishlistsByUserId, createWishlist }

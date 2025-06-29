@@ -17,4 +17,10 @@ router.get(
     WishlistController.getWishlistById
 )
 
+router.post(
+    "/",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.createWishlist
+)
+
 export default router

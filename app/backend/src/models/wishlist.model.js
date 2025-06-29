@@ -9,6 +9,7 @@ import Product from "../objects/items/Product.js"
 import ServerError from "../exceptions/ServerError.js"
 import Wishlist from "../objects/wishlist/Wishlist.js"
 import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
+import Roles from "../objects/user/Roles.js"
 
 /**
  * Finds a wishlistMember by userId and wishlistId
@@ -468,6 +469,60 @@ async function findWishlistsByUserId(userId) {
     }
 }
 
+/**
+ * Creates a new Wishlist in the db and returns the id of the created Wishlist
+ * @param {int} ownerId
+ * @param {string} name
+ * @param {string} description
+ * @throws {DatabaseError}
+ */
+async function createWishlist(ownerId, name, description) {
+    const client = await pool.connect()
+    try {
+        await client.query("BEGIN")
+
+        //create Wishlist
+        const wishlistResult = await client.query(
+            `INSERT INTO webshop.wishlists 
+                (name, description) 
+            VALUES 
+                ($1, $2) 
+            RETURNING 
+                id;`,
+            [name, description]
+        )
+        if (wishlistResult.rows.length <= 0) {
+            throw new DatabaseError("Failed creating wishlist")
+        }
+        const wishlistId = wishlistResult.rows[0].id
+
+        //add owner role
+        const roleResult = await client.query(
+            `INSERT INTO webshop.user_wishlist_relation
+                (userid, wishlistid, wishlistroleid)
+            VALUES 
+                ($1, $2, $3)
+            RETURNING *;
+            `,
+            [ownerId, wishlistId, WishlistRoles.owner.id]
+        )
+        if (roleResult.rows.length <= 0) {
+            throw new DatabaseError("Failed creating role for wishlist")
+        }
+
+        await client.query("COMMIT")
+        return wishlistId
+    } catch (error) {
+        await client.query("ROLLBACK")
+        throw new DatabaseError(
+            `Failed storing Wishlist in DB: ${error.message}`,
+            { originalError: error }
+        )
+    } finally {
+        client.release()
+    }
+}
+
 export default {
     findWishlistMemberByUserIdAndWishlistId,
     findWishlistItemById,
@@ -475,4 +530,5 @@ export default {
     findWishlistsByUserId,
     findWishlistMembersByWishlistId,
     findBasicWishlistByWishlistId,
+    createWishlist,
 }

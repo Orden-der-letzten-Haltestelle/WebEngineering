@@ -45,7 +45,34 @@ async function getWishlistById(req, res) {
     }
 }
 
+async function createWishlist(req, res) {
+    const userId = req.user.id
+    try {
+        const { name, description } = req.body
+
+        const wishlist = await WishlistService.createWishlist(
+            userId,
+            name,
+            description
+        )
+        res.status(201).json({
+            ...wishlist,
+        })
+    } catch (error) {
+        console.log(
+            `Failed createWishlist for user with id ${userId}; \Message: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getWishlistsByUserId,
     getWishlistById,
+    createWishlist,
 }
