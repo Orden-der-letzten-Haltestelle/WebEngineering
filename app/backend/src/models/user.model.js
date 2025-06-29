@@ -36,7 +36,7 @@ async function findBasicUserById(userId) {
         }
         throw new DatabaseError(
             `Failed fetching user with id ${id}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }

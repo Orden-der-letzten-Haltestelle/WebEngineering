@@ -33,7 +33,7 @@ async function findAllProducts2() {
     } catch (error) {
         throw new DatabaseError(
             `failed to fetch products from database: ${error.message}`,
-            { cause: error }
+            { originalError: error }
         )
     }
 }
@@ -96,7 +96,7 @@ async function findProductById(id) {
         }
         throw new DatabaseError(
             `Failed fetching Product with id ${id}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -134,7 +134,7 @@ async function changeStorageAmountByIdWithClient(client, id, newStorageAmount) {
         }
         throw new DatabaseError(
             `Failed updating Storage Amount for product with id ${id}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
