@@ -42,45 +42,25 @@ async function findBasicUserById(userId) {
 }
 
 /**
- * Returns a BasicUser by userId, if no user with that id exist, an NotFoundError will be thrown
- * @param {string} userId
- * @throws {NotFoundError}
+ * Deletes an User in Database with the given id.
+ * @param {int} userId
  * @throws {DatabaseError}
  */
 async function deleteUserById(userId) {
     try {
-        const result = await pool.query(
+        await pool.query(
             `
-            SELECT 
-                u.id, 
-                u.name, 
-                u.email, 
-                u.createdat 
-            FROM 
-                webshop.users as u 
-            WHERE u.id = $1;`,
+            DELETE FROM
+                webshop.users as u
+            WHERE
+                u.id = $1
+            `,
             [userId]
         )
-        if (result.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} doesn't exist`)
-        }
-        const deleteResult = await pool.query(
-            `
-            DELETE FROM 
-                webshop.users 
-            WHERE 
-                id = $1;`,
-            [userId]
-        )
-
-        console.log(`User with id ${userId} has been deleted.`)
-        console.log(result)
+        return
     } catch (error) {
-        if (error instanceof NotFoundError) {
-            throw error
-        }
         throw new DatabaseError(
-            `Failed fetching user with id ${id}: ${error}`,
+            `Failed on deleteUser with userId ${userId}: ${error}`,
             error
         )
     }

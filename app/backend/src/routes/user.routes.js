@@ -3,9 +3,11 @@ const router = express.Router()
 
 //controlle
 import AuthController from "../controllers/auth.controller.js"
+import UserController from "../controller/user.controller.js"
 import Roles from "../objects/user/Roles.js"
-router.delete("/user/delete/:userId",
+
+router.delete("/delete/:userId",
     AuthController.verifyJWTtoken(Roles.user),
-    AuthController.deleteUser
+    UserController.deleteUser
 )
 export default router

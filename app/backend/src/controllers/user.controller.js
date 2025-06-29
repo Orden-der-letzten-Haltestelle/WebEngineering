@@ -1,9 +1,10 @@
 import UserService from "../services/user.service.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 
 async function deleteUser(req, res) {
     try {
-        const response = await UserService.deleteUser(id)
+        const response = await UserService.deleteUser(req.id)
 
         const data = JSON.stringify(response)
 
@@ -13,6 +14,17 @@ async function deleteUser(req, res) {
         console.error(error.stack);
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+    }
+}
+async function deleteCart(req, res) {
+    const userId = req.user.id
+    try {
+        await CartService.deleteCart(userId)
+        res.status(200).json()
+    } catch (error) {
+        console.log(`Failed Deleting Cart for user with id ${userId}: ${error.stack}`)
+        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
+        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
 }
 
