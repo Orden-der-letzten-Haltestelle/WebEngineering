@@ -1,3 +1,4 @@
+import {orderHistory} from "../../api/orderPage_apiHandler.js"
 /**
  * Diese funktion läd alle daten, und returned ein object, um diese im .ejs zu laden
  *
@@ -6,27 +7,13 @@
  */
 export default async function OrderPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+    const orderItems = await orderHistory(req.token);
     return {
         title: "OrderPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
-        beispielComponents: [
-            {
-                title: "1. Element",
-                text: "Das ist der Text des ersten Elements",
-            },
-            {
-                title: "2. Element",
-                text: "Das ist der Text des zweiten Elements",
-            },
-            {
-                title: "3. Element",
-                text: "Das ist der Text des dritten Elements",
-            },
-            {
-                title: "4. Element",
-                text: "Das ist der Text des vierten Elements",
-            },
-        ],
+        orderItems: orderItems,
+        url: "http://localhost:3000",
+        token: req.token,
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
         components: ["BeispielComponent"],
     }

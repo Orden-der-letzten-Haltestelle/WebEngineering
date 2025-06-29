@@ -1,2 +1,89 @@
 #orderPage-content{
+display: flex;
+flex-direction: column; 
+align-items: center;
+flex: 1;
+}
+
+#OrderhistoryItem {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 2%;
+    padding-right: 2%;
+    align-items: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    width: 95vw;
+    height: 15vh;
+    background-color: rgb(231, 231, 231);
+    box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+#Informationen {
+    display: flex;
+    align-items: center;
+    flex: 2;
+    height: 100%;
+}
+
+#Informationen img {
+    margin-right: 10%;
+    height: 80%;
+    object-fit: cover;
+}
+
+#OrderhistoryItem button {
+    background-color: var(--highlight-color);
+    width: 80px;
+    border: none;
+    border-radius: 2px;
+}
+
+#OrderhistoryItem button:hover {
+    opacity: 0.7;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10vw;
+    padding-left: 5%;
+    padding-right: 5%;
+    flex: 1.5;
+}
+#buy {
+    height: 46px;
+}
+#buy:hover {
+    background-color: rgb(174, 174, 174);
+    cursor: pointer;
+}
+
+@media (min-width: 519px) and (max-width: 588px) {
+    #OrderhistoryItem p {
+        font-size: 11px;
+    }
+    #OrderhistoryItem button {
+        font-size: 12px;
+    }
+    #OrderhistoryItem img {
+        width: 50%;
+        height: 65%;
+        object-fit: cover;
+    }
+}
+
+@media (min-width: 0px) and (max-width: 519px) {
+    #OrderhistoryItem p {
+        font-size: 11px;
+    }
+    #OrderhistoryItem button {
+        font-size: 10px;
+    }
+    #OrderhistoryItem img {
+        width: 35%;
+        height: 50%;
+        object-fit: cover;
+    }
 }
