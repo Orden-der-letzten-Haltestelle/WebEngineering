@@ -11,7 +11,8 @@ flex: 1;
     padding-left: 2%;
     padding-right: 2%;
     align-items: center;
-    margin-top: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
     width: 95vw;
     height: 15vh;
     background-color: rgb(231, 231, 231);
@@ -33,7 +34,8 @@ flex: 1;
 }
 
 #OrderhistoryItem button {
-    background-color: rgb(215, 215, 19);
+    background-color: var(--highlight-color);
+    width: 80px;
     border: none;
     border-radius: 2px;
 }
@@ -49,6 +51,13 @@ flex: 1;
     padding-left: 5%;
     padding-right: 5%;
     flex: 1.5;
+}
+#buy {
+    height: 46px;
+}
+#buy:hover {
+    background-color: rgb(174, 174, 174);
+    cursor: pointer;
 }
 
 @media (min-width: 519px) and (max-width: 588px) {
