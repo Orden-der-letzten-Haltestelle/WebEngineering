@@ -121,9 +121,17 @@ async function extractTokenAndVerify(token, requiredRole) {
         throw new ForbiddenError()
     }
 
-    //TODO check if user isBanned
+    //gets an AuthUser Object to verify whether the user is banned
+    const authUser = await getAuthUser(user.id)
+    
+    if (authUser.isBanned) {
+        throw new ForbiddenError("User is banned!");
+    }
 
-    //TODO check if user isVerified
+    //or not yet verified and therefore can't access
+    if (!authUser.isVerified) {
+        throw new ForbiddenError("User is not verified yet!")
+    }
 
     return user
 }

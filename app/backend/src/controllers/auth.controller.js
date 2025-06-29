@@ -70,6 +70,7 @@ async function register(req, res) {
     try {
         const { username, password, email } = req.body
 
+
         const userAndToken = await AuthService.createUser(
             username,
             password,
@@ -81,7 +82,7 @@ async function register(req, res) {
             ...userAndToken,
         })
     } catch (error) {
-        console.log(`Failed sign up; ${error.message}`)
+            console.log(`Failed sign up; ${error.message}, ${error.stack}`)
         res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
         res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
     }
