@@ -26,4 +26,8 @@ router.get("/:userId",
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.getUserById
 )
+router.put("/:userId/role",
+    AuthController.verifyJWTtoken(Roles.admin),
+    UserController.changeUserRole
+)
 export default router

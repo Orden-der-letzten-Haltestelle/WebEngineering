@@ -42,10 +42,20 @@ async function unBannUser(userId) {
 /**
  * gets an User by the id, if no user with that id is found, an NotFoundError is thrown
  * @param {int} userId
+ * @returns {Promise<AuthUser>}
  * @throws {NotFoundError}
  */
 async function getUserById(userId) {
     return await UserModel.getUserById(userId)
+}
+
+/**
+ * changes roles of User by the id, if no user with that id is found, an NotFoundError is thrown
+ * @param {int} userId
+ * @throws {NotFoundError}
+ */
+async function changeUserRole(userId, roles) {
+    return await UserModel.changeUserRole(userId, roles)
 }
 
 export default {
@@ -54,4 +64,5 @@ export default {
     bannUser,
     unBannUser,
     getUserById,
+    changeUserRole,
 }

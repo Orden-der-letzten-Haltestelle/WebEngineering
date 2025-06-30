@@ -223,10 +223,95 @@ async function getUserById(userId) {
     }
 }
 
+/**
+ * changes roles of a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * @param {string} userId
+ * @param {string} roles
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function changeUserRole(userId, roles) {
+       try {
+        const result = ""
+        // Überprüfen, ob der Nutzer existiert
+        const userBeforeChange = await AuthModel.findAuthUserById(userId)
+        if (userBeforeChange.rows.length <= 0) {
+            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+        }
+        switch (userBeforeChange.roles.rows) {
+            case 2:     //also need to check what roles should be inserted!!!!
+                result = "A"
+                break;
+            case 0:
+                result = await pool.query(
+                    ` 
+                    INSERT INTO webshop.user_has_role(id, userid, roleid)
+                    VALUES ($1, 1),
+		                    ($1,2);
+                    RETURNING *;`,
+                    [userId]
+                );
+                break;
+            case 1:
+                if (userBeforeChange.roles.toString().includes("a")){
+                    result = await pool.query(
+                    ` 
+                    INSERT INTO webshop.user_has_role(id, userid, roleid)
+                    VALUES ($1, 1);
+                    RETURNING *;`,
+                    [userId]
+                    );
+                }
+                else {
+                    result = await pool.query(
+                    ` 
+                    INSERT INTO webshop.user_has_role(id, userid, roleid)
+                    VALUES ($1, 2);
+                    RETURNING *;`,
+                    [userId]
+                    );
+                }
+            default:
+                break;
+        }
+        
+            if(userBeforeChange.roles.rows == 0){
+                
+            }
+        }
+
+        // Nutzer unbannen
+         await pool.query(
+            ` 
+            INSERT INTO webshop.user_has_role
+            SET roles=$1
+            WHERE id = $2
+            RETURNING *;`,
+            [roles, userId]
+        );
+
+        if (!result.rows || result.rows.length <= 0) {
+            throw new DatabaseError(`Failed to change Roles of user with id ${userId}`);
+        }
+
+        return result
+
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new DatabaseError(
+            `Failed changing roles of user with id ${userId}: ${error}`,
+            { originalError: error }
+        );
+    }
+}
+
 export default {
     findBasicUserById,
     deleteUserById,
     bannUserById,
     unBannUserById,
     getUserById,
+    changeUserRole,
 }
