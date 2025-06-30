@@ -48,15 +48,62 @@ async function findBasicUserById(userId) {
  */
 async function deleteUserById(userId) {
     try {
-        await pool.query(
+        console.log("here")
+        console.log(userId)
+        const resultRole =  await pool.query(
+            `
+            DELETE FROM
+                webshop.user_has_role as ur
+            WHERE
+                ur.userid = $1
+            RETURNING *;
+            `,
+            [userId]
+        )
+        if(resultRole.rows.length <= 0){
+            console.log("nothing delted")
+        }
+
+        const resultWishlist =  await pool.query(
+            `
+            DELETE FROM
+                webshop.user_wishlist_relation as w
+            WHERE
+                w.userid = $1
+            RETURNING *;
+            `,
+            [userId]
+        )
+        if(resultWishlist.rows.length <= 0){
+            console.log("nothing delted")
+        }
+         const resultCart =  await pool.query(
+            `
+            DELETE FROM
+                webshop.cartItems as cI
+            WHERE
+                cI.userid = $1
+            RETURNING *;
+            `,
+            [userId]
+        )
+        if(resultCart.rows.length <= 0){
+            console.log("nothing delted")
+        }
+
+        const result =  await pool.query(
             `
             DELETE FROM
                 webshop.users as u
             WHERE
                 u.id = $1
+            RETURNING *;
             `,
             [userId]
         )
+        if(result.rows.length<=0){
+            throw new DatabaseError("Failed to delete user")
+        }
         return
     } catch (error) {
         throw new DatabaseError(

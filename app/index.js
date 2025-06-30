@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser"
 import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
 import CartRouter from "./backend/src/routes/cart.routes.js"
+import UserRouter from "./backend/src/routes/user.routes.js"
 
 //frontend router
 import FrontendRouter from "./frontend/frontend.index.js"
@@ -39,6 +40,7 @@ app.use("/", FrontendRouter)
 app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)
 app.use("/api/cart", CartRouter)
+app.use("/api/user", UserRouter)
 
 // Server starten
 app.listen(PORT, () => {

@@ -3,7 +3,7 @@ const router = express.Router()
 
 //controlle
 import AuthController from "../controllers/auth.controller.js"
-import UserController from "../controller/user.controller.js"
+import UserController from "../controllers/user.controller.js"
 import Roles from "../objects/user/Roles.js"
 
 router.delete("/delete/:userId",

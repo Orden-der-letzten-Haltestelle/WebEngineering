@@ -3,8 +3,10 @@ import BadRequestError from "../exceptions/BadRequestError.js"
 
 
 async function deleteUser(req, res) {
+    //const userId = req.user.id
+    const userId = 34
     try {
-        const response = await UserService.deleteUser(req.id)
+        const response = await UserService.deleteUser(userId)
 
         const data = JSON.stringify(response)
 
