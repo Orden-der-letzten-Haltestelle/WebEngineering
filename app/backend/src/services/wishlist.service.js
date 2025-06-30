@@ -1,15 +1,20 @@
-import WishlistRoles from "../objects/user/WishlistRoles.js"
 import UserService from "./user.service.js"
 import WishlistModel from "../models/wishlist.model.js"
-import WishlistMember from "../objects/user/WishlistMember.js"
+import ProductValidator from "../validator/validator.product.js"
 
-import DatabaseError from "../exceptions/DatabaseError.js"
-import NotFoundError from "../exceptions/NotFoundError.js"
-import ForbiddenError from "../exceptions/ForbiddenError.js"
-import WishlistItem from "../objects/items/WishlistItem.js"
-import ServerError from "../exceptions/ServerError.js"
-import Wishlist from "../objects/wishlist/Wishlist.js"
+//objects
 import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
+import Wishlist from "../objects/wishlist/Wishlist.js"
+import WishlistItem from "../objects/items/WishlistItem.js"
+import WishlistMember from "../objects/user/WishlistMember.js"
+import WishlistRoles from "../objects/user/WishlistRoles.js"
+
+//errors
+import DatabaseError from "../exceptions/DatabaseError.js"
+import ForbiddenError from "../exceptions/ForbiddenError.js"
+import NotFoundError from "../exceptions/NotFoundError.js"
+import ServerError from "../exceptions/ServerError.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 /**
  * Returns a WishlistItem by its id
@@ -186,6 +191,52 @@ async function createWishlist(userId, name, description) {
     )
     const basicWishlist = await getBasicWishlistById(userId, wishlistId)
     return basicWishlist
+}
+
+/**
+ * Returns true or false, when a  product is already in the wishlist.
+ * @param {int} productId 
+ * @param {int} wishlistId 
+ * @returns {Promise<boolean>}
+ * @throws {DatabaseError}
+ */
+
+async function isProductInWishlist(productId, wishlistId) {
+    try {
+        //TODO make DB reuqest
+        return true
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            return false
+        }
+        throw error
+    }
+}
+
+/**
+ * Adds a product to the wishlist. Only when user has write access. 
+ * When product already exists, then add amount to already existing one.
+ * @param {int} userId 
+ * @param {int} wishlistId 
+ * @param {int} productId 
+ * @param {int} amount
+ * @returns {Promise<Wishlist>} 
+ * @throws {DatabaseError} 
+ * @throws {ForbiddenError}
+ * @throws {BadRequestError}
+ */
+async function addProductToWishlist(userId, wishlistId, productId, amount) {
+    //verify that user has access
+
+    //proof, product not already in wishlist
+    //when product already in wishlist, change amoun
+
+
+    //proof, product has right amount
+    await ProductValidator.isValidAmount(productId, amount)
+
+    //return wishlist
+    return await getWishlistById(userId, wishlistId)
 }
 
 export default { getWishlistById, getWishlistsByUserId, createWishlist }

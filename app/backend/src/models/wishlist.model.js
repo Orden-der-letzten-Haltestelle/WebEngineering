@@ -11,6 +11,26 @@ import Wishlist from "../objects/wishlist/Wishlist.js"
 import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
 import Roles from "../objects/user/Roles.js"
 
+
+
+
+
+
+
+
+
+/**
+ * retruns a wishlistItem, by productId and wishlistId
+ */
+async function findByProductIdAndWishlistId(productId, wishlistId) {
+    try{
+        //TODO implement
+    }catch(error){
+        
+    }
+}
+
+
 /**
  * Finds a wishlistMember by userId and wishlistId
  * @param {int} userId
@@ -520,6 +540,35 @@ async function createWishlist(ownerId, name, description) {
         )
     } finally {
         client.release()
+    }
+}
+
+/**
+ * Adds a new wishlistitme to the wishlist
+ * @param {int} wishlistId 
+ * @param {int} productId 
+ * @returns {Promise}
+ * @throws {DatabaseError}
+ */
+async function createWishlistItem(wishlistId, productId, amount) {
+    try {
+        const result = pool.query(`
+            INSERT INTO webshop.wishlistitems 
+                (wishlistid, productid, amount)
+            VALUES
+                ($1, $2, $3)
+            RETURNING *;
+            `, [wishlistId, productId, amount])
+        if (result.length <= 0) {
+            throw new DatabaseError("Failed creating item in DB")
+        }
+        return
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed creating new wishlistItem in DB: ${error.message}`,
+            { originalError: error }
+        )
+
     }
 }
 
