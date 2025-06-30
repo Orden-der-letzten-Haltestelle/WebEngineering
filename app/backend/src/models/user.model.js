@@ -49,8 +49,6 @@ async function findBasicUserById(userId) {
  */
 async function deleteUserById(userId) {
     try {
-        console.log("here")
-        console.log(userId)
         const resultRole =  await pool.query(
             `
             DELETE FROM

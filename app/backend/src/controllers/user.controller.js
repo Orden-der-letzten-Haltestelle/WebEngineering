@@ -1,8 +1,8 @@
 import UserService from "../services/user.service.js"
 
 async function deleteUser(req, res) {
-    //const userId = req.user.id
-    const userId = 10    //hardcoded, as else you delete yourself with testing :)
+    const userId = req.user.id
+    //const userId = 10    //hardcoded for testing, as else you delete yourself with testing :)
     try {
         const response = await UserService.deleteUser(userId)
 
