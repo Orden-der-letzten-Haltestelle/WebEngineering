@@ -1,7 +1,22 @@
 <div id="checkoutPage-content">
-    <h1><%= title %></h1>
     <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
-    include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
+
+    <div class="checkout-grid">
+        <% cartItems.forEach(cI => {%>
+        <div class="checkout-card">
+            <div class="image-wrapper">
+            <img src="<%= products.image || '/images/default.jpg' %>" alt="Produktblid">
+            </div>
+            <div class="products-info">
+                <h2><%= cI.name %></h2>
+                <p><%= cI.description %></p>
+            </div>
+            <div class="price-buy">
+            <span class="price"><%= cI.price %></span>
+            <button>Warenkorb</button>
+            </div>
+        </div>
+    </div>
+    <% }) %>
 </div>
+
