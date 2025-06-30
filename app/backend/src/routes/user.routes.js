@@ -14,4 +14,8 @@ router.put("/:userId/bann",
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.bannUser
 )
+router.put("/:userId/unbann",
+    AuthController.verifyJWTtoken(Roles.admin),
+    UserController.unBannUser
+)
 export default router

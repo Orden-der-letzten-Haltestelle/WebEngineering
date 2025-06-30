@@ -129,7 +129,6 @@ async function bannUserById(userId) {
             [userId]
         );
         if (userCheck.rows.length <= 0) {
-            console.log("testExist")
             throw new NotFoundError(`User with id ${userId} doesn't exist`);
         }
 
@@ -144,7 +143,6 @@ async function bannUserById(userId) {
         );
 
         if (result.rows.length <= 0) {
-            console.log("test")
             throw new DatabaseError(`Failed to ban user with id ${userId}`);
         }
 
@@ -154,9 +152,53 @@ async function bannUserById(userId) {
         if (error instanceof NotFoundError) {
             throw error;
         }
-        console.log("testError")
         throw new DatabaseError(
             `Failed banning user with id ${userId}: ${error}`,
+            { originalError: error }
+        );
+    }
+}
+
+/**
+ * UnBanns a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * If no roles for user(only when created in db) might be an error, but still unbann user
+ * @param {string} userId
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function unBannUserById(userId) {
+       try {
+        // Überprüfen, ob der Nutzer existiert
+        const userCheck = await pool.query(
+            `SELECT id FROM webshop.users WHERE id = $1`,
+            [userId]
+        );
+        if (userCheck.rows.length <= 0) {
+            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+        }
+
+        // Nutzer unbannen
+        const result = await pool.query(
+            ` 
+            UPDATE webshop.users
+            SET isbanned=false
+            WHERE id = $1
+            RETURNING *;`,
+            [userId]
+        );
+
+        if (result.rows.length <= 0) {
+            throw new DatabaseError(`Failed to unban user with id ${userId}`);
+        }
+
+        const user = AuthModel.findAuthUserById(userId)
+        return user
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new DatabaseError(
+            `Failed unbanning user with id ${userId}: ${error}`,
             { originalError: error }
         );
     }
@@ -166,4 +208,5 @@ export default {
     findBasicUserById,
     deleteUserById,
     bannUserById,
+    unBannUserById,
 }

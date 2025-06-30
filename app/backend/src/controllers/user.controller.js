@@ -18,8 +18,8 @@ async function deleteUser(req, res) {
 }
 
 async function bannUser(req, res) {
-    //const userId = req.user.id
-    const userId = 11   //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still banned
+    const userId = req.params.userId
+    //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still banned
     try {
         const response = await UserService.bannUser(userId)
         res.status(200).json([response])
@@ -36,7 +36,27 @@ async function bannUser(req, res) {
     }
 }
 
+async function unBannUser(req, res) {
+    const userId = req.params.userId
+    //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still unbanned
+    try {
+        const response = await UserService.unBannUser(userId)
+        res.status(200).json([response])
+    } catch (error) {
+        console.log(
+            `Failed unBannUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     deleteUser,
     bannUser,
+    unBannUser,
 }
