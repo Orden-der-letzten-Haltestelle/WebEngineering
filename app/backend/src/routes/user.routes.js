@@ -18,4 +18,12 @@ router.put("/:userId/unbann",
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.unBannUser
 )
+router.get("/",
+    AuthController.verifyJWTtoken(Roles.user),
+    UserController.getYourOwnUser
+)
+router.get("/:userId",
+    AuthController.verifyJWTtoken(Roles.admin),
+    UserController.getUserById
+)
 export default router

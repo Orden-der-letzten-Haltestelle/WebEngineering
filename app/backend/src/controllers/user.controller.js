@@ -22,7 +22,7 @@ async function bannUser(req, res) {
     //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still banned
     try {
         const response = await UserService.bannUser(userId)
-        res.status(200).json([response])
+        res.status(200).json(response)
     } catch (error) {
         console.log(
             `Failed bannUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
@@ -41,10 +41,45 @@ async function unBannUser(req, res) {
     //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still unbanned
     try {
         const response = await UserService.unBannUser(userId)
-        res.status(200).json([response])
+        res.status(200).json(response)
     } catch (error) {
         console.log(
             `Failed unBannUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function getUserById(req, res) {
+    const userId = req.params.userId
+    try {
+        const response = await UserService.getUserById(userId)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(
+            `Failed getUserById for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+async function getYourOwnUser(req, res) {
+    const userId = req.user.id
+    try {
+        const response = await UserService.getUserById(userId)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(
+            `Failed getYourOwnUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
 
         const statusCode = error?.statusCode || 500
@@ -59,4 +94,6 @@ export default {
     deleteUser,
     bannUser,
     unBannUser,
+    getUserById,
+    getYourOwnUser,
 }

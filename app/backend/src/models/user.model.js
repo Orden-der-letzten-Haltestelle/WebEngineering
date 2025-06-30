@@ -202,9 +202,31 @@ async function unBannUserById(userId) {
     }
 }
 
+/**
+ * gets an User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * @param {string} userId
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function getUserById(userId) {
+       try {
+        const user = AuthModel.findAuthUserById(userId)
+        return user
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new DatabaseError(
+            `Failed getting user with id ${userId}: ${error}`,
+            { originalError: error }
+        );
+    }
+}
+
 export default {
     findBasicUserById,
     deleteUserById,
     bannUserById,
     unBannUserById,
+    getUserById,
 }

@@ -39,9 +39,19 @@ async function unBannUser(userId) {
     return await UserModel.unBannUserById(userId)
 }
 
+/**
+ * gets an User by the id, if no user with that id is found, an NotFoundError is thrown
+ * @param {int} userId
+ * @throws {NotFoundError}
+ */
+async function getUserById(userId) {
+    return await UserModel.getUserById(userId)
+}
+
 export default {
     getBasicUserById,
     deleteUser,
     bannUser,
     unBannUser,
+    getUserById,
 }
