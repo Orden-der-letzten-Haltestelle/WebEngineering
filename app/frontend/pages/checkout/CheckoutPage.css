@@ -1,2 +1,100 @@
 #checkoutPage-content{
 }
+:root {
+  --highlight-color: #DBC70C;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: #f7f7f7;
+}
+
+.checkoutPage-content h1{
+    margin: 0.5em 0; /*Abstand nach oben/unten und zentirert horizontal*/
+    font-size: 1.2em;
+    color: #333;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-rows: repeat(auto-fit, minmax(25px, 1fr)); /*Erstellt automatisch so viele Spalten wie möglich (autofit). Jede Spalte ist mind. 280px breit wächst aber mit 1fr*/
+  gap: 1.5em; /*Innenabstand*/
+  padding: 2em; /*Abstand zwischen den Boxen*/
+}
+
+.checkout-card {
+  background: #D9D9D9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease;
+  box-shadow: 3px 5px 10px hsla(0,0%,0%,0.5);
+}
+
+.products-card:hover {
+  transform: scale(1.02);
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.products-info {
+  padding: 1em; 
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.products-info h2 {
+  margin: 0.5em 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.products-info p {
+  font-size: 0.95em;
+  color: #555;
+  flex-grow: 1;
+}
+
+.price-buy {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+  margin-top: 1em;
+}
+
+.price {
+  background: var(--highlight-color);
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #000;
+}
+
+.buy-button {
+  background: var(--highlight-color);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #000;
+}
+
+.buy-button:hover {
+  background: #c4b107;
+}
+
