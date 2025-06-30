@@ -1,6 +1,7 @@
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
+import AuthModel from "../models/auth.model.js"
 import { pool } from "./pool.js"
 
 /**
@@ -113,7 +114,56 @@ async function deleteUserById(userId) {
     }
 }
 
+/**
+ * Banns a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * If no roles for user(only when created in db) might be an error, but still ban user
+ * @param {string} userId
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function bannUserById(userId) {
+       try {
+        // Überprüfen, ob der Nutzer existiert
+        const userCheck = await pool.query(
+            `SELECT id FROM webshop.users WHERE id = $1`,
+            [userId]
+        );
+        if (userCheck.rows.length <= 0) {
+            console.log("testExist")
+            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+        }
+
+        // Nutzer bannen
+        const result = await pool.query(
+            ` 
+            UPDATE webshop.users
+            SET isbanned=true
+            WHERE id = $1
+            RETURNING *;`,
+            [userId]
+        );
+
+        if (result.rows.length <= 0) {
+            console.log("test")
+            throw new DatabaseError(`Failed to ban user with id ${userId}`);
+        }
+
+        const user = AuthModel.findAuthUserById(userId)
+        return user
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        console.log("testError")
+        throw new DatabaseError(
+            `Failed banning user with id ${userId}: ${error}`,
+            { originalError: error }
+        );
+    }
+}
+
 export default {
     findBasicUserById,
     deleteUserById,
+    bannUserById,
 }

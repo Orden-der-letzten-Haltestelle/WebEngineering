@@ -2,7 +2,7 @@ import UserService from "../services/user.service.js"
 
 async function deleteUser(req, res) {
     //const userId = req.user.id
-    const userId = 9
+    const userId = 10    //hardcoded, as else you delete yourself with testing :)
     try {
         const response = await UserService.deleteUser(userId)
 
@@ -17,6 +17,26 @@ async function deleteUser(req, res) {
     }
 }
 
+async function bannUser(req, res) {
+    //const userId = req.user.id
+    const userId = 11   //if user doesn't have roles, they can't return an AuthUser object, so there is an error, but user is still banned
+    try {
+        const response = await UserService.bannUser(userId)
+        res.status(200).json([response])
+    } catch (error) {
+        console.log(
+            `Failed bannUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     deleteUser,
+    bannUser,
 }

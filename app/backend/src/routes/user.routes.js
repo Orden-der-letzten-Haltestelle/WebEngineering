@@ -10,4 +10,8 @@ router.delete("/delete/:userId",
     AuthController.verifyJWTtoken(Roles.user),
     UserController.deleteUser
 )
+router.put("/:userId/bann",
+    AuthController.verifyJWTtoken(Roles.admin),
+    UserController.bannUser
+)
 export default router
