@@ -116,10 +116,11 @@ async function login(req, res) {
         console.log(
             `Failed Login with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
-        const statusCode = error?.statusCode || 500
-        res.status(statusCode).json({
-            message: error?.message || "Unexpected Error",
-            stack: error?.stack,
+        res.status(error.statusCode || 500).json({
+            error: {
+                message: error.message,
+                stack: error.stack
+            }
         })
     }
 }
