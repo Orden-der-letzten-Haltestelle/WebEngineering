@@ -61,7 +61,7 @@ async function deleteUserById(userId) {
             [userId]
         )
         if(resultRole.rows.length <= 0){
-            console.log("nothing delted")
+            console.log("nothing deleted")
         }
 
         const resultWishlist =  await pool.query(
@@ -75,7 +75,7 @@ async function deleteUserById(userId) {
             [userId]
         )
         if(resultWishlist.rows.length <= 0){
-            console.log("nothing delted")
+            console.log("nothing deleted")
         }
          const resultCart =  await pool.query(
             `
@@ -88,7 +88,7 @@ async function deleteUserById(userId) {
             [userId]
         )
         if(resultCart.rows.length <= 0){
-            console.log("nothing delted")
+            console.log("nothing deleted")
         }
 
         const result =  await pool.query(
