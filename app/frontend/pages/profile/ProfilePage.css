@@ -110,7 +110,7 @@
     cursor: pointer;
     font-weight: bold;
     height: 50px;
-    text-decoration: none; 
+    text-decoration: none;
     display: grid;
     place-items: center;
 }
@@ -135,4 +135,55 @@
     display: flex;
     justify-content: center;
     gap: 20px;
+}
+
+@media (max-width: 768px) {
+    #profilePage-content {
+        margin: 30px 20px;
+        text-align: center;
+    }
+
+    .konto-box {
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px;
+        align-items: center;
+    }
+
+    .profil-info {
+        align-items: center;
+        text-align: center;
+    }
+
+    .konto-formular {
+        align-items: center;
+        text-align: center;
+    }
+
+    .konto-formular label {
+        text-align: left;
+        width: 100%;
+    }
+
+    .konto-buttons {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .bottom-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .btn {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .rosa {
+        margin-right: 0;
+    }
 }
