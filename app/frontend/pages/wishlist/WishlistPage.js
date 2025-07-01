@@ -9,24 +9,43 @@ export default async function WishlistPageLoader(req, res) {
     return {
         title: "WishlistPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
-        beispielComponents: [
-            {
-                title: "1. Element",
-                text: "Das ist der Text des ersten Elements",
-            },
-            {
-                title: "2. Element",
-                text: "Das ist der Text des zweiten Elements",
-            },
-            {
-                title: "3. Element",
-                text: "Das ist der Text des dritten Elements",
-            },
-            {
-                title: "4. Element",
-                text: "Das ist der Text des vierten Elements",
-            },
-        ],
+        wishlist: {
+            id: "3057 (wishlistid)",
+            name: "Meine Wunschliste",
+            description: "Tolle Wunschliste ;)",
+            roles: [
+                "owner",
+                "write",
+                "read"
+            ],
+            items: [
+                {
+                    id: "3874",
+                    amount: 5,
+                    addedAt: "04.05.2025",
+                    product: {
+                        id: "38974",
+                        name: "T-Shirt",
+                        description: "Tolles T-shirt",
+                        amount: 100,
+                        price: 1888
+                    }
+                },
+
+            ],
+            members: [
+                {
+                    userId: "3478 (userId)",
+                    userWishlistRelationId: "45897 (userWishlistRealtionId)",
+                    name: "Negroberd",
+                    email: "negroberd@orden-der-letzten-haltestelle.de",
+                    roles: [
+                        "read",
+                        "write"
+                    ]
+                }
+            ]
+        },
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
         components: ["BeispielComponent"],
     }

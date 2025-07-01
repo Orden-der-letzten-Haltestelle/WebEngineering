@@ -1,21 +1,23 @@
 <div id="wishlistPage-content">
     <div class="Überschrift">
-        <h2> Name der Wunschliste </h2>
+        <h2> <%=wishlist.name%> </h2>
         <button> Bearbeiten </button>
     </div>
-        <div class="DetailedwishlistItem">
-            <div id="Informationen">
-            <img src="https://via.placeholder.com/200" alt="Herzicon">
-            <img src="https://via.placeholder.com/200" alt="Testbild">
-            <div> 
-                <p>Artikel-Name:</p>
-                <p>Artikel-Nr.:</p>
+    <% wishlist.items.forEach((item)=>{%>
+            <div class="DetailedwishlistItem">
+                <a href="/products/<%= item.product.id %>" class="produktlink">
+                    <img src="https://via.placeholder.com/200" alt="Herzicon">
+                    <img src="https://via.placeholder.com/200" alt="Testbild">
+                    <div> 
+                        <p>Artikel-Name: <%=item.product.name%> </p>
+                        <p>Artikel-Nr.: <%=item.product.id%> </p>
+                    </div>
+                </a>
+                <div id="buttons">
+                    <button class="info">Anzahl: <%=item.amount%> </button>
+                    <button id="buy">In den Warenkorb</button>
+                    <img src="https://via.placeholder.com/200" alt="Loeschicon">
+                </div>
             </div>
-            </div>
-            <div id="buttons">
-                <button class="info">Anzahl:</button>
-                <button id="buy">In den Warenkorb</button>
-                <img src="https://via.placeholder.com/200" alt="Loeschicon">
-            </div>
-        </div>
+    <%}) %>
 </div>
