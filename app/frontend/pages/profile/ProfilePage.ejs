@@ -44,7 +44,33 @@
         <div class="bottom-buttons">
             <button class="btn rot"
                 onclick="document.cookie = 'token=;expires=Thu, 01 Jan 1970 00:00:00 GMT'; window.location.href = '/'">Abmelden</button>
-            <button class="btn rot">Konto löschen</button>
+            <button class="btn rot"
+                onclick="document.getElementById('kontoLoeschenOverlay').style.display = 'flex';">Konto löschen</button>
+        </div>
+    </div>
+</div>
+
+<!-- Konto-Löschen-Overlay -->
+<div id="kontoLoeschenOverlay" class="overlay" style="display: none;">
+    <div class="modal">
+        <h2>Sind Sie sicher, dass Sie Ihr Konto löschen wollen?</h2>
+        <p>Damit werden alle ihrer Wunschlisten und Ihre Bestellhistorie gelöscht.</p>
+        <div class="bottom-buttons">
+            <button class="btn grau"
+                onclick="document.getElementById('kontoLoeschenOverlay').style.display = 'none';">Abbruch</button>
+            <button class="btn rot" onclick='document.getElementById("kontoLoeschenOverlay").style.display = "none";
+    document.getElementById("deletedOverlay").style.display = "flex";'>Konto löschen</button>
+        </div>
+        <a class="passwort-reset" href="/reset-password">Passwort zurücksetzen</a>
+    </div>
+</div>
+
+<!-- Erfolgs-Overlay nach Kontolöschung -->
+<div id="deletedOverlay" class="overlay" style="display: none;">
+    <div class="overlay-box">
+        <h2>Schade, dass Sie uns verlassen!</h2>
+        <div class="bottom-buttons">
+            <button class="btn grau" onclick='document.getElementById("deletedOverlay").style.display = "none"; window.location.href = "/";'>Schließen</button>
         </div>
     </div>
 </div>
