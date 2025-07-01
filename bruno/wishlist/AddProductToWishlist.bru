@@ -1,0 +1,15 @@
+meta {
+  name: AddProductToWishlist
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/api/wishlist/1/product/1
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  amount: 2
+}
