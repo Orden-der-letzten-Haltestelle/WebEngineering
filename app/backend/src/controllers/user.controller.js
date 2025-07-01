@@ -127,6 +127,26 @@ async function makeNoAdmin(req, res) {
     }
 }
 
+async function getUserByMail(req, res) {
+    console.log("test")
+    const { email } = req.body
+    console.log(email)
+    try {
+        const response = await UserService.getUserByMail(email)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(
+            `Failed getUserByMail for user with email: ${email}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     deleteUser,
     bannUser,
@@ -135,4 +155,5 @@ export default {
     getYourOwnUser,
     makeAdmin,
     makeNoAdmin,
+    getUserByMail,
 }

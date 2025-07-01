@@ -99,6 +99,7 @@ async function findAuthUserById(id) {
 
 /**
  * Returns a User Object if one was found in the Database
+ * @param {string} email
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError} User with Email doesn't exist
  * @throws {DatabaseError}

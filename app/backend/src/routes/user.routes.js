@@ -34,4 +34,8 @@ router.put("/:userId/role/makeNoAdmin",
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.makeNoAdmin
 )
+router.get("/userByMail",
+    AuthController.verifyJWTtoken(Roles.user),
+    UserController.getUserByMail
+)
 export default router

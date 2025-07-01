@@ -322,6 +322,27 @@ async function makeNoAdmin(userId) {
     }
 }
 
+/**
+ * Returns a BasicUser by userId, if no user with that id exist, an NotFoundError will be thrown
+ * @param {string} email
+ * @returns {Promise<BasicUser>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function getUserByMail(email) {
+    try {
+        await AuthModel.findUserByEmail(email)
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed fetching user with email ${email}: ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
 export default {
     findBasicUserById,
     deleteUserById,
@@ -330,4 +351,5 @@ export default {
     getUserById,
     makeAdmin,
     makeNoAdmin,
+    getUserByMail,
 }
