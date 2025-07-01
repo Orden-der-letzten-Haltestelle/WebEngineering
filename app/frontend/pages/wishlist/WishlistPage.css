@@ -89,7 +89,12 @@ flex: 1;
     height: 80%;
 }
 .DetailedwishlistItem p {
+        font-size: 14px;
+}
+@media (min-width: 588px) and (max-width: 900px) {
+    .DetailedwishlistItem p {
         font-size: 12px;
+}
 }
 @media (min-width: 519px) and (max-width: 588px) {
     .Überschrift h2 {
