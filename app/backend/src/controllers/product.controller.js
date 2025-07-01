@@ -14,7 +14,7 @@ async function listProducts(req, res) {
             minPrice: minPrice,
             maxPrice: maxPrice
         })
-        const products = await ProductService.getAllProducts()
+        const products = await ProductService.getAllProducts(value, minPrice, maxPrice)
 
         const data = JSON.stringify(products)
 

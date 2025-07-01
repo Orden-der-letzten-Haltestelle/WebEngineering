@@ -9,9 +9,14 @@ import ProductModel from "../models/product.model.js"
  * Gets all Products
  * @returns
  */
-async function getAllProducts() {
+async function getAllProducts(value, minPrice, maxPrice) {
     const result = await ProductModel.findAllProducts()
-    return result
+    const filtered = result.filter(product => {
+        return (maxPrice == "" || product.price <= parseInt(maxPrice)) &&
+            (minPrice == "" || product.price >= parseInt(minPrice)) &&
+            (product.name.includes(value) || product.description.includes(value))
+    })
+    return filtered
 }
 
 /**
