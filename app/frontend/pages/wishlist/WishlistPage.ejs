@@ -1,7 +1,21 @@
 <div id="wishlistPage-content">
-    <h1><%= title %></h1>
-    <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
-    include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
+    <div class="Überschrift">
+        <h2> Name der Wunschliste </h2>
+        <button> Bearbeiten </button>
+    </div>
+        <div class="DetailedwishlistItem">
+            <div id="Informationen">
+            <img src="https://via.placeholder.com/200" alt="Herzicon">
+            <img src="https://via.placeholder.com/200" alt="Testbild">
+            <div> 
+                <p>Artikel-Name:</p>
+                <p>Artikel-Nr.:</p>
+            </div>
+            </div>
+            <div id="buttons">
+                <button class="info">Anzahl:</button>
+                <button id="buy">In den Warenkorb</button>
+                <img src="https://via.placeholder.com/200" alt="Loeschicon">
+            </div>
+        </div>
 </div>
