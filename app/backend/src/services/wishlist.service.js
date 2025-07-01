@@ -62,6 +62,7 @@ async function verifyWishlistRoleByWishlistId(
         userId,
         wishlistId
     )
+
     if (!member.hasRole(requiredWishlistRole)) {
         throw new ForbiddenError(
             `User with the id ${userId} hasnt the role ${requiredWishlistRole.roleName} or higher for the wishlist with id ${wishlistId}`
@@ -204,7 +205,7 @@ async function createWishlist(userId, name, description) {
  */
 async function isProductInWishlist(productId, wishlistId) {
     try {
-        const wishlistItem = await WishlistModel.findByProductIdAndWishlistId(productId, wishlistId)
+        const wishlistItem = await WishlistItemModel.findByProductIdAndWishlistId(productId, wishlistId)
         return wishlistItem
     } catch (error) {
         if (error instanceof NotFoundError) {
@@ -228,7 +229,7 @@ async function isProductInWishlist(productId, wishlistId) {
  */
 async function addProductToWishlist(userId, wishlistId, productId, amount) { //TODO
     //verify that user has access
-    await verifyWishlistRoleByWishlistId(userId, wishlistId, Roles.user)
+    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
 
     //proof, product not already in wishlist | return, when it already exist 
     const wishlistItem = await isProductInWishlist(productId, wishlistId)

@@ -19,7 +19,7 @@ import DatabaseError from "../exceptions/DatabaseError.js"
  */
 async function findByProductIdAndWishlistId(productId, wishlistId) {
     try {
-        const result = query.pool(`
+        const result = pool.query(`
             SELECT
 	            wi.id,
 	            wi.amount,

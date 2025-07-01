@@ -1,3 +1,4 @@
+import { compareSync } from "bcryptjs"
 import BasicUser from "./BasicUser.js"
 export default class WishlistMember extends BasicUser {
     /**
@@ -20,7 +21,9 @@ export default class WishlistMember extends BasicUser {
      */
     hasRole(requiredRole) {
         return this.roles.some(
-            (userRole) => userRole.level >= requiredRole.level
+            (userRole) => {
+                return userRole.level >= requiredRole.level
+            }
         )
     }
 }
