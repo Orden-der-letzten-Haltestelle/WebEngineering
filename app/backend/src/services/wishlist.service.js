@@ -1,5 +1,6 @@
 import UserService from "./user.service.js"
 import WishlistModel from "../models/wishlist.model.js"
+import WishlistItemModel from "../models/wishlistitem.model.js"
 import ProductValidator from "../validator/validator.product.js"
 
 //objects
@@ -15,6 +16,7 @@ import ForbiddenError from "../exceptions/ForbiddenError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import ServerError from "../exceptions/ServerError.js"
 import BadRequestError from "../exceptions/BadRequestError.js"
+import Roles from "../objects/user/Roles.js"
 
 /**
  * Returns a WishlistItem by its id
@@ -35,7 +37,7 @@ async function getWishlistItemById(wishlistItemId) {
  * @throws {DatabaseError}
  */
 async function getWishlistItemsByWishlistId(wishlistId) {
-    const wishlistItems = await WishlistModel.findWishlistItemsByWishlistId(
+    const wishlistItems = await WishlistItemModel.findWishlistItemsByWishlistId(
         wishlistId
     )
     return wishlistItems
@@ -62,7 +64,7 @@ async function verifyWishlistRoleByWishlistId(
     )
     if (!member.hasRole(requiredWishlistRole)) {
         throw new ForbiddenError(
-            `User with the id ${userId} hasnt ${requiredWishlistRole.roleName} for the wishlist with id ${wishlistId}`
+            `User with the id ${userId} hasnt the role ${requiredWishlistRole.roleName} or higher for the wishlist with id ${wishlistId}`
         )
     }
 }
@@ -160,7 +162,6 @@ async function getWishlistById(userId, wishlistId) {
     //get all wishlist informations
     const basicWishlist = await getBasicWishlistById(userId, wishlistId)
     const wishlistMembers = await getWishlistMembersByWishlistId(wishlistId)
-    console.log(wishlistMembers)
     const wishlistItems = await getWishlistItemsByWishlistId(wishlistId)
 
     //build full wishlist
@@ -194,17 +195,17 @@ async function createWishlist(userId, name, description) {
 }
 
 /**
- * Returns true or false, when a  product is already in the wishlist.
+ * Proofs if an product already exist in the given wishlist. if not, it returns true, when it does exist, it will return 
+ * the WishlistItem 
  * @param {int} productId 
  * @param {int} wishlistId 
- * @returns {Promise<boolean>}
+ * @returns {Promise<WishlistItem | boolean>}
  * @throws {DatabaseError}
  */
-
 async function isProductInWishlist(productId, wishlistId) {
     try {
-        //TODO make DB reuqest
-        return true
+        const wishlistItem = await WishlistModel.findByProductIdAndWishlistId(productId, wishlistId)
+        return wishlistItem
     } catch (error) {
         if (error instanceof NotFoundError) {
             return false
@@ -225,18 +226,32 @@ async function isProductInWishlist(productId, wishlistId) {
  * @throws {ForbiddenError}
  * @throws {BadRequestError}
  */
-async function addProductToWishlist(userId, wishlistId, productId, amount) {
+async function addProductToWishlist(userId, wishlistId, productId, amount) { //TODO
     //verify that user has access
+    await verifyWishlistRoleByWishlistId(userId, wishlistId, Roles.user)
 
-    //proof, product not already in wishlist
-    //when product already in wishlist, change amoun
+    //proof, product not already in wishlist | return, when it already exist 
+    const wishlistItem = await isProductInWishlist(productId, wishlistId)
 
+    //when product already in wishlist, change amount 
+    let newAmount = amount
+    if (wishlistItem) {
+        newAmount = amount + wishlistItem.amount
+    }
 
     //proof, product has right amount
     await ProductValidator.isValidAmount(productId, amount)
+
+    //create wishlist or update amount 
+    if (wishlistItem) {
+        //TODO update amount of already existing wishlistitem
+    } else {
+        //create new wishlist item
+        await WishlistItemModel.createWishlistItem(wishlistId, productId, newAmount)
+    }
 
     //return wishlist
     return await getWishlistById(userId, wishlistId)
 }
 
-export default { getWishlistById, getWishlistsByUserId, createWishlist }
+export default { getWishlistById, getWishlistsByUserId, createWishlist, addProductToWishlist }

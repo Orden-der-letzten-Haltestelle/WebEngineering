@@ -23,4 +23,11 @@ router.post(
     WishlistController.createWishlist
 )
 
+router.post(
+    "/:wishlistId/product/:productId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.addProductToWishlist
+)
+
+
 export default router

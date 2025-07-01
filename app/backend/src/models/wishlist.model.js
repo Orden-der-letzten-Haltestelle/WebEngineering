@@ -1,35 +1,19 @@
-import DatabaseError from "../exceptions/DatabaseError.js"
-import NotFoundError from "../exceptions/NotFoundError.js"
+import { pool } from "./pool.js"
+
+//objects
 import WishlistItem from "../objects/items/WishlistItem.js"
 import WishlistMember from "../objects/user/WishlistMember.js"
-import BasicUser from "../objects/user/BasicUser.js"
-import WishlistRoles from "../objects/user/WishlistRoles.js"
-import { pool } from "./pool.js"
-import Product from "../objects/items/Product.js"
-import ServerError from "../exceptions/ServerError.js"
 import Wishlist from "../objects/wishlist/Wishlist.js"
-import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
+import Product from "../objects/items/Product.js"
 import Roles from "../objects/user/Roles.js"
+import BasicUser from "../objects/user/BasicUser.js"
+import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
 
-
-
-
-
-
-
-
-
-/**
- * retruns a wishlistItem, by productId and wishlistId
- */
-async function findByProductIdAndWishlistId(productId, wishlistId) {
-    try{
-        //TODO implement
-    }catch(error){
-        
-    }
-}
-
+//Errors
+import NotFoundError from "../exceptions/NotFoundError.js"
+import WishlistRoles from "../objects/user/WishlistRoles.js"
+import ServerError from "../exceptions/ServerError.js"
+import DatabaseError from "../exceptions/DatabaseError.js"
 
 /**
  * Finds a wishlistMember by userId and wishlistId
@@ -90,61 +74,6 @@ async function findWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
     }
 }
 
-/**
- * Finds an wishlistItem by its id
- * @param {int} id
- * @returns {Promise<WishlistItem>}
- * @throws {NotFoundError}
- * @throws {DatabaseError}
- */
-async function findWishlistItemById(id) {
-    try {
-        const result = await pool.query(
-            `
-            SELECT 
-	            wi.id,
-	            wi.amount,
-	            wi.addedat,
-	            wi.wishlistid,
-	            p.id as productid,
-	            p.name,
-	            p.description,
-	            p.amount as storage,
-	            p.price as price
-            FROM webshop.wishlistitems as wi
-                JOIN webshop.products as p ON p.id = wi.productid 
-            WHERE wi.id = $1;
-            `,
-            [id]
-        )
-        if (result.rows.length <= 0) {
-            throw new NotFoundError(`WishlistItem with id ${id} doesn't exist`)
-        }
-        const row = result.rows[0]
-        const product = new Product(
-            row.productid,
-            row.name,
-            row.description,
-            row.storage,
-            row.price
-        )
-        const wishlistItem = new WishlistItem(
-            row.id,
-            product,
-            row.amount,
-            row.addedat,
-            row.wishlistid
-        )
-        return wishlistItem
-    } catch (error) {
-        if (error instanceof NotFoundError) {
-            throw error
-        }
-        throw new DatabaseError(`Failed fetching WishlistItem with id ${id}`, {
-            originalError: error,
-        })
-    }
-}
 
 /**
  * Finds a BasicWishlistByWishlistId with out the member
@@ -182,63 +111,7 @@ async function findBasicWishlistByWishlistId(wishlistId) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(`Failed fetching WishlistItem with id ${id}`, {
-            originalError: error,
-        })
-    }
-}
-
-/**
- * Finds all wishlistItems that in the given wishlist
- * @param {int} wishlistId
- * @returns {Promise<WishlistItem[]>}
- * @throws {DatabaseError}
- */
-async function findWishlistItemsByWishlistId(wishlistId) {
-    try {
-        const result = await pool.query(
-            `
-            SELECT 
-                p.id as productid,
-                p.name,
-                p.description,
-                p.amount as storage,
-                p.price,
-                wi.amount,
-                wi.addedat,
-                wi.id as wishlist_item_id
-            FROM 
-                webshop.wishlistitems as wi
-            JOIN 
-                webshop.products as p ON p.id = wi.productid
-            WHERE 
-                wi.wishlistid = $1;
-            `,
-            [wishlistId]
-        )
-
-        const rows = result.rows
-        const wishlistItems = []
-        rows.forEach((row) => {
-            const product = new Product(
-                row.productid,
-                row.name,
-                row.description,
-                row.storage,
-                row.price
-            )
-            const wishlistItem = new WishlistItem(
-                row.wishlist_item_id,
-                product,
-                row.amount,
-                row.addedat,
-                wishlistId
-            )
-            wishlistItems.push(wishlistItem)
-        })
-        return wishlistItems
-    } catch (error) {
-        throw new DatabaseError(`Failed fetching WishlistItem with id ${id}`, {
+        throw new DatabaseError(`Failed fetching BasicWishlist with id ${id}`, {
             originalError: error,
         })
     }
@@ -543,39 +416,10 @@ async function createWishlist(ownerId, name, description) {
     }
 }
 
-/**
- * Adds a new wishlistitme to the wishlist
- * @param {int} wishlistId 
- * @param {int} productId 
- * @returns {Promise}
- * @throws {DatabaseError}
- */
-async function createWishlistItem(wishlistId, productId, amount) {
-    try {
-        const result = pool.query(`
-            INSERT INTO webshop.wishlistitems 
-                (wishlistid, productid, amount)
-            VALUES
-                ($1, $2, $3)
-            RETURNING *;
-            `, [wishlistId, productId, amount])
-        if (result.length <= 0) {
-            throw new DatabaseError("Failed creating item in DB")
-        }
-        return
-    } catch (error) {
-        throw new DatabaseError(
-            `Failed creating new wishlistItem in DB: ${error.message}`,
-            { originalError: error }
-        )
 
-    }
-}
 
 export default {
     findWishlistMemberByUserIdAndWishlistId,
-    findWishlistItemById,
-    findWishlistItemsByWishlistId,
     findWishlistsByUserId,
     findWishlistMembersByWishlistId,
     findBasicWishlistByWishlistId,
