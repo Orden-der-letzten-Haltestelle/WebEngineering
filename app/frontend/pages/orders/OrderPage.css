@@ -20,6 +20,9 @@ flex: 1;
     border-radius: 10px;
 }
 
+.info {
+      white-space: nowrap;
+}
 .produktlink {
     display: flex;
     align-items: center;
@@ -35,13 +38,13 @@ flex: 1;
 
 #OrderhistoryItem button {
     background-color: var(--highlight-color);
-    width: 80px;
     border: none;
     border-radius: 2px;
 }
 
 #OrderhistoryItem button:hover {
     opacity: 0.7;
+    cursor: pointer;
 }
 
 #buttons {
@@ -51,13 +54,6 @@ flex: 1;
     padding-left: 5%;
     padding-right: 5%;
     flex: 1.5;
-}
-#buy {
-    height: 46px;
-}
-#buy:hover {
-    background-color: rgb(174, 174, 174);
-    cursor: pointer;
 }
 .produktlink {
     color: inherit;  
@@ -69,30 +65,45 @@ flex: 1;
 .produktlink p:hover {
     text-decoration: underline;
 }
-@media (min-width: 519px) and (max-width: 660px) {
+@media (min-width: 660px) and (max-width: 860px) {
     #OrderhistoryItem p {
-        font-size: 12px;
+        font-size: 13px;
     }
     #OrderhistoryItem button {
-        font-size: 12px;
-    }
-    #OrderhistoryItem img {
-        width: 50%;
-        height: 65%;
-        object-fit: cover;
+        font-size: 11px;
     }
 }
 
-@media (min-width: 0px) and (max-width: 519px) {
-    #OrderhistoryItem p {
-        font-size: 11px;
-    }
-    #OrderhistoryItem button {
-        font-size: 10px;
-    }
-    #OrderhistoryItem img {
-        width: 35%;
-        height: 50%;
-        object-fit: cover;
-    }
+@media (max-width: 660px) {
+  #OrderhistoryItem {
+    flex-direction: column;       
+    height: auto;                 
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2.5%;
+    margin-bottom: 2.5%;
+    padding-bottom: 2%;
+    padding-top: 2%;
+  }
+
+  .produktlink {
+    flex-direction: column;     
+    align-items: center;
+    text-align: center;
+  }
+
+#buttons {
+    display: flex;
+    flex-direction: row;    
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;        
+    padding: 1% 1%;
+}
+
+  .produktlink img {
+    margin-right: 0;
+    width: 50%;
+    height: auto;
+  }
 }
