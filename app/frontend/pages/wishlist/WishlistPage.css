@@ -8,12 +8,13 @@ flex: 1;
 .Überschrift {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-self: flex-start;
     margin-left: 2.5vw;
     border-bottom: 2px solid black;
     white-space: nowrap;
     width: fit-content;  
+    gap: 2rem;
 }
 
 .Überschrift button {
@@ -21,7 +22,6 @@ flex: 1;
     background-color: white;
     color: grey;
     font-size: 120%;
-    margin-left: 10%;
     font-size: 14px;
     width:85px;
     padding-top: 1%;
@@ -106,7 +106,10 @@ flex: 1;
 
 @media (min-width: 588px) and (max-width: 900px) {
         .DetailedwishlistItem p {
-            font-size: 13px;
+            font-size: 12px;
+    }
+    .DetailedwishlistItem button {
+        font-size: 12px;
     }
 }
 @media (min-width: 519px) and (max-width: 588px) {
