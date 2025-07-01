@@ -1,5 +1,6 @@
 :root {
     --highlight-color: #dbc70c;
+    --button-color: #DBC70C;
 }
 
 * {
@@ -8,7 +9,7 @@
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 html,
@@ -24,6 +25,10 @@ body,
     display: grid;
     height: 100%;
     grid-template-rows: min-content auto min-content;
+}
+
+footer, header{
+    z-index: 1000;
 }
 
 main {

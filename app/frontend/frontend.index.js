@@ -10,7 +10,10 @@ import { fetchUser } from "./api/user.js"
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
 import CheckoutPageLoader from "./pages/checkout/CheckoutPage.js"
-import LoginPageLoader from "./pages/login/LoginPage.js"
+import LoginPasswordPageLoader from "./pages/login/loginPassword/LoginPage.js"
+import LoginChoicePageLoader from "./pages/login/loginChoice/LoginPage.js"
+import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSupport.js"
+import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
@@ -50,10 +53,34 @@ router.get(
     })
 )
 
-/* LoginPage */
+/* LoginPage Choice */
 router.get(
     "/login",
-    handlePage(LoginPageLoader, "pages/login/LoginPage", {
+    handlePage(LoginChoicePageLoader, "pages/login/loginChoice/LoginPage", {
+        excludeNavbar: true,
+        excludeFooter: true,
+    })
+)
+/* LoginPage with Password */
+router.get(
+    "/loginPassword",
+    handlePage(LoginPasswordPageLoader, "pages/login/LoginPassword/LoginPage", {
+        excludeNavbar: true,
+        excludeFooter: true,
+    })
+)
+/* LoginPage with Mail Link */
+router.get(
+    "/loginMail/Link",
+    handlePage(LoginMailLinkPageLoader, "pages/login/loginMail/Link/LoginPage", {
+        excludeNavbar: true,
+        excludeFooter: true,
+    })
+)
+/* LoginPage Support for forgotten Password */
+router.get(
+    "/login/passwordSupport",
+    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
         excludeNavbar: true,
         excludeFooter: true,
     })
@@ -123,9 +150,8 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${
-            error.status == undefined ? "" : " with Status:" + error.status
-        }, try again later`,
+        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
+            }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
@@ -179,11 +205,11 @@ function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
         // Compose CSS file paths from components:
         // Each component's CSS assumed at /components/<ComponentName>/<ComponentName>.css
         const componentCssFiles = (pageData.components || []).map(
-            (name) => `/components/${name}/${name}.css`
+            (name) => `http://localhost:3000/components/${name}/${name}.css`
         )
 
         // Also add page-specific CSS:
-        const pageCssFile = `${pagePath}.css`
+        const pageCssFile = `http://localhost:3000/${pagePath}.css`
 
         // Pass all CSS files as array to template
         const cssFiles = [pageCssFile, ...componentCssFiles]

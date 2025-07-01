@@ -4,9 +4,9 @@
  * @param {*} req
  * @param {*} res
  */
-export default async function RegisterPageLoader(req, res) {
+export default async function LoginPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     return {
-        title: "Register",
+        title: "Passwort Support",
     }
 }

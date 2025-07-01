@@ -1,5 +1,7 @@
 .navbar-container {
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 4fr 2fr;
     padding: 10px 20px;
@@ -268,11 +270,19 @@
     .hamburger-button-container > button {
         display: none;
     }
+    #header-placeholder,
+    .nav-container {
+        height: 115px;
+    }
 }
 
 @media screen and (max-width: 700px) {
     .navbar-container {
         column-gap: 20px;
+    }
+    #header-placeholder,
+    .nav-container {
+        height: 55px;
     }
 
     .navbar-container > .searchBar-container {
@@ -314,5 +324,9 @@
     .navbar-container > .icons-container,
     .navbar-container > .signup-button-container {
         grid-area: 1 / 2 / 2 / 3;
+    }
+    #header-placeholder,
+    .nav-container {
+        height: 102px;
     }
 }
