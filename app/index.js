@@ -9,6 +9,7 @@ import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
 import CartRouter from "./backend/src/routes/cart.routes.js"
 import WishlistRouter from "./backend/src/routes/wishlist.routes.js"
+import DbRouter from "./backend/src/routes/db.routes.js"
 
 //frontend router
 import FrontendRouter from "./frontend/frontend.index.js"
@@ -41,6 +42,7 @@ app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)
 app.use("/api/cart", CartRouter)
 app.use("/api/wishlist", WishlistRouter)
+app.use("/api/db", DbRouter)
 
 // Server starten
 app.listen(PORT, () => {
