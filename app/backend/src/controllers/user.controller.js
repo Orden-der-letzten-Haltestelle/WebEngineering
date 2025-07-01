@@ -128,15 +128,30 @@ async function makeNoAdmin(req, res) {
 }
 
 async function getUserByMail(req, res) {
-    console.log("test")
-    const { email } = req.body
-    console.log(email)
+    const email = req.params.mailaddress
     try {
         const response = await UserService.getUserByMail(email)
         res.status(200).json(response)
     } catch (error) {
         console.log(
-            `Failed getUserByMail for user with email: ${email}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+            `Failed to get User with email: ${email}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function getAllUsers(req, res) {
+    try {
+        const response = await UserService.getAllUsers()
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(
+            `Failed to get all users; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
 
         const statusCode = error?.statusCode || 500
@@ -156,4 +171,5 @@ export default {
     makeAdmin,
     makeNoAdmin,
     getUserByMail,
+    getAllUsers,
 }

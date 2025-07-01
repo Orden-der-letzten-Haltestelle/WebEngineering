@@ -331,13 +331,38 @@ async function makeNoAdmin(userId) {
  */
 async function getUserByMail(email) {
     try {
-        await AuthModel.findUserByEmail(email)
+        const result = await AuthModel.findUserByEmail(email)
+        return result
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
         }
         throw new DatabaseError(
             `Failed fetching user with email ${email}: ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
+/**
+ * gets all Users as AuthUsers, if no user exists, an NotFoundError will be thrown (impossible, need to be logged in, still)
+ * @returns {Promise<BasicUser>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function getAllUsers() {
+    try {
+        const result = pool.query(
+            `SELECT id, name, password, email, isbanned, isverified, createdat
+	        FROM webshop.users;`
+        )
+        return result
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed fetching users: ${error}`,
             { originalError: error }
         )
     }
@@ -352,4 +377,5 @@ export default {
     makeAdmin,
     makeNoAdmin,
     getUserByMail,
+    getAllUsers,
 }

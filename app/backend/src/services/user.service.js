@@ -68,12 +68,20 @@ async function makeNoAdmin(userId) {
 }
 
 /**
- * gets user with email, if no user is found, an NotFoundError is thrown
- * @param {int} email
- * @throws {NotFoundError}
- */
+* gets user with email, if no user is found, an NotFoundError is thrown
+* @param {int} email
+* @throws {NotFoundError}
+*/
 async function getUserByMail(email) {
     return await UserModel.getUserByMail(email)
+}
+
+/**
+* gets all users, if no user is found, an NotFoundError is thrown
+* @throws {NotFoundError}
+*/
+async function getAllUsers() {
+    return await UserModel.getAllUsers()
 }
 
 export default {
@@ -85,4 +93,5 @@ export default {
     makeAdmin,
     makeNoAdmin,
     getUserByMail,
+    getAllUsers,
 }

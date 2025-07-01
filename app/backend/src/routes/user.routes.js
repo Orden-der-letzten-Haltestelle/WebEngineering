@@ -22,7 +22,7 @@ router.get("/",
     AuthController.verifyJWTtoken(Roles.user),
     UserController.getYourOwnUser
 )
-router.get("/:userId",
+router.get("/byId/:userId",                     //had to change endpoint because of conflict with getAllUsers
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.getUserById
 )
@@ -34,8 +34,12 @@ router.put("/:userId/role/makeNoAdmin",
     AuthController.verifyJWTtoken(Roles.admin),
     UserController.makeNoAdmin
 )
-router.get("/userByMail",
+router.get("/userByMail/:mailaddress",
     AuthController.verifyJWTtoken(Roles.user),
     UserController.getUserByMail
+)
+router.get("/allUsers",
+    AuthController.verifyJWTtoken(Roles.admin),
+    UserController.getAllUsers
 )
 export default router
