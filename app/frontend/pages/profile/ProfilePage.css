@@ -1,2 +1,138 @@
 #profilePage-content {
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#icon-displayed {
+    width: 55px;
+}
+
+.headline {
+    border-bottom: 2px solid #000;
+    display: inline-block;
+}
+
+.konto-container {
+    text-align: center;
+}
+
+.konto-info {
+    border: 2px #000 solid;
+    border-radius: 5px;
+    margin-top: 35px;
+    padding: 5px;
+}
+
+.konto-box {
+    background: #eee;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.profil-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4ch;
+}
+
+.profil-icon {
+    width: 90px;
+    height: 90px;
+    background: #aaa;
+    border-radius: 50%;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rolle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.rolle-admin {
+    color: #888;
+    font-size: 12px;
+}
+
+.konto-formular {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    flex: 1;
+}
+
+.konto-formular label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.konto-formular input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.passwort-reset {
+    font-size: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.konto-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 12px;
+}
+
+.btn {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 50px;
+    text-decoration: none; 
+    display: grid;
+    place-items: center;
+}
+
+.gelb {
+    background: #d8c800;
+    color: #000;
+}
+
+.rosa {
+    background: #f4aaaa;
+    color: #fff;
+    margin-right: 20px;
+}
+
+.rot {
+    background: #e61111;
+    color: #fff;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
