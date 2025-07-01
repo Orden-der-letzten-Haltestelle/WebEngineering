@@ -224,84 +224,99 @@ async function getUserById(userId) {
 }
 
 /**
- * changes roles of a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * makes Admin of a User by userId, if no user with that id exist, an NotFoundError will be thrown
  * @param {string} userId
- * @param {string} roles
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
-async function changeUserRole(userId, roles) {
+async function makeAdmin(userId) {
        try {
-        const result = ""
         // Überprüfen, ob der Nutzer existiert
-        const userBeforeChange = await AuthModel.findAuthUserById(userId)
-        if (userBeforeChange.rows.length <= 0) {
+        const userCheck = await pool.query(
+            `SELECT id FROM webshop.users WHERE id = $1`,
+            [userId]
+        );
+        if (userCheck.rows.length <= 0) {
             throw new NotFoundError(`User with id ${userId} doesn't exist`);
         }
-        switch (userBeforeChange.roles.rows) {
-            case 2:     //also need to check what roles should be inserted!!!!
-                result = "A"
-                break;
-            case 0:
-                result = await pool.query(
-                    ` 
-                    INSERT INTO webshop.user_has_role(id, userid, roleid)
-                    VALUES ($1, 1),
-		                    ($1,2);
-                    RETURNING *;`,
-                    [userId]
-                );
-                break;
-            case 1:
-                if (userBeforeChange.roles.toString().includes("a")){
-                    result = await pool.query(
-                    ` 
-                    INSERT INTO webshop.user_has_role(id, userid, roleid)
-                    VALUES ($1, 1);
-                    RETURNING *;`,
-                    [userId]
-                    );
-                }
-                else {
-                    result = await pool.query(
-                    ` 
-                    INSERT INTO webshop.user_has_role(id, userid, roleid)
-                    VALUES ($1, 2);
-                    RETURNING *;`,
-                    [userId]
-                    );
-                }
-            default:
-                break;
+
+        const checkIfAdmin = await pool.query(
+            `SELECT * FROM webshop.user_has_role WHERE userid = $1 and roleid = 2`,
+            [userId]
+        );
+        if (!(checkIfAdmin.rows.length <= 0)) {
+            throw new NotFoundError(`User with id ${userId} is already admin`);
         }
-        
-            if(userBeforeChange.roles.rows == 0){
-                
+        else {
+            const result = await pool.query(
+                `INSERT INTO webshop.user_has_role(
+                userid, roleid)
+                VALUES ($1, 2)
+                RETURNING *;`,
+                [userId]
+            );
+            if (result.rows.length <= 0) {
+                throw new DatabaseError(`Failed to make admin of user with id ${userId}`);
             }
         }
 
-        // Nutzer unbannen
-         await pool.query(
-            ` 
-            INSERT INTO webshop.user_has_role
-            SET roles=$1
-            WHERE id = $2
-            RETURNING *;`,
-            [roles, userId]
-        );
-
-        if (!result.rows || result.rows.length <= 0) {
-            throw new DatabaseError(`Failed to change Roles of user with id ${userId}`);
-        }
-
-        return result
-
+        const user = AuthModel.findAuthUserById(userId)
+        return user
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error;
         }
         throw new DatabaseError(
-            `Failed changing roles of user with id ${userId}: ${error}`,
+            `Failed to make admin of user with id ${userId}: ${error}`,
+            { originalError: error }
+        );
+    }
+}
+
+/**
+ * makes Admin of a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * @param {string} userId
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function makeNoAdmin(userId) {
+       try {
+        // Überprüfen, ob der Nutzer existiert
+        const userCheck = await pool.query(
+            `SELECT id FROM webshop.users WHERE id = $1`,
+            [userId]
+        );
+        if (userCheck.rows.length <= 0) {
+            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+        }
+
+        const checkIfAdmin = await pool.query(
+            `SELECT * FROM webshop.user_has_role WHERE userid = $1 and roleid = 2`,
+            [userId]
+        );
+        if (checkIfAdmin.rows.length <= 0) {
+            throw new NotFoundError(`User with id ${userId} is not an admin`);
+        }
+        else {
+            const result = await pool.query(
+                `DELETE FROM webshop.user_has_role
+	            WHERE userId = $1 and roleid = 2
+                RETURNING *;`,
+                [userId]
+            );
+            if (result.rows.length <= 0) {
+                throw new DatabaseError(`Failed to make no admin of user with id ${userId}`);
+            }
+        }
+
+        const user = AuthModel.findAuthUserById(userId)
+        return user
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error;
+        }
+        throw new DatabaseError(
+            `Failed to make no admin of user with id ${userId}: ${error}`,
             { originalError: error }
         );
     }
@@ -313,5 +328,6 @@ export default {
     bannUserById,
     unBannUserById,
     getUserById,
-    changeUserRole,
+    makeAdmin,
+    makeNoAdmin,
 }

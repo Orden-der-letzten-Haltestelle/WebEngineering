@@ -91,15 +91,32 @@ async function getYourOwnUser(req, res) {
     }
 }
 
-async function changeUserRole(req, res) {
+async function makeAdmin(req, res) {
     const userId = req.params.userId
-    const { roles } = req.body 
     try {
-        const response = await UserService.changeUserRole(userId, roles)
+        const response = await UserService.makeAdmin(userId)
         res.status(200).json(response)
     } catch (error) {
         console.log(
-            `Failed getYourOwnUser for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+            `Failed makeAdmin for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function makeNoAdmin(req, res) {
+    const userId = req.params.userId
+    try {
+        const response = await UserService.makeNoAdmin(userId)
+        res.status(200).json(response)
+    } catch (error) {
+        console.log(
+            `Failed makeNoAdmin for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
 
         const statusCode = error?.statusCode || 500
@@ -116,5 +133,6 @@ export default {
     unBannUser,
     getUserById,
     getYourOwnUser,
-    changeUserRole,
+    makeAdmin,
+    makeNoAdmin,
 }

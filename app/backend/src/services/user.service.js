@@ -50,12 +50,21 @@ async function getUserById(userId) {
 }
 
 /**
- * changes roles of User by the id, if no user with that id is found, an NotFoundError is thrown
+ * makes admin User with the id, if no user with that id is found, an NotFoundError is thrown
  * @param {int} userId
  * @throws {NotFoundError}
  */
-async function changeUserRole(userId, roles) {
-    return await UserModel.changeUserRole(userId, roles)
+async function makeAdmin(userId) {
+    return await UserModel.makeAdmin(userId)
+}
+
+/**
+ * makes no admin User with the id, if no user with that id is found, an NotFoundError is thrown
+ * @param {int} userId
+ * @throws {NotFoundError}
+ */
+async function makeNoAdmin(userId) {
+    return await UserModel.makeNoAdmin(userId)
 }
 
 export default {
@@ -64,5 +73,6 @@ export default {
     bannUser,
     unBannUser,
     getUserById,
-    changeUserRole,
+    makeAdmin,
+    makeNoAdmin,
 }
