@@ -19,7 +19,7 @@ import DatabaseError from "../exceptions/DatabaseError.js"
  */
 async function findByProductIdAndWishlistId(productId, wishlistId) {
     try {
-        const result = pool.query(`
+        const result = await pool.query(`
             SELECT
 	            wi.id,
 	            wi.amount,
@@ -39,7 +39,8 @@ async function findByProductIdAndWishlistId(productId, wishlistId) {
                 wishlistid = $2;`,
             [productId, wishlistId])
 
-        if (result.rows.length <= 0) {
+
+        if (result?.rows?.length <= 0) {
             throw new NotFoundError(`WishlistItem with the productId ${productId} and the wishlistId ${wishlistId} doesnt exist.`)
         }
 
