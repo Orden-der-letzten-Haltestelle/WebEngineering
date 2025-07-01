@@ -23,14 +23,14 @@ html, body {
 
 .checkout-grid {
   display: grid;
-  grid-template-rows: repeat(auto-fit, minmax(25px, 1fr)); /*Erstellt automatisch so viele Spalten wie möglich (autofit). Jede Spalte ist mind. 280px breit wächst aber mit 1fr*/
+  grid-template-rows: repeat(auto-fit, minmax(15px, 1fr)); /*Erstellt automatisch so viele Spalten wie möglich (autofit). Jede Spalte ist mind. 280px breit wächst aber mit 1fr*/
   gap: 1.5em; /*Innenabstand*/
   padding: 2em; /*Abstand zwischen den Boxen*/
 }
 
 .checkout-card {
   background: #D9D9D9;
-  border-radius: 10px;
+  border-radius: 5px;
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   overflow: hidden;
   display: flex;
@@ -39,18 +39,18 @@ html, body {
   box-shadow: 3px 5px 10px hsla(0,0%,0%,0.5);
 }
 
-.products-card:hover {
+.checkout-card:hover {
   transform: scale(1.02);
 }
 
 .image-wrapper img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: 50px;
+  object-fit: contain;
 }
 
 .products-info {
-  padding: 1em; 
+  padding: 1em;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -58,7 +58,7 @@ html, body {
 }
 
 .products-info h2 {
-  margin: 0.5em 0;
+  margin: 0.25em 0;
   font-size: 1.2em;
   color: #333;
 }
@@ -73,7 +73,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: right;
-  margin-top: 1em;
+  margin-top: 3em;
 }
 
 .price {
@@ -91,6 +91,7 @@ html, body {
   border-radius: 10px;
   cursor: pointer;
   color: #000;
+  margin: 0.5em;
 }
 
 .buy-button:hover {
