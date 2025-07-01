@@ -274,7 +274,7 @@ async function makeAdmin(userId) {
 }
 
 /**
- * makes Admin of a User by userId, if no user with that id exist, an NotFoundError will be thrown
+ * makes No Admin of a User by userId, if no user with that id exist, an NotFoundError will be thrown
  * @param {string} userId
  * @throws {NotFoundError}
  * @throws {DatabaseError}
@@ -345,7 +345,7 @@ async function getUserByMail(email) {
 }
 
 /**
- * gets all Users as AuthUsers, if no user exists, an NotFoundError will be thrown (impossible, need to be logged in, still)
+ * gets all Users as BasicUsers, if no user exists, an NotFoundError will be thrown (impossible, need to be logged in, still)
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError}
  * @throws {DatabaseError}
