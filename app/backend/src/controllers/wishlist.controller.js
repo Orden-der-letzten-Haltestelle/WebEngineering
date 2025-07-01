@@ -48,7 +48,7 @@ async function getWishlistById(req, res) {
 async function createWishlist(req, res) {
     const userId = req.user.id
     try {
-        const { name, description } = req.body
+        const { name = "", description = "" } = req.body
 
         const wishlist = await WishlistService.createWishlist(
             userId,
