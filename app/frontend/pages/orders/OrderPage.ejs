@@ -1,13 +1,13 @@
 <div id="orderPage-content">
     <% orderItems.forEach((item)=>{%>
         <div id="OrderhistoryItem">
-            <div id="Informationen">
-            <img src="https://via.placeholder.com/200" alt="Testbild">
-            <div> 
-                <p>Artikel-Name: <%=item.product.name %></p>
-                <p>Artikel-Nr.:<%=item.product.id %></p>
-            </div>
-            </div>
+                <a href="/products/<%= item.product.id %>" class="produktlink">
+                    <img src="https://via.placeholder.com/200" alt="Testbild">
+                    <div> 
+                        <p>Artikel-Name: <%=item.product.name %></p>
+                        <p>Artikel-Nr.:<%=item.product.id %></p>
+                    </div>
+                </a>
             <div id="buttons">
                 <button class="info">Preis: <%=item.product.price/100 %> €</button>
                 <button class="info">Anzahl: <%=item.amount %></button>
