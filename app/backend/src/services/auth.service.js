@@ -11,6 +11,7 @@ import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
 import AuthUser from "../objects/user/AuthUser.js"
+import EmailService from "../services/email.service.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 
@@ -53,6 +54,7 @@ async function createUser(username, password, email) {
     const user = await AuthModel.createUser(username, hashedPassword, email)
 
     // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
 
     //generate jwtToken
     const jwt = generateJWTtoken(user)
@@ -60,6 +62,45 @@ async function createUser(username, password, email) {
         user: user,
         jwt: jwt,
     }
+}
+
+/**
+ * sends verification email, so that users verify themselves via a link provided in the mail
+ */
+async function sendVerificationEmail(email) {
+    const subject = "Please verify your Email!"
+    const date = new Date()
+    const formattedDate = `${String(date.getDate()).padStart(2, "0")}.${String(
+        date.getMonth() + 1
+    ).padStart(2, "0")}.${date.getFullYear()}`
+
+    let emailBody = `
+        <html>
+        <head>
+            <style>
+               body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #DBC70C;
+                    text-align: right;
+                }
+            </style>
+        </head>
+        <body>
+        <h1>Verifizierung Ihres Accounts (erstellt am: ${formattedDate})</h1>
+        <p>link<p>
+        <footer>OdlH</footer>
+        </body>
+        </html>
+    `
+
+    EmailService.sendHtmlMail(
+        email,
+        subject,
+        emailBody
+    )
 }
 
 /**
