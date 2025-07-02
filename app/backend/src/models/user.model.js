@@ -49,6 +49,8 @@ async function findBasicUserById(userId) {
  */
 async function deleteUserById(userId) {
     try {
+        await pool.query("BEGIN")
+
         const resultRole =  await pool.query(
             `
             DELETE FROM
@@ -62,7 +64,46 @@ async function deleteUserById(userId) {
         if(resultRole.rows.length <= 0){
             console.log("nothing deleted")
         }
-
+        const userIsOwnerOfWishlist = await pool.query(
+            `SELECT * FROM webshop.user_wishlist_relation as w
+            WHERE w.userid = $1 and w.wishlistroleid = 1;
+            `,
+            [userId]
+        )
+        if(userIsOwnerOfWishlist.rows.length > 0){
+            console.log("is owner of wishlist")
+            const idWishlist = userIsOwnerOfWishlist.rows[0].wishlistid
+            const deleteWishlistItems = await pool.query(
+                `DELETE FROM webshop.wishlistitems as wi
+                WHERE wi.wishlistid = $1
+                RETURNING *;
+                `,
+                [idWishlist]
+            )
+            if(resultRole.rows.length <= 0){
+                throw new DatabaseError("Failed to delete wishlist items")
+            }
+            const deleteRolesOfOthers = await pool.query(
+                `DELETE FROM webshop.user_wishlist_relation as wu
+                WHERE wu.wishlistid = $1
+                RETURNING *;
+                `,
+                [idWishlist]
+            )
+            if(deleteRolesOfOthers.rows.length<=0){
+                throw new DatabaseError("Failed to delete wishlist roles which user is owner of")
+            }
+            const deleteWishlist = await pool.query(
+                `DELETE FROM webshop.wishlists as w
+                WHERE w.id = $1
+                RETURNING *;
+                `,
+                [idWishlist]
+            )
+            if(deleteWishlist.rows.length<=0){
+                throw new DatabaseError("Failed to delete wishlist which user is owner of")
+            }
+        }
         const resultWishlist =  await pool.query(
             `
             DELETE FROM
@@ -103,8 +144,9 @@ async function deleteUserById(userId) {
         if(result.rows.length<=0){
             throw new DatabaseError("Failed to delete user")
         }
-        return
+        await pool.query("COMMIT")
     } catch (error) {
+        await pool.query("ROLLBACK")
         throw new DatabaseError(
             `Failed on deleteUser with userId ${userId}: ${error}`,
             error
