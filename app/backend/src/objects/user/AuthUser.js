@@ -24,11 +24,8 @@ export default class AuthUser extends BasicUser {
      * @returns {boolean} - True if the user has the role, false otherwise.
      */
     hasRole(requiredRole) {
-        console.log(requiredRole)
-
         return this.roles.some(
             (userRole) => {
-                console.log(userRole)
                 return userRole.level >= requiredRole.level
             }
         )

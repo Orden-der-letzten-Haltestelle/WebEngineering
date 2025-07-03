@@ -18,14 +18,6 @@ router.get(
 )
 router.post("/register", AuthController.register)
 router.post("/login", AuthController.login)
-router.get(
-    "/protected",
-    AuthController.verifyJWTtoken(Roles.user),
-    (req, res) => {
-        res.send(
-            `You have been granted access; userId: ${req.user.id}, roles: ${req.user.roles}`
-        )
-    }
-)
+router.get("/hasAccess", AuthController.hasUserAccessToResource)
 
 export default router

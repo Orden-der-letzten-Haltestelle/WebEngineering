@@ -126,14 +126,19 @@ async function login(req, res) {
 }
 
 
-async function hasUserAccessToResource(req, res){
+async function hasUserAccessToResource(req, res) {
     try {
-        const userAndToken = await AuthService.hasUserAccessToResource(
-            email,
-            password
-        )
+        const { userId, resourceId, resource, action } = req.body
+
+        const result = await AuthService.hasUserAccessToResource(userId, resourceId, resource, action)
         res.json({
-            ...userAndToken,
+            "userId": userId,
+            "resource": {
+                "id": resourceId,
+                "name": resource,
+                "action": action
+            },
+            "hasAccess": result,
         })
     } catch (error) {
         console.log(
@@ -153,4 +158,5 @@ export default {
     register,
     login,
     verifyJWTtoken,
+    hasUserAccessToResource
 }

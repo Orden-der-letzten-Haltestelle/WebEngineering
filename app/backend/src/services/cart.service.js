@@ -9,6 +9,19 @@ import CartValidator from "../validator/validator.cart.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import ProductService from "./product.service.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
+import DatabaseError from "../exceptions/DatabaseError.js"
+
+/**
+ * Returns a cartitem by its id
+ * @param {string} cartItemId 
+ * @returns {Promise<CartItem>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function getCartItem(cartItemId){
+    const cartItem = await CartModel.findCartItemById(cartItemId)
+    return cartItem
+}
 
 /**
  * Returns all CartItems with bought == false, that the user has.
@@ -225,6 +238,7 @@ async function deleteCart(userId) {
 }
 
 export default {
+    getCartItem,
     getCart,
     getOrderHistory,
     buyCart,

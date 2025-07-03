@@ -223,6 +223,65 @@ async function findCartItemById(id) {
     }
 }
 
+
+/**
+ * finds an orderItem by its id
+ * @param {int} id 
+ * @returns {Promise<OrderItem>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ */
+async function findOrderItemById(id) {
+    try {
+        const result = await pool.query(
+            `
+            SELECT
+                c.id as cartitemid,
+                c.addedat,
+                c.amount as cartamount,
+                c.boughtat,
+                p.id as productid,
+                p.name,
+                p.description,
+                p.amount as storageamount,
+                p.price 
+            FROM
+                webshop.cartitems as c
+            JOIN 
+                webshop.products as p ON p.id = c.productid
+            WHERE
+                c.id = $1;  
+            `, [id]
+        )
+        if (result.rows.length <= 0) {
+            throw NotFoundError(`OrderItem with the id ${id} doesn't exist`)
+        }
+        const row = result.rows[0]
+        const product = new Product(
+            row.productid,
+            row.name,
+            row.description,
+            row.storageamount
+        )
+        const orderItem = new OrderItem(
+            row.cartitemid,
+            product,
+            row.cartamount,
+            row.addedat,
+            row.boughtat
+        )
+        return orderItem
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed findOrderItemById id: ${id}`,
+            { originalError: error }
+        )
+    }
+}
+
 /**
  * Returns a list of all cartItems, that the user has, that are not already bought.
  *
@@ -513,6 +572,7 @@ async function deleteAllCartItemsByUserId(userId) {
 }
 
 export default {
+    findOrderItemById,
     countCartItemsByUserId,
     findOrderItemsByUserId,
     findCartItemByUserIdAndProductId,

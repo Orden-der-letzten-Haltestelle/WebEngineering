@@ -2,6 +2,7 @@
 import AuthModel from "../models/auth.model.js"
 import AuthValidator from "../validator/validator.auth.js"
 import ProductService from "../services/product.service.js"
+import CartService from "../services/cart.service.js"
 
 //jwt
 import bcrypt from "bcryptjs"
@@ -20,6 +21,10 @@ import AuthenticationError from "../exceptions/AuthenticationError.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import ServerError from "../exceptions/ServerError.js"
+import cartModel from "../models/cart.model.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
+import OrderItem from "../objects/items/OrderItem.js"
+import NotImplementedError from "../exceptions/NotImplementedError.js"
 
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
@@ -193,25 +198,34 @@ async function getUserInformationByJWTtoken(token) {
  * @param {string} ressource 
  * @param {string} action 
  */
-async function hasUserAccessToResource(userId, ressourceId, ressource, action) {
-    try {
-        const user = await getAuthUser(userId)
-        if (user.hasRole(Roles.admin)) {
-            //TODO should an admin be abel to delete a user
-            return true
-        }
+async function hasUserAccessToResource(userId, resourceId, ressource, action) {
 
-        //TODO proof, that valid action is given
+    const user = await getAuthUser(userId)
+    //if (user.hasRole(Roles.admin)) {
+    //TODO should an admin be abel to delete a user
+    //  return true
+    //}
 
-        switch (ressource) {
-            case "product":
-                await hasUserAccessToProduct(user, ressourceId, action)
-        }
+    //TODO proof, that valid action is given
 
 
-    } catch (error) {
-
+    switch (ressource) {
+        case "product":
+            return await hasUserAccessToProduct(user, resourceId, action)
+        case "cartItem":
+            return await hasUserAccessToCartItem(user, resourceId, action)
+        case "orderItem":
+            return await hasUserAccessToOrderItem(user, resourceId, action)
+        case "user":
+            return await hasUserAccessToUser(user, resourceId, action)
+        case "user_has_role":
+            
+        case "wishlist":
+            break
     }
+
+
+
 }
 
 /**
@@ -238,7 +252,8 @@ async function hasUserAccessToProduct(user, productId, action) {
             case "PUT":
             case "DELETE":
                 //product needs to be given and needs to exist
-                if (productId == null) return false
+                if (productId == null || productId == undefined)
+                    throw new BadRequestError(`For ${action} Product an resourceId is required.`)
                 await ProductService.getProductById(productId)
 
                 //user needs to be admin
@@ -247,13 +262,142 @@ async function hasUserAccessToProduct(user, productId, action) {
                 return false
         }
     } catch (error) {
-        if (error instanceof NotFoundError) {
-            return false
+        if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError) {
+            throw error
         }
-        throw new ServerError("Failed proofing, if user has access to product.")
+        throw new ServerError("Failed proofing, if user has access to product.", { originalError: error })
     }
 }
 
+/**
+ * Verifys if an user can access the cartitem.
+ * 
+ * @param {int} user 
+ * @param {int} cartItemId 
+ * @param {string} action 
+ */
+async function hasUserAccessToCartItem(user, id, action) {
+    //if id given, item has to exist
+    let cartItem = undefined
+    if (id != null) {
+        cartItem = await CartService.getCartItem(id)
+    }
+
+    try {
+        switch (action) {
+            case "GET":
+                //when id given, user needs to be owner
+                if (id != null && cartItem.ownerId !== user.id) {
+                    return false
+                }
+                return true
+            case "PUT":
+                //Put requires an resourceId 
+                if (id == null)
+                    throw new BadRequestError(`For CartItem ${action} a resourceId is required`)
+            case "POST":
+            case "DELETE":
+                //User has to be owner of CartItem
+                if (cartItem != undefined && cartItem.ownerId !== user.id) return false
+                return true
+            default:
+                throw new NotImplementedError(`${action} isn't supported`)
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError || error instanceof NotImplementedError) {
+            throw error
+        }
+        console.log(error)
+        throw new ServerError("Failed proofing, if user has access to cartItem.", { originalError: error })
+    }
+}
+
+async function hasUserAccessToOrderItem(user, id, action) {
+    try {
+        //if id given, item has to exist
+        let item = undefined
+        if (id != null) {
+            item = await CartService.getOrderItem(id)
+        }
+
+        switch (action) {
+            case "GET":
+                //when id given, user needs to be owner
+                if (id != null && item.ownerId !== user.id) {
+                    return false
+                }
+                return true
+            case "POST":
+                if (id != null) {
+                    //Post request with given id isnt Supported.
+                    throw new NotImplementedError(`${action} Request with resourceId isn't supported for OrderItems`)
+                }
+                //user can always buy his own cart
+                return true
+            case "PUT":
+                if (id == null) {
+                    throw new BadRequestError(`${action} Requires an resourceId.`)
+                }
+                //when given, user has to own item
+                if (item.ownerId !== user.id) {
+                    return false
+                }
+            case "DELETE":
+                return false
+            default:
+                throw NotImplementedError(`${action} isnt Supported.`)
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError || error instanceof NotImplementedError) {
+            throw error
+        }
+        throw new ServerError("Failed proofing hasUserAccessToOrderItem")
+    }
+}
+
+async function hasUserAccessToUser(user, id, action) {
+    try {
+        let item = undefined
+        if (id != null) {
+            item = await getAuthUser(id)
+        }
+
+        if (id != null && user.hasRole(Roles.admin)) {
+            return false
+        }
+
+        switch (action) {
+            case "GET":
+            case "PUT":
+            case "POST":
+                //Admins and my self can access those endpoints.
+                return true
+            case "DELETE":
+                if (user.id != id) {
+                    //no one other then myself, should be abel to delete that user
+                    return false
+                }
+                return true
+
+
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError || error instanceof NotImplementedError) {
+            throw error
+        }
+        throw new ServerError("Failed proofing hasUserAccessToUser")
+    }
+}
+
+async function hasUserAccessToUser_Has_Role(user, id, action){
+    try{
+        //TODO ?? when post, i expect an users.id, but when put i expect an user_has_role.id 
+        // Do we both handle that here? 
+
+    }catch(error){
+
+    }
+}
 
 export default {
     getAuthUser,
