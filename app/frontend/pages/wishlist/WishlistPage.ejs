@@ -5,18 +5,20 @@
     </div>
     <% wishlist.items.forEach((item)=>{%>
             <div class="DetailedwishlistItem">
-                <a href="/products/<%= item.product.id %>" class="produktlink">
-                    <img src="https://via.placeholder.com/200" alt="Herzicon">
-                    <img src="https://via.placeholder.com/200" alt="Testbild">
-                    <div> 
-                        <p>Artikel-Name: <%=item.product.name%> </p>
-                        <p>Artikel-Nr.: <%=item.product.id%> </p>
-                    </div>
-                </a>
-                <div id="buttons">
+                <div class="Produktinfos">
+                    <img class="heart"src="http://localhost:3000/img/heart-svgrepo-com.svg" alt="Entfernen">
+                    <a href="/products/<%= item.product.id %>" class="produktlink">
+                        <img class="Produktbild" src="http://localhost:3000/img/BeispielImg.png" alt="Produktbild">
+                        <div class="Artikelinformationen"> 
+                            <p>Artikel-Name: <%=item.product.name%> </p>
+                            <p>Artikel-Nr.: <%=item.product.id%> </p>
+                        </div>
+                    </a>
+                </div>
+                <div class="buttons">
                     <button class="info">Anzahl: <%=item.amount%> </button>
                     <button id="buy">In den Warenkorb</button>
-                    <img src="https://via.placeholder.com/200" alt="Loeschicon">
+                    <img class="trash" src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png" alt="Löschen">
                 </div>
             </div>
     <%}) %>
