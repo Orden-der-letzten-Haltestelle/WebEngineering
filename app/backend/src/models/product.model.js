@@ -205,12 +205,18 @@ async function deleteProductById(productId) {
             WHERE id=$1`,
             [productId]
         )
+        if (result_products.rows.length <= 0) {
+            throw new NotFoundError(`Product with id ${id} doesn't exist`)
+        }
 
         await pool.query("COMMIT")
 
         return result_products
     } catch (error) {
         await pool.query("ROLLBACK")
+        if (error instanceof NotFoundError) {
+            throw error
+        }
         throw new DatabaseError(
             `Failed to delete Product with Id: ${productId} ${error}`,
             error
