@@ -165,10 +165,16 @@ async function updateProduct(id, name, description, amount, price) {
             `,
             [id, name, description, amount, price]
         )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`Product with id ${id} doesn't exist`)
+        }
         return new Product(id, name, description, amount, price)
     } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
         throw new DatabaseError(
-            `Failed to create a new Product ${error}`,
+            `Failed to edit the Product ${error}`,
             error
         )
     }
