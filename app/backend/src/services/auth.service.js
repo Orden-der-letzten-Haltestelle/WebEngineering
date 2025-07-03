@@ -1,18 +1,26 @@
-//import
+//service
 import AuthModel from "../models/auth.model.js"
-import TokenVerificationError from "../exceptions/TokenVerificationError.js"
+import AuthValidator from "../validator/validator.auth.js"
+import ProductService from "../services/product.service.js"
 
-// Import other
-import ForbiddenError from "../exceptions/ForbiddenError.js"
-import UnauthorizedError from "../exceptions/UnauthorizedError.js"
+//jwt
 import bcrypt from "bcryptjs"
 import ms from "ms"
 import jwt from "jsonwebtoken"
-import AuthenticationError from "../exceptions/AuthenticationError.js"
-import AuthValidator from "../validator/validator.auth.js"
+
+//objects
 import AuthUser from "../objects/user/AuthUser.js"
+import Roles from "../objects/user/Roles.js"
+
+//errors
+import TokenVerificationError from "../exceptions/TokenVerificationError.js"
+import ForbiddenError from "../exceptions/ForbiddenError.js"
+import UnauthorizedError from "../exceptions/UnauthorizedError.js"
+import AuthenticationError from "../exceptions/AuthenticationError.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
+import ServerError from "../exceptions/ServerError.js"
+
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
 const JWT_TOKEN_EXPIRES_IN = "1h"
@@ -113,17 +121,18 @@ async function extractTokenAndVerify(token, requiredRole) {
     //proof token and extract information from token
     const user = await getUserInformationByJWTtoken(token)
 
+    //TODO replace with has user access
     //check if the user has the required role
     if (
         requiredRole !== undefined &&
-        (!user.roles || !user.roles.includes(requiredRole.roleName))
+        (!user.roles || !user.hasRole(requiredRole))
     ) {
         throw new ForbiddenError()
     }
 
     //gets an AuthUser Object to verify whether the user is banned
     const authUser = await getAuthUser(user.id)
-    
+
     if (authUser.isBanned) {
         throw new ForbiddenError("User is banned!");
     }
@@ -176,9 +185,80 @@ async function getUserInformationByJWTtoken(token) {
     }
 }
 
+/**
+ * Admin should be abel to access this endpoint, to verify, if the user given with the id
+ * can access the resource and perform that action.
+ * @param {int} userId 
+ * @param {Roles} roles 
+ * @param {string} ressource 
+ * @param {string} action 
+ */
+async function hasUserAccessToResource(userId, ressourceId, ressource, action) {
+    try {
+        const user = await getAuthUser(userId)
+        if (user.hasRole(Roles.admin)) {
+            //TODO should an admin be abel to delete a user
+            return true
+        }
+
+        //TODO proof, that valid action is given
+
+        switch (ressource) {
+            case "product":
+                await hasUserAccessToProduct(user, ressourceId, action)
+        }
+
+
+    } catch (error) {
+
+    }
+}
+
+/**
+ * Verify if the given user can make the given action. 
+ * if no productId is given, it test overall, if the user could make this request for any product.
+ * When ProductId is given, we also trest, if the product exists
+ * 
+ * @param {AuthUser} user 
+ * @param {int} productId 
+ * @param {string} action 
+ * @returns 
+ * @throws {ServerError}
+ */
+async function hasUserAccessToProduct(user, productId, action) {
+    try {
+        switch (action) {
+            case "GET":
+                //when productId given, product needs to exist
+                if (productId != null) {
+                    await ProductService.getProductById(productId)
+                }
+                return true
+            case "POST":
+            case "PUT":
+            case "DELETE":
+                //product needs to be given and needs to exist
+                if (productId == null) return false
+                await ProductService.getProductById(productId)
+
+                //user needs to be admin
+                return user.hasRole(Roles.admin)
+            default:
+                return false
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            return false
+        }
+        throw new ServerError("Failed proofing, if user has access to product.")
+    }
+}
+
+
 export default {
     getAuthUser,
     createUser,
     extractTokenAndVerify,
     verifyLoginInformation,
+    hasUserAccessToResource
 }

@@ -125,6 +125,29 @@ async function login(req, res) {
     }
 }
 
+
+async function hasUserAccessToResource(req, res){
+    try {
+        const userAndToken = await AuthService.hasUserAccessToResource(
+            email,
+            password
+        )
+        res.json({
+            ...userAndToken,
+        })
+    } catch (error) {
+        console.log(
+            `Failed hasUserAccessToREsource; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getAuthUser,
     register,

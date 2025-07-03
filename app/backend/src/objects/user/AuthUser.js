@@ -17,4 +17,20 @@ export default class AuthUser extends BasicUser {
         this.isBanned = isBanned
         this.roles = roles
     }
+
+    /**
+     * Check if the user has a given role or a role, that is higher then the required role
+     * @param {Roles} requiredRole
+     * @returns {boolean} - True if the user has the role, false otherwise.
+     */
+    hasRole(requiredRole) {
+        console.log(requiredRole)
+
+        return this.roles.some(
+            (userRole) => {
+                console.log(userRole)
+                return userRole.level >= requiredRole.level
+            }
+        )
+    }
 }
