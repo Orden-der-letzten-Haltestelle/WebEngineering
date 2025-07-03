@@ -48,8 +48,12 @@ async function createProduct(req, res) {
         })
     } catch (error) {
         console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -63,8 +67,12 @@ async function getProductById(req, res) {
         })
     } catch (error) {
         console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -85,8 +93,12 @@ async function updateProduct(req, res) {
         })
     } catch (error) {
         console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -98,8 +110,12 @@ async function deleteProductById(req, res) {
         res.status(200).json({ message: `Deleted Product with Id: ${productId}` })
     } catch (error) {
         console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 

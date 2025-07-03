@@ -204,6 +204,7 @@ async function deleteProductById(productId) {
 
         return result_products
     } catch (error) {
+        await pool.query("ROLLBACK")
         throw new DatabaseError(
             `Failed to delete Product with Id: ${productId} ${error}`,
             error
