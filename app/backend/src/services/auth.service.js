@@ -68,12 +68,8 @@ async function createUser(username, password, email) {
  * sends verification email, so that users verify themselves via a link provided in the mail
  */
 async function sendVerificationEmail(email) {
-    const subject = "Please verify your Email!"
-    const date = new Date()
-    const formattedDate = `${String(date.getDate()).padStart(2, "0")}.${String(
-        date.getMonth() + 1
-    ).padStart(2, "0")}.${date.getFullYear()}`
-
+    const subject = "Bitte verifizieren Sie Ihre Email"
+    
     let emailBody = `
         <html>
         <head>
@@ -84,14 +80,34 @@ async function sendVerificationEmail(email) {
                 }
                 h1 {
                     color: #DBC70C;
-                    text-align: right;
+                    text-align: center;
+                    font-size: 16;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
+                }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
+                a {
+                    color: #DBC70C;
+                    font-size: 12;
+                    text-decoration: underline; 
+                    text-align: center
+                }
+                a:hover {
+                    color:rgb(50, 48, 48); 
+                    text-decoration:underline; 
+                    cursor:pointer;  
                 }
             </style>
         </head>
         <body>
-        <h1>Verifizierung Ihres Accounts (erstellt am: ${formattedDate})</h1>
-        <p>link<p>
-        <footer>OdlH</footer>
+        <h1>Verifizierung Ihres Accounts - OdlH</h1>
+        <p>Bitte klicken Sie auf diesen Link, um ihre Registrierung abzuschließen und ihre Email zu verifizieren:<p>
+        <a href="http://localhost:3000/user/verify"><b>Registrierung abschließen</b></a>
         </body>
         </html>
     `
