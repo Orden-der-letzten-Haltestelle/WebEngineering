@@ -42,7 +42,7 @@ flex: 1;
     border-radius: 2px;
 }
 
-#OrderhistoryItem button:hover {
+#OrderhistoryItem button:not(.info):hover {
     opacity: 0.7;
     cursor: pointer;
 }
