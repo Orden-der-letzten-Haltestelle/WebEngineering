@@ -214,7 +214,6 @@ async function requireAdmin(req, res, next) {
     }
 
     const user = req.user
-    console.log(user)
 
     if (!user.roles.includes("admin")) {
         throw new Error("you are not allowed to enter this page")

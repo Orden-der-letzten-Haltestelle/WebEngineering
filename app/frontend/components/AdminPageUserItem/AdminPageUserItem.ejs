@@ -5,6 +5,9 @@
         <strong>Rolle:</strong> <%= user.roles.includes("admin") ? "Admin" :
         "User" %>
     </p>
+    <p class="text verified">
+        <strong>Verifiziert:</strong> <%= user.isVerified ? "Ja": "Nein" %>
+    </p>
 
     <div class="adminpage-user-button-container">
         <% if (user.roles.includes("admin")) { %>
@@ -43,11 +46,40 @@
     >
         <div class="blur"></div>
         <div class="adminpage-overlay-inner">
-            <p>Sind Sie sicher, dass Sie den User <%= action %> wollen?</p>
+            <p>
+                Sind Sie sicher, dass Sie den Nutzer <%= user.email %> <%=
+                action %> wollen?
+            </p>
             <div class="adminpage-overlay-button-container">
-                <button class="adminpage-button confirm">
-                    <%= action.charAt(0).toUpperCase() + action.slice(1) %>
+                <% if (action === "Bannen") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleBannUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Bannen
                 </button>
+                <% } else if (action === "Entbannen") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleUnBannUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Entbannen
+                </button>
+                <% } else if (action === "Befördern") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleMakeUserAdmin('<%= user.id %>', '<%= token %>')"
+                >
+                    Befördern
+                </button>
+                <% } else if (action === "Degradieren") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleRemoveAdminFromUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Degradieren
+                </button>
+                <% } %>
                 <button class="adminpage-button abbruch">Abbruch</button>
             </div>
         </div>
