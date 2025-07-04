@@ -1,4 +1,4 @@
-import { deleteCartItem, updateAmount, deleteCart } from "../api/CartApiHandler.js"
+import {addproductTocart ,deleteCartItem, updateAmount, deleteCart } from "../api/CartApiHandler.js"
 
 window.handleDeleteCartItem = function handleDeleteCartItem(cartItemId, token) {
     deleteCartItem(cartItemId, token).then(() => {
@@ -23,6 +23,14 @@ window.handleDeleteCart = function handleDeleteCart(token) {
         window.location.reload()
     }).catch((err) => {
         alert("❌ Failed to delete Cart: " + (err.message || "Unknown error"));
+        console.error(err)
+    })
+}
+window.handleAddtocart = function handleAddtocart(productId, token) {
+    addproductTocart(productId, token).then(() => {
+        window.location.reload();
+    }).catch((err) => {
+        alert("❌ Add to cart: " + (err.message || "Unknown error"));
         console.error(err)
     })
 }
