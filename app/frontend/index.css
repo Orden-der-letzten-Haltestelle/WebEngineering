@@ -29,11 +29,13 @@ body,
     height: 100%;
     grid-template-rows: min-content auto min-content;
 }
-
-footer, header{
+#header-placeholder,
+footer,
+header {
     z-index: 1000;
 }
 
 main {
+    position: relative;
     height: 100%;
 }
