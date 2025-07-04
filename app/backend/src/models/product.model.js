@@ -157,11 +157,12 @@ async function createProduct(name, description, amount, price) {
 
 async function updateProduct(id, name, description, amount, price) {
     try {
+        console.    log(id)
         const result = await pool.query(
             `
             UPDATE webshop.products
             SET name=$2, description=$3, amount=$4, price=$5
-            WHERE id=$1
+            WHERE id=$1 RETURNING *;
             `,
             [id, name, description, amount, price]
         )
@@ -202,7 +203,7 @@ async function deleteProductById(productId) {
         // Delete the Product
         const result_products = await pool.query(
             `DELETE FROM webshop.products 
-            WHERE id=$1`,
+            WHERE id=$1 RETURNING *;`,
             [productId]
         )
         if (result_products.rows.length <= 0) {
