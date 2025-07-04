@@ -1,0 +1,18 @@
+meta {
+  name: CreateProduct
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/api/products
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: test name
+  description: test description
+  amount: 10
+  price: 1999
+}
