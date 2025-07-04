@@ -1,5 +1,6 @@
 //import
 import ProductService from "../services/product.service.js"
+import { pool } from "../models/pool.js"
 
 /**
  * Used for the responses and error handling
