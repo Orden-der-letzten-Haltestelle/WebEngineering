@@ -16,10 +16,10 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
-import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
+import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -129,10 +129,14 @@ router.get(
 router.get(
     "/wishlist",
     requireAuth,
-    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        WishlistOverviewPageLoader,
+        "pages/wishlist/wishlist_overview/wishlist_overview",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* wishlist */
