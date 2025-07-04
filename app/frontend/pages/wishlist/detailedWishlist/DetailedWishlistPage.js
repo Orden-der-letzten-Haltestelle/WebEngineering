@@ -4,20 +4,17 @@
  * @param {*} req
  * @param {*} res
  */
-export default async function WishlistPageLoader(req, res) {
-    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+export default async function DetailedWishlistPageLoader(req, res) {
+    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.#
+    const wishlistId = req.params.wishlistId
     return {
-        title: "WishlistPage",
+        title: "DetailedWishlistPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         wishlist: {
             id: "3057 (wishlistid)",
             name: "Meine Wunschliste",
             description: "Tolle Wunschliste ;)",
-            roles: [
-                "owner",
-                "write",
-                "read"
-            ],
+            roles: ["owner", "write", "read"],
             items: [
                 {
                     id: "3874",
@@ -28,10 +25,9 @@ export default async function WishlistPageLoader(req, res) {
                         name: "T-Shirt",
                         description: "Tolles T-shirt",
                         amount: 100,
-                        price: 1888
-                    }
+                        price: 1888,
+                    },
                 },
-
             ],
             members: [
                 {
@@ -39,12 +35,9 @@ export default async function WishlistPageLoader(req, res) {
                     userWishlistRelationId: "45897 (userWishlistRealtionId)",
                     name: "Negroberd",
                     email: "negroberd@orden-der-letzten-haltestelle.de",
-                    roles: [
-                        "read",
-                        "write"
-                    ]
-                }
-            ]
+                    roles: ["read", "write"],
+                },
+            ],
         },
         /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
         components: ["BeispielComponent"],
