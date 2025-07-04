@@ -30,6 +30,10 @@ body,
     grid-template-rows: min-content auto min-content;
 }
 
+footer, header{
+    z-index: 1000;
+}
+
 main {
     height: 100%;
 }
