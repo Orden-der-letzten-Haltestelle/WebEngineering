@@ -4,13 +4,16 @@
     color: #333;
 }
 
+
+
 #productPage-content a {
     text-decoration: none;
+    width: auto
 }
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, 280px);
     margin: 2em auto;
     width: 100%;
     gap: 1.5em;

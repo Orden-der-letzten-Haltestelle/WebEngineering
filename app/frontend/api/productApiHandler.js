@@ -7,16 +7,14 @@ import config from "./config.js"
  * @return {Promise<Object>}
  * @throws {ApiError}
  */
-export async function fetchProducts(token) {
-    const res = await fetch(`${config.host}/products/`, {
-        headers: {
-            Authorization: token,
-        },
-    })
+export async function fetchProducts(value, minPrice, maxPrice) {
+    const res = await fetch(
+        `${config.host}/products/?value=${value}&minPrice=${minPrice}&maxPrice=${maxPrice}`
+    )
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || "Failed to fetch user"
+        const errorMessage = errorData.message || "Failed to fetch products"
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return res.json()
