@@ -1,0 +1,121 @@
+<div class="adminPage-user-container">
+    <img src="http://localhost:3000/img/BeispielImg.png" alt="Profilbild" />
+    <p class="text email"><strong>Email:</strong> <%= user.email %></p>
+    <p class="text role">
+        <strong>Rolle:</strong> <%= user.roles.includes("admin") ? "Admin" :
+        "User" %>
+    </p>
+    <p class="text verified">
+        <strong>Verifiziert:</strong> <%= user.isVerified ? "Ja": "Nein" %>
+    </p>
+
+    <div class="adminpage-user-button-container">
+        <% if (user.roles.includes("admin")) { %>
+        <button
+            class="adminpage-button Degradieren"
+            data-user-id="<%= user.id %>"
+        >
+            Zum <strong>User</strong><br />Degradieren
+        </button>
+        <% } else { %>
+        <button
+            class="adminpage-button Befördern"
+            data-user-id="<%= user.id %>"
+        >
+            Zum Admin<br />Befördern
+        </button>
+        <% } %> <% if (user.isBanned) { %>
+        <button
+            class="adminpage-button Entbannen"
+            data-user-id="<%= user.id %>"
+        >
+            Entbannen
+        </button>
+        <% } else { %>
+        <button class="adminpage-button Bannen" data-user-id="<%= user.id %>">
+            Bannen
+        </button>
+        <% } %>
+    </div>
+
+    <% ["Bannen", "Entbannen", "Befördern", "Degradieren"].forEach(action => {
+    %>
+    <div
+        class="adminpage-overlay-container <%= action %> hide"
+        id="adminpage-overlay-<%= action %>-<%= user.id %>"
+    >
+        <div class="blur"></div>
+        <div class="adminpage-overlay-inner">
+            <p>
+                Sind Sie sicher, dass Sie den Nutzer <%= user.email %> <%=
+                action %> wollen?
+            </p>
+            <div class="adminpage-overlay-button-container">
+                <% if (action === "Bannen") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleBannUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Bannen
+                </button>
+                <% } else if (action === "Entbannen") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleUnBannUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Entbannen
+                </button>
+                <% } else if (action === "Befördern") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleMakeUserAdmin('<%= user.id %>', '<%= token %>')"
+                >
+                    Befördern
+                </button>
+                <% } else if (action === "Degradieren") { %>
+                <button
+                    class="adminpage-button confirm"
+                    onclick="handleRemoveAdminFromUser('<%= user.id %>', '<%= token %>')"
+                >
+                    Degradieren
+                </button>
+                <% } %>
+                <button class="adminpage-button abbruch">Abbruch</button>
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const actions = ["Bannen", "Entbannen", "Befördern", "Degradieren"]
+
+        actions.forEach((action) => {
+            const buttons = document.querySelectorAll(
+                `.adminpage-button.${action}`
+            )
+
+            buttons.forEach((button) => {
+                const userId = button.dataset.userId
+
+                button.addEventListener("click", function () {
+                    const overlay = document.getElementById(
+                        `adminpage-overlay-${action}-${userId}`
+                    )
+                    if (overlay) overlay.classList.remove("hide")
+
+                    const blur = overlay.querySelector(".blur")
+                    const cancel = overlay.querySelector(".abbruch")
+
+                    blur.addEventListener("click", () =>
+                        overlay.classList.add("hide")
+                    )
+                    cancel.addEventListener("click", () =>
+                        overlay.classList.add("hide")
+                    )
+                })
+            })
+        })
+    })
+</script>
