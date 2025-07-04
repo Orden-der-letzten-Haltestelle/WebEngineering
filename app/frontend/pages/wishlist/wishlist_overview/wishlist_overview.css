@@ -7,19 +7,114 @@
 
 .Profilreihe {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-top: 1%;
     margin-bottom: 1%;
-    width: 95vw;
-    height: 15vh;
+    width: 60vw;
+    height: 35vh;
+    gap: 25%;
 }
 
 .Profil {
     display: flex;
-    padding-left: 2%;
-    padding-right: 2%;
+    padding: 2% 2%;
     background-color: rgb(231, 231, 231);
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    height: 100%;
+    width: 40%;
+    font-size: 12px;
+}
+
+.Spalte1 {
+    width: 60%;
+    height: 100%;
+}
+
+.Spalte2 {
+    width: 40%;
+    height: 100%;
+}
+.heart {
+    height: 50px;
+    object-fit: cover;
+}
+
+.Überschrift {
+    display: block;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 8%;
+}
+
+.Produkte {
+    padding-left: 15%;
+}
+
+.trash {
+    height:60px;
+    object-fit: cover;
+}
+.trash:hover {
+    opacity: 0.7;
+    transform: scale(1.1);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+@media (min-width: 935px) and (max-width: 1130px) {
+    .heart {
+        display: none;
+    }
+}
+
+@media (max-width: 935px) {
+    .Profilreihe {
+        flex-direction: column;
+        width: 90vw;
+        gap: 3%;
+        height: auto;
+        margin-bottom: 2%;
+        margin-top: 2%;
+    }
+
+    .Profil {
+        width: 90vw;
+        height: auto;
+        flex-direction: column;
+        align-items: center;
+        padding: 4%;
+        font-size: 14px;
+        margin-bottom: 2%;
+    }
+
+    .Spalte1,
+    .Spalte2 {
+        width: 100%; 
+    }
+
+    .Spalte2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .header {
+        justify-content: space-between;
+        align-items: center;
+    }
+    .heart {
+        order: 2;
+    }
+    .header p {
+        order: 1;
+    }
+    .Produkte {
+    padding-left: 15%;
+    }   
 }
