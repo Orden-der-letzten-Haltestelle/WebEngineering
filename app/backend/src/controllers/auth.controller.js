@@ -22,9 +22,15 @@ async function getAuthUser(req, res) {
             authUser,
         })
     } catch (error) {
-        console.log(`Failed getAuthUser; ${error.stack}`)
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        console.log(
+            `Failed getAuthUser; \Message: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -57,11 +63,15 @@ function verifyJWTtoken(requiredRole) {
             //move to the next step
             next()
         } catch (error) {
-            console.log(`failed to verify jwt token; ${error.message}`)
-            res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-            res.end(
-                error.stack + (error.cause ? "\n\n[cause] " + error.cause : "")
+            console.log(
+                `Failed verify jwt token; \Message: ${error.message}; \nStack: ${error.stack}`
             )
+
+            const statusCode = error?.statusCode || 500
+            res.status(statusCode).json({
+                message: error?.message || "Unexpected Error",
+                stack: error?.stack,
+            })
         }
     }
 }
