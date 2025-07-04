@@ -3,6 +3,7 @@ import NotFoundError from "../exceptions/NotFoundError.js"
 import BasicUser from "../objects/user/BasicUser.js"
 import AuthModel from "../models/auth.model.js"
 import { pool } from "./pool.js"
+import AuthUser from "../objects/user/AuthUser.js"
 
 /**
  * Returns a BasicUser by userId, if no user with that id exist, an NotFoundError will be thrown
@@ -51,7 +52,7 @@ async function deleteUserById(userId) {
     try {
         await pool.query("BEGIN")
 
-        const resultRole =  await pool.query(
+        const resultRole = await pool.query(
             `
             DELETE FROM
                 webshop.user_has_role as ur
@@ -61,7 +62,7 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if(resultRole.rows.length <= 0){
+        if (resultRole.rows.length <= 0) {
             console.log("nothing deleted")
         }
         const userIsOwnerOfWishlist = await pool.query(
@@ -70,7 +71,7 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if(userIsOwnerOfWishlist.rows.length > 0){
+        if (userIsOwnerOfWishlist.rows.length > 0) {
             console.log("is owner of wishlist")
             const idWishlist = userIsOwnerOfWishlist.rows[0].wishlistid
             const deleteWishlistItems = await pool.query(
@@ -80,7 +81,7 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if(resultRole.rows.length <= 0){
+            if (resultRole.rows.length <= 0) {
                 throw new DatabaseError("Failed to delete wishlist items")
             }
             const deleteRolesOfOthers = await pool.query(
@@ -90,8 +91,10 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if(deleteRolesOfOthers.rows.length<=0){
-                throw new DatabaseError("Failed to delete wishlist roles which user is owner of")
+            if (deleteRolesOfOthers.rows.length <= 0) {
+                throw new DatabaseError(
+                    "Failed to delete wishlist roles which user is owner of"
+                )
             }
             const deleteWishlist = await pool.query(
                 `DELETE FROM webshop.wishlists as w
@@ -100,11 +103,13 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if(deleteWishlist.rows.length<=0){
-                throw new DatabaseError("Failed to delete wishlist which user is owner of")
+            if (deleteWishlist.rows.length <= 0) {
+                throw new DatabaseError(
+                    "Failed to delete wishlist which user is owner of"
+                )
             }
         }
-        const resultWishlist =  await pool.query(
+        const resultWishlist = await pool.query(
             `
             DELETE FROM
                 webshop.user_wishlist_relation as w
@@ -114,10 +119,10 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if(resultWishlist.rows.length <= 0){
+        if (resultWishlist.rows.length <= 0) {
             console.log("nothing deleted")
         }
-         const resultCart =  await pool.query(
+        const resultCart = await pool.query(
             `
             DELETE FROM
                 webshop.cartItems as cI
@@ -127,11 +132,11 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if(resultCart.rows.length <= 0){
+        if (resultCart.rows.length <= 0) {
             console.log("nothing deleted")
         }
 
-        const result =  await pool.query(
+        const result = await pool.query(
             `
             DELETE FROM
                 webshop.users as u
@@ -141,7 +146,7 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if(result.rows.length<=0){
+        if (result.rows.length <= 0) {
             throw new DatabaseError("Failed to delete user")
         }
         await pool.query("COMMIT")
@@ -162,14 +167,14 @@ async function deleteUserById(userId) {
  * @throws {DatabaseError}
  */
 async function bannUserById(userId) {
-       try {
+    try {
         // Überprüfen, ob der Nutzer existiert
         const userCheck = await pool.query(
             `SELECT id FROM webshop.users WHERE id = $1`,
             [userId]
-        );
+        )
         if (userCheck.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+            throw new NotFoundError(`User with id ${userId} doesn't exist`)
         }
 
         // Nutzer bannen
@@ -180,22 +185,22 @@ async function bannUserById(userId) {
             WHERE id = $1
             RETURNING *;`,
             [userId]
-        );
+        )
 
         if (result.rows.length <= 0) {
-            throw new DatabaseError(`Failed to ban user with id ${userId}`);
+            throw new DatabaseError(`Failed to ban user with id ${userId}`)
         }
 
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error;
+            throw error
         }
         throw new DatabaseError(
             `Failed banning user with id ${userId}: ${error}`,
             { originalError: error }
-        );
+        )
     }
 }
 
@@ -207,14 +212,14 @@ async function bannUserById(userId) {
  * @throws {DatabaseError}
  */
 async function unBannUserById(userId) {
-       try {
+    try {
         // Überprüfen, ob der Nutzer existiert
         const userCheck = await pool.query(
             `SELECT id FROM webshop.users WHERE id = $1`,
             [userId]
-        );
+        )
         if (userCheck.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+            throw new NotFoundError(`User with id ${userId} doesn't exist`)
         }
 
         // Nutzer unbannen
@@ -225,22 +230,22 @@ async function unBannUserById(userId) {
             WHERE id = $1
             RETURNING *;`,
             [userId]
-        );
+        )
 
         if (result.rows.length <= 0) {
-            throw new DatabaseError(`Failed to unban user with id ${userId}`);
+            throw new DatabaseError(`Failed to unban user with id ${userId}`)
         }
 
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error;
+            throw error
         }
         throw new DatabaseError(
             `Failed unbanning user with id ${userId}: ${error}`,
             { originalError: error }
-        );
+        )
     }
 }
 
@@ -251,17 +256,17 @@ async function unBannUserById(userId) {
  * @throws {DatabaseError}
  */
 async function getUserById(userId) {
-       try {
+    try {
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error;
+            throw error
         }
         throw new DatabaseError(
             `Failed getting user with id ${userId}: ${error}`,
             { originalError: error }
-        );
+        )
     }
 }
 
@@ -272,33 +277,34 @@ async function getUserById(userId) {
  * @throws {DatabaseError}
  */
 async function makeAdmin(userId) {
-       try {
+    try {
         // Überprüfen, ob der Nutzer existiert
         const userCheck = await pool.query(
             `SELECT id FROM webshop.users WHERE id = $1`,
             [userId]
-        );
+        )
         if (userCheck.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+            throw new NotFoundError(`User with id ${userId} doesn't exist`)
         }
 
         const checkIfAdmin = await pool.query(
             `SELECT * FROM webshop.user_has_role WHERE userid = $1 and roleid = 2`,
             [userId]
-        );
+        )
         if (!(checkIfAdmin.rows.length <= 0)) {
-            throw new NotFoundError(`User with id ${userId} is already admin`);
-        }
-        else {
+            throw new NotFoundError(`User with id ${userId} is already admin`)
+        } else {
             const result = await pool.query(
                 `INSERT INTO webshop.user_has_role(
                 userid, roleid)
                 VALUES ($1, 2)
                 RETURNING *;`,
                 [userId]
-            );
+            )
             if (result.rows.length <= 0) {
-                throw new DatabaseError(`Failed to make admin of user with id ${userId}`);
+                throw new DatabaseError(
+                    `Failed to make admin of user with id ${userId}`
+                )
             }
         }
 
@@ -306,12 +312,12 @@ async function makeAdmin(userId) {
         return user
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error;
+            throw error
         }
         throw new DatabaseError(
             `Failed to make admin of user with id ${userId}: ${error}`,
             { originalError: error }
-        );
+        )
     }
 }
 
@@ -322,32 +328,33 @@ async function makeAdmin(userId) {
  * @throws {DatabaseError}
  */
 async function makeNoAdmin(userId) {
-       try {
+    try {
         // Überprüfen, ob der Nutzer existiert
         const userCheck = await pool.query(
             `SELECT id FROM webshop.users WHERE id = $1`,
             [userId]
-        );
+        )
         if (userCheck.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} doesn't exist`);
+            throw new NotFoundError(`User with id ${userId} doesn't exist`)
         }
 
         const checkIfAdmin = await pool.query(
             `SELECT * FROM webshop.user_has_role WHERE userid = $1 and roleid = 2`,
             [userId]
-        );
+        )
         if (checkIfAdmin.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} is not an admin`);
-        }
-        else {
+            throw new NotFoundError(`User with id ${userId} is not an admin`)
+        } else {
             const result = await pool.query(
                 `DELETE FROM webshop.user_has_role
 	            WHERE userId = $1 and roleid = 2
                 RETURNING *;`,
                 [userId]
-            );
+            )
             if (result.rows.length <= 0) {
-                throw new DatabaseError(`Failed to make no admin of user with id ${userId}`);
+                throw new DatabaseError(
+                    `Failed to make no admin of user with id ${userId}`
+                )
             }
         }
 
@@ -355,12 +362,12 @@ async function makeNoAdmin(userId) {
         return user
     } catch (error) {
         if (error instanceof NotFoundError) {
-            throw error;
+            throw error
         }
         throw new DatabaseError(
             `Failed to make no admin of user with id ${userId}: ${error}`,
             { originalError: error }
-        );
+        )
     }
 }
 
@@ -387,26 +394,56 @@ async function getUserByMail(email) {
 }
 
 /**
- * gets all Users as BasicUsers, if no user exists, an NotFoundError will be thrown (impossible, need to be logged in, still)
- * @returns {Promise<BasicUser>}
+ * gets all AuthUsers
+ * @returns {Promise<AuthUser[]>}
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
 async function getAllUsers() {
     try {
-        const result = pool.query(
-            `SELECT id, name, password, email, isbanned, isverified, createdat
-	        FROM webshop.users;`
+        const result = await pool.query(
+            `SELECT 
+                u.id, 
+                u.name, 
+                u.email, 
+                u.isbanned, 
+                u.isverified, 
+                u.createdat,
+                r.rolename
+            FROM 
+                webshop.users as u
+            JOIN webshop.user_has_role as ur ON u.id = ur.userid
+            JOIN webshop.roles as r ON r.id = ur.roleid
+            ORDER BY u.id;`
         )
-        return result
+        const rows = result.rows || []
+        const users = []
+        rows.forEach((row) => {
+            if (users.length >= 1 && users[users.length - 1].id == row.id) {
+                //user already in, just add role
+                users[users.length - 1].roles.push(row.rolename)
+            } else {
+                const user = new AuthUser(
+                    row.id,
+                    row.name,
+                    row.email,
+                    row.createdat,
+                    row.isverified,
+                    row.isbanned,
+                    [row.rolename]
+                )
+                users.push(user)
+            }
+        })
+
+        return users
     } catch (error) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(
-            `Failed fetching users: ${error}`,
-            { originalError: error }
-        )
+        throw new DatabaseError(`Failed fetching users: ${error}`, {
+            originalError: error,
+        })
     }
 }
 

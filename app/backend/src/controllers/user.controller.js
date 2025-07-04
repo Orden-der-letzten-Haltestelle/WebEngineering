@@ -11,9 +11,15 @@ async function deleteUser(req, res) {
         res.writeHead(200, { "Content-Type": "application/json" })
         res.end(data)
     } catch (error) {
-        console.error(error.stack);
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" });
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""));
+        console.log(
+            `Failed delete user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
