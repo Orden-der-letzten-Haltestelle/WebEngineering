@@ -87,7 +87,7 @@
 /* filter overlay */
 .filterOverlay {
     position: absolute;
-    z-index: 1000;
+    z-index: 1001;
     bottom: -93px;
     height: 93px;
     width: 100%;

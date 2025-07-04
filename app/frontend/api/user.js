@@ -21,3 +21,18 @@ export async function fetchUser(token) {
     }
     return res.json()
 }
+
+export async function deleteUser(token) {
+    const res = await fetch(`${config.host}/user/delete`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token,
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to delete user"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+}

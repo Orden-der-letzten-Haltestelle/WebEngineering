@@ -19,7 +19,7 @@ async function getAuthUser(req, res) {
         const authUser = await AuthService.getAuthUser(userId)
 
         res.status(200).json({
-            authUser,
+            ...authUser,
         })
     } catch (error) {
         console.log(
@@ -51,7 +51,6 @@ function verifyJWTtoken(requiredRole) {
     return async function (req, res, next) {
         try {
             const token = req.headers.authorization
-
             const user = await AuthService.extractTokenAndVerify(
                 token,
                 requiredRole
