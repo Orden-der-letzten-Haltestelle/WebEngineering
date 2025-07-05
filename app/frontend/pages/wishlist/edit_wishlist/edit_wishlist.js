@@ -4,10 +4,10 @@
  * @param {*} req
  * @param {*} res
  */
-export default async function WishlistPageLoader(req, res) {
+export default async function EditWishlistPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     return {
-        title: "WishlistPage",
+        title: "EditWishlistPage",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         beispielComponents: [
             {
