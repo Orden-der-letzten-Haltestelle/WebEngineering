@@ -12,8 +12,7 @@ export async function getAllUsers(token) {
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage =
-            errorData.message || `Failed to bann user with id ${userId}`
+        const errorMessage = errorData.message || `Failed to fetch all users`
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
@@ -82,7 +81,7 @@ export async function removeAdminRoleFromUser(userId, token) {
     if (!res.ok) {
         const errorData = await res.json()
         const errorMessage =
-            errorData.message || `Failed to make user with id ${userId} admin`
+            errorData.message || `Failed to remove admin role from user with id ${userId}`
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }

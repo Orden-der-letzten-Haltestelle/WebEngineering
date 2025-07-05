@@ -1,7 +1,9 @@
-.adminPage-user-container > img {
+.adminPage-user-container > .profilePicture {
     grid-area: 1 / 1 / 5 / 2;
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
+    align-self: center;
+    justify-self: center;
 }
 
 .adminPage-user-container > .text {
@@ -26,6 +28,7 @@
     display: flex;
     justify-content: flex-end;
     gap: 10px;
+    align-self: flex-end;
 }
 
 .adminpage-button {
@@ -115,4 +118,65 @@
 
 .adminpage-button.confirm {
     background-color: var(--highlight-color);
+}
+
+.adminPage-user-container {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content min-content auto;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 1000px;
+
+    height: 140px;
+    padding: 20px;
+    column-gap: 30px;
+}
+
+@media screen and (max-width: 1300px) {
+    .adminPage-user-container {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .adminPage-user-container {
+        width: 600px;
+    }
+}
+@media screen and (max-width: 720px) {
+    .adminPage-user-container {
+        width: 400px;
+        height: 170px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .adminPage-user-container {
+        width: 300px;
+        height: 250px;
+
+        grid-template-columns: auto;
+        grid-template-rows: min-content min-content min-content min-content auto;
+    }
+    .adminPage-user-container > .profilePicture {
+        grid-area: 1 / 1 / 2 / 2;
+        margin-bottom: 22px;
+    }
+
+    .adminPage-user-container > .email {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .adminPage-user-container > .role {
+        grid-area: 3 / 1 / 4 / 2;
+    }
+
+    .adminPage-user-container > .verified {
+        grid-area: 4 / 1 / 5 / 2;
+    }
+
+    .adminPage-user-container > .adminpage-user-button-container {
+        grid-area: 5 / 1 / 6 / 2;
+    }
 }
