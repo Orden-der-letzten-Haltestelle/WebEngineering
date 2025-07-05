@@ -16,8 +16,26 @@ router.get(
     AuthController.verifyJWTtoken(Roles.user),
     AuthController.getAuthUser
 )
-router.post("/register", AuthController.register)
-router.post("/login", AuthController.login)
+router.post(
+    "/register",
+    AuthController.register
+)
+
+router.post(
+    "/login",
+    AuthController.login
+)
+
+router.post(
+    "/login/sendmail",
+    AuthController.sendMail
+)
+
+router.get(
+    "/login/withtoken",
+    AuthController.loginWithToken
+)
+
 router.get(
     "/protected",
     AuthController.verifyJWTtoken(Roles.user),
