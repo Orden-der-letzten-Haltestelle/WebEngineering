@@ -41,12 +41,17 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             SendSignInMail(email).then((res) => {
-                document.cookie = "token="
                 window.location.href = '/';
             }).catch((err) => {
                 alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
+        let params = new URLSearchParams(document.location.search)
+        const token = params.get("token")
+        if (token != null) {
+            document.cookie = "token=" + token + "; path=/"
+            window.location.href = '/';
+        }
     }
 });
