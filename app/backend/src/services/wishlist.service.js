@@ -318,6 +318,14 @@ async function deleteWishlistitem(userId, wishlistitemId) {
     return await getWishlistById(userId, wishlistId)
 }
 
+async function deleteWishlist(ownerId, wishlistId) {
+    await verifyWishlistRoleByWishlistId(ownerId, wishlistId, WishlistRoles.owner)
+
+    await WishlistModel.deleteWishlist(wishlistId)
+
+    return
+}
+
 export default {
     getWishlistById,
     getWishlistsByUserId,
@@ -328,4 +336,5 @@ export default {
     changeRoleOfRelation,
     deleteRelationFromWishlist,
     deleteWishlistitem,
+    deleteWishlist,
 }

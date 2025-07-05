@@ -559,6 +559,49 @@ async function deleteRelationFromWishlist(relationId) {
     }
 }
 
+async function deleteWishlist(wishlistId) {
+    try {
+        await pool.query("BEGIN")
+        // Delete all Products
+        const productResult = await pool.query(
+            `DELETE FROM
+                webshop.wishlistitems
+            WHERE
+                wishlistid=$1
+            RETURNING *`,
+            [wishlistId]
+        )
+
+        // Delete all Members
+        const memberResult = await pool.query(
+            `DELETE FROM
+                webshop.user_wishlist_relation
+            WHERE
+                wishlistid=$1
+            RETURNING *`,
+            [wishlistId]
+        )
+
+        // Delete the Wishlist
+        const wishlistResult = await pool.query(
+            `DELETE FROM
+                webshop.wishlists
+            WHERE
+                id=$1
+            RETURNING *`,
+            [wishlistId]
+        )
+
+        await pool.query("COMMIT")
+    } catch (error) {
+        await pool.query("ROLLBACK")
+        throw new DatabaseError(
+            `Failed to delete Wishlist with id: ${wishlistId}; ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
 export default {
     findWishlistMemberByUserIdAndWishlistId,
     findWishlistsByUserId,
@@ -570,4 +613,5 @@ export default {
     getRelationById,
     changeRoleOfRelation,
     deleteRelationFromWishlist,
+    deleteWishlist,
 }
