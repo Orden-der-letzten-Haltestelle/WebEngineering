@@ -5,6 +5,19 @@ align-items: center;
 flex: 1;
 }
 
+.newprofile {
+  margin-bottom: 2%;
+  white-space: nowrap;
+  background-color: var(--highlight-color);
+  border-radius: 5px;
+  border: none;
+}
+
+.newprofile:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .Überschrift {
     display: flex;
     align-items: center;
@@ -44,7 +57,7 @@ flex: 1;
     padding-right: 2%;
     align-items: center;
     margin-top: 1%;
-    margin-bottom: 1%;
+    margin-bottom: 2%;
     width: 95vw;
     height: 15vh;
     background-color: rgb(231, 231, 231);
@@ -137,7 +150,7 @@ flex: 1;
     align-items: center;
     gap: 1rem;
     margin-top: 2.5%;
-    margin-bottom: 2.5%;
+    margin-bottom: 4%;
     padding-bottom: 2%;
     padding-top: 2%;
     }
