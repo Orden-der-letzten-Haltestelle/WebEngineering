@@ -416,7 +416,29 @@ async function createWishlist(ownerId, name, description) {
     }
 }
 
+async function updateWishlist(wishlistId, name, description) {
+    try {
+        const result = await pool.query(
+            `UPDATE
+                webshop.wishlists as w
+            SET
+                name = $2,
+                description = $3
+            WHERE
+                w.id = $1
+            RETURNING *`,
+            [wishlistId, name, description]
+        )
+        // Error 404 is already catched earlier
 
+        return result.rows[0]
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed updating Storage Amount for product with id ${wishlistId}: ${error}`,
+            { originalError: error }
+        )
+    }
+}
 
 export default {
     findWishlistMemberByUserIdAndWishlistId,
@@ -424,4 +446,5 @@ export default {
     findWishlistMembersByWishlistId,
     findBasicWishlistByWishlistId,
     createWishlist,
+    updateWishlist,
 }

@@ -234,25 +234,32 @@ async function addProductToWishlist(userId, wishlistId, productId, amount) { //T
     //proof, product not already in wishlist | return, when it already exist 
     const wishlistItem = await isProductInWishlist(productId, wishlistId)
 
-    //when product already in wishlist, change amount 
-    let newAmount = amount
-    if (wishlistItem) {
-        newAmount = amount + wishlistItem.amount
-    }
-
     //proof, product has right amount
     await ProductValidator.isValidAmount(productId, amount)
 
     //create wishlist or update amount 
     if (wishlistItem) {
-        //TODO update amount of already existing wishlistitem
+        await WishlistItemModel.updateWishlistItem(wishlistId, productId, amount)
     } else {
         //create new wishlist item
-        await WishlistItemModel.createWishlistItem(wishlistId, productId, newAmount)
+        await WishlistItemModel.createWishlistItem(wishlistId, productId, amount)
     }
 
     //return wishlist
     return await getWishlistById(userId, wishlistId)
 }
 
-export default { getWishlistById, getWishlistsByUserId, createWishlist, addProductToWishlist }
+async function updateWishlist(userId, wishlistId, name, description) {
+    //verify that user has access
+    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
+
+    return await WishlistModel.updateWishlist(wishlistId, name, description)
+}
+
+export default {
+    getWishlistById,
+    getWishlistsByUserId,
+    createWishlist,
+    addProductToWishlist,
+    updateWishlist,
+}

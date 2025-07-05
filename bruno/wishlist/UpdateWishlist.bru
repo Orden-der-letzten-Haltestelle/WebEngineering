@@ -1,0 +1,16 @@
+meta {
+  name: UpdateWishlist
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/api/wishlist/1
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: test Name
+  description: test Description
+}

@@ -182,7 +182,7 @@ async function findWishlistItemsByWishlistId(wishlistId) {
  */
 async function createWishlistItem(wishlistId, productId, amount) {
     try {
-        const result = pool.query(`
+        const result = await pool.query(`
             INSERT INTO webshop.wishlistitems 
                 (wishlistid, productid, amount)
             VALUES
@@ -202,9 +202,35 @@ async function createWishlistItem(wishlistId, productId, amount) {
     }
 }
 
+async function updateWishlistItem(wishlistId, productId, amount) {
+    console.log("amount", amount)
+    try {
+        const result = await pool.query(`
+            UPDATE 
+                webshop.wishlistitems as i
+            SET
+                amount = $3
+            WHERE
+                i.wishlistId=$1 and i.productId=$2
+            RETURNING *;
+            `, [wishlistId, productId, amount])
+        if (result.length <= 0) {
+            throw new DatabaseError("Failed update item in DB")
+        }
+        return result.rows[0]
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed update wishlistItem in DB: ${error.message}`,
+            { originalError: error }
+        )
+
+    }
+}
+
 export default {
     findWishlistItemById,
     findByProductIdAndWishlistId,
     findWishlistItemsByWishlistId,
     createWishlistItem,
+    updateWishlistItem,
 }

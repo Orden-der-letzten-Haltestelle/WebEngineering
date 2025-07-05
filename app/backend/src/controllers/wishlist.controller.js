@@ -102,9 +102,38 @@ async function addProductToWishlist(req, res) {
     }
 }
 
+async function updateWishlist(req, res) {
+    const userId = req.user.id
+    const wishlistId = req.params.wishlistId
+    try {
+        const { name = "", description = "" } = req.body
+
+        const wishlist = await WishlistService.updateWishlist(
+            userId,
+            wishlistId,
+            name,
+            description
+        )
+        res.status(201).json({
+            ...wishlist,
+        })
+    } catch (error) {
+        console.log(
+            `Failed updateWishlist for user with id ${userId}; \Message: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getWishlistsByUserId,
     getWishlistById,
     createWishlist,
-    addProductToWishlist
+    addProductToWishlist,
+    updateWishlist,
 }
