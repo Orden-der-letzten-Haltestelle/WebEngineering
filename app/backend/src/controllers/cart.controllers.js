@@ -3,6 +3,7 @@ import CartService from "../services/cart.service.js"
 
 async function getCart(req, res) {
     const userId = req.user.id
+    
     try {
         const cartItems = await CartService.getCart(userId)
         res.status(200).json([...cartItems])
@@ -138,7 +139,7 @@ async function deleteCart(req, res) {
     const userId = req.user.id
     try {
         await CartService.deleteCart(userId)
-        res.status(200).json()
+        res.status(200).json({ message: `Deleted Cart of User with Id: ${userId}` })
     } catch (error) {
         console.log(
             `Failed deleteCart for user with id ${userId}: \nMessage: ${error.message}; \nStack: ${error.stack}`
