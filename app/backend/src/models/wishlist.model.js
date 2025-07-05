@@ -8,12 +8,13 @@ import Product from "../objects/items/Product.js"
 import Roles from "../objects/user/Roles.js"
 import BasicUser from "../objects/user/BasicUser.js"
 import BasicWishlist from "../objects/wishlist/BasicWishlist.js"
+import WishlistRoles from "../objects/user/WishlistRoles.js"
 
 //Errors
 import NotFoundError from "../exceptions/NotFoundError.js"
-import WishlistRoles from "../objects/user/WishlistRoles.js"
 import ServerError from "../exceptions/ServerError.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 /**
  * Finds a wishlistMember by userId and wishlistId
@@ -153,7 +154,6 @@ async function findWishlistMembersByWishlistId(wishlistId) {
         //extract members
         const wishlistMembers = []
         let lastUserId = undefined
-        console.log(rows)
         rows.forEach((row) => {
             //extract role
             const role =
@@ -440,6 +440,44 @@ async function updateWishlist(wishlistId, name, description) {
     }
 }
 
+async function addUserToWishlist(wishlistId, userId, roleLevel) {
+    const role = roleLevel == "1" ? WishlistRoles.read : WishlistRoles.write
+    try {
+        const amountOfRoles = await pool.query(
+            `SELECT COUNT(*) FROM 
+                webshop.user_wishlist_relation as r
+            WHERE
+                r.userid=$1 AND
+                r.wishlistid=$2
+            `,
+            [userId, wishlistId]
+        )
+        console.log()
+        if (amountOfRoles.rows[0].count != 0) {
+            throw new BadRequestError(`The user with id: ${userId} already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId`)
+        }
+        const result = await pool.query(
+            `INSERT INTO webshop.user_wishlist_relation
+                (userid, wishlistid, wishlistroleid)
+            VALUES 
+                ($1, $2, $3)
+            RETURNING *;`,
+            [userId, wishlistId, role.id]
+        )
+
+        if (result.rows.length <= 0) {
+            throw new DatabaseError(`Failed adding the role ${roleLevel} to user ${userId} for the wishlist ${wishlistId}`)
+        }
+
+        return result.rows[0]
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed to add User with id: ${userId} to the wishlist with id: ${wishlistId}; ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
 export default {
     findWishlistMemberByUserIdAndWishlistId,
     findWishlistsByUserId,
@@ -447,4 +485,5 @@ export default {
     findBasicWishlistByWishlistId,
     createWishlist,
     updateWishlist,
+    addUserToWishlist,
 }

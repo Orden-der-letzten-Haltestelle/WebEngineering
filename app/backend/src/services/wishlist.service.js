@@ -253,7 +253,27 @@ async function updateWishlist(userId, wishlistId, name, description) {
     //verify that user has access
     await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
 
-    return await WishlistModel.updateWishlist(wishlistId, name, description)
+    await WishlistModel.updateWishlist(wishlistId, name, description)
+
+    return await getWishlistById(userId, wishlistId)
+}
+
+async function addUserToWishlist(ownerId, wishlistId, userId, roleLevel) {
+    await verifyWishlistRoleByWishlistId(ownerId, wishlistId, WishlistRoles.owner)
+
+    // Check if Data is correct
+    if (userId == "" || roleLevel == "") {
+        throw new BadRequestError(`Your Request is not complete. Fill out both userId and roleLevel. Recieved: userId:${userId}, roleLevel:${roleLevel}`)
+    }
+
+    // Check if roleLevel is valide
+    if (!(roleLevel == "1" || roleLevel == "2")) {
+        throw new BadRequestError(`You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`)
+    }
+
+    await WishlistModel.addUserToWishlist(wishlistId, userId, roleLevel)
+
+    return await getWishlistById(ownerId, wishlistId)
 }
 
 export default {
@@ -262,4 +282,5 @@ export default {
     createWishlist,
     addProductToWishlist,
     updateWishlist,
+    addUserToWishlist,
 }

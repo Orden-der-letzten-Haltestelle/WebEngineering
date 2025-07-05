@@ -35,5 +35,10 @@ router.post(
     WishlistController.addProductToWishlist
 )
 
+router.post(
+    "/:wishlistId/permission",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.addUserToWishlist
+)
 
 export default router
