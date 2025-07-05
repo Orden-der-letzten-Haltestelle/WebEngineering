@@ -58,15 +58,23 @@ async function verifyWishlistRoleByWishlistId(
     wishlistId,
     requiredWishlistRole
 ) {
-    const member = await getWishlistMemberByUserIdAndWishlistId(
-        userId,
-        wishlistId
-    )
-
-    if (!member.hasRole(requiredWishlistRole)) {
-        throw new ForbiddenError(
-            `User with the id ${userId} hasnt the role ${requiredWishlistRole.roleName} or higher for the wishlist with id ${wishlistId}`
+    try {
+        const member = await getWishlistMemberByUserIdAndWishlistId(
+            userId,
+            wishlistId
         )
+        if (!member.hasRole(requiredWishlistRole)) {
+            throw new ForbiddenError(
+                `You are not allowed to make this action for the wishlist with the id ${wishlistId}, you need to at least the role ${requiredWishlistRole.roleName} `
+            )
+        }
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw new ForbiddenError(
+                `You are not allowed to make this action for the wishlist with the id ${wishlistId}`
+            )
+        }
+        throw error
     }
 }
 
@@ -196,16 +204,20 @@ async function createWishlist(userId, name, description) {
 }
 
 /**
- * Proofs if an product already exist in the given wishlist. if not, it returns true, when it does exist, it will return 
- * the WishlistItem 
- * @param {int} productId 
- * @param {int} wishlistId 
+ * Proofs if an product already exist in the given wishlist. if not, it returns true, when it does exist, it will return
+ * the WishlistItem
+ * @param {int} productId
+ * @param {int} wishlistId
  * @returns {Promise<WishlistItem | boolean>}
  * @throws {DatabaseError}
  */
 async function isProductInWishlist(productId, wishlistId) {
     try {
-        const wishlistItem = await WishlistItemModel.findByProductIdAndWishlistId(productId, wishlistId)
+        const wishlistItem =
+            await WishlistItemModel.findByProductIdAndWishlistId(
+                productId,
+                wishlistId
+            )
         return wishlistItem
     } catch (error) {
         if (error instanceof NotFoundError) {
@@ -216,33 +228,46 @@ async function isProductInWishlist(productId, wishlistId) {
 }
 
 /**
- * Adds a product to the wishlist. Only when user has write access. 
+ * Adds a product to the wishlist. Only when user has write access.
  * When product already exists, then add amount to already existing one.
- * @param {int} userId 
- * @param {int} wishlistId 
- * @param {int} productId 
+ * @param {int} userId
+ * @param {int} wishlistId
+ * @param {int} productId
  * @param {int} amount
- * @returns {Promise<Wishlist>} 
- * @throws {DatabaseError} 
+ * @returns {Promise<Wishlist>}
+ * @throws {DatabaseError}
  * @throws {ForbiddenError}
  * @throws {BadRequestError}
  */
-async function addProductToWishlist(userId, wishlistId, productId, amount) { //TODO
+async function addProductToWishlist(userId, wishlistId, productId, amount) {
+    //TODO
     //verify that user has access
-    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
+    await verifyWishlistRoleByWishlistId(
+        userId,
+        wishlistId,
+        WishlistRoles.write
+    )
 
-    //proof, product not already in wishlist | return, when it already exist 
+    //proof, product not already in wishlist | return, when it already exist
     const wishlistItem = await isProductInWishlist(productId, wishlistId)
 
     //proof, product has right amount
     await ProductValidator.isValidAmount(productId, amount)
 
-    //create wishlist or update amount 
+    //create wishlist or update amount
     if (wishlistItem) {
-        await WishlistItemModel.updateWishlistItem(wishlistId, productId, amount)
+        await WishlistItemModel.updateWishlistItem(
+            wishlistId,
+            productId,
+            amount
+        )
     } else {
         //create new wishlist item
-        await WishlistItemModel.createWishlistItem(wishlistId, productId, amount)
+        await WishlistItemModel.createWishlistItem(
+            wishlistId,
+            productId,
+            amount
+        )
     }
 
     //return wishlist
@@ -251,7 +276,11 @@ async function addProductToWishlist(userId, wishlistId, productId, amount) { //T
 
 async function updateWishlist(userId, wishlistId, name, description) {
     //verify that user has access
-    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
+    await verifyWishlistRoleByWishlistId(
+        userId,
+        wishlistId,
+        WishlistRoles.write
+    )
 
     await WishlistModel.updateWishlist(wishlistId, name, description)
 
@@ -259,16 +288,24 @@ async function updateWishlist(userId, wishlistId, name, description) {
 }
 
 async function addUserToWishlist(ownerId, wishlistId, userId, roleLevel) {
-    await verifyWishlistRoleByWishlistId(ownerId, wishlistId, WishlistRoles.owner)
+    await verifyWishlistRoleByWishlistId(
+        ownerId,
+        wishlistId,
+        WishlistRoles.owner
+    )
 
     // Check if Data is correct
     if (userId == "" || roleLevel == "") {
-        throw new BadRequestError(`Your Request is not complete. Fill out both userId and roleLevel. Recieved: userId:${userId}, roleLevel:${roleLevel}`)
+        throw new BadRequestError(
+            `Your Request is not complete. Fill out both userId and roleLevel. Recieved: userId:${userId}, roleLevel:${roleLevel}`
+        )
     }
 
     // Check if roleLevel is valide
     if (!(roleLevel == "1" || roleLevel == "2")) {
-        throw new BadRequestError(`You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`)
+        throw new BadRequestError(
+            `You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`
+        )
     }
 
     await WishlistModel.addUserToWishlist(wishlistId, userId, roleLevel)
@@ -279,15 +316,24 @@ async function addUserToWishlist(ownerId, wishlistId, userId, roleLevel) {
 async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
     // Check if roleLevel is valide
     if (!(roleLevel == "1" || roleLevel == "2")) {
-        throw new BadRequestError(`You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`)
+        throw new BadRequestError(
+            `You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`
+        )
     }
 
     // Get the wishlistId
-    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(relationId)
+    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(
+        relationId
+    )
 
-    await verifyWishlistRoleByWishlistId(ownerId, wishlistid, WishlistRoles.owner)
+    await verifyWishlistRoleByWishlistId(
+        ownerId,
+        wishlistid,
+        WishlistRoles.owner
+    )
 
-    if (wishlistroleid != 1) { // If role is not admin
+    if (wishlistroleid != 1) {
+        // If role is not admin
         await WishlistModel.changeRoleOfRelation(relationId, roleLevel)
     }
 
@@ -295,13 +341,20 @@ async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
 }
 
 async function deleteRelationFromWishlist(ownerId, relationId) {
-    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(relationId)
+    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(
+        relationId
+    )
 
-    await verifyWishlistRoleByWishlistId(ownerId, wishlistid, WishlistRoles.owner)
+    await verifyWishlistRoleByWishlistId(
+        ownerId,
+        wishlistid,
+        WishlistRoles.owner
+    )
 
     // Check if you want to delete the owner (yourself)
     // Should not be possible
-    if (wishlistroleid != 1) { // If role is not admin
+    if (wishlistroleid != 1) {
+        // If role is not admin
         await WishlistModel.deleteRelationFromWishlist(relationId)
     }
 
@@ -309,9 +362,15 @@ async function deleteRelationFromWishlist(ownerId, relationId) {
 }
 
 async function deleteWishlistitem(userId, wishlistitemId) {
-    const { wishlistId } = await WishlistItemModel.findWishlistItemById(wishlistitemId)
+    const { wishlistId } = await WishlistItemModel.findWishlistItemById(
+        wishlistitemId
+    )
 
-    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
+    await verifyWishlistRoleByWishlistId(
+        userId,
+        wishlistId,
+        WishlistRoles.write
+    )
 
     await WishlistItemModel.deleteWishlistitem(wishlistitemId)
 
@@ -319,7 +378,11 @@ async function deleteWishlistitem(userId, wishlistitemId) {
 }
 
 async function deleteWishlist(ownerId, wishlistId) {
-    await verifyWishlistRoleByWishlistId(ownerId, wishlistId, WishlistRoles.owner)
+    await verifyWishlistRoleByWishlistId(
+        ownerId,
+        wishlistId,
+        WishlistRoles.owner
+    )
 
     await WishlistModel.deleteWishlist(wishlistId)
 

@@ -32,7 +32,8 @@ async function findWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
                 u.name,
                 u.email,
                 u.createdat,
-                wr.id as wishlistroleid
+                wr.id as wishlistroleid,
+                uwr.id as userwishlistrelationid
             FROM webshop.users as u
                 JOIN webshop.user_wishlist_relation as uwr ON uwr.userid = u.id
                 JOIN webshop.wishlistroles as wr ON uwr.wishlistroleid = wr.id 
@@ -61,7 +62,8 @@ async function findWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
             rows[0].name,
             rows[0].email,
             rows[0].createdat,
-            roles
+            roles,
+            rows[0].userwishlistrelationid
         )
         return wishlistMember
     } catch (error) {
@@ -74,7 +76,6 @@ async function findWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
         )
     }
 }
-
 
 /**
  * Finds a BasicWishlistByWishlistId with out the member
@@ -134,7 +135,8 @@ async function findWishlistMembersByWishlistId(wishlistId) {
             u.name as username,
             u.email,
             u.createdat,
-            uwr.wishlistroleid as roleid
+            uwr.wishlistroleid as roleid,
+            uwr.id as userwishlistrelationid
         FROM 
             webshop.user_wishlist_relation as uwr
         JOIN 
@@ -178,7 +180,8 @@ async function findWishlistMembersByWishlistId(wishlistId) {
                     row.username,
                     row.email,
                     row.createdat,
-                    [role]
+                    [role],
+                    row.userwishlistrelationid
                 )
                 wishlistMembers.push(wishlistMember)
             } else {
@@ -215,7 +218,8 @@ async function findWishlistMemberByWishlistIdAndUserId(wishlistId, userId) {
                 u.name as username,
                 u.email,
                 u.createdat,
-                uwr.wishlistroleid as roleid
+                uwr.wishlistroleid as roleid,
+                uwr.id as userwishlistrelationid
             FROM 
                 webshop.user_wishlist_relation as uwr
             JOIN 
@@ -252,7 +256,8 @@ async function findWishlistMemberByWishlistIdAndUserId(wishlistId, userId) {
             rows[0].username,
             rows[0].email,
             rows[0].createdat,
-            roles
+            roles,
+            rows[0].userwishlistrelationid
         )
         return wishlistMember
     } catch (error) {
@@ -286,7 +291,7 @@ async function findWishlistsByUserId(userId) {
                 u.name as username,
                 u.email as email,
                 u.createdat,
-                uwr.id as user_wishlist_relation_id,
+                uwr.id as userwishlistrelationid,
                 wr.id as roleid
             FROM webshop.wishlists as w 
                 JOIN webshop.user_wishlist_relation as uwr ON uwr.wishlistid = w.id
@@ -335,7 +340,8 @@ async function findWishlistsByUserId(userId) {
                     basicUser.name,
                     basicUser.email,
                     basicUser.createdAt,
-                    [role]
+                    [role],
+                    row.userwishlistrelationid
                 )
                 const newWishlist = new BasicWishlist(
                     row.id,
@@ -454,7 +460,9 @@ async function addUserToWishlist(wishlistId, userId, roleLevel) {
         )
         console.log()
         if (amountOfRoles.rows[0].count != 0) {
-            throw new BadRequestError(`The user with id: ${userId} already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId`)
+            throw new BadRequestError(
+                `The user with id: ${userId} already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId`
+            )
         }
         const result = await pool.query(
             `INSERT INTO webshop.user_wishlist_relation
@@ -466,12 +474,14 @@ async function addUserToWishlist(wishlistId, userId, roleLevel) {
         )
 
         if (result.rows.length <= 0) {
-            throw new DatabaseError(`Failed adding the role ${roleLevel} to user ${userId} for the wishlist ${wishlistId}`)
+            throw new DatabaseError(
+                `Failed adding the role ${roleLevel} to user ${userId} for the wishlist ${wishlistId}`
+            )
         }
 
         return result.rows[0]
     } catch (error) {
-        if (typeof (error) == BadRequestError) {
+        if (typeof error == BadRequestError) {
             throw error
         }
         throw new DatabaseError(
@@ -491,11 +501,13 @@ async function getRelationById(relationId) {
             [relationId]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+            throw new NotFoundError(
+                `WishlistRealtion with id: ${relationId} was not Found`
+            )
         }
         return result.rows[0]
     } catch (error) {
-        if (typeof (error) == NotFoundError) {
+        if (typeof error == NotFoundError) {
             throw error
         }
         throw new DatabaseError(
@@ -519,11 +531,13 @@ async function changeRoleOfRelation(relationId, roleLevel) {
             [relationId, role.id]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+            throw new NotFoundError(
+                `WishlistRealtion with id: ${relationId} was not Found`
+            )
         }
         return result.rows[0]
     } catch (error) {
-        if (typeof (error) == NotFoundError) {
+        if (typeof error == NotFoundError) {
             throw error
         }
         throw new DatabaseError(
@@ -545,11 +559,13 @@ async function deleteRelationFromWishlist(relationId) {
             [relationId, 1]
         )
         if (result.rows.length <= 0) {
-            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+            throw new NotFoundError(
+                `WishlistRealtion with id: ${relationId} was not Found`
+            )
         }
         return result.rows[0]
     } catch (error) {
-        if (typeof (error) == NotFoundError) {
+        if (typeof error == NotFoundError) {
             throw error
         }
         throw new DatabaseError(

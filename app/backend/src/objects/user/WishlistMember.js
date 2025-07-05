@@ -1,4 +1,3 @@
-import { compareSync } from "bcryptjs"
 import BasicUser from "./BasicUser.js"
 export default class WishlistMember extends BasicUser {
     /**
@@ -8,10 +7,12 @@ export default class WishlistMember extends BasicUser {
      * @param {string} email
      * @param {Date} createdAt
      * @param {Array<WishlistRoles>} roles
+     * @param {int} userWishlistRelationId
      */
-    constructor(id, name, email, createdAt, roles) {
+    constructor(id, name, email, createdAt, roles, userWishlistRelationId) {
         super(id, name, email, createdAt)
         this.roles = roles
+        this.userWishlistRelationId = userWishlistRelationId
     }
 
     /**
@@ -20,10 +21,8 @@ export default class WishlistMember extends BasicUser {
      * @returns {boolean} - True if the user has the role, false otherwise.
      */
     hasRole(requiredRole) {
-        return this.roles.some(
-            (userRole) => {
-                return userRole.level >= requiredRole.level
-            }
-        )
+        return this.roles.some((userRole) => {
+            return userRole.level >= requiredRole.level
+        })
     }
 }
