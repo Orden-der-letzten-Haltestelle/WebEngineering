@@ -6,7 +6,7 @@ const WishlistRoles = {
     },
     write: {
         id: 2,
-        roelName: "write",
+        roleName: "write",
         level: 2,
     },
     read: {
