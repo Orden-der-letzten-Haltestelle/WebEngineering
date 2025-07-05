@@ -150,11 +150,51 @@ async function addUserToWishlist(req, res) {
     }
 }
 
+async function changeRoleOfUser(req, res) {
+    const ownerId = req.user.id
+    const relationId = req.params.userWishlistRelationId
+    try {
+        const { roleLevel = "" } = req.body
+
+        const wishlist = await WishlistService.changeRoleOfRelation(ownerId, relationId, roleLevel)
+
+        res.status(200).json({
+            ...wishlist,
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function deleteUserFromWishlist(req, res) {
+    const ownerId = req.user.id
+    const relationId = req.params.userWishlistRelationId
+    try {
+        const wishlist = await WishlistService.deleteRelationFromWishlist(ownerId, relationId)
+
+        res.status(200).json({
+            ...wishlist,
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getWishlistsByUserId,
     getWishlistById,
     createWishlist,
     addProductToWishlist,
     updateWishlist,
-    addUserToWishlist
+    addUserToWishlist,
+    changeRoleOfUser,
+    deleteUserFromWishlist,
 }

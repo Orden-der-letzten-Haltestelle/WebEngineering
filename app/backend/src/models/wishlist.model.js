@@ -471,8 +471,89 @@ async function addUserToWishlist(wishlistId, userId, roleLevel) {
 
         return result.rows[0]
     } catch (error) {
+        if (typeof (error) == BadRequestError) {
+            throw error
+        }
         throw new DatabaseError(
             `Failed to add User with id: ${userId} to the wishlist with id: ${wishlistId}; ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
+async function getRelationById(relationId) {
+    try {
+        const result = await pool.query(
+            `SELECT * FROM
+                webshop.user_wishlist_relation
+            WHERE
+                id=$1`,
+            [relationId]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+        }
+        return result.rows[0]
+    } catch (error) {
+        if (typeof (error) == NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed to find the wishlistRealtion of id: ${relationId}; ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
+async function changeRoleOfRelation(relationId, roleLevel) {
+    const role = roleLevel == "1" ? WishlistRoles.read : WishlistRoles.write
+    try {
+        const result = await pool.query(
+            `UPDATE
+                webshop.user_wishlist_relation as r
+            SET
+                wishlistroleid=$2
+            WHERE
+                r.id=$1
+            RETURNING *`,
+            [relationId, role.id]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+        }
+        return result.rows[0]
+    } catch (error) {
+        if (typeof (error) == NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed to change the role of a user in the wishlistRealtion of id: ${relationId}; ${error}`,
+            { originalError: error }
+        )
+    }
+}
+
+async function deleteRelationFromWishlist(relationId) {
+    try {
+        const result = await pool.query(
+            `DELETE FROM
+                webshop.user_wishlist_relation as r
+            WHERE
+                r.id=$1 AND
+                r.wishlistroleid!=$2
+            RETURNING *`,
+            [relationId, 1]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`WishlistRealtion with id: ${relationId} was not Found`)
+        }
+        return result.rows[0]
+    } catch (error) {
+        if (typeof (error) == NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed to delete the user of the wishlistRealtion of id: ${relationId}; ${error}`,
             { originalError: error }
         )
     }
@@ -486,4 +567,7 @@ export default {
     createWishlist,
     updateWishlist,
     addUserToWishlist,
+    getRelationById,
+    changeRoleOfRelation,
+    deleteRelationFromWishlist,
 }

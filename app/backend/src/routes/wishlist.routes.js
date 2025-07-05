@@ -41,4 +41,16 @@ router.post(
     WishlistController.addUserToWishlist
 )
 
+router.put(
+    "/permission/:userWishlistRelationId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.changeRoleOfUser
+)
+
+router.delete(
+    "/permission/:userWishlistRelationId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.deleteUserFromWishlist
+)
+
 export default router

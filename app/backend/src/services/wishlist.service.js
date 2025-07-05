@@ -276,6 +276,40 @@ async function addUserToWishlist(ownerId, wishlistId, userId, roleLevel) {
     return await getWishlistById(ownerId, wishlistId)
 }
 
+async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
+    // Check if roleLevel is valide
+    if (!(roleLevel == "1" || roleLevel == "2")) {
+        throw new BadRequestError(`You need to use a proper roleLevel. Recieved: roleLevel:${roleLevel}, but need to be ether 1 (read) or 2 (write)`)
+    }
+
+    // Get the wishlistId
+    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(relationId)
+
+    await verifyWishlistRoleByWishlistId(ownerId, wishlistid, WishlistRoles.owner)
+
+    console.log("Role", wishlistroleid)
+    if (wishlistroleid != 1) { // If role is not admin
+        await WishlistModel.changeRoleOfRelation(relationId, roleLevel)
+    }
+
+    return await getWishlistById(ownerId, wishlistid)
+}
+
+async function deleteRelationFromWishlist(ownerId, relationId) {
+    const { wishlistid, wishlistroleid } = await WishlistModel.getRelationById(relationId)
+
+    await verifyWishlistRoleByWishlistId(ownerId, wishlistid, WishlistRoles.owner)
+
+    // Check if you want to delete the owner (yourself)
+    // Should not be possible
+    console.log(wishlistroleid)
+    if (wishlistroleid != 1) { // If role is not admin
+        await WishlistModel.deleteRelationFromWishlist(relationId)
+    }
+
+    return await getWishlistById(ownerId, wishlistid)
+}
+
 export default {
     getWishlistById,
     getWishlistsByUserId,
@@ -283,4 +317,6 @@ export default {
     addProductToWishlist,
     updateWishlist,
     addUserToWishlist,
+    changeRoleOfRelation,
+    deleteRelationFromWishlist,
 }
