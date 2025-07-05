@@ -5,6 +5,19 @@
     flex: 1;
 }
 
+.newprofile {
+  margin-bottom: 2%;
+  white-space: nowrap;
+  background-color: var(--highlight-color);
+  border-radius: 5px;
+  border: none;
+}
+
+.newprofile:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
 .Profilreihe {
     display: flex;
     justify-content: center;
