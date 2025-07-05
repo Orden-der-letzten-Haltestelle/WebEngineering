@@ -16,7 +16,7 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
-import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
+import DetailedWishlistPageLoader from "./pages/wishlist/detailedWishlist/DetailedWishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
@@ -125,11 +125,10 @@ router.get(
     })
 )
 
-/* wishlist */
 router.get(
-    "/wishlist",
+    "/wishlist/:wishlistId",
     requireAuth,
-    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
+    handlePage(DetailedWishlistPageLoader,"pages/wishlist/detailedWishlist/DetailedWishlistPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
