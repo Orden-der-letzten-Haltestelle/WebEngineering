@@ -124,9 +124,35 @@ async function login(req, res) {
     }
 }
 
+async function verifyEmail(req, res) {
+    const email = req.email
+    const token = req.params.token
+    try {
+        const userVerified = await AuthService.verifyEmail(
+            email,
+            token
+        )
+        console.log(`User with the email ${email}, successfully verified`)
+        res.json({
+            ...userVerified,
+        })
+    } catch (error) {
+        console.log(
+            `Failed verification with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getAuthUser,
     register,
     login,
     verifyJWTtoken,
+    verifyEmail,
 }

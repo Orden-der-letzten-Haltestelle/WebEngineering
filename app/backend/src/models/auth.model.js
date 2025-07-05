@@ -228,10 +228,72 @@ async function createUser(username, hashedPassword, email) {
     }
 }
 
+/**
+ * saves the token send to user in db, for verification later on
+ * @param {string} email
+ * @param {string} token
+ * @throws {DatabaseError}
+ */
+async function saveTokenVerification(email, token) {
+    console.log(email)
+    console.log(token)
+    try {
+        const result = await pool.query(
+            `INSERT INTO webshop.verificationtokens(
+	        email, token)
+	        VALUES ($1, $2)
+            RETURNING *;`,
+            [email, token]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`Failed to insert token into db`)
+        }
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed saving token to db of user with email ${email}.`,
+            { originalError: error }
+        )
+    }
+}
+
+
+/**
+ * verifies the user if given token is the same with the one in db
+ * @param {string} email 
+ * @param {string} token
+ * @returns {Promise<string>}
+ * @throws {DatabaseError}
+ */
+async function verifyEmail(email, token) {
+    try {
+        const result = await pool.query(
+            `SELECT * FROM webshop.verificationtokens
+            WHERE email = $1 and token = $2`,
+            [email, token]
+        )
+        if(result.rows.length <= 0) {
+            throw new NotFoundError("Token and email do not match!")
+        }
+        const deletion = await pool.query(
+            `DELETE FROM webshop.verificationtokens
+            WHERE email = $1
+            RETURNING *;`,
+            [email]
+        )
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed verifying user with email ${email}.`,
+            { originalError: error }
+        )
+    }
+}
+
 export default {
     findAuthUserById,
     createUser,
     findAdvancedAuthUserByEmail,
     existByEmail,
     findUserByEmail,
+    saveTokenVerification,
+    verifyEmail,
 }
