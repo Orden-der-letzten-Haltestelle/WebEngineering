@@ -19,6 +19,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import AdminPageLoader from "./pages/admin/AdminPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -73,18 +74,26 @@ router.get(
 /* LoginPage with Mail Link */
 router.get(
     "/loginMail/Link",
-    handlePage(LoginMailLinkPageLoader, "pages/login/loginMail/Link/LoginPage", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginMailLinkPageLoader,
+        "pages/login/loginMail/Link/LoginPage",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginSupportPageLoader,
+        "pages/login/PasswordSupport/passwordSupport",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 
 /* orders */
@@ -121,6 +130,17 @@ router.get(
     "/wishlist",
     requireAuth,
     handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* wishlist */
+router.get(
+    "/admin",
+    requireAuth,
+    requireAdmin,
+    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -202,7 +222,7 @@ async function requireAuth(req, res, next) {
 
     //when token given, then get user Information
     try {
-        req.user = await fetchUser(token)
+        req.user = (await fetchUser(token)).authUser
         req.token = token
         next()
     } catch (err) {
@@ -214,6 +234,20 @@ async function requireAuth(req, res, next) {
         // Render a server error page
         renderErrorPage(req, res, err)
     }
+}
+
+async function requireAdmin(req, res, next) {
+    const token = req.token
+    if (!token) {
+        throw new Error("Token is required")
+    }
+
+    const user = req.user
+
+    if (!user.roles.includes("admin")) {
+        throw new Error("you are not allowed to enter this page")
+    }
+    next()
 }
 
 /**
