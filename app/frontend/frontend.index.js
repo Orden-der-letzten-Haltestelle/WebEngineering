@@ -16,7 +16,7 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
-import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
+import EditWishlistPageLoader from "./pages/wishlist/edit_wishlist/edit_wishlist.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 
@@ -72,18 +72,26 @@ router.get(
 /* LoginPage with Mail Link */
 router.get(
     "/loginMail/Link",
-    handlePage(LoginMailLinkPageLoader, "pages/login/loginMail/Link/LoginPage", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginMailLinkPageLoader,
+        "pages/login/loginMail/Link/LoginPage",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginSupportPageLoader,
+        "pages/login/PasswordSupport/passwordSupport",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 
 /* orders */
@@ -118,11 +126,16 @@ router.get(
 /* wishlist */
 router.get(
     "/wishlist",
+    //TODO swap to /wishlist/:wishlistId
     requireAuth,
-    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        EditWishlistPageLoader,
+        "pages/wishlist/edit_wishlist/edit_wishlist",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /**
@@ -150,8 +163,9 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
-            }, try again later`,
+        title: `Unexpected Error${
+            error.status == undefined ? "" : " with Status:" + error.status
+        }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
