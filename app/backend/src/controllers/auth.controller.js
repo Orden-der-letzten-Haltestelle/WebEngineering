@@ -102,6 +102,7 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
+    console.log("Login per Form")
     const { email, password } = req.body
     try {
         const userAndToken = await AuthService.verifyLoginInformation(
@@ -125,9 +126,46 @@ async function login(req, res) {
     }
 }
 
+async function sendMail(req, res) {
+    const { email } = req.body
+    try {
+        const result = await AuthService.sendLoginMail(email)
+
+        res.json({
+            email: email,
+            link: result
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function loginWithToken(req, res) {
+    const { token } = req.query
+    try {
+        const result = await AuthService.loginWithToken(token)
+
+        res.json({
+            ...result
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getAuthUser,
     register,
     login,
     verifyJWTtoken,
+    sendMail,
+    loginWithToken,
 }
