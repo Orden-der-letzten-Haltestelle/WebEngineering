@@ -287,7 +287,6 @@ async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
 
     await verifyWishlistRoleByWishlistId(ownerId, wishlistid, WishlistRoles.owner)
 
-    console.log("Role", wishlistroleid)
     if (wishlistroleid != 1) { // If role is not admin
         await WishlistModel.changeRoleOfRelation(relationId, roleLevel)
     }
@@ -302,12 +301,21 @@ async function deleteRelationFromWishlist(ownerId, relationId) {
 
     // Check if you want to delete the owner (yourself)
     // Should not be possible
-    console.log(wishlistroleid)
     if (wishlistroleid != 1) { // If role is not admin
         await WishlistModel.deleteRelationFromWishlist(relationId)
     }
 
     return await getWishlistById(ownerId, wishlistid)
+}
+
+async function deleteWishlistitem(userId, wishlistitemId) {
+    const { wishlistId } = await WishlistItemModel.findWishlistItemById(wishlistitemId)
+
+    await verifyWishlistRoleByWishlistId(userId, wishlistId, WishlistRoles.write)
+
+    await WishlistItemModel.deleteWishlistitem(wishlistitemId)
+
+    return await getWishlistById(userId, wishlistId)
 }
 
 export default {
@@ -319,4 +327,5 @@ export default {
     addUserToWishlist,
     changeRoleOfRelation,
     deleteRelationFromWishlist,
+    deleteWishlistitem,
 }

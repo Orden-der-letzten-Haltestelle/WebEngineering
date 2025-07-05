@@ -188,6 +188,24 @@ async function deleteUserFromWishlist(req, res) {
     }
 }
 
+async function deleteWishlistitem(req, res) {
+    const userId = req.user.id
+    const wishlistitemId = req.params.wishlistitemId
+    try {
+        const wishlist = await WishlistService.deleteWishlistitem(userId, wishlistitemId)
+
+        res.status(200).json({
+            ...wishlist,
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getWishlistsByUserId,
     getWishlistById,
@@ -197,4 +215,5 @@ export default {
     addUserToWishlist,
     changeRoleOfUser,
     deleteUserFromWishlist,
+    deleteWishlistitem,
 }

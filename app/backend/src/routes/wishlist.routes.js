@@ -53,4 +53,10 @@ router.delete(
     WishlistController.deleteUserFromWishlist
 )
 
+router.delete(
+    "/item/:wishlistitemId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.deleteWishlistitem
+)
+
 export default router

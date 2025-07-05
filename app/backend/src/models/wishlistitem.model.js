@@ -203,7 +203,6 @@ async function createWishlistItem(wishlistId, productId, amount) {
 }
 
 async function updateWishlistItem(wishlistId, productId, amount) {
-    console.log("amount", amount)
     try {
         const result = await pool.query(`
             UPDATE 
@@ -223,7 +222,25 @@ async function updateWishlistItem(wishlistId, productId, amount) {
             `Failed update wishlistItem in DB: ${error.message}`,
             { originalError: error }
         )
+    }
+}
 
+async function deleteWishlistitem(wishlistitemId) {
+    try {
+        const result = await pool.query(
+            `DELETE FROM
+                webshop.wishlistitems as i
+            WHERE
+                i.id=$1
+            RETURNING *`,
+            [wishlistitemId]
+        )
+        console.log(result.rows)
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed update wishlistItem in DB: ${error.message}`,
+            { originalError: error }
+        )
     }
 }
 
@@ -233,4 +250,5 @@ export default {
     findWishlistItemsByWishlistId,
     createWishlistItem,
     updateWishlistItem,
+    deleteWishlistitem,
 }
