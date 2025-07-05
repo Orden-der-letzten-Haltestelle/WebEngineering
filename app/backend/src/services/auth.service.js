@@ -123,7 +123,7 @@ async function extractTokenAndVerify(token, requiredRole) {
 
     //gets an AuthUser Object to verify whether the user is banned
     const authUser = await getAuthUser(user.id)
-    
+
     if (authUser.isBanned) {
         throw new ForbiddenError("User is banned!");
     }

@@ -6,6 +6,7 @@
  */
 export default async function ProfilePageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+
     return {
         title: "ProfilePage",
         /* Hier werden die Daten der BeispielComponenten übergeben */

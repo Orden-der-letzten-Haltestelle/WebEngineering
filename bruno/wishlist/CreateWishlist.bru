@@ -1,0 +1,16 @@
+meta {
+  name: CreateWishlist
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3000/api/wishlist
+  body: formUrlEncoded
+  auth: inherit
+}
+
+body:form-urlencoded {
+  name: test Name
+  description: test Description
+}
