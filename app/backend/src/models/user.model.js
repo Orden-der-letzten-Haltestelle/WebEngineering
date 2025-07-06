@@ -63,9 +63,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultRole.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const userIsOwnerOfWishlist = await pool.query(
             `SELECT * FROM webshop.user_wishlist_relation as w
             WHERE w.userid = $1 and w.wishlistroleid = 1;
@@ -120,9 +117,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultWishlist.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const resultCart = await pool.query(
             `
             DELETE FROM
@@ -133,10 +127,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultCart.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
-
         const result = await pool.query(
             `
             DELETE FROM
