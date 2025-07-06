@@ -28,6 +28,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
+    notRequiredAuth,
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -180,6 +181,34 @@ async function renderErrorPage(req, res, error) {
         excludeNavbar: false,
         excludeFooter: false,
     })
+}
+
+/* Secure Pages, that require signIn */
+async function notRequiredAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        next()
+        return
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            res.clearCookie("token")
+            next()
+            return
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
 }
 
 /* Secure Pages, that require signIn */

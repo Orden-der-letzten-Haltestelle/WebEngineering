@@ -53,7 +53,7 @@ window.handleRemoveAdminFromUser = function handleRemoveAdminFromUser(
         })
         .catch((err) => {
             alert(
-                "❌ Failed to make user Admin: " +
+                "❌ Failed to remove Admin role from user: " +
                     (err.message || "Unknown error")
             )
             console.error(err)

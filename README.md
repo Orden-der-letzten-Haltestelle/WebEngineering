@@ -1,21 +1,22 @@
-# Webshop
-
+# 🛒 Webshop
 DHBW Projekt for Web Engineering
 
-## Dependencies
+## 💿 Dependencies
 
 You need to have [Docker](https://www.docker.com/) installed on your system and it should be running during development.
 
 You will also need to have [Node.js](https://nodejs.org/en) installed.
 
-## Local Development
+## 💻 Local Development
 
 That you can start the applikation, you need to be in `/app`
 
-## start dev database
+### start dev database
+
 ```
 ./startDevDB.bat
 ```
+
 When you start the db like that, all data will be lost, when you delete the container.
 Everytime you execute the `./startDevDB.bat`, the DB will be cleaned and you have a fresh data set based on the data in testdata.sql
 
@@ -49,7 +50,6 @@ npm test
 ```
 
 ## Start Docker Containers
-
 To update the Docker image and containers run:
 
 ```bash
@@ -57,16 +57,15 @@ To update the Docker image and containers run:
 ```
 
 This will:
+- build the application in docker containers
+- start the server
 
--   build the application in docker containers
--   start the server
+### 🔗 Links
 
-### Links
+* Access frontend: [http://localhost:3000](http://localhost:3000)
+* Access backend: [http://localhost:3000/api](http://localhost:3000/api)
 
--   Access frontend: [http://localhost:3000](http://localhost:3000)
--   Access backend: [http://localhost:3000/api](http://localhost:3000/api)
-
-## Project Structure
+### 📁 Project Structure
 
 ```bash
 ├── app/                        # Node.js server
@@ -77,20 +76,30 @@ This will:
 │   │   │   ├── /objects        # All objects
 │   │   │   ├── /routes         # Defining the Endpoints and routing them to the function
 │   │   │   └── /services       # Business logic
-│   │   └── /tests              # All testcases
-│   ├── /config
+│   │   └── /tests              # All testcases (discontinued)
 │   ├── /frontend               # Static HTML, CSS & JS
+│   │   ├── /api                # Functions to fetch backend routes
+│   │   ├── /components         # .ejs components for reuse
+│   │   ├── /controller         # Eventlisteners and function handeling
+│   │   ├── /img                # Images
+│   │   ├── /pages              # .ejs pages
+│   │   ├── /styles             # .css styles
+│   │   ├── frontend.indes.js   # Define Frontend routes
+│   │   └── helper.js
+│   ├── /config
 │   ├── Dockerfile              # Container Configuration of backed
-│   ├── index.js
+│   ├── index.js                # Index of Backend
 │   └── package.json
 ├── db/
-│   └── init.sql                # Initial DB
+│   ├── init.sql                # Initial DB
+│   └── testdata.sql            # Test Data for DB
 ├── docker-compose.yml          # Container Configuration
+├── docker-compose.dev.yml      # Container Configuration for a dev DB
 └── start.bat                   # Startup Script
+└── startDevDB.bat              # Startup Script for dev DB
 ```
 
-## Tech Stack
-
+## 📚 Tech Stack
 | Link                                       | Description            |
 | ------------------------------------------ | ---------------------- |
 | [Node.js](https://nodejs.org/en)           | Runtime Environment    |
