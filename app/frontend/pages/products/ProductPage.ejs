@@ -1,3 +1,4 @@
+
 <div id="productPage-content">
     <!-- <h1><%= title %></h1> -->
     <!-- Hier werden die Beispiel Componenten geladen. -->
@@ -13,7 +14,8 @@
                 <p><%= products.description %></p>
                 <div class="price-buy">
                     <span class="price"><%= products.price %>.-</span>
-                    <button class="buy-button">Warenkorb</button>
+                    <div class="buy-button">
+                    <button class="buy-button" onclick="handleAddToCart('<%= products.id %>','<%= token %>')">Warenkorb</button></div>
                 </div>
             </div>
         </div>

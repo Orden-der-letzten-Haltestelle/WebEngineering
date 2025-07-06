@@ -25,3 +25,5 @@ async function listProducts(req, res) {
 export default {
     listProducts,
 }
+
+

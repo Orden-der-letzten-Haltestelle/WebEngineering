@@ -21,3 +21,18 @@ export async function fetchProducts(token) {
     }
     return res.json()
 }
+
+export async function addProductToCart(productId, token) {
+    const res = await fetch(`${config.host}/cart/product/${productId}`, {
+        method: "POST",
+        headers: {
+            Authorization: token,
+        },
+    })
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to add product to cart"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return res.json()
+}

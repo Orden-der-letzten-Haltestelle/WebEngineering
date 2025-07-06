@@ -19,6 +19,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import CheckoutConfirmPageLoader from "./pages/checkoutConfirm/CheckoutConfirmPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -27,6 +28,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
+    verifyTokenWithOutReuquired,
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -48,6 +50,16 @@ router.get(
     "/checkout",
     requireAuth,
     handlePage(CheckoutPageLoader, "pages/checkout/CheckoutPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/*checkoutConfirmPage*/
+router.get(
+    "/checkout/confirm",
+    verifyTokenWithOutReuquired,
+    handlePage(CheckoutConfirmPageLoader, "pages/checkoutConfirm/CheckoutConfirmPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -159,6 +171,39 @@ async function renderErrorPage(req, res, error) {
         excludeNavbar: false,
         excludeFooter: false,
     })
+}
+
+/**
+ * Extract token, when page is open for all, but token is needed for some functions
+ * @param {*} req 
+ * @param {*} res 
+ * @param {*} next 
+ * @returns 
+ */
+async function verifyTokenWithOutReuquired(req, res, next) {
+    const token = getToken(req)
+
+    //when no token given, dont set token
+    if (!token) {
+        next()
+        return
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //when token invalid, just go next, and dont set token
+        if (err.status === 403 || err.status === 401) {
+            next()
+            return
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
 }
 
 /* Secure Pages, that require signIn */

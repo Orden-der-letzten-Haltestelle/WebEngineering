@@ -6,5 +6,7 @@ export default async function CheckoutPageLoader(req, res) {
     return {
         title: "CheckoutPage",
         cartItems: cartItems,
+        token: req.token,
+
     }
 }
