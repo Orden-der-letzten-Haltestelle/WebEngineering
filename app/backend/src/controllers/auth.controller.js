@@ -19,7 +19,7 @@ async function getAuthUser(req, res) {
         const authUser = await AuthService.getAuthUser(userId)
 
         res.status(200).json({
-            authUser,
+            ...authUser,
         })
     } catch (error) {
         console.log(
@@ -75,9 +75,8 @@ function verifyJWTtoken(requiredRole) {
 }
 
 async function register(req, res) {
+    const { username, password, email } = req.body
     try {
-        const { username, password, email } = req.body
-
         const userAndToken = await AuthService.createUser(
             username,
             password,
