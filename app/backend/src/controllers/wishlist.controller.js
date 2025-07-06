@@ -78,7 +78,7 @@ async function addProductToWishlist(req, res) {
     const productId = req.params.productId
 
     try {
-        const amount = req.query?.amount || 1
+        const amount = Number(req.query?.amount) || 1
 
         const wishlist = await WishlistService.addProductToWishlist(
             userId,

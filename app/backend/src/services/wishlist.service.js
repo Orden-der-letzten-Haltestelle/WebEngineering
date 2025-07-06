@@ -240,7 +240,6 @@ async function isProductInWishlist(productId, wishlistId) {
  * @throws {BadRequestError}
  */
 async function addProductToWishlist(userId, wishlistId, productId, amount) {
-    //TODO
     //verify that user has access
     await verifyWishlistRoleByWishlistId(
         userId,
@@ -259,7 +258,7 @@ async function addProductToWishlist(userId, wishlistId, productId, amount) {
         await WishlistItemModel.updateWishlistItem(
             wishlistId,
             productId,
-            amount
+            amount + wishlistItem.amount
         )
     } else {
         //create new wishlist item
