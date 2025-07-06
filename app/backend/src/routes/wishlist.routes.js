@@ -24,6 +24,12 @@ router.post(
 )
 
 router.put(
+    "/item/:wishlistItemId",
+    AuthController.verifyJWTtoken(Roles.user),
+    WishlistController.updateWishlistItem
+)
+
+router.put(
     "/:wishlistId",
     AuthController.verifyJWTtoken(Roles.user),
     WishlistController.updateWishlist

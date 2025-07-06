@@ -426,6 +426,7 @@ export default {
     createWishlist,
     addProductToWishlist,
     updateWishlist,
+    updateWishlistItem,
     addUserToWishlist,
     changeRoleOfRelation,
     deleteRelationFromWishlist,
