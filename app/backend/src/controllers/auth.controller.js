@@ -51,7 +51,6 @@ function verifyJWTtoken(requiredRole) {
     return async function (req, res, next) {
         try {
             const token = req.headers.authorization
-
             const user = await AuthService.extractTokenAndVerify(
                 token,
                 requiredRole

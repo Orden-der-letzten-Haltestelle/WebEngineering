@@ -222,7 +222,7 @@ async function requireAuth(req, res, next) {
 
     //when token given, then get user Information
     try {
-        req.user = (await fetchUser(token)).authUser
+        req.user = await fetchUser(token)
         req.token = token
         next()
     } catch (err) {

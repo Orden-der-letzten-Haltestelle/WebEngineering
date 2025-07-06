@@ -128,7 +128,7 @@ async function extractTokenAndVerify(token, requiredRole) {
     const authUser = await getAuthUser(user.id)
 
     if (authUser.isBanned) {
-        throw new ForbiddenError("User is banned!");
+        throw new ForbiddenError("User is banned!")
     }
 
     //or not yet verified and therefore can't access
