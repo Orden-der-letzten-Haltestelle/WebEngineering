@@ -26,7 +26,7 @@ import Roles from "../objects/user/Roles.js"
  * @throws {NotFoundError}
  */
 async function getWishlistItemById(wishlistItemId) {
-    const wishlistItem = WishlistModel.findWishlistItemById(wishlistItemId)
+    const wishlistItem = WishlistItemModel.findWishlistItemById(wishlistItemId)
     return wishlistItem
 }
 
@@ -228,6 +228,38 @@ async function isProductInWishlist(productId, wishlistId) {
 }
 
 /**
+ * Updates the amount of a wishlistItem
+ * @param {int} userId
+ * @param {int} wishlistItemId
+ * @param {int} newAmount
+ * @returns {Promise<Wishlist>}
+ * @throws {NotFoundError}
+ * @throws {ForbiddenError}
+ * @throws {DatabaseError}
+ */
+async function updateWishlistItem(userId, wishlistItemId, newAmount) {
+    const wishlistItem = await getWishlistItemById(wishlistItemId)
+    const wishlistId = wishlistItem.wishlistId
+    const productId = wishlistItem.product.id
+
+    //verify user has access to edit this wishlist Item
+    await verifyWishlistRoleByWishlistId(
+        userId,
+        wishlistId,
+        WishlistRoles.write
+    )
+
+    //proof valid amount
+    await ProductValidator.isValidAmount(productId, newAmount)
+
+    //update wishlistItem
+    await WishlistItemModel.updateWishlistItem(wishlistId, productId, newAmount)
+
+    //return new wishlist
+    return await getWishlistById(userId, wishlistId)
+}
+
+/**
  * Adds a product to the wishlist. Only when user has write access.
  * When product already exists, then add amount to already existing one.
  * @param {int} userId
@@ -250,24 +282,20 @@ async function addProductToWishlist(userId, wishlistId, productId, amount) {
     //proof, product not already in wishlist | return, when it already exist
     const wishlistItem = await isProductInWishlist(productId, wishlistId)
 
+    //update amount, if product already in wishlist
+    if (wishlistItem) {
+        return updateWishlistItem(
+            userId,
+            wishlistItem.id,
+            amount + wishlistItem.amount
+        )
+    }
+
     //proof, product has right amount
     await ProductValidator.isValidAmount(productId, amount)
 
-    //create wishlist or update amount
-    if (wishlistItem) {
-        await WishlistItemModel.updateWishlistItem(
-            wishlistId,
-            productId,
-            amount + wishlistItem.amount
-        )
-    } else {
-        //create new wishlist item
-        await WishlistItemModel.createWishlistItem(
-            wishlistId,
-            productId,
-            amount
-        )
-    }
+    //create new wishlist item
+    await WishlistItemModel.createWishlistItem(wishlistId, productId, amount)
 
     //return wishlist
     return await getWishlistById(userId, wishlistId)
