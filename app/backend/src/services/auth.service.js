@@ -118,7 +118,7 @@ async function sendVerificationEmail(email) {
         <body>
         <h1>Verifizierung Ihres Accounts - OdlH</h1>
         <p>Bitte klicken Sie auf diesen Link, um ihre Registrierung abzuschließen und ihre Email zu verifizieren:<p>
-        <a href="http://localhost:3000/user/verify/:${token}"><b>Registrierung abschließen</b></a>
+        <a href="http://localhost:3000/user/verify/${token}"><b>Registrierung abschließen</b></a>
         </body>
         </html>
     `
