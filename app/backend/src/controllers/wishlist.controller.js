@@ -78,7 +78,7 @@ async function addProductToWishlist(req, res) {
     const productId = req.params.productId
 
     try {
-        const amount = req.body?.amount || 1
+        const amount = req.query?.amount || 1
 
         const wishlist = await WishlistService.addProductToWishlist(
             userId,
@@ -89,7 +89,6 @@ async function addProductToWishlist(req, res) {
         res.status(201).json({
             ...wishlist,
         })
-
     } catch (error) {
         console.log(
             `Failed addProductToWishlist for user with id ${userId}, wishlistId: ${wishlistId}, productId ${productId}; \Message: ${error?.message}; \nStack: ${error?.stack}`
@@ -137,7 +136,12 @@ async function addUserToWishlist(req, res) {
     try {
         const { userId = "", roleLevel = "" } = req.body
 
-        const wishlist = await WishlistService.addUserToWishlist(ownerId, wishlistId, userId, roleLevel)
+        const wishlist = await WishlistService.addUserToWishlist(
+            ownerId,
+            wishlistId,
+            userId,
+            roleLevel
+        )
 
         res.status(201).json({
             ...wishlist,
@@ -157,7 +161,11 @@ async function changeRoleOfUser(req, res) {
     try {
         const { roleLevel = "" } = req.body
 
-        const wishlist = await WishlistService.changeRoleOfRelation(ownerId, relationId, roleLevel)
+        const wishlist = await WishlistService.changeRoleOfRelation(
+            ownerId,
+            relationId,
+            roleLevel
+        )
 
         res.status(200).json({
             ...wishlist,
@@ -175,7 +183,10 @@ async function deleteUserFromWishlist(req, res) {
     const ownerId = req.user.id
     const relationId = req.params.userWishlistRelationId
     try {
-        const wishlist = await WishlistService.deleteRelationFromWishlist(ownerId, relationId)
+        const wishlist = await WishlistService.deleteRelationFromWishlist(
+            ownerId,
+            relationId
+        )
 
         res.status(200).json({
             ...wishlist,
@@ -193,7 +204,10 @@ async function deleteWishlistitem(req, res) {
     const userId = req.user.id
     const wishlistitemId = req.params.wishlistitemId
     try {
-        const wishlist = await WishlistService.deleteWishlistitem(userId, wishlistitemId)
+        const wishlist = await WishlistService.deleteWishlistitem(
+            userId,
+            wishlistitemId
+        )
 
         res.status(200).json({
             ...wishlist,
@@ -211,7 +225,10 @@ async function deleteWishlist(req, res) {
     const ownerId = req.user.id
     const wishlistId = req.params.wishlistId
     try {
-        const wishlist = await WishlistService.deleteWishlist(ownerId, wishlistId)
+        const wishlist = await WishlistService.deleteWishlist(
+            ownerId,
+            wishlistId
+        )
 
         res.status(200).json({
             ...wishlist,
