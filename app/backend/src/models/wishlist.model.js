@@ -261,7 +261,6 @@ async function findWishlistMemberByWishlistIdAndUserId(wishlistId, userId) {
         )
         return wishlistMember
     } catch (error) {
-        console.error(error.stack)
         if (error instanceof NotFoundError) {
             throw error
         }
@@ -357,7 +356,6 @@ async function findWishlistsByUserId(userId) {
         })
         return wishlists
     } catch (error) {
-        console.error(error.stack)
         if (error instanceof ServerError) {
             throw error
         }
@@ -506,7 +504,7 @@ async function getRelationById(relationId) {
         }
         return result.rows[0]
     } catch (error) {
-        if (typeof error == NotFoundError) {
+        if (error instanceof NotFoundError) {
             throw error
         }
         throw new DatabaseError(
@@ -518,7 +516,7 @@ async function getRelationById(relationId) {
 
 async function changeRoleOfRelation(relationId, roleLevel) {
     const role = roleLevel == "1" ? WishlistRoles.read : WishlistRoles.write
-    console.log(role)
+
     try {
         const result = await pool.query(
             `UPDATE
@@ -530,7 +528,6 @@ async function changeRoleOfRelation(relationId, roleLevel) {
             RETURNING *`,
             [relationId, role.id]
         )
-        console.log(result.rows)
         if (result.rows.length <= 0) {
             throw new NotFoundError(
                 `WishlistRealtion with id: ${relationId} was not Found`

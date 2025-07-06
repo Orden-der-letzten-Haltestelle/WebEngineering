@@ -331,7 +331,6 @@ async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
         wishlistid,
         WishlistRoles.owner
     )
-    console.log("here")
 
     if (wishlistroleid != 1) {
         // If role is not owner
@@ -354,10 +353,14 @@ async function deleteRelationFromWishlist(ownerId, relationId) {
 
     // Check if you want to delete the owner (yourself)
     // Should not be possible
-    if (wishlistroleid != 1) {
-        // If role is not admin
-        await WishlistModel.deleteRelationFromWishlist(relationId)
+    if (wishlistroleid == 1) {
+        throw new BadRequestError(
+            `You can't delete your own user, from your Wishlist. If you want, to Delete the Wishlist, you can do that at DELETE /wishlist/${wishlistid}`
+        )
     }
+
+    // If role is not owner
+    await WishlistModel.deleteRelationFromWishlist(relationId)
 
     return await getWishlistById(ownerId, wishlistid)
 }
