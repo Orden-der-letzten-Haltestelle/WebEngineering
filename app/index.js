@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser"
 import ProductRouter from "./backend/src/routes/product.routes.js"
 import AuthRouter from "./backend/src/routes/auth.routes.js"
 import CartRouter from "./backend/src/routes/cart.routes.js"
+import WishlistRouter from "./backend/src/routes/wishlist.routes.js"
 import UserRouter from "./backend/src/routes/user.routes.js"
 import DbRouter from "./backend/src/routes/db.routes.js"
 
@@ -41,10 +42,9 @@ app.use("/", FrontendRouter)
 app.use("/api/products", ProductRouter)
 app.use("/api/auth", AuthRouter)
 app.use("/api/cart", CartRouter)
-
-app.use("/api/user", UserRouter)
-
+app.use("/api/wishlist", WishlistRouter)
 app.use("/api/db", DbRouter)
+app.use("/api/user", UserRouter)
 
 // Server starten
 app.listen(PORT, () => {
