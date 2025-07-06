@@ -75,9 +75,8 @@ function verifyJWTtoken(requiredRole) {
 }
 
 async function register(req, res) {
+    const { username, password, email } = req.body
     try {
-        const { username, password, email } = req.body
-
         const userAndToken = await AuthService.createUser(
             username,
             password,
