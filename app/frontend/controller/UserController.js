@@ -5,7 +5,6 @@ window.handleDeleteUser = function handleDeleteUser(token) {
         .then(() => {
             document.cookie =
                 "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/;"
-            window.location.reload()
         })
         .catch((err) => {
             alert(
