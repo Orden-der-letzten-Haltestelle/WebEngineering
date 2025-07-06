@@ -19,7 +19,7 @@ async function getAuthUser(req, res) {
         const authUser = await AuthService.getAuthUser(userId)
 
         res.status(200).json({
-            authUser,
+            ...authUser,
         })
     } catch (error) {
         console.log(
