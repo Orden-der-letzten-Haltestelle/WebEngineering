@@ -102,7 +102,6 @@ async function register(req, res) {
 }
 
 async function login(req, res) {
-    console.log("Login per Form")
     const { email, password } = req.body
     try {
         const userAndToken = await AuthService.verifyLoginInformation(
