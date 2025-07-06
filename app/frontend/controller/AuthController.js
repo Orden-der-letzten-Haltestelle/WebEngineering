@@ -1,4 +1,4 @@
-import { logInUser, registerUser } from "../api/AuthApiHandler.js"
+import { logInUser, registerUser, SendSignInMail } from "../api/AuthApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -33,5 +33,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
             });
         });
+    }
+
+    const loginFormLink = document.getElementById("LoginFormLink");
+    if (loginFormLink) {
+        loginFormLink.addEventListener("submit", function handleLogIn(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            SendSignInMail(email).then((res) => {
+                window.location.href = '/';
+            }).catch((err) => {
+                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                console.error(err);
+            });
+        });
+        let params = new URLSearchParams(document.location.search)
+        const token = params.get("token")
+        if (token != null) {
+            document.cookie = "token=" + token + "; path=/"
+            window.location.href = '/';
+        }
     }
 });
