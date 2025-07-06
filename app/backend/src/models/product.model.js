@@ -157,7 +157,6 @@ async function createProduct(name, description, amount, price) {
 
 async function updateProduct(id, name, description, amount, price) {
     try {
-        console.log(id)
         const result = await pool.query(
             `
             UPDATE webshop.products
