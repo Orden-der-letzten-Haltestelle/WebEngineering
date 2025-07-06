@@ -344,7 +344,7 @@ async function makeNoAdmin(userId) {
             [userId]
         )
         if (checkIfAdmin.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} is not an admin`)
+            throw new BadRequestError(`User with id ${userId} is already not an admin`)
         } else {
             const result = await pool.query(
                 `DELETE FROM webshop.user_has_role
@@ -362,7 +362,7 @@ async function makeNoAdmin(userId) {
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof NotFoundError || error instanceof BadRequestError) {
             throw error
         }
         throw new DatabaseError(
