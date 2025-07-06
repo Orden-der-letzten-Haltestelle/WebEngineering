@@ -331,9 +331,10 @@ async function changeRoleOfRelation(ownerId, relationId, roleLevel) {
         wishlistid,
         WishlistRoles.owner
     )
+    console.log("here")
 
     if (wishlistroleid != 1) {
-        // If role is not admin
+        // If role is not owner
         await WishlistModel.changeRoleOfRelation(relationId, roleLevel)
     }
 

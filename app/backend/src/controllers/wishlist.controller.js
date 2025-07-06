@@ -1,3 +1,4 @@
+import BadRequestError from "../exceptions/BadRequestError.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import ServerError from "../exceptions/ServerError.js"
 import WishlistService from "../services/wishlist.service.js"

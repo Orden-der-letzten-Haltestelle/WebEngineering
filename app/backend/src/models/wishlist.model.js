@@ -458,7 +458,6 @@ async function addUserToWishlist(wishlistId, userId, roleLevel) {
             `,
             [userId, wishlistId]
         )
-        console.log()
         if (amountOfRoles.rows[0].count != 0) {
             throw new BadRequestError(
                 `The user with id: ${userId} already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId`
@@ -481,7 +480,7 @@ async function addUserToWishlist(wishlistId, userId, roleLevel) {
 
         return result.rows[0]
     } catch (error) {
-        if (typeof error == BadRequestError) {
+        if (error instanceof BadRequestError) {
             throw error
         }
         throw new DatabaseError(
@@ -519,6 +518,7 @@ async function getRelationById(relationId) {
 
 async function changeRoleOfRelation(relationId, roleLevel) {
     const role = roleLevel == "1" ? WishlistRoles.read : WishlistRoles.write
+    console.log(role)
     try {
         const result = await pool.query(
             `UPDATE
@@ -530,6 +530,7 @@ async function changeRoleOfRelation(relationId, roleLevel) {
             RETURNING *`,
             [relationId, role.id]
         )
+        console.log(result.rows)
         if (result.rows.length <= 0) {
             throw new NotFoundError(
                 `WishlistRealtion with id: ${relationId} was not Found`
