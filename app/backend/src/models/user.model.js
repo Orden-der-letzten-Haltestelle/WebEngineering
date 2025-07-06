@@ -70,7 +70,6 @@ async function deleteUserById(userId) {
             [userId]
         )
         if (userIsOwnerOfWishlist.rows.length > 0) {
-            console.log("is owner of wishlist")
             const idWishlist = userIsOwnerOfWishlist.rows[0].wishlistid
             const deleteWishlistItems = await pool.query(
                 `DELETE FROM webshop.wishlistitems as wi
