@@ -15,7 +15,8 @@ import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
-import ProductPageLoader from "./pages/products/ProductPage.js"
+import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
+import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -25,6 +26,16 @@ const __dirname = path.dirname(__filename)
 router.get(
     "/",
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* ProductDetailled Page*/
+
+router.get(
+    "/products/:productId",
+    handlePage(ProductDetailledLoader, "pages/products/:productId", {
         excludeNavbar: false,
         excludeFooter: false,
     })

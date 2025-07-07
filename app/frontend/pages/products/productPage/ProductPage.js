@@ -1,4 +1,4 @@
-import { fetchProducts } from "../../api/productApiHandler.js"
+import { fetchProducts } from "../../../api/productApiHandler.js"
 
 export default async function ProductPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
