@@ -63,9 +63,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultRole.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const userIsOwnerOfWishlist = await pool.query(
             `SELECT * FROM webshop.user_wishlist_relation as w
             WHERE w.userid = $1 and w.wishlistroleid = 1;
@@ -73,7 +70,6 @@ async function deleteUserById(userId) {
             [userId]
         )
         if (userIsOwnerOfWishlist.rows.length > 0) {
-            console.log("is owner of wishlist")
             const idWishlist = userIsOwnerOfWishlist.rows[0].wishlistid
             const deleteWishlistItems = await pool.query(
                 `DELETE FROM webshop.wishlistitems as wi
@@ -82,7 +78,7 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if (resultRole.rows.length <= 0) {
+            if (deleteWishlistItems.rows.length <= 0) {
                 throw new DatabaseError("Failed to delete wishlist items")
             }
             const deleteRolesOfOthers = await pool.query(
@@ -120,9 +116,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultWishlist.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const resultCart = await pool.query(
             `
             DELETE FROM
@@ -133,10 +126,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultCart.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
-
         const result = await pool.query(
             `
             DELETE FROM
