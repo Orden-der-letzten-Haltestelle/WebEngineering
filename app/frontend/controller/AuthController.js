@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            console.log(email);
             logInUser(email, password).then((res) => {
                 document.cookie = "token=" + res.jwt.token;
                 window.location.href = '/';
