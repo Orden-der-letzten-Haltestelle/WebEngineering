@@ -56,6 +56,7 @@ async function createUser(username, password, email) {
     const user = await AuthModel.createUser(username, hashedPassword, email)
 
     // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
 
     //generate jwtToken
     const jwt = generateJWTtoken(user)
@@ -63,6 +64,83 @@ async function createUser(username, password, email) {
         user: user,
         jwt: jwt,
     }
+}
+
+/**
+ * sends verification email, so that users verify themselves via a link provided in the mail
+ */
+async function sendVerificationEmail(email) {
+    const subject = "Bitte verifizieren Sie Ihre Email"
+    const rand = () => {
+        return Math.random().toString(36).substr(2);
+    };
+
+    const generateToken = () => {
+        return rand() + rand();
+    };
+    const token = generateToken()
+    console.log(token);
+
+    const resultTokenSave = AuthModel.saveTokenVerification(email, token)
+
+    let emailBody = `
+        <html>
+        <head>
+            <style>
+               body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #DBC70C;
+                    text-align: center;
+                    font-size: 16;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
+                }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
+                a {
+                    color: #DBC70C;
+                    font-size: 12;
+                    text-decoration: underline; 
+                    text-align: center
+                }
+                a:hover {
+                    color:rgb(50, 48, 48); 
+                    text-decoration:underline; 
+                    cursor:pointer;  
+                }
+            </style>
+        </head>
+        <body>
+        <h1>Verifizierung Ihres Accounts - OdlH</h1>
+        <p>Bitte klicken Sie auf diesen Link, um ihre Registrierung abzuschließen und ihre Email zu verifizieren:<p>
+        <a href="http://localhost:3000/user/verify/${token}"><b>Registrierung abschließen</b></a>
+        </body>
+        </html>
+    `
+
+    EmailService.sendHtmlMail(
+        email,
+        subject,
+        emailBody
+    )
+}
+
+/**
+ * Verifys the email of a newly registered user
+ * @param {int} userId
+ * @param {string} token
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function verifyEmail(userId, token) {
+    return await AuthModel.verifyEmail(userId, token)
 }
 
 /**
@@ -262,6 +340,7 @@ export default {
     createUser,
     extractTokenAndVerify,
     verifyLoginInformation,
+    verifyEmail,
     sendLoginMail,
     loginWithToken,
 }
