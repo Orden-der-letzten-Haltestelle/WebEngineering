@@ -99,6 +99,7 @@ async function findAuthUserById(id) {
 
 /**
  * Returns a User Object if one was found in the Database
+ * @param {string} email
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError} User with Email doesn't exist
  * @throws {DatabaseError}
@@ -134,6 +135,7 @@ async function findUserByEmail(email) {
  * @throws {NotFoundError} user with email doesn't exist
  */
 async function findAdvancedAuthUserByEmail(email) {
+    console.log(pool.password)
     try {
         const result = await pool.query(
             `SELECT 

@@ -1,0 +1,182 @@
+.adminPage-user-container > .profilePicture {
+    grid-area: 1 / 1 / 5 / 2;
+    width: 70px;
+    height: 70px;
+    align-self: center;
+    justify-self: center;
+}
+
+.adminPage-user-container > .text {
+    margin: 0;
+    padding: 0;
+}
+
+.adminPage-user-container > .email {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+.adminPage-user-container > .role {
+    grid-area: 2 / 2 / 3 / 3;
+}
+
+.adminPage-user-container > .verified {
+    grid-area: 3 / 2 / 4 / 3;
+}
+
+.adminPage-user-container > .adminpage-user-button-container {
+    grid-area: 4 / 2 / 5 / 3;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    align-self: flex-end;
+}
+
+.adminpage-button {
+    cursor: pointer;
+    padding: 8px;
+    width: 100px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    height: 45px;
+}
+
+.adminpage-button:hover {
+    opacity: 0.8;
+    border-color: black;
+}
+
+/* Unbann user */
+.adminpage-button.Entbannen {
+    background-color: green;
+}
+
+/* Bann user */
+.adminpage-button.Bannen {
+    background-color: #ff0000;
+}
+
+/* Promote to admin */
+.adminpage-button.Befördern {
+    background-color: var(--highlight-color);
+}
+
+/* Demote to user */
+.adminpage-button.Degradieren {
+    background-color: rgb(192, 191, 191);
+}
+
+/* overlay */
+.adminpage-overlay-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blur {
+    z-index: 3000 !important;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.adminpage-overlay-inner {
+    position: fixed;
+    width: 600px;
+    height: min-content;
+    min-height: 250px;
+    row-gap: 20px;
+    background-color: #d9d9d9;
+    z-index: 3001;
+    border-radius: 8px;
+    display: grid;
+    grid-template-rows: auto min-content;
+    padding: 40px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.adminpage-overlay-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.adminpage-button.abbruch {
+    background-color: #ff0000;
+}
+
+.adminpage-button.confirm {
+    background-color: var(--highlight-color);
+}
+
+.adminPage-user-container {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: min-content min-content min-content auto;
+    border: 2px solid black;
+    border-radius: 8px;
+    width: 1000px;
+
+    height: 140px;
+    padding: 20px;
+    column-gap: 30px;
+}
+
+@media screen and (max-width: 1300px) {
+    .adminPage-user-container {
+        width: 800px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .adminPage-user-container {
+        width: 600px;
+    }
+}
+@media screen and (max-width: 720px) {
+    .adminPage-user-container {
+        width: 400px;
+        height: 170px;
+    }
+}
+
+@media screen and (max-width: 520px) {
+    .adminPage-user-container {
+        width: 300px;
+        height: 250px;
+
+        grid-template-columns: auto;
+        grid-template-rows: min-content min-content min-content min-content auto;
+    }
+    .adminPage-user-container > .profilePicture {
+        grid-area: 1 / 1 / 2 / 2;
+        margin-bottom: 22px;
+    }
+
+    .adminPage-user-container > .email {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .adminPage-user-container > .role {
+        grid-area: 3 / 1 / 4 / 2;
+    }
+
+    .adminPage-user-container > .verified {
+        grid-area: 4 / 1 / 5 / 2;
+    }
+
+    .adminPage-user-container > .adminpage-user-button-container {
+        grid-area: 5 / 1 / 6 / 2;
+    }
+}

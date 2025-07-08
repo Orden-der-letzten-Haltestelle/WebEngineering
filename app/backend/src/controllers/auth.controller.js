@@ -19,7 +19,7 @@ async function getAuthUser(req, res) {
         const authUser = await AuthService.getAuthUser(userId)
 
         res.status(200).json({
-            authUser,
+            ...authUser,
         })
     } catch (error) {
         console.log(
@@ -51,7 +51,6 @@ function verifyJWTtoken(requiredRole) {
     return async function (req, res, next) {
         try {
             const token = req.headers.authorization
-
             const user = await AuthService.extractTokenAndVerify(
                 token,
                 requiredRole
@@ -140,7 +139,41 @@ async function verifyEmail(req, res) {
         console.log(
             `Failed verification with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
 
+async function sendMail(req, res) {
+    const { email } = req.body
+    try {
+        const result = await AuthService.sendLoginMail(email)
+
+        res.json({
+            email: email,
+            link: result
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function loginWithToken(req, res) {
+    const { token } = req.query
+    try {
+        const result = await AuthService.loginWithToken(token)
+
+        res.json({
+            ...result
+        })
+    } catch (error) {
         const statusCode = error?.statusCode || 500
         res.status(statusCode).json({
             message: error?.message || "Unexpected Error",
@@ -155,4 +188,6 @@ export default {
     login,
     verifyJWTtoken,
     verifyEmail,
+    sendMail,
+    loginWithToken,
 }

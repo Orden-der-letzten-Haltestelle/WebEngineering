@@ -1,7 +1,18 @@
 <div id="orderPage-content">
-    <h1><%= title %></h1>
-    <!-- Hier werden die Beispiel Componenten geladen. -->
-    <% beispielComponents.forEach(function(item) { %> <%-
-    include("../../components/BeispielComponent/BeispielComponent", { title:
-    item.title, text: item.text }) %> <% }) %>
+    <% orderItems.forEach((item)=>{%>
+        <div id="OrderhistoryItem">
+                <a href="/product/<%= item.product.id %>" class="produktlink">
+                    <img src="http://localhost:3000/img/BeispielImg.png" alt="Produktbild">
+                    <div> 
+                        <p>Artikel-Name: <%=item.product.name %></p>
+                        <p>Artikel-Nr.:<%=item.product.id %></p>
+                    </div>
+                </a>
+            <div id="buttons">
+                <button class="info">Preis: <%=item.product.price/100 %> €</button>
+                <button class="info">Anzahl: <%=item.amount %></button>
+                <button id="buy" onclick="handleAddtocart('<%= item.product.id %>', '<%= token %>')">In den Warenkorb</button>
+            </div>
+        </div>
+    <%}) %>
 </div>

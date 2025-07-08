@@ -1,4 +1,4 @@
-import { logInUser, registerUser, verifyMail } from "../api/AuthApiHandler.js"
+import { logInUser, registerUser, verifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            console.log(email);
             logInUser(email, password).then((res) => {
                 document.cookie = "token=" + res.jwt.token;
                 window.location.href = '/';
@@ -47,5 +46,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
             });
         });
+    }
+  
+    const loginFormLink = document.getElementById("LoginFormLink");
+    if (loginFormLink) {
+        loginFormLink.addEventListener("submit", function handleLogIn(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            SendSignInMail(email).then((res) => {
+                window.location.href = '/';
+            }).catch((err) => {
+                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                console.error(err);
+            });
+        });
+      
+        let params = new URLSearchParams(document.location.search)
+        const token = params.get("token")
+        if (token != null) {
+            document.cookie = "token=" + token + "; path=/"
+            window.location.href = '/';
+        }
     }
 });
