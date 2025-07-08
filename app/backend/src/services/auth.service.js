@@ -350,4 +350,5 @@ export default {
     verifyEmail,
     sendLoginMail,
     loginWithToken,
+    sendVerificationEmail,
 }

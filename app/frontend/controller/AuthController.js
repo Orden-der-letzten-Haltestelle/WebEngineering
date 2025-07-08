@@ -34,15 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const button = document.getElementById("verify");
+    const button = document.getElementById("button-sendAgain");
     if (button) {
-        button.addEventListener("click", function handleverifyMail(event) {
+        button.addEventListener("click", function handleSendVerifyMail(event) {
             event.preventDefault();
-            const email = req.
-            verifyMail(email, token).then((res) => {
-                window.location.href = '/';
+            const email = document.getElementById('email').value;
+            sendVerifyMail(email).then((res) => {
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                alert("❌ Failed to send email again: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });

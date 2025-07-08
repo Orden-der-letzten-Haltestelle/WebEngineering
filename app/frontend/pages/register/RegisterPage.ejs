@@ -31,3 +31,32 @@
     </div>
     <script src="RegisterPage.js"></script>
 </div>
+
+<!-- Konto-Löschen-Overlay -->
+<div id="kontoerstelltOverlay" class="overlay" style="display: none">
+    <div class="modal">
+        <h2>Ihr Konto wurde erstellt!</h2>
+        <p>
+            Überprüfen Sie bitte ihr Email-Postfach, um sich zu verifizieren.
+        </p>
+        <div class="bottom-buttons">
+            <button
+                class="button" id="button-leave"
+                onclick="document.getElementById('kontoerstelltOverlay').style.display = 'none';"
+                href="http://localhost:3000/"
+            >
+                Shoppen
+            </button>
+            <button
+                class="button" id="button-sendAgain"
+            >
+                Email erneut senden
+            </button>
+        </div>
+        <a
+            class="passwort-reset"
+            href="http://localhost:3000/login/passwordSupport"
+            >Passwort zurücksetzen</a
+        >
+    </div>
+</div>
