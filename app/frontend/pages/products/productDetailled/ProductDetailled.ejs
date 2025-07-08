@@ -1,26 +1,62 @@
-<div id="productPage-content">
-    <!-- <h1><%= title %></h1> -->
-    <!-- Hier werden die Beispiel Componenten geladen. -->
-
-    <div class="products-grid">
-        <div class="products-card">
+<div id="checkoutPage-content">
+  <div class="checkout-layout">
+    <div class="checkoutItems-container">
+      <div class="checkoutItems-inner-container">
+          <div class="checkout-card">
             <div class="image-wrapper">
-                <img src="<%= product.image || '/img/BeispielImg.png' %>" alt="Produktblid">
+              <img src="<%= product.image || '/img/BeispielImg.png' %>" alt="Produktbild">
             </div>
             <div class="products-info">
-                <h2>
-                    <%= product.name %>
-                </h2>
-                <p>
-                    <%= product.description %>
-                </p>
-                <div class="price-buy">
-                    <span class="price">
-                        <%= product.price %>.-
-                    </span>
-                    <button class="buy-button">Warenkorb</button>
-                </div>
+              <h2><%= product.name %></h2>
+              <p><%= product.description %></p>
             </div>
-        </div>
+            <div class="price-buy">
+              <span class="price"></span>
+            </div>
+
+            <div class="dropdown-container checkoutItem-amount">
+              <button class="checkoutItem dropdown-button" onclick="toggleDropdown(this)">
+                <svg class="dropdown-arrow checkoutItem" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M7.82054 20.7313C8.21107 21.1218 8.84423 21.1218 9.23476 20.7313L15.8792 14.0868C17.0505 12.9155 17.0508 11.0167 15.88 9.84497L9.3097 3.26958C8.91918 2.87905 8.28601 2.87905 7.89549 3.26958C7.50497 3.6601 7.50497 4.29327 7.89549 4.68379L14.4675 11.2558C14.8581 11.6464 14.8581 12.2795 14.4675 12.67L7.82054 19.317C7.43002 19.7076 7.43002 20.3407 7.82054 20.7313Z" fill="#0F0F0F"></path> </g></svg></svg>
+                <span>Anzahl:</span>
+              </button>
+              <div class="cartitem dropdown-content hide">
+              </div>
+            </div>
+          </div>
+      </div>
     </div>
+
+    <div class="summary-box-container">
+      <div class="summary-amount">
+        Artikel:
+      </div>
+      <hr class="summary-divider" />
+      <p class="summary-total-price">
+        Gesamtpreis:
+      </p>
+      <div class="checkoutPage-button-container">
+        <a href="/cart">
+          <button class="checkout-button-interrupt">Abbruch</button>
+        </a>
+        <a href="/checkout/confirm">
+          <button class="checkout-button-buy" onclick="handleCheckout('<%= token %>')">Bestellen</button>
+        </a>
+      </div>
+    </div>
+
+  </div>
 </div>
+
+
+<script>
+    function toggleDropdown(button) {
+        const container = button.parentElement;
+        const content = container.querySelector('.dropdown-content');
+        const arrow = container.querySelector('.dropdown-arrow');
+        arrow.classList.toggle('rotated')
+        content.classList.toggle('hide');
+    }
+</script>
+
+
+
