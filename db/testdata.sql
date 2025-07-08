@@ -5,31 +5,30 @@ INSERT INTO webshop.Roles (roleName) VALUES
 
 -- Benutzer
 INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdAt) VALUES
-  ('admin', '$2b$10$aFcNkMCp5MTydjaSRCfQ1O3WjkqPmNozdQMQQGplm7OlwqidbBJkS', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is admin
-  ('moritz', '$2b$10$sIdNQt3or1jrca7ZUKVl7OHh3aXrCo3kXdFP3/k9J5ckfFOBKDYt6', 'tg2020.45059@gmail.com', FALSE, TRUE, NOW()), -- password is moritz
-  ('leon', '$2b$10$FhmNHW7wN4Q2p0FLTPzYQOIxz4QE9EoB0RI82B8bKsXE0M5rKAnm6', 'leon@salenbacher.com', FALSE, TRUE, NOW()); -- password is leon
-  ('rosalie', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'scaramouche5@web.de', FALSE, TRUE, NOW()); -- password is test
-  ('sophie', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'inf24170@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()); -- password is test
-  ('oliver', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'inf24229@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()); -- password is test
-  ('niklas', '$2b$10$.BpYMx.ccfo3VE.fGt1up.ZJ25OEjQUuX.aqbR32kx9YK1rQ.3aIy', 'nikreu06@gmail.com', FALSE, TRUE, NOW()); -- password is test
+  ( 'admin', '$2b$10$aFcNkMCp5MTydjaSRCfQ1O3WjkqPmNozdQMQQGplm7OlwqidbBJkS', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is admin
+  ( 'moritz', '$2b$10$sIdNQt3or1jrca7ZUKVl7OHh3aXrCo3kXdFP3/k9J5ckfFOBKDYt6', 'tg2020.45059@gmail.com', FALSE, TRUE, NOW()), -- password is moritz
+  ( 'leon', '$2b$10$FhmNHW7wN4Q2p0FLTPzYQOIxz4QE9EoB0RI82B8bKsXE0M5rKAnm6', 'leon@salenbacher.com', FALSE, TRUE, NOW()), -- password is leon
+  ( 'rosalie', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'scaramouche5@web.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'sophie', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'inf24170@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'oliver', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'inf24229@lehre.dhbw-stuttgart.de', FALSE, TRUE, NOW()), -- password is test
+  ( 'niklas', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'nikreu06@gmail.com', FALSE, TRUE, NOW()); -- password is test
 
 -- Rollenvergabe an Benutzer
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
   (1, 2), -- admin -> admin
   (1, 1), -- admin -> user
+  (2, 2), -- moritz -> admin
   (2, 1), -- moritz -> user
-  (3, 1); -- leon -> user
-  (3, 2); -- leon -> admin
-  (4, 1) -- rosalie -> user
-  (4, 2) -- rosalie -> admin
-  (5, 1) -- rosalie -> user
-  (5, 2) -- rosalie -> admin
-  (6, 1) -- sophie -> user
-  (6, 2) -- sophie -> admin
-  (7, 1) -- oliver -> user
-  (7, 2) -- oliver -> admin
-  (8, 1) -- niklas -> user
-  (8, 2) -- niklas -> admin
+  (3, 1), -- leon -> user
+  (3, 2), -- leon -> admin
+  (4, 1), -- rosalie -> user
+  (4, 2), -- rosalie -> admin
+  (5, 1), -- sophie -> user
+  (5, 2), -- sophie -> admin
+  (6, 1), -- oliver -> user
+  (6, 2), -- oliver -> admin
+  (7, 1), -- niklas -> user
+  (7, 2); -- niklas -> admin
 
 -- Produkte
 INSERT INTO webshop.Products (name, description, amount, price) VALUES
@@ -48,7 +47,8 @@ INSERT INTO webshop.CartItems (userId, productId, amount, bought, boughtAt, adde
 -- Wunschlisten
 INSERT INTO webshop.Wishlists (name, description) VALUES
   ('Moritz Wunschliste', 'Alles was Moritz sich wünscht'),
-  ('Leons Liste', 'Lieblingsprodukte von Leon');
+  ('Leons Liste', 'Lieblingsprodukte von Leon'),
+  ('Rosalies Liste', 'Lieblingsprodukte von Rosalie');
 
 -- Wishlist-Rollen
 INSERT INTO webshop.WishlistRoles (roleName) VALUES
@@ -62,7 +62,8 @@ INSERT INTO webshop.User_wishlist_relation (userId, wishlistId, wishlistRoleId) 
   (3, 1, 3), -- leon sieht moritz seine Liste
   (3, 2, 1), -- leon ist owner seiner Liste
   (2, 2, 3), -- moritz darf leons liste ansehen
-  (2, 2, 2); -- moritz darf leons liste bearbeiten
+  (2, 2, 2), -- moritz darf leons liste bearbeiten
+  (4, 3, 1); -- rosalie ist owner ihrer Liste
 
 -- Wunschlisten-Einträge
 INSERT INTO webshop.WishlistItems (productId, wishlistId, amount, addedAt) VALUES

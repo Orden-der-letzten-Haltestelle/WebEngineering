@@ -6,28 +6,15 @@
  */
 export default async function ProfilePageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+    const token = req.token
+    const user = req.user
+    const nRoles = user.roles.length
+
     return {
-        title: "ProfilePage",
-        /* Hier werden die Daten der BeispielComponenten übergeben */
-        beispielComponents: [
-            {
-                title: "1. Element",
-                text: "Das ist der Text des ersten Elements",
-            },
-            {
-                title: "2. Element",
-                text: "Das ist der Text des zweiten Elements",
-            },
-            {
-                title: "3. Element",
-                text: "Das ist der Text des dritten Elements",
-            },
-            {
-                title: "4. Element",
-                text: "Das ist der Text des vierten Elements",
-            },
-        ],
-        /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: ["BeispielComponent"],
+        token: token,
+        user: user,
+        name: user.name,
+        mail: user.email,
+        role: user.roles[nRoles - 1],
     }
 }

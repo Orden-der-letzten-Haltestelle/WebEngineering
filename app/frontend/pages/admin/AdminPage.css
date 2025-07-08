@@ -1,0 +1,10 @@
+#adminPage-content {
+    display: grid;
+}
+
+.adminpage-innercontainer {
+    display: grid;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px;
+}

@@ -3,15 +3,20 @@ import CartService from "../services/cart.service.js"
 
 async function getCart(req, res) {
     const userId = req.user.id
+    
     try {
         const cartItems = await CartService.getCart(userId)
         res.status(200).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed getting cart for user with id: ${userId}; ${error.stack}`
+            `Failed getCart for user with id: ${userId}; \Message: ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -22,10 +27,14 @@ async function getOrderHistory(req, res) {
         res.status(200).json([...orderItems])
     } catch (error) {
         console.log(
-            `Failed getting orderHistory for user with id: ${userId}; ${error.stack}`
+            `Failed getOrderHistory for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -36,10 +45,14 @@ async function buyCart(req, res) {
         res.status(200).json([...orderItems])
     } catch (error) {
         console.log(
-            `Failed buy cart for user with id: ${userId}; ${error.stack}`
+            `Failed buyCart for user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -63,10 +76,14 @@ async function changeCartAmount(req, res) {
         res.status(200).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed changing amount for cartitem with id: ${cartItemId}; ${error.stack}`
+            `Failed changeCartAmount for cartitem with id: ${cartItemId}; \nMessage ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -88,10 +105,14 @@ async function addProductToCart(req, res) {
         res.status(201).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed Adding Product with id ${productId} to cart of user with id ${userId}: ${error.stack}`
+            `Failed addProductToCart with productId ${productId} to cart of user with id ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -103,10 +124,14 @@ async function deleteCartItem(req, res) {
         res.status(200).json([...cartItems])
     } catch (error) {
         console.log(
-            `Failed Deleting CartItem for user with id ${userId}: ${error.stack}`
+            `Failed deleteCartItem with cartItemId ${cartItemId}: \nMessage ${error.message}; \nStack: ${error.stack}`
         )
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 
@@ -114,11 +139,17 @@ async function deleteCart(req, res) {
     const userId = req.user.id
     try {
         await CartService.deleteCart(userId)
-        res.status(200).json()
+        res.status(200).json({ message: `Deleted Cart of User with Id: ${userId}` })
     } catch (error) {
-        console.log(`Failed Deleting Cart for user with id ${userId}: ${error.stack}`)
-        res.writeHead(error.statusCode, { "Content-Type": "text/plain" })
-        res.end(error.stack + (error.cause ? "\n\n[cause] " + error.cause : ""))
+        console.log(
+            `Failed deleteCart for user with id ${userId}: \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
     }
 }
 

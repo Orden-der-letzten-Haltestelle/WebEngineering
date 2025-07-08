@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer"
 import SendEmailError from "../exceptions/SendEmailError.js"
+import dotenv from 'dotenv';
+
+dotenv.config();    //needed for the password
 
 //email setup
 const transporter = nodemailer.createTransport({
@@ -14,9 +17,9 @@ const transporter = nodemailer.createTransport({
 
 /**
  * sends an email
- * @param {string} email 
- * @param {string} subject 
- * @param {string} text 
+ * @param {string} email
+ * @param {string} subject
+ * @param {string} text
  */
 function sendMail(email, subject, text) {
     try {
@@ -37,15 +40,17 @@ function sendMail(email, subject, text) {
             }
         })
     } catch (error) {
-        throw new SendEmailError(`Failed sending email to ${email}`, error)
+        throw new SendEmailError(`Failed sending email to ${email}`, {
+            originalError: error,
+        })
     }
 }
 
 /**
  * Sends an email, with an html body
- * @param {string} email 
- * @param {string} subject 
- * @param {string} html 
+ * @param {string} email
+ * @param {string} subject
+ * @param {string} html
  */
 function sendHtmlMail(email, subject, html) {
     try {
@@ -66,11 +71,13 @@ function sendHtmlMail(email, subject, html) {
             }
         })
     } catch (error) {
-        throw new SendEmailError(`Failed sending html email to ${email}`, error)
+        throw new SendEmailError(`Failed sending html email to ${email}`, {
+            originalError: error,
+        })
     }
 }
 
 export default {
     sendMail,
-    sendHtmlMail
+    sendHtmlMail,
 }
