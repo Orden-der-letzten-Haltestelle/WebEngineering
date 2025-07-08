@@ -14,7 +14,6 @@ import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
 import AuthUser from "../objects/user/AuthUser.js"
-import EmailService from "../services/email.service.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 
@@ -83,7 +82,7 @@ async function sendVerificationEmail(email) {
     console.log(token);
 
     const resultTokenSave = AuthModel.saveTokenVerification(email, token)
-    
+
     let emailBody = `
         <html>
         <head>
