@@ -99,6 +99,7 @@ async function findAuthUserById(id) {
 
 /**
  * Returns a User Object if one was found in the Database
+ * @param {string} email
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError} User with Email doesn't exist
  * @throws {DatabaseError}
@@ -134,6 +135,7 @@ async function findUserByEmail(email) {
  * @throws {NotFoundError} user with email doesn't exist
  */
 async function findAdvancedAuthUserByEmail(email) {
+    console.log(pool.password)
     try {
         const result = await pool.query(
             `SELECT 
@@ -259,7 +261,6 @@ async function saveTokenVerification(email, token) {
 
 /**
  * verifies the user if given token is the same with the one in db
- * @param {string} email 
  * @param {string} token
  * @returns {Promise<string>}
  * @throws {DatabaseError}
@@ -273,16 +274,8 @@ async function verifyEmail(token) {
             [token]
         )
         if(result.rows.length <= 0) {
-            throw new NotFoundError("Token not exisisting!")
+            throw new NotFoundError("Token and email do not match!")
         }
-        console.log(result.rows.email)
-        const changeStatus = await pool.query(
-            `UPDATE webshop.users
-	        SET isverified=true
-	        WHERE email = $1
-            RETURNING *;`
-            [result.rows.email]
-        )
         const deletion = await pool.query(
             `DELETE FROM webshop.verificationtokens
             WHERE email = $1

@@ -2,6 +2,9 @@
 import AuthModel from "../models/auth.model.js"
 import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 
+// Import EmailService
+import EmailService from "./email.service.js"
+
 // Import other
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
@@ -11,7 +14,6 @@ import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
 import AuthUser from "../objects/user/AuthUser.js"
-import EmailService from "../services/email.service.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 
@@ -80,7 +82,7 @@ async function sendVerificationEmail(email) {
     console.log(token);
 
     const resultTokenSave = AuthModel.saveTokenVerification(email, token)
-    
+
     let emailBody = `
         <html>
         <head>
@@ -132,12 +134,13 @@ async function sendVerificationEmail(email) {
 
 /**
  * Verifys the email of a newly registered user
+ * @param {int} userId
  * @param {string} token
  * @throws {DatabaseError}
  * @throws {NotFoundError}
  */
-async function verifyEmail(token) {
-    return await AuthModel.verifyEmail(token)
+async function verifyEmail(userId, token) {
+    return await AuthModel.verifyEmail(userId, token)
 }
 
 /**
@@ -201,15 +204,15 @@ async function extractTokenAndVerify(token, requiredRole) {
 
     //gets an AuthUser Object to verify whether the user is banned
     const authUser = await getAuthUser(user.id)
-    
+
     if (authUser.isBanned) {
-        throw new ForbiddenError("User is banned!");
+        throw new ForbiddenError("User is banned!")
     }
 
     //or not yet verified and therefore can't access
-    if (!authUser.isVerified) {
-        throw new ForbiddenError("User is not verified yet!")
-    }
+    // if (!authUser.isVerified) {
+    //     throw new ForbiddenError("User is not verified yet!")
+    // }
 
     return user
 }
@@ -254,10 +257,90 @@ async function getUserInformationByJWTtoken(token) {
     }
 }
 
+async function sendLoginMail(email) {
+    // verify if the email exists
+    const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
+
+    // create a token
+    const jwt = generateJWTtoken(advancedAuthUser)
+
+    // create the link
+    const host = `http://localhost:3000` // TO DO: Dynamic from config.js
+    const link = `${host}/loginMail/Link?token=${jwt.token}`
+
+    // send email
+    const date = new Date()
+    const formattedDate = `${String(date.getDate()).padStart(2, "0")}.${String(
+        date.getMonth() + 1
+    ).padStart(2, "0")}.${date.getFullYear()}`
+
+    let emailBody = `
+    <html>
+        <head>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #333;
+                    text-align: center;
+                }
+                a {
+                    color: var(#dbc70c);
+                    text-decoration: underline;
+                    font-size: 12px;
+                }
+                #login {
+                    margin-top: 30px;
+                    margin-bottom:20px;
+                    font-size: 20px;
+                    margin-left:97px;
+                }
+                a:hover {
+                    color:rgb(50, 48, 48); 
+                    text-decoration:underline; 
+                    cursor:pointer;  
+                }
+            </style>
+        </head>
+        <h1>Login mit Email ${formattedDate}</h1>
+        <p>
+            Es wurde versucht sich mit dieser Email einzuloggen, falls Sie dies versucht haben, klicken Sie auf den unteren Link.
+        </p>
+        <p>
+            Wenn Sie diese Email nicht gesendet haben, so melden Sie dies dem Support.
+        </p>
+        <p>
+            <a id="login" href="${link}"><b>Login</b></a>
+        </p>
+        <p>
+            <a id="mail" href="mailto:ordenderletztenhaltestelle@gmail.com"><b>Email an den Support</b></a>
+        </p>
+        </body>
+        </html>
+    `
+
+    EmailService.sendHtmlMail(
+        email,
+        `Login Link ${formattedDate}`,
+        emailBody
+    )
+
+    return link
+}
+
+async function loginWithToken(token) {
+    document.cookie = "token=" + token;
+    window.location.href = '/';
+}
+
 export default {
     getAuthUser,
     createUser,
     extractTokenAndVerify,
     verifyLoginInformation,
     verifyEmail,
+    sendLoginMail,
+    loginWithToken,
 }
