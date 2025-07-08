@@ -264,25 +264,33 @@ async function saveTokenVerification(email, token) {
  * @returns {Promise<string>}
  * @throws {DatabaseError}
  */
-async function verifyEmail(email, token) {
+async function verifyEmail(token) {
     try {
         const result = await pool.query(
             `SELECT * FROM webshop.verificationtokens
-            WHERE email = $1 and token = $2`,
-            [email, token]
+            WHERE token = $1`,
+            [token]
         )
         if(result.rows.length <= 0) {
-            throw new NotFoundError("Token and email do not match!")
+            throw new NotFoundError("Token not exisisting!")
         }
+        console.log(result.rows.email)
+        const changeStatus = await pool.query(
+            `UPDATE webshop.users
+	        SET isverified=true
+	        WHERE email = $1
+            RETURNING *;`
+            [result.rows.email]
+        )
         const deletion = await pool.query(
             `DELETE FROM webshop.verificationtokens
             WHERE email = $1
             RETURNING *;`,
-            [email]
+            [result.rows.email]
         )
     } catch (error) {
         throw new DatabaseError(
-            `Failed verifying user with email ${email}.`,
+            `Failed verifying user.`,
             { originalError: error }
         )
     }

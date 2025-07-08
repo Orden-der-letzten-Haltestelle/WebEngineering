@@ -132,13 +132,12 @@ async function sendVerificationEmail(email) {
 
 /**
  * Verifys the email of a newly registered user
- * @param {int} userId
  * @param {string} token
  * @throws {DatabaseError}
  * @throws {NotFoundError}
  */
-async function verifyEmail(userId, token) {
-    return await AuthModel.verifyEmail(userId, token)
+async function verifyEmail(token) {
+    return await AuthModel.verifyEmail(token)
 }
 
 /**

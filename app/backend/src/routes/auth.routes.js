@@ -28,7 +28,6 @@ router.get(
     }
 )
 router.put("verify/:token", 
-    AuthController.verifyJWTtoken(Roles.user),
     AuthController.verifyEmail
 )
 
