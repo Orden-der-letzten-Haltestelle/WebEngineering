@@ -19,7 +19,9 @@
             <label for="password">Passwort</label>
             <input type="password" id="password" name="password" required>
             <div class="button-wrapper">
-                <button type="submit">Account erstellen</button>
+                <button 
+                onclick="document.getElementById('kontoerstelltOverlay').style.display = 'flex';"
+                type="submit">Account erstellen</button>
             </div>
         </form>
     </div>
@@ -32,9 +34,9 @@
     <script src="RegisterPage.js"></script>
 </div>
 
-<!-- Konto-Löschen-Overlay -->
+<!-- Konto-Bestätigen-Overlay -->
 <div id="kontoerstelltOverlay" class="overlay" style="display: none">
-    <div class="modal">
+    <div class="overlay-box">
         <h2>Ihr Konto wurde erstellt!</h2>
         <p>
             Überprüfen Sie bitte ihr Email-Postfach, um sich zu verifizieren.
@@ -42,21 +44,15 @@
         <div class="bottom-buttons">
             <button
                 class="button" id="button-leave"
-                onclick="document.getElementById('kontoerstelltOverlay').style.display = 'none';"
-                href="http://localhost:3000/"
+                onclick='document.getElementById("kontoerstelltOverlay").style.display = "flex";'
             >
-                Shoppen
+            <a href="http://localhost:3000/" id="Shoppen"><b>Shoppen</b></a>
             </button>
             <button
-                class="button" id="button-sendAgain"
+                class="button" id="button-sendAgain" onclick="handleSendVerifyMail()"
             >
                 Email erneut senden
             </button>
         </div>
-        <a
-            class="passwort-reset"
-            href="http://localhost:3000/login/passwordSupport"
-            >Passwort zurücksetzen</a
-        >
     </div>
 </div>

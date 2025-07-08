@@ -50,7 +50,6 @@ router.put("verify/:token",
     AuthController.verifyEmail
 )
 router.post("/verify/sendMail",
-    AuthController.verifyJWTtoken(Roles.user),
     AuthController.sendVerifyMail
 )
 
