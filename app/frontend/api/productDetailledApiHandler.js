@@ -9,12 +9,11 @@ import config from "./config.js"
  */
 
 export async function fetchProductById(productId) {
-    console.log(productId)
-    const res = await fetch(`${config.host}/api/products/${productId}`);
+    const res = await fetch(`${config.host}/products/${productId}`);
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || "Failed to fetch cart"
+        const errorMessage = errorData.message || "Failed to fetch product"
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json();

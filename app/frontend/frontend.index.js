@@ -25,7 +25,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
-    handlePage(ProductPageLoader, "pages/products/ProductPage", {
+    handlePage(ProductPageLoader, "pages/products/productPage/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -35,7 +35,7 @@ router.get(
 
 router.get(
     "/products/:productId",
-    handlePage(ProductDetailledLoader, "pages/products/:productId", {
+    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
         excludeNavbar: false,
         excludeFooter: false,
     })
