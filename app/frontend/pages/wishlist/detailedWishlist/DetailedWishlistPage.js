@@ -9,6 +9,7 @@ export default async function DetailedWishlistPageLoader(req, res) {
     const wishlistId = req.params.wishlistId
     return {
         title: "DetailedWishlistPage",
+        token: req.token,
         /* Hier werden die Daten der BeispielComponenten übergeben */
         wishlist: {
             id: "3057 (wishlistid)",
