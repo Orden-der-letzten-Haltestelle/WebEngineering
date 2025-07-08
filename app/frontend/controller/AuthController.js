@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             SendSignInMail(email).then((res) => {
-                window.location.href = '/';
+                document.getElementById('emailSentOverlay').style.display = 'flex'
             }).catch((err) => {
                 alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
