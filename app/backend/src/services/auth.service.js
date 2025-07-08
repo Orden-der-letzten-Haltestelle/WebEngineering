@@ -132,9 +132,9 @@ async function extractTokenAndVerify(token, requiredRole) {
     }
 
     //or not yet verified and therefore can't access
-    if (!authUser.isVerified) {
-        throw new ForbiddenError("User is not verified yet!")
-    }
+    // if (!authUser.isVerified) {
+    //     throw new ForbiddenError("User is not verified yet!")
+    // }
 
     return user
 }

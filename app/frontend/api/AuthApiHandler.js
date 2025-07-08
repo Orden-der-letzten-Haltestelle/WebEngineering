@@ -20,6 +20,7 @@ export async function registerUser(username, email, password) {
     }
     return await res.json()
 }
+
 export async function logInUser(email, password) {
     const res = await fetch(`${config.host}/auth/login`, {
         method: "POST",
