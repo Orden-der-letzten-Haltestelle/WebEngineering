@@ -27,7 +27,7 @@ router.get(
         )
     }
 )
-router.put("verify/:token", 
+router.put("/verify/:token", 
     AuthController.verifyEmail
 )
 

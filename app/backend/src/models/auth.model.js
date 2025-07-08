@@ -267,7 +267,8 @@ async function saveTokenVerification(email, token) {
 async function verifyEmail(token) {
     try {
         const result = await pool.query(
-            `SELECT * FROM webshop.verificationtokens
+            `SELECT * 
+            FROM webshop.verificationtokens
             WHERE token = $1`,
             [token]
         )

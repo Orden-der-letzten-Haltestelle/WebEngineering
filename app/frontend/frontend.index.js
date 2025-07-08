@@ -19,6 +19,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -89,7 +90,7 @@ router.get(
 /* Verification of Mail Page */
 router.get(
     "/user/verify/:token",
-    handlePage(LoginSupportPageLoader, "pages/verifyMail/verifyMail", {
+    handlePage(verifyMailLoader, "pages/verifyMail/verifyMail", {
         excludeNavbar: false,
         excludeFooter: false,
     })

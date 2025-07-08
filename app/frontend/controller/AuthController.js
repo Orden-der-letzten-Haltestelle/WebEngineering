@@ -34,18 +34,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-
-    const button = document.getElementById("verify");
-    if (button) {
-        button.addEventListener("click", function handleverifyMail(event) {
-            event.preventDefault();
-            const email = req.
-            verifyMail(email, token).then((res) => {
-                window.location.href = '/';
-            }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
-                console.error(err);
-            });
-        });
-    }
 });

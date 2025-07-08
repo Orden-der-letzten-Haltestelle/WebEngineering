@@ -38,6 +38,3 @@ export async function logInUser(email, password){
     }
     return await res.json()
 }
-export async function verifyMail(email, token){
-    
-}
