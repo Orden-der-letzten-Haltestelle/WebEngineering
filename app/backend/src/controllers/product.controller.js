@@ -22,6 +22,18 @@ async function listProducts(req, res) {
     }
 }
 
+async function getProductById(req, res) {
+  const productId = parseInt(req.params.productId, 10);
+  try {
+    const product = await ProductService.getProductById(productId);
+    res.status(200).json(product);
+  } catch (err) {
+    console.error(err.stack);
+    res.status(500).json({ message: "Unexpected error", stack: err.stack });
+  }
+}
+
 export default {
     listProducts,
+    getProductById,
 }

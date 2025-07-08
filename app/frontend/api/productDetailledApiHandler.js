@@ -9,7 +9,13 @@ import config from "./config.js"
  */
 
 export async function fetchProductById(productId) {
-    const res = await fetch(`/products/${productId}`);
-    if (!res.ok) throw new Error("Produkt konnte nicht geladen werden");
+    console.log(productId)
+    const res = await fetch(`${config.host}/api/products/${productId}`);
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to fetch cart"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
     return await res.json();
 }
