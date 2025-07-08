@@ -1,4 +1,4 @@
-import { logInUser, registerUser, verifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
+import { logInUser, registerUser, SendSignInMail } from "../api/AuthApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
