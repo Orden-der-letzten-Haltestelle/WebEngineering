@@ -86,15 +86,6 @@ router.get(
     })
 )
 
-/* Verification of Mail Page */
-router.get(
-    "/user/verify/:token",
-    handlePage(LoginSupportPageLoader, "pages/verifyMail/verifyMail", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
-)
-
 /* orders */
 router.get(
     "/orders",

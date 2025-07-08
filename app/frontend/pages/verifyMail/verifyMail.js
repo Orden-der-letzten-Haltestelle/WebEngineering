@@ -6,7 +6,7 @@ import { verifyMail } from "../../api/AuthApiHandler.js"
  * @param {*} req
  * @param {*} res
  */
-export default async function verifyMailLoader(req, res) {
+export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
 
     return {
