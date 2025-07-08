@@ -274,11 +274,20 @@ async function verifyEmail(token) {
             [token]
         )
         if(result.rows.length <= 0) {
-            throw new NotFoundError("Token and email do not match!")
+            throw new NotFoundError("Token not existing!")
         }
+        console.log(result)
         const deletion = await pool.query(
             `DELETE FROM webshop.verificationtokens
-            WHERE email = $1
+            WHERE token = $1
+            RETURNING *;`,
+            [token]
+        )
+        console.log(result.rows[0].email)
+        const changeStatus = await pool.query(
+            `UPDATE webshop.users
+	        SET isverified='true'
+	        WHERE email = $1
             RETURNING *;`,
             [result.rows.email]
         )

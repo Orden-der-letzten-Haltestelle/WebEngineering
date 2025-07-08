@@ -40,10 +40,6 @@ export async function logInUser(email, password) {
     return await res.json()
 }
 
-export async function verifyMail(email, token){
-  
-}
-
 export async function SendSignInMail(email) {
     const res = await fetch(`${config.host}/auth/login/sendmail`, {
         method: "POST",

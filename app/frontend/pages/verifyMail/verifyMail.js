@@ -9,7 +9,7 @@ import { verifyUser } from "../../api/VerifactionApiHandler.js"
 export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
 
-    const apiRequest = await verifyUser(req.token)
+    const apiRequest = await verifyUser(req.params.token)
 
     return {
         title: "Verifzieren der Mail",
