@@ -187,3 +187,12 @@ a:hover {
     text-decoration: none;
     cursor: pointer;
 }
+#support {
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-decoration: underline;
+}
+#support:hover {
+    color: rgb(50, 48, 48);
+    cursor: pointer;
+}

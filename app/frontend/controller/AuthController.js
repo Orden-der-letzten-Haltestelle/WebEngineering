@@ -40,7 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             SendVerifyMail(email).then((res) => {
-                document.getElementById('emailSentOverlay').style.display = 'flex'
+                const emailSentOverlay = document.getElementById('emailSentOverlay');
+                if (emailSentOverlay) {
+                    emailSentOverlay.style.display = 'flex';
+                } else {
+                    console.error('Element with ID "emailSentOverlay" not found');
+                }
             }).catch((err) => {
                 alert("❌ Failed to send email again: " + (err.message || "Unknown error"));
                 console.error(err);
