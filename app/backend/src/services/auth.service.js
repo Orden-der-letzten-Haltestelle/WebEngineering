@@ -219,13 +219,10 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
         case "user":
             return await hasUserAccessToUser(user, resourceId, action)
         case "user_has_role":
-            
+            return await hasUserAccessToUser_Has_Role(user, resourceId, action)
         case "wishlist":
             break
     }
-
-
-
 }
 
 /**
@@ -389,15 +386,23 @@ async function hasUserAccessToUser(user, id, action) {
     }
 }
 
-async function hasUserAccessToUser_Has_Role(user, id, action){
-    try{
+async function hasUserAccessToUser_Has_Role(user, id, action) {
+    try {
         //TODO ?? when post, i expect an users.id, but when put i expect an user_has_role.id 
         // Do we both handle that here? 
+        switch(action){
+            case "GET": 
+            case "PUT": 
+            case "POST":
+            case "DELETE": 
+        }
 
-    }catch(error){
+    } catch (error) {
 
     }
 }
+
+
 
 export default {
     getAuthUser,
