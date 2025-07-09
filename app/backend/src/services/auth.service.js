@@ -18,7 +18,7 @@ import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
-const JWT_TOKEN_EXPIRES_IN = "1h"
+const JWT_TOKEN_EXPIRES_IN = "1d"
 const BEARER_PREFIX = "Bearer"
 const PASSWORD_HASH_SALT = 10
 

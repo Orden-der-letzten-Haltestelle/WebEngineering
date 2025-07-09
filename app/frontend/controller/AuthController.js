@@ -11,7 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             registerUser(username, email, password).then((res) => {
-                document.cookie = "token=" + res.jwt.token;
+                var now = new Date(res.jwt.epiresAt)
+                document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 document.getElementById('kontoerstelltOverlay').style.display = 'flex'
             }).catch((err) => {
                 alert("❌ Failed to sign up user: " + (err.message || "Unknown error"));
@@ -27,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             logInUser(email, password).then((res) => {
-                document.cookie = "token=" + res.jwt.token;
+                var now = new Date(res.jwt.epiresAt)
+                document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 window.location.href = '/';
             }).catch((err) => {
                 alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
@@ -74,7 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let params = new URLSearchParams(document.location.search)
         const token = params.get("token")
         loginWithToken(token).then((res) => {
-            document.cookie = "token=" + res.jwt.token + "; path=/"
+            var now = new Date(res.jwt.epiresAt)
+            document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
             window.location.href = '/';
         }).catch((err) => {
             alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
