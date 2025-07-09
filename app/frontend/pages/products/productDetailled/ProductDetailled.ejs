@@ -92,9 +92,13 @@
         </div>
     </div>
     <!-- Delete Overlay -->
-    <div class="delete-overlay overlay-container" id="delete-overlay">
+    <div class="delete-overlay overlay-container hide" id="delete-overlay">
         <div class="blur"></div>
         <div class="overlay-inner">
+            <p>
+                Bist du sicher, dass du das Product mit der id: <%= product.id
+                %> Löschen möchtest?
+            </p>
             <div class="overlay-button-container">
                 <div
                     class="overlay-button confirm"

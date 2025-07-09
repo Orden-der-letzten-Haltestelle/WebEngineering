@@ -49,16 +49,10 @@ window.handleUpdateProduct = function handleUpdateProduct(
         })
 }
 
-window.handleDeleteProduct = function handleDeleteProduct(
-    event,
-    productId,
-    token
-) {
-    event.preventDefault()
-
+window.handleDeleteProduct = function handleDeleteProduct(productId, token) {
     deleteProduct(productId, token)
         .then(() => {
-            window.location.reload()
+            window.location.href = "http://localhost:3000"
         })
         .catch((err) => {
             alert(
