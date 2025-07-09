@@ -2,6 +2,7 @@
     --highlight-color: #dbc70c;
     --button-color: #dbc70c;
     --signup-button-color: #cd5b45;
+    --error-color: #f44336;
 }
 
 * {
@@ -28,6 +29,7 @@ body,
     height: 100%;
     grid-template-rows: min-content auto min-content;
 }
+
 #header-placeholder,
 footer,
 header {
@@ -39,4 +41,28 @@ main {
     position: relative;
     height: 100%;
     width: 100%;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 4px;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast.success {
+    background-color: var(--highlight-color);
+}
+
+.toast.error {
+    background-color: var(--error-color);
 }

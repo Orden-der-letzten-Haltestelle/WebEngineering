@@ -1,4 +1,5 @@
 import { addproductTocart } from "../api/CartApiHandler.js"
+import { showToast } from "../helper.js"
 
 window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
     e,
@@ -17,7 +18,7 @@ window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
                 window.location.href = "http://localhost:3000/cart"
             })
             .catch((err) => {
-                alert("❌ Add to cart: " + (err.message || "Unknown error"))
+                showToast("❌ Add to cart: " + (err.message || "Unknown error"))
                 console.error(err)
             })
     }

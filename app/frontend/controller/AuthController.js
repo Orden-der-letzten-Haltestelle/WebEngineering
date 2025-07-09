@@ -1,6 +1,7 @@
 
 import { logInUser, registerUser, SendVerifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
 import { loginWithToken } from "../api/VerifactionApiHandler.js"
+import { showToast } from "../helper.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 document.getElementById('kontoerstelltOverlay').style.display = 'flex'
             }).catch((err) => {
-                alert("❌ Failed to sign up user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign up user: " + (err.message || "Unknown error"))
                 console.error(err);
             });
         });
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 window.location.href = '/';
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Element with ID "emailSentOverlay" not found');
                 }
             }).catch((err) => {
-                alert("❌ Failed to send email again: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to send email again: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             SendSignInMail(email).then((res) => {
                 document.getElementById('emailSentOverlay').style.display = 'flex'
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
@@ -80,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
             window.location.href = '/';
         }).catch((err) => {
-            alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+            showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
             console.error(err);
         });
     }
