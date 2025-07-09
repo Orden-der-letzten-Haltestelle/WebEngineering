@@ -39,9 +39,8 @@ router.get(
 
 router.get(
     "/products/:productId",
-    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled"),
     notRequiredAuth,
-    handlePage(ProductPageLoader, "pages/products/ProductPage", {
+    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
         excludeNavbar: false,
         excludeFooter: false,
     })
