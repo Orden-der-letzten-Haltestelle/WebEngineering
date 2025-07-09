@@ -1,0 +1,55 @@
+.aboutpage-innercontainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.text-content {
+    flex: 1;
+    max-width: 60%;
+}
+h1 {
+    margin-top: 60px;
+    text-align: center;
+}
+#welcome {
+    font-size: larger;
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-align: center;
+}
+#merch {
+    text-align: center;
+    margin-top: 50px;
+}
+#ad {
+    margin-top: 20%;
+    text-align: center;
+
+}
+a {
+    text-decoration: underline;
+    color: var(--highlight-color);
+    font-weight: bold;
+}
+a:hover {
+    color: rgb(50, 48, 48);
+    cursor: pointer;
+}
+
+#rightImage {
+    flex: 1;
+    display: block;
+    max-width: 40%;
+    margin-left: auto;
+    margin-right: 0;
+}
+
+@media (max-width: 768px) {
+    #rightImage {
+        display: none;
+    }
+    .text-content {
+        max-width: 100%;
+    }
+}
