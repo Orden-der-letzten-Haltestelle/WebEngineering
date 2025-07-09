@@ -22,6 +22,7 @@ import ProductPageLoader from "./pages/products/ProductPage.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
+import AboutPageLoader from "./pages/about/AboutPage.js
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -151,12 +152,21 @@ router.get(
     })
 )
 
-/* wishlist */
+/* admin */
 router.get(
     "/admin",
     requireAuth,
     requireAdmin,
     handlePage(AdminPageLoader, "pages/admin/AdminPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* about */
+router.get(
+    "/about",
+    handlePage(AboutPageLoader, "pages/about/AboutPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
