@@ -1,0 +1,19 @@
+a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+}
+
+a:hover {
+    color: rgb(50, 48, 48);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.content-container{
+    padding-top: 10%;
+    display: flex;
+    flex-direction: column;
+    font-size: bolder;
+    align-items: center;
+    justify-self: center;
+}
