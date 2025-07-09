@@ -1,5 +1,6 @@
 
 import { logInUser, registerUser, SendVerifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
+import { loginWithToken } from "../api/VerifactionApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
-  
+
     const loginFormLink = document.getElementById("LoginFormLink");
     if (loginFormLink) {
         loginFormLink.addEventListener("submit", function handleLogIn(event) {
@@ -66,12 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error(err);
             });
         });
-      
+    }
+
+    const loginToken = document.getElementById("loginToken-content");
+    if (loginToken) {
         let params = new URLSearchParams(document.location.search)
         const token = params.get("token")
-        if (token != null) {
-            document.cookie = "token=" + token + "; path=/"
+        loginWithToken(token).then((res) => {
+            document.cookie = "token=" + res.jwt.token + "; path=/"
             window.location.href = '/';
-        }
+        }).catch((err) => {
+            alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+            console.error(err);
+        });
     }
 });

@@ -21,6 +21,7 @@ import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
+import loginToken from "./pages/loginToken/loginToken.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -97,6 +98,15 @@ router.get(
 router.get(
     "/user/verify/:token",
     handlePage(verifyMailLoader, "pages/verifyMail/verifyMail", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* Login of Mail Page */
+router.get(
+    "/user/login/:token",
+    handlePage(loginToken, "pages/loginToken/loginToken", {
         excludeNavbar: false,
         excludeFooter: false,
     })
