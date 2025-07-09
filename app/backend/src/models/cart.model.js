@@ -29,7 +29,7 @@ async function countCartItemsByUserId(userId) {
     } catch (error) {
         throw new DatabaseError(
             `Failed counting Cart items for user with id: ${userId} from db: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -89,7 +89,7 @@ async function findOrderItemsByUserId(userId) {
     } catch (error) {
         throw new DatabaseError(
             `Failed on findOrderItemsByUserId with userId ${userId} from db: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -155,7 +155,7 @@ async function findCartItemByUserIdAndProductId(userId, productId) {
         }
         throw new DatabaseError(
             `Failed on findByUserIdAndProductIdAndBoughtFalse with userId ${userId} and productId ${productId}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -219,7 +219,7 @@ async function findCartItemById(id) {
         }
         throw new DatabaseError(
             `Failed findCartItemById And bought False ${id}; ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -277,7 +277,7 @@ async function findCartItemsByUserId(userId) {
     } catch (error) {
         throw new DatabaseError(
             `Failed fetching Cart items for user with id: ${userId} form db: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -342,7 +342,7 @@ async function setCartItemsOnBoughtByUserIdWithClient(client, userId) {
     } catch (error) {
         throw new DatabaseError(
             `Failed setting Cartitems of user with id ${userId} on bought: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -412,7 +412,7 @@ async function updateCartItemAmount(cartItemId, newAmount) {
     } catch (error) {
         throw new DatabaseError(
             `Failed on updateCartItemAmount of cartitem with id ${cartItemId}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -446,7 +446,9 @@ async function createCartItem(userId, productId, amount) {
             [userId, productId, amount]
         )
     } catch (error) {
-        throw new DatabaseError(`Failed on createCartItem: ${error}`, error)
+        throw new DatabaseError(`Failed on createCartItem: ${error}`, {
+            originalError: error,
+        })
     }
 }
 
@@ -480,7 +482,7 @@ async function deleteCartItemById(id) {
         throw new DatabaseError(
             `
             Failed on deleteCartItemById for cartItem with id ${id}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }
@@ -506,7 +508,7 @@ async function deleteAllCartItemsByUserId(userId) {
     } catch (error) {
         throw new DatabaseError(
             `Failed on deleteAllCartItemsByUserId with userId ${userId}: ${error}`,
-            error
+            { originalError: error }
         )
     }
 }

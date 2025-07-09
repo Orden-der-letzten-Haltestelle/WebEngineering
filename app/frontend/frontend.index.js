@@ -10,13 +10,17 @@ import { fetchUser } from "./api/user.js"
 //page loader
 import CartPageLoader from "./pages/cart/CartPage.js"
 import CheckoutPageLoader from "./pages/checkout/CheckoutPage.js"
-import LoginPageLoader from "./pages/login/LoginPage.js"
+import LoginPasswordPageLoader from "./pages/login/loginPassword/LoginPage.js"
+import LoginChoicePageLoader from "./pages/login/loginChoice/LoginPage.js"
+import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSupport.js"
+import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
+import AdminPageLoader from "./pages/admin/AdminPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -35,7 +39,9 @@ router.get(
 
 router.get(
     "/products/:productId",
-    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
+    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled"),
+    notRequiredAuth,
+    handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -61,13 +67,45 @@ router.get(
     })
 )
 
-/* LoginPage */
+/* LoginPage Choice */
 router.get(
     "/login",
-    handlePage(LoginPageLoader, "pages/login/LoginPage", {
+    handlePage(LoginChoicePageLoader, "pages/login/loginChoice/LoginPage", {
         excludeNavbar: true,
         excludeFooter: true,
     })
+)
+/* LoginPage with Password */
+router.get(
+    "/loginPassword",
+    handlePage(LoginPasswordPageLoader, "pages/login/LoginPassword/LoginPage", {
+        excludeNavbar: true,
+        excludeFooter: true,
+    })
+)
+/* LoginPage with Mail Link */
+router.get(
+    "/loginMail/Link",
+    handlePage(
+        LoginMailLinkPageLoader,
+        "pages/login/loginMail/Link/LoginPage",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
+)
+/* LoginPage Support for forgotten Password */
+router.get(
+    "/login/passwordSupport",
+    handlePage(
+        LoginSupportPageLoader,
+        "pages/login/PasswordSupport/passwordSupport",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 
 /* orders */
@@ -104,6 +142,17 @@ router.get(
     "/wishlist",
     requireAuth,
     handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* wishlist */
+router.get(
+    "/admin",
+    requireAuth,
+    requireAdmin,
+    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -146,6 +195,34 @@ async function renderErrorPage(req, res, error) {
 }
 
 /* Secure Pages, that require signIn */
+async function notRequiredAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        next()
+        return
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            res.clearCookie("token")
+            next()
+            return
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
+}
+
+/* Secure Pages, that require signIn */
 async function requireAuth(req, res, next) {
     const token = getToken(req)
 
@@ -170,6 +247,20 @@ async function requireAuth(req, res, next) {
     }
 }
 
+async function requireAdmin(req, res, next) {
+    const token = req.token
+    if (!token) {
+        throw new Error("Token is required")
+    }
+
+    const user = req.user
+
+    if (!user.roles.includes("admin")) {
+        throw new Error("you are not allowed to enter this page")
+    }
+    next()
+}
+
 /**
  * Handle Page render
  * @param {*} req
@@ -189,7 +280,7 @@ function renderPage(req, res, pagePath, pageData, layoutOptions = {}) {
         // Compose CSS file paths from components:
         // Each component's CSS assumed at /components/<ComponentName>/<ComponentName>.css
         const componentCssFiles = (pageData.components || []).map(
-            (name) => "http://localhost:3000/" + pagePath + ".css"
+            (name) => `http://localhost:3000/components/${name}/${name}.css`
         )
 
         // Also add page-specific CSS:

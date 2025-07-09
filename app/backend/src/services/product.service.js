@@ -10,9 +10,14 @@ import ProductModel from "../models/product.model.js"
  * Gets all Products
  * @returns
  */
-async function getAllProducts() {
+async function getAllProducts(value, minPrice, maxPrice) {
     const result = await ProductModel.findAllProducts()
-    return result
+    const filtered = result.filter(product => {
+        return (maxPrice == "" || product.price <= parseInt(maxPrice)) &&
+            (minPrice == "" || product.price >= parseInt(minPrice)) &&
+            (product.name.includes(value) || product.description.includes(value))
+    })
+    return filtered
 }
 
 /**
@@ -24,7 +29,36 @@ async function getProductById(productId) {
     return result
 }
 
+async function createProduct(name, description, amount, price) {
+    const result = await ProductModel.createProduct(
+        name,
+        description,
+        amount,
+        price
+    )
+    return result
+}
+
+async function updateProduct(id, name, description, amount, price) {
+    const result = await ProductModel.updateProduct(
+        id,
+        name,
+        description,
+        amount,
+        price
+    )
+    return result
+}
+
+async function deleteProductById(id) {
+    const result = await ProductModel.deleteProductById(id)
+    return result
+}
+
 export default {
     getAllProducts,
     getProductById,
+    createProduct,
+    updateProduct,
+    deleteProductById,
 }
