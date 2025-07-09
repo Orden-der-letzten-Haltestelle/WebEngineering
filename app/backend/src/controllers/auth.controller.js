@@ -171,7 +171,7 @@ async function verifyEmail(req, res) {
     }
 }
 
-async function sendVerifyMail(req,res) {
+async function sendVerifyMail(req, res) {
     const email = req.body.email
     try {
         const mailSent = await AuthService.sendVerificationEmail(
@@ -211,21 +211,8 @@ async function sendMail(req, res) {
     }
 }
 
-async function loginWithToken(req, res) {
-    const { token } = req.query
-    try {
-        const result = await AuthService.loginWithToken(token)
+async function singleLogin(req, res) {
 
-        res.json({
-            ...result
-        })
-    } catch (error) {
-        const statusCode = error?.statusCode || 500
-        res.status(statusCode).json({
-            message: error?.message || "Unexpected Error",
-            stack: error?.stack,
-        })
-    }
 }
 
 export default {
@@ -235,7 +222,7 @@ export default {
     verifyJWTtoken,
     verifyEmail,
     sendMail,
-    loginWithToken,
     registerAdmin,
     sendVerifyMail,
+    singleLogin,
 }

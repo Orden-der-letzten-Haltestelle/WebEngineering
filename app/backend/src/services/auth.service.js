@@ -366,11 +366,6 @@ async function sendLoginMail(email) {
     return link
 }
 
-async function loginWithToken(token) {
-    document.cookie = "token=" + token;
-    window.location.href = '/';
-}
-
 export default {
     getAuthUser,
     createUser,
@@ -378,7 +373,6 @@ export default {
     verifyLoginInformation,
     verifyEmail,
     sendLoginMail,
-    loginWithToken,
     createAdmin,
     sendVerificationEmail,
 }

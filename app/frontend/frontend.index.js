@@ -177,9 +177,8 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${
-            error.status == undefined ? "" : " with Status:" + error.status
-        }, try again later`,
+        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
+            }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 

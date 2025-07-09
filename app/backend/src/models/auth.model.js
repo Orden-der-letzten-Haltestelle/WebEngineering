@@ -316,10 +316,10 @@ async function verifyEmail(token) {
         const result = await pool.query(
             `SELECT * 
             FROM webshop.verificationtokens
-            WHERE token = $1`,
+            WHERE token = $1 AND usecase = 'verify'`,
             [token]
         )
-        if(result.rows.length <= 0) {
+        if (result.rows.length <= 0) {
             throw new NotFoundError("Token not existing!")
         }
         const deletion = await pool.query(
