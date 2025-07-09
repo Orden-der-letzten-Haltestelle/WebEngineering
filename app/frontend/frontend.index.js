@@ -18,6 +18,7 @@ import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
 import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 
