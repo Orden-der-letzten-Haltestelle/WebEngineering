@@ -17,6 +17,7 @@ INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdA
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
   (1, 2), -- admin -> admin
   (1, 1), -- admin -> user
+  (2, 2), -- moritz -> admin
   (2, 1), -- moritz -> user
   (3, 1), -- leon -> user
   (3, 2), -- leon -> admin
@@ -46,7 +47,8 @@ INSERT INTO webshop.CartItems (userId, productId, amount, bought, boughtAt, adde
 -- Wunschlisten
 INSERT INTO webshop.Wishlists (name, description) VALUES
   ('Moritz Wunschliste', 'Alles was Moritz sich wünscht'),
-  ('Leons Liste', 'Lieblingsprodukte von Leon');
+  ('Leons Liste', 'Lieblingsprodukte von Leon'),
+  ('Rosalies Liste', 'Lieblingsprodukte von Rosalie');
 
 -- Wishlist-Rollen
 INSERT INTO webshop.WishlistRoles (roleName) VALUES
@@ -60,7 +62,8 @@ INSERT INTO webshop.User_wishlist_relation (userId, wishlistId, wishlistRoleId) 
   (3, 1, 3), -- leon sieht moritz seine Liste
   (3, 2, 1), -- leon ist owner seiner Liste
   (2, 2, 3), -- moritz darf leons liste ansehen
-  (2, 2, 2); -- moritz darf leons liste bearbeiten
+  (2, 2, 2), -- moritz darf leons liste bearbeiten
+  (4, 3, 1); -- rosalie ist owner ihrer Liste
 
 -- Wunschlisten-Einträge
 INSERT INTO webshop.WishlistItems (productId, wishlistId, amount, addedAt) VALUES

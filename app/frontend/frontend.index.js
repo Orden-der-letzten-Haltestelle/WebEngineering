@@ -20,6 +20,7 @@ import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import CheckoutConfirmPageLoader from "./pages/checkoutConfirm/CheckoutConfirmPage.js"
+import AdminPageLoader from "./pages/admin/AdminPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -28,7 +29,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
-    verifyTokenWithOutReuquired,
+    notRequiredAuth,
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -58,7 +59,7 @@ router.get(
 /*checkoutConfirmPage*/
 router.get(
     "/checkout/confirm",
-    verifyTokenWithOutReuquired,
+    notRequiredAuth,
     handlePage(CheckoutConfirmPageLoader, "pages/checkoutConfirm/CheckoutConfirmPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -84,18 +85,26 @@ router.get(
 /* LoginPage with Mail Link */
 router.get(
     "/loginMail/Link",
-    handlePage(LoginMailLinkPageLoader, "pages/login/loginMail/Link/LoginPage", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginMailLinkPageLoader,
+        "pages/login/loginMail/Link/LoginPage",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginSupportPageLoader,
+        "pages/login/PasswordSupport/passwordSupport",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 
 /* orders */
@@ -137,6 +146,17 @@ router.get(
     })
 )
 
+/* wishlist */
+router.get(
+    "/admin",
+    requireAuth,
+    requireAdmin,
+    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
 /**
  * handles page loading, and loads error page when PageLoader throws an error
  * @param {*} pageLoader
@@ -173,17 +193,11 @@ async function renderErrorPage(req, res, error) {
     })
 }
 
-/**
- * Extract token, when page is open for all, but token is needed for some functions
- * @param {*} req 
- * @param {*} res 
- * @param {*} next 
- * @returns 
- */
-async function verifyTokenWithOutReuquired(req, res, next) {
+/* Secure Pages, that require signIn */
+async function notRequiredAuth(req, res, next) {
     const token = getToken(req)
 
-    //when no token given, dont set token
+    //redirect to login page, if no token set
     if (!token) {
         next()
         return
@@ -195,8 +209,9 @@ async function verifyTokenWithOutReuquired(req, res, next) {
         req.token = token
         next()
     } catch (err) {
-        //when token invalid, just go next, and dont set token
+        //error, if set token isn't valid, then also redirect to /login
         if (err.status === 403 || err.status === 401) {
+            res.clearCookie("token")
             next()
             return
         }
@@ -229,6 +244,20 @@ async function requireAuth(req, res, next) {
         // Render a server error page
         renderErrorPage(req, res, err)
     }
+}
+
+async function requireAdmin(req, res, next) {
+    const token = req.token
+    if (!token) {
+        throw new Error("Token is required")
+    }
+
+    const user = req.user
+
+    if (!user.roles.includes("admin")) {
+        throw new Error("you are not allowed to enter this page")
+    }
+    next()
 }
 
 /**
