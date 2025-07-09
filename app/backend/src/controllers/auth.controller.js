@@ -150,20 +150,40 @@ async function login(req, res) {
 }
 
 async function verifyEmail(req, res) {
-    const email = req.email
     const token = req.params.token
     try {
         const userVerified = await AuthService.verifyEmail(
-            email,
             token
         )
-        console.log(`User with the email ${email}, successfully verified`)
+        console.log(`User successfully verified`)
         res.json({
             ...userVerified,
         })
     } catch (error) {
         console.log(
-            `Failed verification with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+            `Failed verification; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function sendVerifyMail(req,res) {
+    const email = req.body.email
+    try {
+        const mailSent = await AuthService.sendVerificationEmail(
+            email
+        )
+        console.log(`User with the email ${email}, successfully got sent another Mail`)
+        res.json({
+            ...mailSent,
+        })
+    } catch (error) {
+        console.log(
+            `Failed to resent mail with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
         const statusCode = error?.statusCode || 500
         res.status(statusCode).json({
@@ -217,4 +237,5 @@ export default {
     sendMail,
     loginWithToken,
     registerAdmin,
+    sendVerifyMail,
 }
