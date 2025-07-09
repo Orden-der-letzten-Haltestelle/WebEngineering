@@ -89,37 +89,41 @@
                 Sind Sie sicher, dass Sie den Nutzer <%= user.email %> <%=
                 action %> wollen?
             </p>
-            <div class="adminpage-overlay-button-container">
+            <div
+                class="adminpage-overlay-button-container overlay-button-container"
+            >
                 <% if (action === "Bannen") { %>
                 <button
-                    class="adminpage-button confirm"
+                    class="adminpage-button overlay-button confirm"
                     onclick="handleBannUser('<%= user.id %>', '<%= token %>')"
                 >
                     Bannen
                 </button>
                 <% } else if (action === "Entbannen") { %>
                 <button
-                    class="adminpage-button confirm"
+                    class="adminpage-button overlay-button confirm"
                     onclick="handleUnBannUser('<%= user.id %>', '<%= token %>')"
                 >
                     Entbannen
                 </button>
                 <% } else if (action === "Befördern") { %>
                 <button
-                    class="adminpage-button confirm"
+                    class="adminpage-button overlay-button confirm"
                     onclick="handleMakeUserAdmin('<%= user.id %>', '<%= token %>')"
                 >
                     Befördern
                 </button>
                 <% } else if (action === "Degradieren") { %>
                 <button
-                    class="adminpage-button confirm"
+                    class="adminpage-button overlay-button confirm"
                     onclick="handleRemoveAdminFromUser('<%= user.id %>', '<%= token %>')"
                 >
                     Degradieren
                 </button>
                 <% } %>
-                <button class="adminpage-button abbruch">Abbruch</button>
+                <button class="adminpage-button overlay-button abbruch">
+                    Abbruch
+                </button>
             </div>
         </div>
     </div>

@@ -1,70 +1,121 @@
 <div id="checkoutPage-content">
-  <div class="checkout-layout">
-    <div class="image-wrapper">
-      <img src="<%= product.image || '/img/BeispielImg.png' %>" alt="Produktbild">
-    </div>
-    <div class="checkoutItems-container">
-      <div class="checkoutItems-inner-container">
-        <div class="detailledProduct-card">
-          <div class="summary-name">
-            <%= product.name %>
-          </div>
-          <div class="products-info">
-            <p>Artikel-Nr.:&emsp;<%= product.id %>
-            </p>
-          </div>
-          <div class="price-buy">
-            <span class="price">
-              <%= (product.price / 100).toFixed(2) %> €
-            </span>
-          </div>
-          <button class="addToCart-button"
-            onclick="handleAddtocartWithEvent(this, '<%= product.id %>', '<%= token %>')">In den
-            Warenkorb</button>
+    <div class="checkout-layout">
+        <div class="image-wrapper">
+            <img
+                src="<%= product.image || '/img/BeispielImg.png' %>"
+                alt="Produktbild"
+            />
         </div>
-      </div>
-    </div>
+        <div class="checkoutItems-container">
+            <div class="checkoutItems-inner-container">
+                <div class="detailledProduct-card">
+                    <div class="summary-name"><%= product.name %></div>
+                    <div class="products-info">
+                        <p>Artikel-Nr.:&emsp;<%= product.id %></p>
+                    </div>
+                    <div class="price-buy">
+                        <span class="price">
+                            <%= (product.price / 100).toFixed(2) %> €
+                        </span>
+                    </div>
+                    <button
+                        class="addToCart-button"
+                        onclick="handleAddtocartWithEvent(this, '<%= product.id %>', '<%= token %>')"
+                    >
+                        In den Warenkorb
+                    </button>
+                </div>
+            </div>
+        </div>
 
-    <div class="description-box-container">
-      <h3>Beschreibung des Produkts</h3>
-      <p class="descrpition">
-        <%= product.description %>
-      </p>
+        <div class="description-box-container">
+            <h3>Beschreibung des Produkts</h3>
+            <p class="descrpition"><%= product.description %></p>
+        </div>
     </div>
-  </div>
 </div>
 
-
-<% if (isAdmin) { %>
-  <button class="edit-button" onclick="toggleEditOverlay()">Bearbeiten</button>
-  <% } %>
+<div class="admin-buttons">
+    <% if (isAdmin) { %>
+    <button class="admin-button edit-button" onclick="toggleEditOverlay()">
+        Bearbeiten
+    </button>
+    <button class="admin-button delete-button" onclick="toggleDeleteOverlay()">
+        Delete
+    </button>
+    <% } %>
     <!-- Overlay (initial versteckt) -->
     <div id="edit-overlay" class="overlay hide">
-      <div class="overlay-content">
-        <h2>Produkt bearbeiten</h2>
-        <form onsubmit="handleUpdateProduct(event, '<%= product.id %>', '<%= token %>')">
-          <label>Name:</label>
-          <input id="name" type="text" name="name" value="<%= product.name %>" required />
+        <div class="overlay-content">
+            <h2>Produkt bearbeiten</h2>
+            <form
+                onsubmit="handleUpdateProduct(event, '<%= product.id %>', '<%= token %>')"
+            >
+                <label>Name:</label>
+                <input
+                    id="name"
+                    type="text"
+                    name="name"
+                    value="<%= product.name %>"
+                    required
+                />
 
-          <label>Beschreibung:</label>
-          <textarea id="description" name="description"><%= product.description %></textarea>
+                <label>Beschreibung:</label>
+                <textarea id="description" name="description">
+<%= product.description %></textarea
+                >
 
-          <label>Preis (€):</label>
-          <input id="price" type="number" name="price" value="<%= (product.price / 100).toFixed(2) %>" step="0.01"
-            required />
+                <label>Preis (€):</label>
+                <input
+                    id="price"
+                    type="number"
+                    name="price"
+                    value="<%= (product.price / 100).toFixed(2) %>"
+                    step="0.01"
+                    required
+                />
 
-          <label>Amount</label>
-          <input id="amount" type="number" name="amount" value="<%= product.amount %>" required step="1" />
-          <button type="submit">Speichern</button>
-          <button type="button" onclick="toggleEditOverlay()">Abbrechen</button>
-        </form>
-      </div>
+                <label>Amount</label>
+                <input
+                    id="amount"
+                    type="number"
+                    name="amount"
+                    value="<%= product.amount %>"
+                    required
+                    step="1"
+                />
+                <button type="submit">Speichern</button>
+                <button type="button" onclick="toggleEditOverlay()">
+                    Abbrechen
+                </button>
+            </form>
+        </div>
     </div>
+    <!-- Delete Overlay -->
+    <div class="delete-overlay overlay-container" id="delete-overlay">
+        <div class="blur"></div>
+        <div class="overlay-inner">
+            <div class="overlay-button-container">
+                <div
+                    class="overlay-button confirm"
+                    onclick="handleDeleteProduct('<%= product.id %>', '<%= token %>')"
+                >
+                    Löschen
+                </div>
+                <div class="overlay-button abbruch">Abbrechen</div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<script>
+    function toggleDeleteOverlay() {
+        const overlay = document.getElementById("delete-overlay")
+        overlay.classList.toggle("hide")
+    }
 
-    <script>
-      function toggleEditOverlay() {
-        const overlay = document.getElementById('edit-overlay');
-        overlay.classList.toggle('hide');
-      }
-    </script>
+    function toggleEditOverlay() {
+        const overlay = document.getElementById("edit-overlay")
+        overlay.classList.toggle("hide")
+    }
+</script>

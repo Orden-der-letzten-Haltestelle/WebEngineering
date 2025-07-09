@@ -1,204 +1,212 @@
 #checkoutPage-content {
-  padding: 1em;
+    padding: 1em;
 }
 
 .checkout-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2em;
-  align-items: start;
-  max-width: 1200px;
-  margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .checkoutItems-container {
-  grid-column: 2 / 3;
-  padding: 1em;
-  border-radius: 10px;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
+    grid-column: 2 / 3;
+    padding: 1em;
+    border-radius: 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
 
 .checkoutItems-inner-container {
-  row-gap: 20px;
-  height: min-content;
+    row-gap: 20px;
+    height: min-content;
 }
 
 .detailledProduct-card {
-  display: flex;
-  flex-direction: column;
-  gap: 1em;
-  border: 1px solid black;
-  border-radius: 10px;
-  padding: 1.5em;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin-left: 0;
-  min-height: 250px;
-  background-color: #D9D9D9;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  flex-grow: 1;
-  margin-top: 19px;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 1.5em;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-left: 0;
+    min-height: 250px;
+    background-color: #d9d9d9;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-grow: 1;
+    margin-top: 19px;
 }
 
 .image-wrapper {
-  grid-column: 1 / 2;
-  width: 100%;
-  margin: 0;
+    grid-column: 1 / 2;
+    width: 100%;
+    margin: 0;
 }
 
 .image-wrapper img {
-  width: 100%;
-  height: auto;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  border: 1px solid black;
-  margin: 0;
-  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
-  margin-top: 35px;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid black;
+    margin: 0;
+    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 35px;
 }
 
-
 .summary-name {
-  font-size: 1.5em;
-  font-weight: bold;
-  text-align: left;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: left;
 }
 
 .products-info p {
-  margin: 0;
-  font-weight: 500;
+    margin: 0;
+    font-weight: 500;
 }
 
 .price-buy {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .price {
-  background: var(--highlight-color, #ffd700);
-  padding: 0.5em 1.5em;
-  border-radius: 20px;
-  font-weight: bold;
-  color: #000;
+    background: var(--highlight-color, #ffd700);
+    padding: 0.5em 1.5em;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #000;
 }
 
 .addToCart-button {
-  background-color: var(--button-color, #e0e000);
-  padding: 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
+    background-color: var(--button-color, #e0e000);
+    padding: 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
 .addToCart-button:hover {
-  background-color: #c4b107;
+    background-color: #c4b107;
 }
 
 .description-box-container {
-  grid-column: 1 / 2;
-  padding: 1.5em;
-  border-radius: 10px;
-  box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
-  border: 1px black solid;
-  margin: 0;
-  width: 100%;
+    grid-column: 1 / 2;
+    padding: 1.5em;
+    border-radius: 10px;
+    box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.2);
+    border: 1px black solid;
+    margin: 0;
+    width: 100%;
 }
 
 .description-box-container h3 {
-  margin-top: 0;
+    margin-top: 0;
 }
 
 .description {
-  font-weight: normal;
-  margin-top: 0.5em;
-  line-height: 1.5;
+    font-weight: normal;
+    margin-top: 0.5em;
+    line-height: 1.5;
 }
 
 @media screen and (max-width: 768px) {
-  .checkout-layout {
-    grid-template-columns: 1fr;
-    margin: 0 1em;
-    gap: 1.5em;
-  }
+    .checkout-layout {
+        grid-template-columns: 1fr;
+        margin: 0 1em;
+        gap: 1.5em;
+    }
 
-  .image-wrapper {
-    order: 1;
-  }
+    .image-wrapper {
+        order: 1;
+    }
 
-  .checkoutItems-container {
-    order: 2;
-  }
+    .checkoutItems-container {
+        order: 2;
+    }
 
-  .summary-box-container {
-    order: 3;
-  }
+    .summary-box-container {
+        order: 3;
+    }
 
-  .detailledProduct-card {
-    margin-top: 0;
-    height: auto;
-  }
+    .detailledProduct-card {
+        margin-top: 0;
+        height: auto;
+    }
 
-  .image-wrapper img {
-    max-height: 200px;
-    margin-top: 0;
-  }
+    .image-wrapper img {
+        max-height: 200px;
+        margin-top: 0;
+    }
 
-  .image-wrapper,
-  .checkoutItems-container,
-  .description-box-container,
-  .summary-box-container {
-    grid-column: 1 / 2;
-    margin: 0;
-    width: 100%;
-  }
+    .image-wrapper,
+    .checkoutItems-container,
+    .description-box-container,
+    .summary-box-container {
+        grid-column: 1 / 2;
+        margin: 0;
+        width: 100%;
+    }
 
-  .description-box-container {
-    margin: 0;
-    width: 100%;
-    margin-top: 0;
-  }
+    .description-box-container {
+        margin: 0;
+        width: 100%;
+        margin-top: 0;
+    }
 }
-
 
 /*Adminoverlay - Produkt bearbeiten*/
 
+.admin-button {
+    padding: 0.6em 1.2em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 1em;
+    color: white;
+}
+.admin-button:hover {
+    opacity: 0.8;
+}
+
+.delete-button {
+    background-color: red;
+}
+
 .edit-button {
-  background-color: #007bff;
-  color: white;
-  padding: 0.6em 1.2em;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 1em;
+    background-color: #007bff;
 }
 
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .overlay-content {
-  background: white;
-  padding: 2em;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
+    background: white;
+    padding: 2em;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
 }
 
 .hide {
-  display: none;
+    display: none;
 }

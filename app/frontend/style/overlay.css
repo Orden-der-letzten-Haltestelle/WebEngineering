@@ -38,12 +38,49 @@
     transform: translate(-50%, -50%);
 }
 
+.overlay-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+}
+.overlay-button {
+    cursor: pointer;
+    padding: 8px;
+    width: 100px;
+    display: flex;
+    align-items: center;
+
+    justify-content: center;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    height: 45px;
+}
+
+.overlay-button:hover {
+    opacity: 0.8;
+    border-color: black;
+}
+
+.overlay-button.confirm {
+    background-color: #ff0000;
+}
+.overlay-button.abbruch {
+    background-color: var(--highlight-color);
+}
+
 @media screen and (max-width: 800px) {
     .overlay-inner {
         max-width: 400px;
     }
 }
 
+@media screen and (max-width: 720px) {
+    .overlay-button-container {
+        display: grid;
+        row-gap: 8px;
+    }
+}
 @media screen and (max-width: 400px) {
     .overlay-inner {
         max-width: 250px;
