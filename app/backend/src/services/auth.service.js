@@ -286,16 +286,23 @@ async function sendLoginMail(email) {
                     color: #333;
                     text-align: center;
                 }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
                 a {
-                    color: var(#dbc70c);
+                    color: #dbc70c;
                     text-decoration: underline;
                     font-size: 12px;
+                    text-align: center;
                 }
                 #login {
-                    margin-top: 30px;
-                    margin-bottom:20px;
+                    padding-top: 40px;
+                    padding-bottom:40px;
                     font-size: 20px;
-                    margin-left:97px;
+                    text-align: center
                 }
                 a:hover {
                     color:rgb(50, 48, 48); 
@@ -343,4 +350,5 @@ export default {
     verifyEmail,
     sendLoginMail,
     loginWithToken,
+    sendVerificationEmail,
 }

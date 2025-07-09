@@ -145,6 +145,28 @@ async function verifyEmail(req, res) {
     }
 }
 
+async function sendVerifyMail(req,res) {
+    const email = req.body.email
+    try {
+        const mailSent = await AuthService.sendVerificationEmail(
+            email
+        )
+        console.log(`User with the email ${email}, successfully got sent another Mail`)
+        res.json({
+            ...mailSent,
+        })
+    } catch (error) {
+        console.log(
+            `Failed to resent mail with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 async function sendMail(req, res) {
     const { email } = req.body
     try {
@@ -188,4 +210,5 @@ export default {
     verifyEmail,
     sendMail,
     loginWithToken,
+    sendVerifyMail,
 }
