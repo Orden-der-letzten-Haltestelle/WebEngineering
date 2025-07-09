@@ -18,9 +18,9 @@
               <%= (product.price / 100).toFixed(2) %> €
             </span>
           </div>
-          <a href="/cart">
-            <button class="addToCart-button">In den Warenkorb</button>
-          </a>
+          <button class="addToCart-button"
+            onclick="handleAddtocartWithEvent(this, '<%= product.id %>', '<%= token %>')">In den
+            Warenkorb</button>
         </div>
       </div>
     </div>

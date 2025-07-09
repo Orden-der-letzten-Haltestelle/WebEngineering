@@ -29,6 +29,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
+    notRequiredAuth,
     handlePage(ProductPageLoader, "pages/products/productPage/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -38,7 +39,7 @@ router.get(
 /* ProductDetailled Page*/
 
 router.get(
-    "/products/:productId",
+    "/product/:productId",
     notRequiredAuth,
     handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
         excludeNavbar: false,
@@ -196,6 +197,7 @@ async function renderErrorPage(req, res, error) {
 /* Secure Pages, that require signIn */
 async function notRequiredAuth(req, res, next) {
     const token = getToken(req)
+    console.log(token)
 
     //redirect to login page, if no token set
     if (!token) {
@@ -205,7 +207,8 @@ async function notRequiredAuth(req, res, next) {
 
     //when token given, then get user Information
     try {
-        req.user = await fetchUser(token)
+        const user = await fetchUser(token)
+        req.user = user
         req.token = token
         next()
     } catch (err) {

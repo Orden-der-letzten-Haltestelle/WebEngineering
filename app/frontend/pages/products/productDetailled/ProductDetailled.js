@@ -5,13 +5,13 @@ export default async function ProductDetailledLoader(req, res) {
   const product = await fetchProductById(productId);
 
   //proof if admin is connected 
-  const isAdmin = req?.user?.isAdmin
-console.log(req.user)
+  const isAdmin = req?.user?.roles.includes("admin")
 
 
   return {
     title: product.name,
     product: product,
+    token: req?.token,
     isAdmin: isAdmin
   };
 }

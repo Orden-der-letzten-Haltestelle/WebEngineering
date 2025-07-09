@@ -1,11 +1,13 @@
 import { addproductTocart } from "../api/CartApiHandler.js"
 
 window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
-    e,
+    e = undefined,
     productId,
     token
 ) {
-    e.preventDefault()
+    if (e?.preventDefault != undefined) {
+        e?.preventDefault()
+    }
 
     if (token == "") {
         console.log("Token has to be given")
@@ -22,3 +24,4 @@ window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
             })
     }
 }
+
