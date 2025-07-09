@@ -1,2 +1,271 @@
 #profilePage-content {
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+#icon-displayed {
+    width: 55px;
+}
+
+.headline {
+    border-bottom: 2px solid #000;
+    display: inline-block;
+}
+
+.konto-container {
+    text-align: center;
+}
+
+.konto-info {
+    border: 2px #000 solid;
+    border-radius: 5px;
+    margin-top: 35px;
+    padding: 5px;
+}
+
+.konto-box {
+    background: #eee;
+    border-radius: 10px;
+    padding: 20px 30px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 30px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+.profil-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 4ch;
+}
+
+.profil-icon {
+    width: 90px;
+    height: 90px;
+    background: #aaa;
+    border-radius: 50%;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rolle {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.rolle-admin {
+    color: #888;
+    font-size: 12px;
+}
+
+.konto-formular {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: left;
+    flex: 1;
+}
+
+.konto-formular label {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.konto-formular input {
+    width: 100%;
+    padding: 5px;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.passwort-reset {
+    font-size: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+.konto-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    margin-top: 12px;
+}
+
+.btn {
+    padding-left: 5px;
+    padding-right: 5px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 50px;
+    text-decoration: none;
+    display: grid;
+    place-items: center;
+}
+
+.gelb {
+    background: #d8c800;
+    color: #000;
+}
+
+.rosa {
+    background: #f4aaaa;
+    color: #fff;
+    margin-right: 20px;
+}
+
+.rot {
+    background: #e61111;
+    color: #fff;
+}
+
+.bottom-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+
+/* Overlay-Stil */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* Modal-Stil */
+.modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modal h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Extra Button-Stil */
+.grau {
+    background: #eee;
+    color: #888;
+}
+
+/* Overlay-Hintergrund */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* wird per JS auf display: block gesetzt */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Overlay-Box (zentriert) */
+.overlay-box {
+    background-color: white;
+    padding: 40px 60px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal .bottom-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modal .bottom-buttons button {
+    flex: 1 1 40%;
+    min-width: 120px;
+    max-width: 180px;
+}
+
+
+@media (max-width: 768px) {
+    #profilePage-content {
+        margin: 30px 20px;
+        text-align: center;
+    }
+
+    .konto-box {
+        flex-direction: column;
+        gap: 20px;
+        padding: 15px;
+        align-items: center;
+    }
+
+    .profil-info {
+        align-items: center;
+        text-align: center;
+    }
+
+    .konto-formular {
+        align-items: center;
+        text-align: center;
+    }
+
+    .konto-formular label {
+        text-align: left;
+        width: 100%;
+    }
+
+    .konto-buttons {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .bottom-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+    }
+
+    .btn {
+        width: 90%;
+        font-size: 14px;
+    }
+
+    .rosa {
+        margin-right: 0;
+    }
 }

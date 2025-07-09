@@ -110,3 +110,89 @@ a:hover {
         display: none;
     }
 }
+
+/* Overlay-Stil */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* wird per JS auf display: block gesetzt */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Overlay-Box (zentriert) */
+.overlay-box {
+    background-color: white;
+    padding: 40px 60px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+#button-sendAgain {
+    padding: 15px;
+    margin-top: 10px;
+    background-color: var(--highlight-color);
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    color: white;
+}
+
+#button-sendAgain:hover {
+    cursor: pointer;
+    background-color: lightgray;
+    color: rgb(50, 48, 48);
+}
+
+#button-leave {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: var(--highlight-color);
+    border: none;
+    border-radius: 12px;
+    color:white
+}
+#button-leave:hover {
+    cursor: pointer;
+    background-color: lightgray;
+    color:rgb(50, 48, 48);
+}
+#Shoppen {
+    color: white;
+    text-decoration: none;
+}
+#Shoppen:hover {
+    color: rgb(50, 48, 48);
+    text-decoration: none;
+    cursor: pointer;
+}
+#support {
+    color: var(--highlight-color);
+    font-weight: bold;
+    text-decoration: underline;
+}
+#support:hover {
+    color: rgb(50, 48, 48);
+    cursor: pointer;
+}

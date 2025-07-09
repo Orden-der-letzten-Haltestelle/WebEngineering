@@ -5,7 +5,7 @@ import OrderItem from "../objects/items/OrderItem.js"
 import Product from "../objects/items/Product.js"
 import EmailService from "./email.service.js"
 import UserService from "./user.service.js"
-import CartValidator from "../validator/validator.cart.js"
+import ProductValidator from "../validator/validator.product.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import ProductService from "./product.service.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
@@ -56,7 +56,7 @@ async function updateCartItemAmount(userId, cartItemId, newAmount) {
     }
 
     //proof if enough is in storage
-    await CartValidator.isValidAmount(cartItem.product.id, newAmount)
+    await ProductValidator.isValidAmount(cartItem.product.id, newAmount)
 
     //update amount
     await CartModel.updateCartItemAmount(cartItemId, newAmount)
@@ -161,8 +161,8 @@ async function sendBuyEmail(email, orderItems) {
                 <td>${item.product.getConvertedPrice()}</td> 
                 <td>${item.amount}</td> 
                 <td>${item.product.getConvertedPriceMultiplied(
-                    item.amount
-                )}</td>
+            item.amount
+        )}</td>
             </tr>
             `
     })
@@ -198,7 +198,7 @@ async function addProductToCart(userId, productId, amount) {
     }
 
     //test for valid amount and if product exists
-    await CartValidator.isValidAmount(productId, amount)
+    await ProductValidator.isValidAmount(productId, amount)
 
     if (existingCartItem !== null) {
         // handle product already in cart, change amount

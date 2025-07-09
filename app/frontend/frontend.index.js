@@ -19,6 +19,9 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
+import AdminPageLoader from "./pages/admin/AdminPage.js"
+import AboutPageLoader from "./pages/about/AboutPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -27,6 +30,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
+    notRequiredAuth,
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -72,10 +76,14 @@ router.get(
 /* LoginPage with Mail Link */
 router.get(
     "/loginMail/Link",
-    handlePage(LoginMailLinkPageLoader, "pages/login/loginMail/Link/LoginPage", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginMailLinkPageLoader,
+        "pages/login/loginMail/Link/LoginPage",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 /* LoginPage Support for forgotten Password */
 router.get(
@@ -83,6 +91,15 @@ router.get(
     handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
         excludeNavbar: true,
         excludeFooter: true,
+    })
+)
+
+/* Verification of Mail Page */
+router.get(
+    "/user/verify/:token",
+    handlePage(verifyMailLoader, "pages/verifyMail/verifyMail", {
+        excludeNavbar: false,
+        excludeFooter: false,
     })
 )
 
@@ -125,6 +142,26 @@ router.get(
     })
 )
 
+/* admin */
+router.get(
+    "/admin",
+    requireAuth,
+    requireAdmin,
+    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* about */
+router.get(
+    "/about",
+    handlePage(AboutPageLoader, "pages/about/AboutPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
 /**
  * handles page loading, and loads error page when PageLoader throws an error
  * @param {*} pageLoader
@@ -150,8 +187,9 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
-            }, try again later`,
+        title: `Unexpected Error${
+            error.status == undefined ? "" : " with Status:" + error.status
+        }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
@@ -159,6 +197,34 @@ async function renderErrorPage(req, res, error) {
         excludeNavbar: false,
         excludeFooter: false,
     })
+}
+
+/* Secure Pages, that require signIn */
+async function notRequiredAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        next()
+        return
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            res.clearCookie("token")
+            next()
+            return
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
 }
 
 /* Secure Pages, that require signIn */
@@ -184,6 +250,20 @@ async function requireAuth(req, res, next) {
         // Render a server error page
         renderErrorPage(req, res, err)
     }
+}
+
+async function requireAdmin(req, res, next) {
+    const token = req.token
+    if (!token) {
+        throw new Error("Token is required")
+    }
+
+    const user = req.user
+
+    if (!user.roles.includes("admin")) {
+        throw new Error("you are not allowed to enter this page")
+    }
+    next()
 }
 
 /**

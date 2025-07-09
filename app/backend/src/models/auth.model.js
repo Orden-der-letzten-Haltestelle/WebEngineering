@@ -15,6 +15,7 @@ import { compareSync } from "bcryptjs"
  * Das Model Product beinhalted alle SQL-Abfragen
  */
 const DEFAULT_ROLE = Roles.user
+const ADMIN_ROLE = Roles.admin
 
 /**
  * returnes true or false, based on if a user with that email exist.
@@ -99,6 +100,7 @@ async function findAuthUserById(id) {
 
 /**
  * Returns a User Object if one was found in the Database
+ * @param {string} email
  * @returns {Promise<BasicUser>}
  * @throws {NotFoundError} User with Email doesn't exist
  * @throws {DatabaseError}
@@ -134,6 +136,7 @@ async function findUserByEmail(email) {
  * @throws {NotFoundError} user with email doesn't exist
  */
 async function findAdvancedAuthUserByEmail(email) {
+    console.log(pool.password)
     try {
         const result = await pool.query(
             `SELECT 
@@ -228,10 +231,125 @@ async function createUser(username, hashedPassword, email) {
     }
 }
 
+/**
+ * Creates an Admin in the Database
+ * @param {string} username
+ * @param {string} hashedPassword
+ * @param {string} email
+ * @returns {Promise<AuthUser>}
+ * @throws {DatabaseError}
+ */
+async function createAdmin(username, hashedPassword, email) {
+    const client = await pool.connect()
+    try {
+        //start query client, to be abel to rollback if needed
+        await client.query("BEGIN")
+
+        //save user information in db
+        const result = await client.query(
+            `INSERT INTO webshop.users (name, password, email) VALUES ($1, $2, $3) RETURNING id`,
+            [username, hashedPassword, email]
+        )
+        const userId = result.rows[0].id
+
+        //add default role to user
+        await client.query(
+            `INSERT INTO webshop.user_has_role (userid, roleid) VALUES ($1, $2), ($1, $3);`,
+            [userId, DEFAULT_ROLE.id, ADMIN_ROLE.id]
+        )
+
+        //executing all querys
+        await client.query("COMMIT")
+        return new AuthUser(userId, username, email, Date.now(), false, false, [
+            DEFAULT_ROLE.roleName,
+            ADMIN_ROLE.roleName,
+        ])
+    } catch (error) {
+        //When error is thrown, rollback
+        await client.query("ROLLBACK")
+        throw new DatabaseError(
+            `Failed storing admin data in the DB: ${error.message}`,
+            { originalError: error }
+        )
+    } finally {
+        client.release()
+    }
+}
+
+/**
+ * saves the token send to user in db, for verification later on
+ * @param {string} email
+ * @param {string} token
+ * @throws {DatabaseError}
+ */
+async function saveTokenVerification(email, token) {
+    console.log(email)
+    console.log(token)
+    try {
+        const result = await pool.query(
+            `INSERT INTO webshop.verificationtokens(
+	        email, token)
+	        VALUES ($1, $2)
+            RETURNING *;`,
+            [email, token]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`Failed to insert token into db`)
+        }
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed saving token to db of user with email ${email}.`,
+            { originalError: error }
+        )
+    }
+}
+
+
+/**
+ * verifies the user if given token is the same with the one in db
+ * @param {string} token
+ * @returns {Promise<string>}
+ * @throws {DatabaseError}
+ */
+async function verifyEmail(token) {
+    try {
+        const result = await pool.query(
+            `SELECT * 
+            FROM webshop.verificationtokens
+            WHERE token = $1`,
+            [token]
+        )
+        if(result.rows.length <= 0) {
+            throw new NotFoundError("Token not existing!")
+        }
+        const deletion = await pool.query(
+            `DELETE FROM webshop.verificationtokens
+            WHERE token = $1
+            RETURNING *;`,
+            [token]
+        )
+        const changeStatus = await pool.query(
+            `UPDATE webshop.users
+	        SET isverified=true
+	        WHERE email = $1
+            RETURNING *;`,
+            [result.rows[0].email]
+        )
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed verifying user.`,
+            { originalError: error }
+        )
+    }
+}
+
 export default {
     findAuthUserById,
     createUser,
     findAdvancedAuthUserByEmail,
     existByEmail,
     findUserByEmail,
+    saveTokenVerification,
+    verifyEmail,
+    createAdmin,
 }
