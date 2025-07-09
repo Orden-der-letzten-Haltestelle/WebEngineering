@@ -168,8 +168,8 @@ async function sendVerificationEmail(email) {
  * @throws {DatabaseError}
  * @throws {NotFoundError}
  */
-async function verifyEmail(userId, token) {
-    return await AuthModel.verifyEmail(userId, token)
+async function verifyEmail(token) {
+    return await AuthModel.verifyEmail(token)
 }
 
 /**
@@ -366,6 +366,19 @@ async function sendLoginMail(email) {
     return link
 }
 
+async function singleLogin(token) {
+    const email = await AuthModel.singleLogin(token)
+    const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
+
+    //generate JWT token
+    const jwt = generateJWTtoken(advancedAuthUser)
+    //return user with out password and jwt token
+    return {
+        user: advancedAuthUser.getAuthUser(),
+        jwt: jwt
+    }
+}
+
 export default {
     getAuthUser,
     createUser,
@@ -375,4 +388,5 @@ export default {
     sendLoginMail,
     createAdmin,
     sendVerificationEmail,
+    singleLogin,
 }

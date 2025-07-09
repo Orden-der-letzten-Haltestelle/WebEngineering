@@ -212,7 +212,25 @@ async function sendMail(req, res) {
 }
 
 async function singleLogin(req, res) {
-
+    const token = req.params.token
+    try {
+        const userAndToken = await AuthService.singleLogin(
+            token
+        )
+        console.log(`User successfully singed In`)
+        res.json({
+            ...userAndToken,
+        })
+    } catch (error) {
+        console.log(
+            `Failed Sign In; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
 }
 
 export default {

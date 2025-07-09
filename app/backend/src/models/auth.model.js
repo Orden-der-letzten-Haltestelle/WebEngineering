@@ -335,9 +335,41 @@ async function verifyEmail(token) {
             RETURNING *;`,
             [result.rows[0].email]
         )
+        return true
     } catch (error) {
         throw new DatabaseError(
             `Failed verifying user.`,
+            { originalError: error }
+        )
+    }
+}
+
+/**
+ * 
+ * @param {*} token 
+ * @returns email of user
+ */
+async function singleLogin(token) {
+    try {
+        const result = await pool.query(
+            `SELECT * 
+            FROM webshop.verificationtokens
+            WHERE token = $1 AND usecase = 'login'`,
+            [token]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError("Token not existing!")
+        }
+        const deletion = await pool.query(
+            `DELETE FROM webshop.verificationtokens
+            WHERE token = $1
+            RETURNING *;`,
+            [token]
+        )
+        return result.rows[0].email
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed login user.`,
             { originalError: error }
         )
     }
@@ -352,4 +384,5 @@ export default {
     saveTokenVerification,
     verifyEmail,
     createAdmin,
+    singleLogin,
 }
