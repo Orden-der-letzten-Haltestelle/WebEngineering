@@ -22,7 +22,7 @@ import ProductPageLoader from "./pages/products/ProductPage.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
-import AboutPageLoader from "./pages/about/AboutPage.js
+import AboutPageLoader from "./pages/about/AboutPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
