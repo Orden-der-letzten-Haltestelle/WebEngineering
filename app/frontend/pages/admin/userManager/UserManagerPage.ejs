@@ -1,7 +1,7 @@
 <div id="adminPage-content">
     <div class="adminpage-innercontainer">
         <% users.forEach((user) => {%> <%-
-        include("../../components/AdminPageUserItem/AdminPageUserItem", {user:
+        include("../../../components/AdminPageUserItem/AdminPageUserItem", {user:
         user, token: token})%> <%})%>
     </div>
 </div>
