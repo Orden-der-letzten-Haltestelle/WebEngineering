@@ -22,6 +22,7 @@ import ProductPageLoader from "./pages/products/ProductPage.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
+import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -147,6 +148,20 @@ router.get(
 )
 
 /* Admin */
+router.get(
+    "/admin/",
+    requireAuth,
+    requireAdmin,
+    handlePage(
+        AdminDashboardPageLoader,
+        "pages/admin/adminDashboard/AdminDashboardPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
 router.get(
     "/admin/users",
     requireAuth,
