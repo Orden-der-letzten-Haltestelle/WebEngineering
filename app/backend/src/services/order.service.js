@@ -1,11 +1,11 @@
-import DatabaseError from "../exceptions/DatabaseError.js";
-import NotFoundError from "../exceptions/NotFoundError.js";
+import DatabaseError from "../exceptions/DatabaseError.js"
+import NotFoundError from "../exceptions/NotFoundError.js"
 import CartModel from "../models/cart.model.js"
-import OrderItem from "../objects/items/OrderItem";
+import OrderItem from "../objects/items/OrderItem.js"
 
 /**
  * Returns an orderItem by its id
- * @param {int} id 
+ * @param {int} id
  * @returns {Promise<OrderItem>}
  * @throws {NotFoundError}
  * @throws {DatabaseError}
@@ -16,5 +16,5 @@ async function getOrderItem(id) {
 }
 
 export default {
-    getOrderItem
+    getOrderItem,
 }

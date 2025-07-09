@@ -11,13 +11,6 @@ import jwt from "jsonwebtoken"
 // Import EmailService
 import EmailService from "./email.service.js"
 
-// Import other
-import ForbiddenError from "../exceptions/ForbiddenError.js"
-import UnauthorizedError from "../exceptions/UnauthorizedError.js"
-import bcrypt from "bcryptjs"
-import ms from "ms"
-import jwt from "jsonwebtoken"
-
 //objects
 import AuthUser from "../objects/user/AuthUser.js"
 import Roles from "../objects/user/Roles.js"
@@ -238,17 +231,17 @@ async function extractTokenAndVerify(token, requiredRole) {
     //proof token and extract information from token
     const user = await getUserInformationByJWTtoken(token)
 
+    //gets an AuthUser Object to verify whether the user is banned
+    const authUser = await getAuthUser(user.id)
+
     //TODO replace with has user access
     //check if the user has the required role
     if (
         requiredRole !== undefined &&
-        (!user.roles || !user.hasRole(requiredRole))
+        (!authUser.roles || !authUser.hasRole(requiredRole))
     ) {
         throw new ForbiddenError()
     }
-
-    //gets an AuthUser Object to verify whether the user is banned
-    const authUser = await getAuthUser(user.id)
 
     if (authUser.isBanned) {
         throw new ForbiddenError("User is banned!")

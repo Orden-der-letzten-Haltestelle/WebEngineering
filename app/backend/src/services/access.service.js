@@ -1,3 +1,11 @@
+//services
+import AuthService from "./auth.service.js"
+import ProductService from "./product.service.js"
+import CartService from "./cart.service.js"
+import OrderService from "./order.service.js"
+import UserService from "./user.service.js"
+import WishlistService from "./wishlist.service.js"
+
 //errors
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
@@ -17,11 +25,7 @@ import Roles from "../objects/user/Roles.js"
  * @param {string} action
  */
 async function hasUserAccessToResource(userId, resourceId, ressource, action) {
-    const user = await getAuthUser(userId)
-    //if (user.hasRole(Roles.admin)) {
-    //TODO should an admin be abel to delete a user
-    //  return true
-    //}
+    const user = await AuthService.getAuthUser(userId)
 
     //TODO proof, that valid action is given
 
@@ -78,6 +82,7 @@ async function hasUserAccessToProduct(user, productId, action) {
             case "POST":
             case "PUT":
             case "DELETE":
+                //TODO remove? wird das hier gehandelt???
                 //product needs to be given and needs to exist
                 if (productId == null || productId == undefined)
                     throw new BadRequestError(
@@ -122,8 +127,12 @@ async function hasUserAccessToCartItem(user, id, action) {
     try {
         switch (action) {
             case "GET":
-                //when id given, user needs to be owner
-                if (id != null && cartItem.ownerId !== user.id) {
+                //when user not admin, and not owner of cartitem => no access
+                if (
+                    !user.hasRole(Roles.admin) &&
+                    id != null &&
+                    cartItem.ownerId !== user.id
+                ) {
                     return false
                 }
                 return true
@@ -133,9 +142,17 @@ async function hasUserAccessToCartItem(user, id, action) {
                     throw new BadRequestError(
                         `For CartItem ${action} a resourceId is required`
                     )
+                //user has to own cartitem, admins should not be abel to change e.g. amount
+                if (cartItem.ownerId !== user.id) {
+                    return false
+                }
             case "POST":
+                if (id == null) {
+                    //buy: you can always buy your own cart
+                    return true
+                }
             case "DELETE":
-                //User has to be owner of CartItem
+                //if id given, user has to own it. admins shoulnt be abel to remove this or add items to users cart
                 if (cartItem != undefined && cartItem.ownerId !== user.id)
                     return false
                 return true
@@ -159,6 +176,9 @@ async function hasUserAccessToCartItem(user, id, action) {
     }
 }
 
+//TODO ??? wenn wir cartitem und orderitems zusammen machen,
+// dann macht das garkein sinn, weil wir ja unterschiedliche post,put actions haben.
+// aber irgendwie ist es ja die selbe resource, ich check das nicht....
 async function hasUserAccessToOrderItem(user, id, action) {
     try {
         //if id given, item has to exist
@@ -184,17 +204,10 @@ async function hasUserAccessToOrderItem(user, id, action) {
                 //user can always buy his own cart
                 return true
             case "PUT":
-                if (id == null) {
-                    throw new BadRequestError(
-                        `${action} Requires an resourceId.`
-                    )
-                }
-                //when given, user has to own item
-                if (item.ownerId !== user.id) {
-                    return false
-                }
             case "DELETE":
-                return false
+                throw new BadRequestError(
+                    `You can't delete or edit your order history.`
+                )
             default:
                 throw NotImplementedError(`${action} isnt Supported.`)
         }
