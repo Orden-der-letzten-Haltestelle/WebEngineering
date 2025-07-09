@@ -1,4 +1,4 @@
-import { logInUser, registerUser, verifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
+import { logInUser, registerUser, SendSignInMail } from "../api/AuthApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -26,20 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             logInUser(email, password).then((res) => {
                 document.cookie = "token=" + res.jwt.token;
-                window.location.href = '/';
-            }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
-                console.error(err);
-            });
-        });
-    }
-
-    const button = document.getElementById("verify");
-    if (button) {
-        button.addEventListener("click", function handleverifyMail(event) {
-            event.preventDefault();
-            const email = req.
-            verifyMail(email, token).then((res) => {
                 window.location.href = '/';
             }).catch((err) => {
                 alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));

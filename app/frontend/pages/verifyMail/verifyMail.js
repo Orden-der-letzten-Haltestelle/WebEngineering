@@ -1,4 +1,4 @@
-import { verifyMail } from "../../api/AuthApiHandler.js"
+import { verifyUser } from "../../api/VerifactionApiHandler.js"
 
 /**
  * Diese funktion läd alle daten, und returned ein object, um diese im .ejs zu laden
@@ -8,6 +8,8 @@ import { verifyMail } from "../../api/AuthApiHandler.js"
  */
 export default async function CartPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+
+    const apiRequest = await verifyUser(req.params.token)
 
     return {
         title: "Verifzieren der Mail",

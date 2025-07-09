@@ -19,6 +19,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
+import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
 
 const router = express.Router()
@@ -86,14 +87,19 @@ router.get(
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(
-        LoginSupportPageLoader,
-        "pages/login/PasswordSupport/passwordSupport",
-        {
-            excludeNavbar: true,
-            excludeFooter: true,
-        }
-    )
+    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
+        excludeNavbar: true,
+        excludeFooter: true,
+    })
+)
+
+/* Verification of Mail Page */
+router.get(
+    "/user/verify/:token",
+    handlePage(verifyMailLoader, "pages/verifyMail/verifyMail", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
 )
 
 /* orders */
