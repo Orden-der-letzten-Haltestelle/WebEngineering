@@ -19,6 +19,7 @@ import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
+import AdminPageLoader from "./pages/admin/AdminPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -27,6 +28,7 @@ const __dirname = path.dirname(__filename)
 /* ProductPage / MainPage */
 router.get(
     "/",
+    notRequiredAuth,
     handlePage(ProductPageLoader, "pages/products/ProductPage", {
         excludeNavbar: false,
         excludeFooter: false,
@@ -137,6 +139,17 @@ router.get(
     )
 )
 
+/* wishlist */
+router.get(
+    "/admin",
+    requireAuth,
+    requireAdmin,
+    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
 /**
  * handles page loading, and loads error page when PageLoader throws an error
  * @param {*} pageLoader
@@ -175,6 +188,34 @@ async function renderErrorPage(req, res, error) {
 }
 
 /* Secure Pages, that require signIn */
+async function notRequiredAuth(req, res, next) {
+    const token = getToken(req)
+
+    //redirect to login page, if no token set
+    if (!token) {
+        next()
+        return
+    }
+
+    //when token given, then get user Information
+    try {
+        req.user = await fetchUser(token)
+        req.token = token
+        next()
+    } catch (err) {
+        //error, if set token isn't valid, then also redirect to /login
+        if (err.status === 403 || err.status === 401) {
+            res.clearCookie("token")
+            next()
+            return
+        }
+
+        // Render a server error page
+        renderErrorPage(req, res, err)
+    }
+}
+
+/* Secure Pages, that require signIn */
 async function requireAuth(req, res, next) {
     const token = getToken(req)
 
@@ -197,6 +238,20 @@ async function requireAuth(req, res, next) {
         // Render a server error page
         renderErrorPage(req, res, err)
     }
+}
+
+async function requireAdmin(req, res, next) {
+    const token = req.token
+    if (!token) {
+        throw new Error("Token is required")
+    }
+
+    const user = req.user
+
+    if (!user.roles.includes("admin")) {
+        throw new Error("you are not allowed to enter this page")
+    }
+    next()
 }
 
 /**
