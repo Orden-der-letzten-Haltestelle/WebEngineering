@@ -17,7 +17,7 @@ async function getAuthUser(req, res) {
     try {
         const userId = req.user.id
 
-        const authUser = await AuthService.getAuthUser(userId)
+        const authUser = (await AuthService.getAuthUser(userId)).getDAO()
 
         res.status(200).json({
             ...authUser,

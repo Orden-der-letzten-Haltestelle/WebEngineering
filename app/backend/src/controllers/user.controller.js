@@ -64,7 +64,7 @@ async function unBannUser(req, res) {
 async function getUserById(req, res) {
     const userId = req.params.userId
     try {
-        const response = await UserService.getUserById(userId)
+        const response = (await UserService.getUserById(userId)).getDAO()
         res.status(200).json(response)
     } catch (error) {
         console.log(

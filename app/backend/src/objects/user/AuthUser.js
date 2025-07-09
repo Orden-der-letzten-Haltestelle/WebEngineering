@@ -24,10 +24,22 @@ export default class AuthUser extends BasicUser {
      * @returns {boolean} - True if the user has the role, false otherwise.
      */
     hasRole(requiredRole) {
-        return this.roles.some(
-            (userRole) => {
-                return userRole.level >= requiredRole.level
-            }
-        )
+        return this.roles.some((userRole) => {
+            return userRole.level >= requiredRole.level
+        })
+    }
+
+    getDAO() {
+        return {
+            id: this.id,
+            name: this.name,
+            email: this.email,
+            createdAt: this.createdAt,
+            isVerified: this.isVerified,
+            isBanned: this.isBanned,
+            roles: this.roles.map((r) => {
+                return r.roleName
+            }),
+        }
     }
 }
