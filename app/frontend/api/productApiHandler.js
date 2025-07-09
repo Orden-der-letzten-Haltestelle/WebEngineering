@@ -37,3 +37,28 @@ export async function fetchProductById(productId) {
     }
     return await res.json();
 }
+
+
+export async function updateProduct(productId, token, name, description, price, amount) {
+    console.log(name)
+    const res = await fetch(`${config.host}/products/${productId}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+        },
+        body: JSON.stringify({
+            name: name,
+            description: description,
+            price: price,
+            amount: amount
+        })
+    });
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to fetch product"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json();
+}
