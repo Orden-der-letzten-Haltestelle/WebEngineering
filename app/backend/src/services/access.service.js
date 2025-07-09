@@ -5,6 +5,7 @@ import CartService from "./cart.service.js"
 import OrderService from "./order.service.js"
 import UserService from "./user.service.js"
 import WishlistService from "./wishlist.service.js"
+import UserWishlistRelationModel from "../models/user_wishlist_relation.model.js"
 
 //errors
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
@@ -15,6 +16,8 @@ import ServerError from "../exceptions/ServerError.js"
 import BadRequestError from "../exceptions/BadRequestError.js"
 import NotImplementedError from "../exceptions/NotImplementedError.js"
 import Roles from "../objects/user/Roles.js"
+import WishlistRoles from "../objects/user/WishlistRoles.js"
+import wishlistModel from "../models/wishlist.model.js"
 
 /**
  * Admin should be abel to access this endpoint, to verify, if the user given with the id
@@ -226,26 +229,22 @@ async function hasUserAccessToOrderItem(user, id, action) {
 
 async function hasUserAccessToUser(user, id, action) {
     try {
-        let item = undefined
+        let item
         if (id != null) {
             item = await getAuthUser(id)
         }
 
-        if (id != null && user.hasRole(Roles.admin)) {
+        //if id given and user not admin => id has to be userId
+        if (id != null && !user.hasRole(Roles.admin) && id != user.id) {
             return false
         }
 
+        //Admins and my self can access those endpoints.
         switch (action) {
             case "GET":
             case "PUT":
             case "POST":
-                //Admins and my self can access those endpoints.
-                return true
             case "DELETE":
-                if (user.id != id) {
-                    //no one other then myself, should be abel to delete that user
-                    return false
-                }
                 return true
         }
     } catch (error) {
@@ -286,17 +285,60 @@ async function hasUserAccessToUser_Has_Role(user, id, action) {
 
 async function hasUserAccessToUser_wishlist_relation(user, id, action) {
     try {
+        if (id == null) {
+            throw BadRequestError("User Wishlist Relation, requires an id")
+        }
+
+        //admin can do anything
+        if (user.hasRole(Roles.admin)) {
+            return true
+        }
+
+        let userWishlistRelationItem
+        let wishlistMember
         //if post, we get wishlistId
         //if not, we get user_wishlist_relationId
 
+        //special case, on POST, id = wishlistId
+        if (action == "POST") {
+            const wishlist = await WishlistService.getWishlistByIdNoVerify(
+                user.id,
+                id
+            )
+            wishlistMember = wishlist.member
+        } else {
+            userWishlistRelationItem =
+                await UserWishlistRelationModel.findUser_wishlist_relation_byId(
+                    id
+                )
+            try {
+                wishlistMember =
+                    await WishlistService.getWishlistMemberByUserIdAndWishlistId(
+                        user.id,
+                        userWishlistRelationItem.wishlistid
+                    )
+            } catch (error) {
+                if (error instanceof NotFoundError) {
+                    return false
+                }
+                throw error
+            }
+        }
+        console.log(wishlistMember)
+
         switch (action) {
             case "GET":
+                //only on read access
+                return wishlistMember.hasRole(WishlistRoles.read)
             case "PUT":
             case "POST":
-                //everyone can post
-                user.hasRole(Roles.user)
+                //only write can edit
+                return wishlistMember.hasRole(WishlistRoles.write)
             case "DELETE":
-            //only owner can delete
+                //only owner can delete
+                return wishlistMember.hasRole(WishlistRoles.owner)
+            default:
+                return false
         }
     } catch (error) {
         if (
@@ -307,7 +349,9 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
         ) {
             throw error
         }
-        throw new ServerError("Failed proofing hasUserAccessToUser_Has_Role")
+        throw new ServerError("Failed proofing hasUserAccessToUser_Has_Role", {
+            originalError: error,
+        })
     }
 }
 

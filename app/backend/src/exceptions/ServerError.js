@@ -1,7 +1,7 @@
 import HttpError from "./HttpError.js"
 
 export default class ServerError extends HttpError {
-    constructor(message, statusCode = 500, options) {
-        super(message, statusCode, options)
+    constructor(message, options) {
+        super(message, 500, options)
     }
 }
