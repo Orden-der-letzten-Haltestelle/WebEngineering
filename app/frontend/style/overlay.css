@@ -1,0 +1,53 @@
+.overlay-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.blur {
+    z-index: 3000 !important;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.overlay-inner {
+    position: fixed;
+    max-width: 600px;
+    height: min-content;
+    min-height: 250px;
+    row-gap: 20px;
+    background-color: #d9d9d9;
+    z-index: 3001;
+    border-radius: 8px;
+    display: grid;
+    grid-template-rows: auto min-content;
+    padding: 40px;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 800px) {
+    .overlay-inner {
+        max-width: 400px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .overlay-inner {
+        max-width: 250px;
+        row-gap: 10px;
+        padding: 20px;
+    }
+}

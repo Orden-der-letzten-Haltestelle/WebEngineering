@@ -80,11 +80,11 @@
     <% ["Bannen", "Entbannen", "Befördern", "Degradieren"].forEach(action => {
     %>
     <div
-        class="adminpage-overlay-container <%= action %> hide"
+        class="adminpage-overlay-container overlay-container <%= action %> hide"
         id="adminpage-overlay-<%= action %>-<%= user.id %>"
     >
         <div class="blur"></div>
-        <div class="adminpage-overlay-inner">
+        <div class="adminpage-overlay-inner overlay-inner">
             <p>
                 Sind Sie sicher, dass Sie den Nutzer <%= user.email %> <%=
                 action %> wollen?
