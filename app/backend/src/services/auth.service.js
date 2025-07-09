@@ -375,8 +375,6 @@ async function hasUserAccessToUser(user, id, action) {
                     return false
                 }
                 return true
-
-
         }
     } catch (error) {
         if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError || error instanceof NotImplementedError) {
@@ -388,17 +386,20 @@ async function hasUserAccessToUser(user, id, action) {
 
 async function hasUserAccessToUser_Has_Role(user, id, action) {
     try {
-        //TODO ?? when post, i expect an users.id, but when put i expect an user_has_role.id 
-        // Do we both handle that here? 
-        switch(action){
-            case "GET": 
-            case "PUT": 
+        //only admins can edit roles 
+        switch (action) {
+            case "GET":
+            case "PUT":
             case "POST":
-            case "DELETE": 
+            case "DELETE":
+                return user.hasRole(Roles.admin)
         }
 
     } catch (error) {
-
+        if (error instanceof NotFoundError || error instanceof DatabaseError || error instanceof BadRequestError || error instanceof NotImplementedError) {
+            throw error
+        }
+        throw new ServerError("Failed proofing hasUserAccessToUser_Has_Role")
     }
 }
 
