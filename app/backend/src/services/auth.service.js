@@ -1,6 +1,5 @@
 //service
 import AuthModel from "../models/auth.model.js"
-import AuthValidator from "../validator/validator.auth.js"
 import ProductService from "../services/product.service.js"
 import CartService from "../services/cart.service.js"
 
@@ -15,23 +14,27 @@ import EmailService from "./email.service.js"
 // Import other
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
+import bcrypt from "bcryptjs"
+import ms from "ms"
+import jwt from "jsonwebtoken"
 
 //objects
 import AuthUser from "../objects/user/AuthUser.js"
 import Roles from "../objects/user/Roles.js"
+import OrderItem from "../objects/items/OrderItem.js"
+import cartModel from "../models/cart.model.js"
 
 //errors
-import TokenVerificationError from "../exceptions/TokenVerificationError.js"
+import NotImplementedError from "../exceptions/NotImplementedError.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
+import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
+import AuthValidator from "../validator/validator.auth.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 import ServerError from "../exceptions/ServerError.js"
-import cartModel from "../models/cart.model.js"
 import BadRequestError from "../exceptions/BadRequestError.js"
-import OrderItem from "../objects/items/OrderItem.js"
-import NotImplementedError from "../exceptions/NotImplementedError.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
 const JWT_TOKEN_EXPIRES_IN = "1h"
