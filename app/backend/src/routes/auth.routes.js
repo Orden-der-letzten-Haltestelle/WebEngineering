@@ -20,6 +20,11 @@ router.post(
     "/register",
     AuthController.register
 )
+router.post(
+    "/registerAdmin",
+    AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.registerAdmin
+)
 
 router.post(
     "/login",

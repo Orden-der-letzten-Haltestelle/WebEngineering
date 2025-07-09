@@ -15,6 +15,7 @@ import { compareSync } from "bcryptjs"
  * Das Model Product beinhalted alle SQL-Abfragen
  */
 const DEFAULT_ROLE = Roles.user
+const ADMIN_ROLE = Roles.admin
 
 /**
  * returnes true or false, based on if a user with that email exist.
@@ -231,6 +232,51 @@ async function createUser(username, hashedPassword, email) {
 }
 
 /**
+ * Creates an Admin in the Database
+ * @param {string} username
+ * @param {string} hashedPassword
+ * @param {string} email
+ * @returns {Promise<AuthUser>}
+ * @throws {DatabaseError}
+ */
+async function createAdmin(username, hashedPassword, email) {
+    const client = await pool.connect()
+    try {
+        //start query client, to be abel to rollback if needed
+        await client.query("BEGIN")
+
+        //save user information in db
+        const result = await client.query(
+            `INSERT INTO webshop.users (name, password, email) VALUES ($1, $2, $3) RETURNING id`,
+            [username, hashedPassword, email]
+        )
+        const userId = result.rows[0].id
+
+        //add default role to user
+        await client.query(
+            `INSERT INTO webshop.user_has_role (userid, roleid) VALUES ($1, $2), ($1, $3);`,
+            [userId, DEFAULT_ROLE.id, ADMIN_ROLE.id]
+        )
+
+        //executing all querys
+        await client.query("COMMIT")
+        return new AuthUser(userId, username, email, Date.now(), false, false, [
+            DEFAULT_ROLE.roleName,
+            ADMIN_ROLE.roleName,
+        ])
+    } catch (error) {
+        //When error is thrown, rollback
+        await client.query("ROLLBACK")
+        throw new DatabaseError(
+            `Failed storing admin data in the DB: ${error.message}`,
+            { originalError: error }
+        )
+    } finally {
+        client.release()
+    }
+}
+
+/**
  * saves the token send to user in db, for verification later on
  * @param {string} email
  * @param {string} token
@@ -305,4 +351,5 @@ export default {
     findUserByEmail,
     saveTokenVerification,
     verifyEmail,
+    createAdmin,
 }

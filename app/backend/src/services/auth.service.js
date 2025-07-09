@@ -67,6 +67,35 @@ async function createUser(username, password, email) {
 }
 
 /**
+ * Create an Admin in the DB, hashes the password and sends out an Email
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @returns {Promise<Object>} [user, jwt]
+ */
+async function createAdmin(username, password, email) {
+    //verify, that email and password are fitting requirements.
+    AuthValidator.isSecurePassword(password)
+    await AuthValidator.isValidEmail(email)
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, PASSWORD_HASH_SALT)
+
+    //create user
+    const user = await AuthModel.createAdmin(username, hashedPassword, email)
+
+    // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
+
+    //generate jwtToken
+    const jwt = generateJWTtoken(user)
+    return {
+        user: user,
+        jwt: jwt,
+    }
+}
+
+/**
  * sends verification email, so that users verify themselves via a link provided in the mail
  */
 async function sendVerificationEmail(email) {
@@ -350,5 +379,6 @@ export default {
     verifyEmail,
     sendLoginMail,
     loginWithToken,
+    createAdmin,
     sendVerificationEmail,
 }
