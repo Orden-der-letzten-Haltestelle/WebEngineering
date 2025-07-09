@@ -282,16 +282,15 @@ async function createAdmin(username, hashedPassword, email) {
  * @param {string} token
  * @throws {DatabaseError}
  */
-async function saveTokenVerification(email, token) {
-    console.log(email)
-    console.log(token)
+async function saveTokenVerification(email, token, usecase) {
+    console.log(email, token)
     try {
         const result = await pool.query(
             `INSERT INTO webshop.verificationtokens(
-	        email, token)
-	        VALUES ($1, $2)
+	        email, usecase, token)
+	        VALUES ($1, $2, $3)
             RETURNING *;`,
-            [email, token]
+            [email, usecase, token]
         )
         if (result.rows.length <= 0) {
             throw new NotFoundError(`Failed to insert token into db`)

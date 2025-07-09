@@ -108,9 +108,8 @@ async function sendVerificationEmail(email) {
         return rand() + rand();
     };
     const token = generateToken()
-    console.log(token);
 
-    const resultTokenSave = AuthModel.saveTokenVerification(email, token)
+    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "verify")
 
     let emailBody = `
         <html>
@@ -287,15 +286,20 @@ async function getUserInformationByJWTtoken(token) {
 }
 
 async function sendLoginMail(email) {
-    // verify if the email exists
-    const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
+    const rand = () => {
+        return Math.random().toString(36).substr(2);
+    };
 
-    // create a token
-    const jwt = generateJWTtoken(advancedAuthUser)
+    const generateToken = () => {
+        return rand() + rand();
+    };
+    const token = generateToken()
+
+    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "login")
 
     // create the link
     const host = `http://localhost:3000` // TO DO: Dynamic from config.js
-    const link = `${host}/loginMail/Link?token=${jwt.token}`
+    const link = `${host}/user/login/${token}?token=${token}`
 
     // send email
     const date = new Date()
@@ -303,17 +307,22 @@ async function sendLoginMail(email) {
         date.getMonth() + 1
     ).padStart(2, "0")}.${date.getFullYear()}`
 
+    const subject = `Link zur Anmeldung vom ${formattedDate}`
+
     let emailBody = `
-    <html>
+        <html>
         <head>
             <style>
-                body {
+               body {
                     font-family: Arial, sans-serif;
                     line-height: 1.6;
                 }
                 h1 {
-                    color: #333;
+                    color: #DBC70C;
                     text-align: center;
+                    font-size: 16;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
                 }
                 p {
                     color: #000;
@@ -322,15 +331,9 @@ async function sendLoginMail(email) {
                     padding-bottom: 30px;
                 }
                 a {
-                    color: #dbc70c;
-                    text-decoration: underline;
-                    font-size: 12px;
-                    text-align: center;
-                }
-                #login {
-                    padding-top: 40px;
-                    padding-bottom:40px;
-                    font-size: 20px;
+                    color: #DBC70C;
+                    font-size: 12;
+                    text-decoration: underline; 
                     text-align: center
                 }
                 a:hover {
@@ -340,26 +343,17 @@ async function sendLoginMail(email) {
                 }
             </style>
         </head>
-        <h1>Login mit Email ${formattedDate}</h1>
-        <p>
-            Es wurde versucht sich mit dieser Email einzuloggen, falls Sie dies versucht haben, klicken Sie auf den unteren Link.
-        </p>
-        <p>
-            Wenn Sie diese Email nicht gesendet haben, so melden Sie dies dem Support.
-        </p>
-        <p>
-            <a id="login" href="${link}"><b>Login</b></a>
-        </p>
-        <p>
-            <a id="mail" href="mailto:ordenderletztenhaltestelle@gmail.com"><b>Email an den Support</b></a>
-        </p>
+        <body>
+        <h1>Link zur Anmeldung - OdlH</h1>
+        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige anmeldung abzuschließen:<p>
+        <a href="${link}"><b>Anmelden</b></a>
         </body>
         </html>
     `
 
     EmailService.sendHtmlMail(
         email,
-        `Login Link ${formattedDate}`,
+        subject,
         emailBody
     )
 
