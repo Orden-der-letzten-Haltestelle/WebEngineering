@@ -1,3 +1,4 @@
+import { isAdmin } from "../../api/AuthApiHandler.js"
 import { isTokenGiven } from "../../helper.js"
 
 // Function to load the navbar HTML and attach event listeners
@@ -117,6 +118,12 @@ async function loadNavbar() {
     } catch (error) {
         console.error("Error loading or processing navbar:", error)
     }
+
+    // Show or not show the admin Link
+    // const adminLink = document.getElementById("adminLink");
+    // if (adminLink) {
+    //     adminLink.style.display = "flex"
+    // }
 }
 
 // Ensure the main HTML document is ready before attempting to load the navbar
