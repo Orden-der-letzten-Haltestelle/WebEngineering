@@ -54,7 +54,7 @@
     margin-top: 10px;
 }
 
-.buttons-container > .button {
+.buttons-container .button {
     padding: 8px;
     border-radius: 6px;
     border: 1px solid transparent;
@@ -62,11 +62,11 @@
     cursor: pointer;
 }
 
-.buttons-container > .button.Erstellen {
+.buttons-container .button.Erstellen {
     background-color: var(--highlight-color);
 }
 
-.buttons-container > .button:hover {
+.buttons-container .button:hover {
     opacity: 0.8;
 }
 
