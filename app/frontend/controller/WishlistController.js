@@ -1,15 +1,5 @@
-import { deleteWishlistItemById, updateWishlistItemAmount, deleteWishlistItemById } from "../api/WishlistApiHandler.js";
+import { updateWishlistItemAmount, deleteWishlistItemById, updateWishlistInfo } from "../api/WishlistApiHandler.js";
 
-window.handleDeleteWishlistItemById = function handleDeleteWishlistItemById(id, token) {
-    deleteWishlistItemById(id, token).then(() => {
-
-    }).catch((err) => {
-        alert(
-            "❌ Failed to delete WishlistItem: " + (err.message || "Unknown error")
-        )
-        console.error(err)
-    })
-}
 
 window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(WishlistItemId, newAmount, token) {
     updateWishlistItemAmount(WishlistItemId, newAmount, token).then(() => {
@@ -27,4 +17,17 @@ window.handleDeleteWishlistItemById = function handleDeleteWishlistItemById(id, 
         alert("❌ Failed to delete WishlistItem: " + (err.message || "Unknown error"));
         console.error(err)
     })
+}
+
+window.handleUpdateWishlistInfo = function handleUpdateWishlistInfo(id, token) {
+    const wishlistName = document.getElementById('wishlistName').value;
+    const description = document.getElementById('description').value;
+
+    updateWishlistInfo(id, token, wishlistName, description).then(() => {
+        window.location.reload()
+    }).catch((err) => {
+        alert("❌ Failed to update wishlist info: " + (err.message || "Unknown error"));
+        console.error(err)
+    })
+
 }

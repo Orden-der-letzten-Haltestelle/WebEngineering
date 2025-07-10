@@ -11,6 +11,7 @@ export default async function DetailedWishlistPageLoader(req, res) {
     const wishlistId = req.params.wishlistId
     const token = req.token
     const wishlist = await getWishlistById(wishlistId, token)
+    console.log(wishlist.description)
 
     return {
         title: "DetailedWishlistPage",

@@ -14,7 +14,7 @@
         <h2>
             <%=wishlist.name%>
         </h2>
-        <button> Bearbeiten </button>
+        <button onclick="toggleEditOverlay()"> Bearbeiten </button>
     </div>
     <% wishlist.wishlistItems.forEach((item)=>{%>
         <div class="DetailedwishlistItem">
@@ -52,15 +52,48 @@
                     onclick="handleAddtocart('<%= item.product.id %>', '<%= token %>', '<%= item.amount %>')">In den
                     Warenkorb</button>
 
-                <button class="trash">
-
-                    <img src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png"
-                        alt="Löschen">
-                </button>
+                <img onclick="handleDeleteWishlistItemById('<%= item.id %>', '<%= token %>')" class="trash"
+                    src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png"
+                    alt="Löschen">
             </div>
         </div>
         <%}) %>
-            <button class="newprofile">
-                <p> Neue Wunschliste erstellen </p>
-            </button>
+
+            <div class="overlay-container hide edit-overlay" id="edit-overlay">
+                <div class="blur" onclick="toggleEditOverlay()"></div>
+                <div class="overlay-inner">
+                    <div class="input-container">
+
+                        <label for="wishlistName">Name: </label>
+                        <input id="wishlistName" name="wishlistName" class="default-input"
+                            value="<%= wishlist.name %>" />
+                        <label for="description">Beschreibung:</label>
+                        <textarea name="description" id="description" class="default-textarea"
+                            value="<%= wishlist.description %>"><%= wishlist.description %></textarea>
+                    </div>
+                    <div class="overlay-button-container">
+                        <button class="overlay-button abbruch" onclick="handleAbbruch()">
+                            Abbruch
+                        </button>
+                        <button class="overlay-button confirm"
+                            onclick="handleUpdateWishlistInfo('<%= wishlist.id %>', '<%= token %>')">
+                            Speichern
+                        </button>
+                    </div>
+
+                </div>
+            </div>
 </div>
+
+<script>
+    function handleAbbruch() {
+        const description = document.getElementById("description").value = "<%=wishlist.description %>"
+        const wishlistName = document.getElementById("wishlistName").value = "<%=wishlist.name %>"
+        toggleEditOverlay()
+    }
+
+    function toggleEditOverlay() {
+        const overlay = document.getElementById("edit-overlay")
+        overlay.classList.toggle("hide")
+    }
+</script>

@@ -51,3 +51,25 @@ export async function deleteWishlistItemById(id, token) {
     }
     return await res.json()
 }
+
+
+export async function updateWishlistInfo(id, token, name, description) {
+    const res = await fetch(`${config.host}/wishlist/${id}`, {
+        method: "PUT",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            name: name,
+            description: description
+        })
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || `Failed to delete WishlistItem with id ${id}`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
