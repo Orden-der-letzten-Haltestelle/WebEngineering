@@ -60,8 +60,8 @@ export async function deleteCart(token) {
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }
-export async function addproductTocart(productId, token) {
-    const res = await fetch(`${config.host}/cart/product/${productId}`, {
+export async function addproductTocart(productId, token, amount = 1) {
+    const res = await fetch(`${config.host}/cart/product/${productId}?amount=${amount}`, {
         method: "POST",
         headers: {
             Authorization: token
