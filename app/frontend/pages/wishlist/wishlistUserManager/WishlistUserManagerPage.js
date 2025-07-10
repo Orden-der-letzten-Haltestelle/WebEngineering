@@ -1,3 +1,5 @@
+import { getWishlistById } from "../../../api/WishlistApiHandler.js"
+
 /**
  * Diese funktion läd alle daten, und returned ein object, um diese im .ejs zu laden
  *
@@ -6,11 +8,15 @@
  */
 export default async function WishlistUserManagerPageLoader(req, res) {
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
+    const wishlistId = req.params.wishlistId
+    const token = req.token
+    const wishlist = await getWishlistById(wishlistId, token)
 
+    console.log(wishlist.members)
     return {
         title: "WishlistUserManager",
-        /* Hier werden die Daten der BeispielComponenten übergeben */
-        /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: [],
+        members: wishlist.members,
+        token: token,
+        components: ["WishlistMember"],
     }
 }

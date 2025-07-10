@@ -1,3 +1,7 @@
 <div id="wishlistUserManagerPage-container">
-
+    <div class="member-list">
+        <% members.forEach((member)=> { %> <%-
+        include("../../../components/WishlistMember/WishlistMember", { member:
+        member, token: token }) %> <% }) %>
+    </div>
 </div>
