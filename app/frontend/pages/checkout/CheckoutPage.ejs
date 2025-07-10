@@ -63,11 +63,11 @@
         <%= (checkoutItems.reduce((sum, item)=> sum + item?.product?.price * (item?.amount || 1), 0) / 100).toFixed(2) %> €
       </p>
       <div class="checkoutPage-button-container">
-        <a href="/cart">
-          <button class="checkout-button-interrupt">Abbruch</button>
-        </a>
         <a href="/checkout/confirm">
           <button class="checkout-button-buy" onclick="handleCheckout('<%= token %>')">Bestellen</button>
+        </a>
+        <a href="/cart">
+          <button class="checkout-button-interrupt">Abbruch</button>
         </a>
       </div>
     </div>
