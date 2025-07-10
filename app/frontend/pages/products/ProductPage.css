@@ -65,11 +65,18 @@
     color: #333;
 }
 
-.products-info p {
+.products-info p {}
+
+.description {
     font-size: 0.95em;
     color: #555;
     flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
+
+
 
 .price-buy {
     display: flex;
