@@ -16,14 +16,18 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
-import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
-import ProductPageLoader from "./pages/products/ProductPage.js"
+import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
+import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
-import AdminPageLoader from "./pages/admin/AdminPage.js"
+import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
+import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
+import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
+import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
 import WishlistSelectionPageLoader from "./pages/wishlist/wishlistSelection/wishlistSelection.js"
+
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -33,7 +37,18 @@ const __dirname = path.dirname(__filename)
 router.get(
     "/",
     notRequiredAuth,
-    handlePage(ProductPageLoader, "pages/products/ProductPage", {
+    handlePage(ProductPageLoader, "pages/products/productPage/ProductPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* ProductDetailled Page*/
+
+router.get(
+    "/product/:productId",
+    notRequiredAuth,
+    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -100,10 +115,14 @@ router.get(
 /* LoginPage Support for forgotten Password */
 router.get(
     "/login/passwordSupport",
-    handlePage(LoginSupportPageLoader, "pages/login/PasswordSupport/passwordSupport", {
-        excludeNavbar: true,
-        excludeFooter: true,
-    })
+    handlePage(
+        LoginSupportPageLoader,
+        "pages/login/PasswordSupport/passwordSupport",
+        {
+            excludeNavbar: true,
+            excludeFooter: true,
+        }
+    )
 )
 
 /* Verification of Mail Page */
@@ -157,21 +176,57 @@ router.get(
 router.get(
     "/wishlist",
     requireAuth,
-    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        WishlistOverviewPageLoader,
+        "pages/wishlist/wishlist_overview/wishlist_overview",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* admin */
 router.get(
-    "/admin",
+    "/admin/",
     requireAuth,
     requireAdmin,
-    handlePage(AdminPageLoader, "pages/admin/AdminPage", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        AdminDashboardPageLoader,
+        "pages/admin/adminDashboard/AdminDashboardPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+router.get(
+    "/admin/users",
+    requireAuth,
+    requireAdmin,
+    handlePage(
+        UserManagerPageLoader,
+        "pages/admin/userManager/UserManagerPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+router.get(
+    "/admin/product",
+    requireAuth,
+    requireAdmin,
+    handlePage(
+        CreateProductPageLoader,
+        "pages/admin/createProduct/CreateProductPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* about */
@@ -231,7 +286,8 @@ async function notRequiredAuth(req, res, next) {
 
     //when token given, then get user Information
     try {
-        req.user = await fetchUser(token)
+        const user = await fetchUser(token)
+        req.user = user
         req.token = token
         next()
     } catch (err) {

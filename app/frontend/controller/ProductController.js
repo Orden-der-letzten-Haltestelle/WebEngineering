@@ -1,12 +1,15 @@
 import { addproductTocart } from "../api/CartApiHandler.js"
+import { updateProduct, deleteProduct, createProduct } from "../api/productApiHandler.js"
 import { showToast } from "../helper.js"
 
 window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
-    e,
+    e = undefined,
     productId,
     token
 ) {
-    e.preventDefault()
+    if (e?.preventDefault != undefined) {
+        e?.preventDefault()
+    }
 
     if (token == "") {
         console.log("Token has to be given")
@@ -22,4 +25,64 @@ window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
                 console.error(err)
             })
     }
+}
+
+window.handleUpdateProduct = function handleUpdateProduct(
+    event,
+    productId,
+    token
+) {
+    event.preventDefault()
+    const name = document.getElementById("name").value
+    const description = document.getElementById("description").value
+    const price = document.getElementById("price").value * 100
+    const amount = document.getElementById("amount").value
+    updateProduct(productId, token, name, description, price, amount)
+        .then(() => {
+            window.location.reload()
+        })
+        .catch((err) => {
+            alert(
+                "❌ failed Update Product information: " +
+
+                (err.message || "Unknown error")
+            )
+            console.error(err)
+        })
+}
+
+window.handleCreateProduct = function handleCreateProduct(event, token) {
+    event.preventDefault()
+
+    const name = document.getElementById("productName").value
+    const description = document.getElementById("description").value
+    const amount = document.getElementById("amount").value
+    const price = document.getElementById("price").value * 100
+
+    createProduct(token, name, description, amount, price)
+        .then((res) => {
+            console.log(res)
+            window.location.href = `http://localhost:3000/product/${res.id}`
+        })
+        .catch((err) => {
+            alert(
+                "❌ Creating new Product Failed: " + (err.message || "Unknown error")
+            )
+            console.error(err)
+        })
+
+}
+
+
+window.handleDeleteProduct = function handleDeleteProduct(productId, token) {
+    deleteProduct(productId, token)
+        .then(() => {
+            window.location.href = "http://localhost:3000"
+        })
+        .catch((err) => {
+            alert(
+                "❌ failed Delete Product: " + (err.message || "Unknown error")
+            )
+            console.error(err)
+        })
 }
