@@ -42,11 +42,7 @@ window.handleUpdateProduct = function handleUpdateProduct(
             window.location.reload()
         })
         .catch((err) => {
-            alert(
-                "❌ failed Update Product information: " +
-
-                (err.message || "Unknown error")
-            )
+            showToast("❌ failed Update Product information: " +(err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -65,9 +61,7 @@ window.handleCreateProduct = function handleCreateProduct(event, token) {
             window.location.href = `http://localhost:3000/product/${res.id}`
         })
         .catch((err) => {
-            alert(
-                "❌ Creating new Product Failed: " + (err.message || "Unknown error")
-            )
+            showToast("❌ Creating new Product Failed: " + (err.message || "Unknown error"))
             console.error(err)
         })
 
@@ -80,9 +74,7 @@ window.handleDeleteProduct = function handleDeleteProduct(productId, token) {
             window.location.href = "http://localhost:3000"
         })
         .catch((err) => {
-            alert(
-                "❌ failed Delete Product: " + (err.message || "Unknown error")
-            )
+            showToast("❌ failed Delete Product: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
