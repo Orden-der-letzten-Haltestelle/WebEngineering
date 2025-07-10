@@ -19,7 +19,6 @@ export async function getWishlists(token) {
 }
 
 export async function createWishlist(token, name, description) {
-    console.log("test")
     const res = await fetch(`${config.host}/wishlist/`, {
         method: "POST",
         headers: {
@@ -40,26 +39,19 @@ export async function createWishlist(token, name, description) {
     return await res.json()
 }
 
-export async function createProduct(token, name, description, amount, price) {
-    const res = await fetch(`${config.host}/products/`, {
-        method: "POST",
+export async function deleteWishlist(token, wishlistId) {
+    const res = await fetch(`${config.host}/wishlist/${wishlistId}`, {
+        method: "DELETE",
         headers: {
             Authorization: token,
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            name: name,
-            description: description,
-            amount: amount,
-            price: price,
-        }),
     })
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || "Failed to create Product"
+        const errorMessage = errorData.message || `Failed to delete wishlist`
         throw new ApiError(errorMessage, res.status, errorData)
     }
-
     return await res.json()
 }
