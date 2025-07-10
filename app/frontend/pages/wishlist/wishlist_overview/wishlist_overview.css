@@ -19,38 +19,34 @@
   opacity: 0.7;
 }
 
-.Profilreihe {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 1%;
-    margin-bottom: 1%;
-    width: 60vw;
-    height: 20%;
-    gap: 25%;
-}
-
 .Profil {
     display: flex;
     padding: 2% 2%;
     background-color: rgb(231, 231, 231);
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
-    height: 100%;
-    width: 40%;
+    width: 50%;
     font-size: 12px;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    align-items: stretch;
+    height: auto;
 }
 
 .Spalte1 {
-    width: 60%;
+    height: auto;
     height: 100%;
-    overflow: hidden;
+    width: 60%;
+    white-space: normal;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .Spalte2 {
     width: 40%;
-    height: 100%;
+    align-self: stretch;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -67,13 +63,6 @@
 
 .Überschrift {
     display: block;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 8%;
 }
 
 .Produkte {
@@ -127,22 +116,9 @@
   box-sizing: border-box;  
 }
 
-@media (min-width: 935px) and (max-width: 1130px) {
-    .heart {
-        display: none;
-    }
-}
+
 
 @media (max-width: 935px) {
-    .Profilreihe {
-        flex-direction: column;
-        width: 90vw;
-        gap: 3%;
-        height: auto;
-        margin-bottom: 2%;
-        margin-top: 2%;
-    }
-
     .Profil {
         width: 90vw;
         height: auto;
@@ -150,7 +126,8 @@
         align-items: center;
         padding: 4%;
         font-size: 14px;
-        margin-bottom: 2%;
+        margin-bottom: 3%;
+        margin-top: 3%;
     }
 
     .Spalte1,
@@ -175,8 +152,11 @@
         order: 1;
     }
     .Produkte {
-    padding-left: 15%;
+        padding-left: 15%;
     }   
+    .newprofile {
+        margin-bottom: 3%;
+    }
 }
 
 /* Overlay-Stil */

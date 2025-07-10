@@ -1,15 +1,12 @@
 <div id="wishlistOverview-content">
     <% wishlists.forEach(wishlist => {%>
-    <div class="Profilreihe">
         <div class="Profil">
             <div class="Spalte1">
-                <div class="header">
                     <a href="http://localhost:3000/wishlist/<%= wishlist.id %>">
                         <img class="heart" src="http://localhost:3000/img/heart-svgrepo-com.svg">
                     </a>
                     <p> <strong class="Überschrift">Name:</strong> <%= wishlist.name %> </p>
-                </div>
-                <p> <strong class="Überschrift">Beschreibung:</strong> <%= wishlist.description %></p>
+                    <p> <strong class="Überschrift">Beschreibung:</strong> <%= wishlist.description %></p>
             </div>
             <div class="Spalte2">
                 <button id="deleteWishlist" data-id="<%= wishlist.id %>" onclick="document.getElementById('wishlistDeleteOverlay').style.display = 'flex';">
@@ -17,7 +14,6 @@
                 </button>
             </div>
         </div>
-    </div>
     <% }) %>
     <button class="newprofile" onclick="document.getElementById('wishlistCreateOverlay').style.display = 'flex';">
         <p> Neue Wunschliste erstellen </p>
