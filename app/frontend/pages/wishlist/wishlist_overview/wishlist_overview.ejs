@@ -1,31 +1,39 @@
 <div id="wishlistOverview-content">
+    <% wishlists.forEach(wishlist => {%>
     <div class="Profilreihe">
         <div class="Profil">
             <div class="Spalte1">
                 <div class="header">
-                    <img class="heart" src="http://localhost:3000/img/heart-svgrepo-com.svg">
-                    <p> <strong class="Überschrift">Name:</strong> Beispielname </p>
+                    <a href="http://localhost:3000/wishlist/<%= wishlist.id %>">
+                        <img class="heart" src="http://localhost:3000/img/heart-svgrepo-com.svg">
+                    </a>
+                    <p> <strong class="Überschrift">Name:</strong> <%= wishlist.name %> </p>
                 </div>
-                <p> <strong class="Überschrift">Beschreibung:</strong> Diese Liste enthält alle meine Wunschprodukte</p>
-                <p> <strong class="Überschrift">Besitzer:</strong> BeispielUser1</p>
-                <p> <strong class="Überschrift">Berechtigte:</strong> Beispieluser2, Beispieluser3 </p>
+                <p> <strong class="Überschrift">Beschreibung:</strong> <%= wishlist.description %></p>
             </div>
             <div class="Spalte2">
-                <div>
-                    <p> <strong class="Überschrift"> Enthaltene Prodokute </strong></p>
-                    <ul class="Produkte">
-                        <li> Beispielitem1 </li>
-                        <li> Beispielitem2 </li>
-                        <li> Beispielitem3 </li>
-                        <li> Beispielitem4 </li>
-                        <li> Beispielitem5 </li>
-                    </ul>
-                </div>
                 <img class="trash" src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png">
             </div>
         </div>
     </div>
-    <button class="newprofile">
+    <% }) %>
+    <button class="newprofile" onclick="document.getElementById('wishlistCreateOverlay').style.display = 'flex';">
         <p> Neue Wunschliste erstellen </p>
     </button>
+</div>
+
+<!-- Wunschliste-Erstellen-Overlay -->
+<div id="wishlistCreateOverlay" class="overlay" style="display: none">
+    <div class="modal">
+        <form id="newWishlist" onsubmit='handleCreateWishlist(event, token); document.getElementById("wishlistCreateOverlay").style.display = "none";'>
+            <label for="name-new">Name</label>
+            <input type="text" id="name-new" name="name-new" required>
+            
+            <label for="description-new">Beschreibung</label>
+            <input type="text" id="description-new" name="description-new" required>
+            <div class="button-wrapper">
+                <button type="submit">Wunschliste erstellen</button>
+            </div>
+        </form>
+    </div>
 </div>

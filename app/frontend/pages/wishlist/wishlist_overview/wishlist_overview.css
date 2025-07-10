@@ -25,7 +25,7 @@
     margin-top: 1%;
     margin-bottom: 1%;
     width: 60vw;
-    height: 35vh;
+    height: 20vh;
     gap: 25%;
 }
 
@@ -43,6 +43,7 @@
 .Spalte1 {
     width: 60%;
     height: 100%;
+    overflow: hidden;
 }
 
 .Spalte2 {
@@ -130,4 +131,84 @@
     .Produkte {
     padding-left: 15%;
     }   
+}
+
+/* Overlay-Stil */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* Modal-Stil */
+.modal {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 450px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
+
+.modal h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.modal p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Extra Button-Stil */
+.grau {
+    background: #eee;
+    color: #888;
+}
+
+/* Overlay-Hintergrund */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none; /* wird per JS auf display: block gesetzt */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Overlay-Box (zentriert) */
+.overlay-box {
+    background-color: white;
+    padding: 40px 60px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.modal .bottom-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modal .bottom-buttons button {
+    flex: 1 1 40%;
+    min-width: 120px;
+    max-width: 180px;
 }
