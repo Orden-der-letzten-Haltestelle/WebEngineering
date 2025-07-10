@@ -2,6 +2,9 @@
 import AuthModel from "../models/auth.model.js"
 import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 
+// Import EmailService
+import EmailService from "./email.service.js"
+
 // Import other
 import ForbiddenError from "../exceptions/ForbiddenError.js"
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
@@ -15,7 +18,7 @@ import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
-const JWT_TOKEN_EXPIRES_IN = "1h"
+const JWT_TOKEN_EXPIRES_IN = "1d"
 const BEARER_PREFIX = "Bearer"
 const PASSWORD_HASH_SALT = 10
 
@@ -53,6 +56,7 @@ async function createUser(username, password, email) {
     const user = await AuthModel.createUser(username, hashedPassword, email)
 
     // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
 
     //generate jwtToken
     const jwt = generateJWTtoken(user)
@@ -60,6 +64,111 @@ async function createUser(username, password, email) {
         user: user,
         jwt: jwt,
     }
+}
+
+/**
+ * Create an Admin in the DB, hashes the password and sends out an Email
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @returns {Promise<Object>} [user, jwt]
+ */
+async function createAdmin(username, password, email) {
+    //verify, that email and password are fitting requirements.
+    AuthValidator.isSecurePassword(password)
+    await AuthValidator.isValidEmail(email)
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, PASSWORD_HASH_SALT)
+
+    //create user
+    const user = await AuthModel.createAdmin(username, hashedPassword, email)
+
+    // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
+
+    //generate jwtToken
+    const jwt = generateJWTtoken(user)
+    return {
+        user: user,
+        jwt: jwt,
+    }
+}
+
+/**
+ * sends verification email, so that users verify themselves via a link provided in the mail
+ */
+async function sendVerificationEmail(email) {
+    const subject = "Bitte verifizieren Sie Ihre Email"
+    const rand = () => {
+        return Math.random().toString(36).substr(2);
+    };
+
+    const generateToken = () => {
+        return rand() + rand();
+    };
+    const token = generateToken()
+
+    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "verify")
+
+    let emailBody = `
+        <html>
+        <head>
+            <style>
+               body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #DBC70C;
+                    text-align: center;
+                    font-size: 16;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
+                }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
+                a {
+                    color: #DBC70C;
+                    font-size: 12;
+                    text-decoration: underline; 
+                    text-align: center
+                }
+                a:hover {
+                    color:rgb(50, 48, 48); 
+                    text-decoration:underline; 
+                    cursor:pointer;  
+                }
+            </style>
+        </head>
+        <body>
+        <h1>Verifizierung Ihres Accounts - OdlH</h1>
+        <p>Bitte klicken Sie auf diesen Link, um ihre Registrierung abzuschließen und ihre Email zu verifizieren:<p>
+        <a href="http://localhost:3000/user/verify/${token}"><b>Registrierung abschließen</b></a>
+        </body>
+        </html>
+    `
+
+    EmailService.sendHtmlMail(
+        email,
+        subject,
+        emailBody
+    )
+}
+
+/**
+ * Verifys the email of a newly registered user
+ * @param {int} userId
+ * @param {string} token
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function verifyEmail(token) {
+    return await AuthModel.verifyEmail(token)
 }
 
 /**
@@ -123,15 +232,15 @@ async function extractTokenAndVerify(token, requiredRole) {
 
     //gets an AuthUser Object to verify whether the user is banned
     const authUser = await getAuthUser(user.id)
-    
+
     if (authUser.isBanned) {
-        throw new ForbiddenError("User is banned!");
+        throw new ForbiddenError("User is banned!")
     }
 
     //or not yet verified and therefore can't access
-    if (!authUser.isVerified) {
-        throw new ForbiddenError("User is not verified yet!")
-    }
+    // if (!authUser.isVerified) {
+    //     throw new ForbiddenError("User is not verified yet!")
+    // }
 
     return user
 }
@@ -176,9 +285,102 @@ async function getUserInformationByJWTtoken(token) {
     }
 }
 
+async function sendLoginMail(email) {
+    const rand = () => {
+        return Math.random().toString(36).substr(2);
+    };
+
+    const generateToken = () => {
+        return rand() + rand();
+    };
+    const token = generateToken()
+
+    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "login")
+
+    // create the link
+    const host = `http://localhost:3000` // TO DO: Dynamic from config.js
+    const link = `${host}/user/login/${token}?token=${token}`
+
+    // send email
+    const date = new Date()
+    const formattedDate = `${String(date.getDate()).padStart(2, "0")}.${String(
+        date.getMonth() + 1
+    ).padStart(2, "0")}.${date.getFullYear()}`
+
+    const subject = `Link zur Anmeldung vom ${formattedDate}`
+
+    let emailBody = `
+        <html>
+        <head>
+            <style>
+               body {
+                    font-family: Arial, sans-serif;
+                    line-height: 1.6;
+                }
+                h1 {
+                    color: #DBC70C;
+                    text-align: center;
+                    font-size: 16;
+                    padding-top: 40px;
+                    padding-bottom: 40px;
+                }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
+                a {
+                    color: #DBC70C;
+                    font-size: 12;
+                    text-decoration: underline; 
+                    text-align: center
+                }
+                a:hover {
+                    color:rgb(50, 48, 48); 
+                    text-decoration:underline; 
+                    cursor:pointer;  
+                }
+            </style>
+        </head>
+        <body>
+        <h1>Link zur Anmeldung - OdlH</h1>
+        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige anmeldung abzuschließen:<p>
+        <a href="${link}"><b>Anmelden</b></a>
+        </body>
+        </html>
+    `
+
+    EmailService.sendHtmlMail(
+        email,
+        subject,
+        emailBody
+    )
+
+    return link
+}
+
+async function singleLogin(token) {
+    const email = await AuthModel.singleLogin(token)
+    const advancedAuthUser = await AuthModel.findAdvancedAuthUserByEmail(email)
+
+    //generate JWT token
+    const jwt = generateJWTtoken(advancedAuthUser)
+    //return user with out password and jwt token
+    return {
+        user: advancedAuthUser.getAuthUser(),
+        jwt: jwt
+    }
+}
+
 export default {
     getAuthUser,
     createUser,
     extractTokenAndVerify,
     verifyLoginInformation,
+    verifyEmail,
+    sendLoginMail,
+    createAdmin,
+    sendVerificationEmail,
+    singleLogin,
 }

@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer"
 import SendEmailError from "../exceptions/SendEmailError.js"
+import dotenv from 'dotenv';
+
+dotenv.config();    //needed for the password
 
 //email setup
 const transporter = nodemailer.createTransport({

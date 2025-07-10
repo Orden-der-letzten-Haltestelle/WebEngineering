@@ -19,7 +19,7 @@ async function getAuthUser(req, res) {
         const authUser = await AuthService.getAuthUser(userId)
 
         res.status(200).json({
-            authUser,
+            ...authUser,
         })
     } catch (error) {
         console.log(
@@ -51,7 +51,6 @@ function verifyJWTtoken(requiredRole) {
     return async function (req, res, next) {
         try {
             const token = req.headers.authorization
-
             const user = await AuthService.extractTokenAndVerify(
                 token,
                 requiredRole
@@ -75,9 +74,8 @@ function verifyJWTtoken(requiredRole) {
 }
 
 async function register(req, res) {
+    const { username, password, email } = req.body
     try {
-        const { username, password, email } = req.body
-
         const userAndToken = await AuthService.createUser(
             username,
             password,
@@ -91,6 +89,32 @@ async function register(req, res) {
     } catch (error) {
         console.log(
             `Failed sign up with email ${email}; \Message: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function registerAdmin(req, res) {
+    const { username, password, email } = req.body
+    try {
+        const userAndToken = await AuthService.createAdmin(
+            username,
+            password,
+            email
+        )
+
+        console.log(`Signed up Admin Successfully, with id ${userAndToken.user.id}`)
+        res.status(201).json({
+            ...userAndToken,
+        })
+    } catch (error) {
+        console.log(
+            `Failed sign up Admin with email ${email}; \Message: ${error?.message}; \nStack: ${error?.stack}`
         )
 
         const statusCode = error?.statusCode || 500
@@ -125,9 +149,97 @@ async function login(req, res) {
     }
 }
 
+async function verifyEmail(req, res) {
+    const token = req.params.token
+    try {
+        const userVerified = await AuthService.verifyEmail(
+            token
+        )
+        console.log(`User successfully verified`)
+        res.json({
+            ...userVerified,
+        })
+    } catch (error) {
+        console.log(
+            `Failed verification; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function sendVerifyMail(req, res) {
+    const email = req.body.email
+    try {
+        const mailSent = await AuthService.sendVerificationEmail(
+            email
+        )
+        console.log(`User with the email ${email}, successfully got sent another Mail`)
+        res.json({
+            ...mailSent,
+        })
+    } catch (error) {
+        console.log(
+            `Failed to resent mail with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function sendMail(req, res) {
+    const { email } = req.body
+    try {
+        const result = await AuthService.sendLoginMail(email)
+
+        res.json({
+            email: email
+        })
+    } catch (error) {
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function singleLogin(req, res) {
+    const token = req.params.token
+    try {
+        const userAndToken = await AuthService.singleLogin(
+            token
+        )
+        console.log(`User successfully singed In`)
+        res.json({
+            ...userAndToken,
+        })
+    } catch (error) {
+        console.log(
+            `Failed Sign In; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getAuthUser,
     register,
     login,
     verifyJWTtoken,
+    verifyEmail,
+    sendMail,
+    registerAdmin,
+    sendVerifyMail,
+    singleLogin,
 }

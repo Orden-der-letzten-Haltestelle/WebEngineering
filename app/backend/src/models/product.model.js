@@ -157,7 +157,6 @@ async function createProduct(name, description, amount, price) {
 
 async function updateProduct(id, name, description, amount, price) {
     try {
-        console.    log(id)
         const result = await pool.query(
             `
             UPDATE webshop.products
@@ -174,10 +173,7 @@ async function updateProduct(id, name, description, amount, price) {
         if (error instanceof NotFoundError) {
             throw error
         }
-        throw new DatabaseError(
-            `Failed to edit the Product ${error}`,
-            error
-        )
+        throw new DatabaseError(`Failed to edit the Product ${error}`, error)
     }
 }
 
@@ -207,7 +203,9 @@ async function deleteProductById(productId) {
             [productId]
         )
         if (result_products.rows.length <= 0) {
-            throw new NotFoundError(`Product with id ${id} doesn't exist`)
+            throw new NotFoundError(
+                `Product with id ${productId} doesn't exist`
+            )
         }
 
         await pool.query("COMMIT")

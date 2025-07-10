@@ -4,6 +4,7 @@ import BasicUser from "../objects/user/BasicUser.js"
 import AuthModel from "../models/auth.model.js"
 import { pool } from "./pool.js"
 import AuthUser from "../objects/user/AuthUser.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 /**
  * Returns a BasicUser by userId, if no user with that id exist, an NotFoundError will be thrown
@@ -62,9 +63,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultRole.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const userIsOwnerOfWishlist = await pool.query(
             `SELECT * FROM webshop.user_wishlist_relation as w
             WHERE w.userid = $1 and w.wishlistroleid = 1;
@@ -72,7 +70,6 @@ async function deleteUserById(userId) {
             [userId]
         )
         if (userIsOwnerOfWishlist.rows.length > 0) {
-            console.log("is owner of wishlist")
             const idWishlist = userIsOwnerOfWishlist.rows[0].wishlistid
             const deleteWishlistItems = await pool.query(
                 `DELETE FROM webshop.wishlistitems as wi
@@ -81,7 +78,7 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if (resultRole.rows.length <= 0) {
+            if (deleteWishlistItems.rows.length <= 0) {
                 throw new DatabaseError("Failed to delete wishlist items")
             }
             const deleteRolesOfOthers = await pool.query(
@@ -119,9 +116,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultWishlist.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
         const resultCart = await pool.query(
             `
             DELETE FROM
@@ -132,10 +126,6 @@ async function deleteUserById(userId) {
             `,
             [userId]
         )
-        if (resultCart.rows.length <= 0) {
-            console.log("nothing deleted")
-        }
-
         const result = await pool.query(
             `
             DELETE FROM
@@ -292,7 +282,7 @@ async function makeAdmin(userId) {
             [userId]
         )
         if (!(checkIfAdmin.rows.length <= 0)) {
-            throw new NotFoundError(`User with id ${userId} is already admin`)
+            throw new BadRequestError(`User with id ${userId} is already admin`)
         } else {
             const result = await pool.query(
                 `INSERT INTO webshop.user_has_role(
@@ -311,7 +301,7 @@ async function makeAdmin(userId) {
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof NotFoundError || error instanceof BadRequestError) {
             throw error
         }
         throw new DatabaseError(
@@ -343,7 +333,7 @@ async function makeNoAdmin(userId) {
             [userId]
         )
         if (checkIfAdmin.rows.length <= 0) {
-            throw new NotFoundError(`User with id ${userId} is not an admin`)
+            throw new BadRequestError(`User with id ${userId} is already not an admin`)
         } else {
             const result = await pool.query(
                 `DELETE FROM webshop.user_has_role
@@ -361,7 +351,7 @@ async function makeNoAdmin(userId) {
         const user = AuthModel.findAuthUserById(userId)
         return user
     } catch (error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof NotFoundError || error instanceof BadRequestError) {
             throw error
         }
         throw new DatabaseError(
