@@ -19,7 +19,9 @@
             <label for="password">Passwort</label>
             <input type="password" id="password" name="password" required>
             <div class="button-wrapper">
-                <button type="submit">Account erstellen</button>
+                <button 
+                onclick="document.getElementById('kontoerstelltOverlay').style.display = 'flex';"
+                type="submit">Account erstellen</button>
             </div>
         </form>
     </div>
@@ -30,4 +32,30 @@
         <img id="picture" src="http://localhost:3000/img/Haltestelle_Register.png" alt="picture of bus stop" style="width: auto; height: 100%;">
     </div>
     <script src="RegisterPage.js"></script>
+</div>
+
+<!-- Konto-Bestätigen-Overlay -->
+<div id="kontoerstelltOverlay" class="overlay" style="display: none">
+    <div class="overlay-box">
+        <h2>Ihr Konto wurde erstellt!</h2>
+        <p>
+            Überprüfen Sie bitte Ihr Email-Postfach, um sich zu verifizieren.
+        </p>
+        <div class="bottom-buttons">
+            <button
+                class="button" id="button-leave"
+                onclick='document.getElementById("kontoerstelltOverlay").style.display = "flex";'
+            >
+            <a href="http://localhost:3000/" id="Shoppen"><b>Shoppen</b></a>
+            </button>
+            <button
+                class="button" id="button-sendAgain" onclick="handleSendVerifyMail()"
+            >
+                Email erneut senden
+            </button>
+        </div>
+        <p>
+            Sollte keine Email ankommen, so melden Sie sich bitte bei unserem <a id ="support" href="mailto:ordenderletztenhaltestelle@gmail.com">Support</a>
+        </p>
+    </div>
 </div>

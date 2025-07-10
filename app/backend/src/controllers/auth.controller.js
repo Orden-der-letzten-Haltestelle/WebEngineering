@@ -99,6 +99,32 @@ async function register(req, res) {
     }
 }
 
+async function registerAdmin(req, res) {
+    const { username, password, email } = req.body
+    try {
+        const userAndToken = await AuthService.createAdmin(
+            username,
+            password,
+            email
+        )
+
+        console.log(`Signed up Admin Successfully, with id ${userAndToken.user.id}`)
+        res.status(201).json({
+            ...userAndToken,
+        })
+    } catch (error) {
+        console.log(
+            `Failed sign up Admin with email ${email}; \Message: ${error?.message}; \nStack: ${error?.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 async function login(req, res) {
     const { email, password } = req.body
     try {
@@ -124,20 +150,40 @@ async function login(req, res) {
 }
 
 async function verifyEmail(req, res) {
-    const email = req.email
     const token = req.params.token
     try {
         const userVerified = await AuthService.verifyEmail(
-            email,
             token
         )
-        console.log(`User with the email ${email}, successfully verified`)
+        console.log(`User successfully verified`)
         res.json({
             ...userVerified,
         })
     } catch (error) {
         console.log(
-            `Failed verification with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+            `Failed verification; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function sendVerifyMail(req,res) {
+    const email = req.body.email
+    try {
+        const mailSent = await AuthService.sendVerificationEmail(
+            email
+        )
+        console.log(`User with the email ${email}, successfully got sent another Mail`)
+        res.json({
+            ...mailSent,
+        })
+    } catch (error) {
+        console.log(
+            `Failed to resent mail with email ${email}; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
         const statusCode = error?.statusCode || 500
         res.status(statusCode).json({
@@ -190,4 +236,6 @@ export default {
     verifyEmail,
     sendMail,
     loginWithToken,
+    registerAdmin,
+    sendVerifyMail,
 }
