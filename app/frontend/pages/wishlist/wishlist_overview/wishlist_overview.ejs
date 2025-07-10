@@ -1,0 +1,54 @@
+<div id="wishlistOverview-content">
+    <% wishlists.forEach(wishlist => {%>
+        <div class="Profil">
+            <div class="Spalte1">
+                    <a href="http://localhost:3000/wishlist/<%= wishlist.id %>">
+                        <img class="heart" src="http://localhost:3000/img/heart-svgrepo-com.svg">
+                    </a>
+                    <p> <strong class="Überschrift">Name:</strong> <%= wishlist.name %> </p>
+                    <p> <strong class="Überschrift">Beschreibung:</strong> <%= wishlist.description %></p>
+            </div>
+            <div class="Spalte2">
+                <button id="deleteWishlist" data-id="<%= wishlist.id %>" onclick="document.getElementById('wishlistDeleteOverlay').style.display = 'flex';">
+                    <img class="trash" src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png">
+                </button>
+            </div>
+        </div>
+    <% }) %>
+    <button class="newprofile" onclick="document.getElementById('wishlistCreateOverlay').style.display = 'flex';">
+        <p> Neue Wunschliste erstellen </p>
+    </button>
+</div>
+
+<!-- Wunschliste-Erstellen-Overlay -->
+<div id="wishlistCreateOverlay" class="overlay" style="display: none">
+    <div class="modal">
+        <h2> Wunschliste erstellen </h2>
+        <form id="newWishlist" onsubmit='document.getElementById("wishlistCreateOverlay").style.display = "none"; handleCreateWishlist(event, "<%=token%>");'>
+            <div class="Felder">
+                <div class="Feld1">
+                    <label class="Bezeichnung" for="name">Name</label>
+                    <input type="text" id="name-new" class="Eingabefeld1" name="name-new" required>
+                </div>
+                <div class="Feld2">
+                    <label class="Bezeichnung" for="description">Beschreibung</label>
+                    <input type="text" id="description-new" class="Eingabefeld2" name="description-new" required>
+                </div>
+            </div>
+            <div class="button-wrapper">
+                <button type="submit">Wunschliste erstellen</button>
+                <button id="abbrechen" onclick='document.getElementById("wishlistCreateOverlay").style.display = "none";'>Abbrechen</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Wunschliste-Löschen-Overlay -->
+<div id="wishlistDeleteOverlay" class="overlay" style="display: none">
+    <div class="modal">
+        <h2> Wunschliste wirklich löschen? </h2>
+            <button id="delete" onclick='document.getElementById("wishlistDeleteOverlay").style.display = "none"; handleDeleteWishlist(event, "<%=token%>");'>Ja, löschen</button>
+                <button id="abbrechen" onclick='document.getElementById("wishlistDeleteOverlay").style.display = "none";'>Abbrechen</button>
+        </form>
+    </div>
+</div>

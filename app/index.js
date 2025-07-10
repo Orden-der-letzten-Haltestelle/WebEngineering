@@ -46,6 +46,14 @@ app.use("/api/wishlist", WishlistRouter)
 app.use("/api/db", DbRouter)
 app.use("/api/user", UserRouter)
 
+// Wildcard Routes
+app.get(
+    '/*splat',
+    async (req, res) => {
+        res.redirect("/")
+    }
+)
+
 // Server starten
 app.listen(PORT, () => {
     console.log(`Server läuft auf http://localhost:${PORT}`)

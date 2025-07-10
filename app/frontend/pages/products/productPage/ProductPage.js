@@ -1,4 +1,4 @@
-import { fetchProducts } from "../../api/productApiHandler.js"
+import { fetchProducts } from "../../../api/productApiHandler.js"
 
 export default async function ProductPageLoader(req, res) {
     const { value = "", minPrice = "", maxPrice = "" } = req.query

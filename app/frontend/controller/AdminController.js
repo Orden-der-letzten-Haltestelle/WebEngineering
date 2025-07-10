@@ -4,6 +4,7 @@ import {
     makeUserAdmin,
     removeAdminRoleFromUser,
 } from "../api/AdminApiHandler.js"
+import { showToast } from "../helper.js"
 
 window.handleBannUser = function handleBannUser(userId, token) {
     bannUser(userId, token)
@@ -11,7 +12,7 @@ window.handleBannUser = function handleBannUser(userId, token) {
             window.location.reload()
         })
         .catch((err) => {
-            alert("❌ Failed to bann user: " + (err.message || "Unknown error"))
+            showToast("❌ Failed to bann user: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -22,7 +23,7 @@ window.handleUnBannUser = function handleUnBannUser(userId, token) {
             window.location.reload()
         })
         .catch((err) => {
-            alert(
+            showToast(
                 "❌ Failed to unbann user: " + (err.message || "Unknown error")
             )
             console.error(err)
@@ -35,9 +36,9 @@ window.handleMakeUserAdmin = function handleMakeUserAdmin(userId, token) {
             window.location.reload()
         })
         .catch((err) => {
-            alert(
+            showToast(
                 "❌ Failed to make user Admin: " +
-                    (err.message || "Unknown error")
+                (err.message || "Unknown error")
             )
             console.error(err)
         })
@@ -52,9 +53,9 @@ window.handleRemoveAdminFromUser = function handleRemoveAdminFromUser(
             window.location.reload()
         })
         .catch((err) => {
-            alert(
+            showToast(
                 "❌ Failed to remove Admin role from user: " +
-                    (err.message || "Unknown error")
+                (err.message || "Unknown error")
             )
             console.error(err)
         })
