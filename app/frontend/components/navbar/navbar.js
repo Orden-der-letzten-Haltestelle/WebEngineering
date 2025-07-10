@@ -1,4 +1,3 @@
-import { isAdmin } from "../../api/AuthApiHandler.js"
 import { isTokenGiven } from "../../helper.js"
 
 // Function to load the navbar HTML and attach event listeners
@@ -82,7 +81,7 @@ async function loadNavbar() {
             iconButtonsContainer.classList.add("hide")
         }
 
-        //handle hamburger navigatino
+        //handle hamburger navigation
         function handleHamburgerNavigation() {
             const hamburgerButton = document.getElementById(
                 "navbar-hamburger-button"
