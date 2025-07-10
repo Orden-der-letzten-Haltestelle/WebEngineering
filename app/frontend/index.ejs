@@ -26,26 +26,22 @@
         <% }) %>
             <% } %>
 
-                <link rel="stylesheet" href="/index.css" />
-                <link rel="stylesheet" href="./style/deletebutton.css" />
-                <link rel="stylesheet" href="./style/dropdown.css" />
-                </head>
-
                 <body>
                     <div id="outer-container">
                         <% if (!excludeNavbar) { %>
                             <div id="header-placeholder"></div>
                             <% } %>
+                <main>
+                    <!-- Hier wird die jeweilige Seiten-Datei eingefügt -->
+                    <%- bodyContent %>
+                </main>
+                <% if (!excludeFooter) { %>
+                    <div id="footer-placeholder"></div>
+                    <% } %>
+    </div>
 
-                                <main>
-                                    <!-- Hier wird die jeweilige Seiten-Datei eingefügt -->
-                                    <%- bodyContent %>
-                                </main>
 
-                                <% if (!excludeFooter) { %>
-                                    <div id="footer-placeholder"></div>
-                                    <% } %>
-                    </div>
+                        
 
                     <!-- Implement standard components -->
                     <script src="/components/navbar/navbar.js" type="module"></script>
@@ -57,12 +53,12 @@
                     <script src="/controller/AdminController.js" type="module"></script>
                     <script src="/controller/ProductController.js" type="module"></script>
                     <script src="/controller/UserController.js" type="module"></script>
-
                     <script src="/controller/WishlistController.js" type="module"></script>
 
                     <!-- Toast Messages instead of alerts -->
                     <div id="toast" class="toast"></div>
                 </body>
+</body>
 
 
 
