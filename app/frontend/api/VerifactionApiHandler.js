@@ -12,3 +12,16 @@ export async function verifyUser(token) {
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }
+
+export async function loginWithToken(token) {
+    const res = await fetch(`${config.host}/auth/login/${token}`, {
+        method: "PUT",
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to verify user"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
