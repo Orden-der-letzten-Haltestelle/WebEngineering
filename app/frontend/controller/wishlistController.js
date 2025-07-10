@@ -3,6 +3,7 @@ import {
     deleteWishlist,
     addProductToWishlist,
 } from "../api/wishlistApiHandler.js"
+import { showToast } from "../helper.js";
 
 window.handleCreateWishlist = function handleCreateWishlist(event, token) {
     event.preventDefault()
@@ -16,7 +17,7 @@ window.handleCreateWishlist = function handleCreateWishlist(event, token) {
             window.location.reload()
         })
         .catch((err) => {
-            alert("❌ Failed to create wishlists: " + (err.message || "Unknown error"))  //need to be changed to toast!!!!!!!!!!!!!!
+            showToast("❌ Failed to create wishlists: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -32,7 +33,7 @@ window.handleDeleteWishlist = function handleDeleteWishlist(event, token) {
             window.location.href = `http://localhost:3000/wishlist`
         })
         .catch((err) => {
-            alert(
+            showToast(
                 "❌ deleting Product Failed: " +
                     (err.message || "Unknown error")
             )
@@ -40,17 +41,14 @@ window.handleDeleteWishlist = function handleDeleteWishlist(event, token) {
         })
 }
 
-window.handleAddProductToWishlist = function handleAddProductToWishlist(event, token, wishlistId, productId) {
-    event.preventDefault()
-    console.log(productId)
-
+window.handleAddProductToWishlist = function handleAddProductToWishlist(token, wishlistId, productId) {
     addProductToWishlist(token, wishlistId, productId)
         .then((res) => {
             console.log(res)
             window.location.href = `http://localhost:3000/wishlist/${wishlistId}`
         })
         .catch((err) => {
-            alert(
+            showToast(
                 "❌ adding Product to wishlist Failed: " +
                     (err.message || "Unknown error")
             )

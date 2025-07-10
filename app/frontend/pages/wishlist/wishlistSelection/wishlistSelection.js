@@ -4,7 +4,6 @@ export default async function WishlistSelectionPageLoader(req, res) {
 
     //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     const wishlists = await getWishlists(req.token)
-    console.log(req.params.productId)
 
     return {
         title: "Wunschliste wählen",
