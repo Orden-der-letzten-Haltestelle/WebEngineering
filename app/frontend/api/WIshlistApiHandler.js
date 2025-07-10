@@ -68,7 +68,7 @@ export async function updateWishlistInfo(id, token, name, description) {
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || `Failed to delete WishlistItem with id ${id}`
+        const errorMessage = errorData.message || `Failed to update Wishlist Info with id ${id}`
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
