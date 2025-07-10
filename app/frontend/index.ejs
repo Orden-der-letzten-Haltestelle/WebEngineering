@@ -8,6 +8,12 @@
         <%= title || "Webshop" %>
     </title>
 
+    <% if (cssFiles && cssFiles.length) { %>
+        <% cssFiles.forEach(function(cssFile) { %>
+            <link rel="stylesheet" href="<%= cssFile %>" />
+            <% }) %>
+                <% } %>
+
         <link rel="stylesheet" href="http://localhost:3000/index.css" />
         <link
             rel="stylesheet"
