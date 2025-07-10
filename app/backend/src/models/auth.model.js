@@ -282,16 +282,15 @@ async function createAdmin(username, hashedPassword, email) {
  * @param {string} token
  * @throws {DatabaseError}
  */
-async function saveTokenVerification(email, token) {
-    console.log(email)
-    console.log(token)
+async function saveTokenVerification(email, token, usecase) {
+    console.log(email, token)
     try {
         const result = await pool.query(
             `INSERT INTO webshop.verificationtokens(
-	        email, token)
-	        VALUES ($1, $2)
+	        email, usecase, token)
+	        VALUES ($1, $2, $3)
             RETURNING *;`,
-            [email, token]
+            [email, usecase, token]
         )
         if (result.rows.length <= 0) {
             throw new NotFoundError(`Failed to insert token into db`)
@@ -316,10 +315,10 @@ async function verifyEmail(token) {
         const result = await pool.query(
             `SELECT * 
             FROM webshop.verificationtokens
-            WHERE token = $1`,
+            WHERE token = $1 AND usecase = 'verify'`,
             [token]
         )
-        if(result.rows.length <= 0) {
+        if (result.rows.length <= 0) {
             throw new NotFoundError("Token not existing!")
         }
         const deletion = await pool.query(
@@ -335,9 +334,41 @@ async function verifyEmail(token) {
             RETURNING *;`,
             [result.rows[0].email]
         )
+        return true
     } catch (error) {
         throw new DatabaseError(
             `Failed verifying user.`,
+            { originalError: error }
+        )
+    }
+}
+
+/**
+ * 
+ * @param {*} token 
+ * @returns email of user
+ */
+async function singleLogin(token) {
+    try {
+        const result = await pool.query(
+            `SELECT * 
+            FROM webshop.verificationtokens
+            WHERE token = $1 AND usecase = 'login'`,
+            [token]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError("Token not existing!")
+        }
+        const deletion = await pool.query(
+            `DELETE FROM webshop.verificationtokens
+            WHERE token = $1
+            RETURNING *;`,
+            [token]
+        )
+        return result.rows[0].email
+    } catch (error) {
+        throw new DatabaseError(
+            `Failed login user.`,
             { originalError: error }
         )
     }
@@ -352,4 +383,5 @@ export default {
     saveTokenVerification,
     verifyEmail,
     createAdmin,
+    singleLogin,
 }

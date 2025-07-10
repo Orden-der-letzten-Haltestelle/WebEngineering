@@ -40,7 +40,7 @@ export async function logInUser(email, password) {
     return await res.json()
 }
 
-export async function SendVerifyMail(email){
+export async function SendVerifyMail(email) {
     const res = await fetch(`${config.host}/auth/verify/sendmail`, {
         method: "POST",
         headers: {

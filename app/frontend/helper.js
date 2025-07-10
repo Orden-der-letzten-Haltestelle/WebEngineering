@@ -15,3 +15,17 @@ export function isTokenGiven() {
 export function getToken(req) {
     return req.cookies?.token || null
 }
+
+/**
+ * Shows a Toast Message instead of an alert
+ * Since alerts are ugly
+ * @param {*} message any
+ * @param {*} type error or success
+ */
+export function showToast(message, type = "error") {
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    setTimeout(() => {
+        toast.className = 'toast';
+    }, 3000);
+}

@@ -21,6 +21,7 @@ import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/ProductPage.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 import AdminPageLoader from "./pages/admin/AdminPage.js"
+import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
 
 const router = express.Router()
@@ -98,6 +99,15 @@ router.get(
 router.get(
     "/user/verify/:token",
     handlePage(verifyMailLoader, "pages/verifyMail/verifyMail", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* Login of Mail Page */
+router.get(
+    "/user/login/:token",
+    handlePage(loginToken, "pages/loginToken/loginToken", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -187,9 +197,8 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${
-            error.status == undefined ? "" : " with Status:" + error.status
-        }, try again later`,
+        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
+            }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
