@@ -21,6 +21,7 @@ import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
+import WishlistUserManagerPageLoader from "./pages/wishlist/wishlistUserManager/WishlistUserManagerPage.js"
 
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
@@ -171,6 +172,15 @@ router.get(
         excludeNavbar: false,
         excludeFooter: false,
     })
+)
+
+router.get(
+    "/wishlist/:wishlistId/users",
+    requireAuth,
+    handlePage(
+        WishlistUserManagerPageLoader,
+        "pages/wishlist/wishlistUserManager/WishlistUserManagerPage"
+    )
 )
 
 /* admin */
