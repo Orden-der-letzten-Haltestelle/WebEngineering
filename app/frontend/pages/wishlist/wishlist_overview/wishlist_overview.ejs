@@ -36,18 +36,18 @@
             <div class="button-wrapper">
                 <button type="submit">Wunschliste erstellen</button>
             </div>
-            <div class="button-wrapper">
-                <button id="abbrechen" onclick='document.getElementById("wishlistCreateOverlay").style.display = "none";'>Abbrechen</button>
-            </div>
         </form>
+        <div class="button-wrapper">
+                <button id="abbrechen" onclick='document.getElementById("wishlistCreateOverlay").style.display = "none";'>Abbrechen</button>
+        </div>
     </div>
 </div>
 
 <!-- Wunschliste-Löschen-Overlay -->
 <div id="wishlistDeleteOverlay" class="overlay" style="display: none">
     <div class="modal">
-        <form id="newWishlist" onsubmit='document.getElementById("wishlistDeleteOverlay").style.display = "none"; handleDeleteWishlist(event, "<%=token%>");'>
-            <button id="delete">Wunschliste löschen</button>
+        
+            <button id="delete" onclick='document.getElementById("wishlistDeleteOverlay").style.display = "none"; handleDeleteWishlist(event, "<%=token%>");'>Wunschliste löschen</button>
             <div class="button-wrapper">
                 <button id="abbrechen" onclick='document.getElementById("wishlistDeleteOverlay").style.display = "none";'>Abbrechen</button>
             </div>
