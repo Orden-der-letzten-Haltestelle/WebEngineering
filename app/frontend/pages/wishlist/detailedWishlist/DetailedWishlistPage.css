@@ -30,18 +30,25 @@
     gap: 2rem;
 }
 
-.Überschrift button {
+.überschriftButton {
     border: solid rgb(99, 99, 99) 2px;
     background-color: white;
     color: grey;
     font-size: 120%;
     font-size: 14px;
-    width: 85px;
+    width: 120px;
     padding-top: 1%;
     padding-bottom: 1%;
 }
+.überschriftButton {
+    text-decoration: none;
+    text-align: center;
+}
 
-.Überschrift button:hover {
+.Überschrift button.userVerwalten-button {
+}
+
+.überschriftButton:hover {
     opacity: 0.7;
     cursor: pointer;
 }
@@ -73,7 +80,7 @@
     background-color: transparent;
 }
 
-.trash-icon-button>svg {
+.trash-icon-button > svg {
     width: 100%;
 }
 
@@ -112,7 +119,6 @@
     cursor: pointer;
     opacity: 0.7;
 }
-
 
 .anzahl-popup p {
     display: flex;
@@ -180,11 +186,9 @@
     row-gap: 5px;
 }
 
-.input-container>#wishlistName {
-
+.input-container > #wishlistName {
     margin-bottom: 8px;
 }
-
 
 @media (min-width: 700px) and (max-width: 1000px) {
     .DetailedwishlistItem p {
@@ -196,12 +200,24 @@
     }
 }
 
+@media screen and (max-width: 600px) {
+    .Überschrift {
+        display: grid;
+        gap: 8px;
+        padding-bottom: 8px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .Überschrift h2 {
+        margin-bottom: 0px;
+    }
+}
+
 @media (min-width: 700px) and (max-width: 850px) {
     .heart {
         display: none;
     }
 }
-
 
 @media (min-width: 0px) and (max-width: 700px) {
     .DetailedwishlistItem {
@@ -249,7 +265,7 @@
         font-size: 120%;
     }
 
-    .Überschrift button {
+    .überschriftButton {
         font-size: 12px;
     }
 
