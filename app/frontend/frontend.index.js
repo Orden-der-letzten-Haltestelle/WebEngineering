@@ -29,7 +29,6 @@ import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboar
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
 
-
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -49,10 +48,14 @@ router.get(
 router.get(
     "/product/:productId",
     notRequiredAuth,
-    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        ProductDetailledLoader,
+        "pages/products/productDetailled/ProductDetailled",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* CartPage */
@@ -178,11 +181,15 @@ router.get(
 )
 
 router.get(
-    "/wishlist/:wishlistId/users",
+    "/wishlist/:wishlistId/members",
     requireAuth,
     handlePage(
         WishlistUserManagerPageLoader,
-        "pages/wishlist/wishlistUserManager/WishlistUserManagerPage"
+        "pages/wishlist/wishlistUserManager/WishlistUserManagerPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
     )
 )
 
@@ -263,8 +270,9 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
-            }, try again later`,
+        title: `Unexpected Error${
+            error.status == undefined ? "" : " with Status:" + error.status
+        }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
