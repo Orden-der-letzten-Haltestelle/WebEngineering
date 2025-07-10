@@ -1,0 +1,18 @@
+<div id="productPage-content">
+    <!-- Hier werden die Beispiel Componenten geladen. -->
+
+    <div class="products-grid">
+        <% wishlists.forEach(wishlist => {%>
+            <div class="products-card">
+                <a href="http://localhost:3000/wishlist/<%= wishlist.id %>">
+                    <div class="products-info">
+                        <h2><%= wishlist.name %></h2>
+                        <p><%= wishlist.description %></p>
+                    </div>
+                </a>
+                <button class="add-button" onclick="handleAddProductToWishlist('<%= token %>', '<%=wishlist.id%>', '<%= productId %>');">Hinzufügen</button>
+            </div>
+        
+        <% }) %>
+    </div>
+</div>
