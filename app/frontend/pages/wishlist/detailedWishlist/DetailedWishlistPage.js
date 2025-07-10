@@ -15,6 +15,7 @@ export default async function DetailedWishlistPageLoader(req, res) {
 
     return {
         title: "DetailedWishlistPage",
+        token: req.token,
         /* Hier werden die Daten der BeispielComponenten übergeben */
         wishlist: wishlist,
         token: token,

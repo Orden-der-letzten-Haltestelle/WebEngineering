@@ -1,4 +1,15 @@
 <div id="wishlistPage-content">
+
+<script>
+    function toggleDropdown(button) {
+        const container = button.parentElement;
+        const content = container.querySelector('.dropdown-content.detailed-wishlist');
+       // const arrow = container.querySelector('.dropdown-arrow.detailed-wishlist');
+       // arrow.classList.toggle('rotated')
+        content.classList.toggle('hide');
+    }
+</script>     
+
     <div class="Überschrift">
         <h2> <%=wishlist.name%> </h2>
         <button> Bearbeiten </button>
@@ -15,9 +26,21 @@
                         </div>
                     </a>
                 </div>
-                <div class="buttons">
-                    <button class="info">Anzahl: <%=item.amount%> </button>
+
+
+
+                <div class="buttons ">
+                    <div class="anzahl-button dropdown-container detailed-wishlist">
+
+                        <button class="dropdown-button info detailed-wishlist" onclick="toggleDropdown(this)">Anzahl: <%=item.amount%> </button>
+                        <div class="anzahl-popup dropdown-content hide detailed-wishlist" >
+                                <% for (let i = 1; i <= 10; i++) { %>
+                                    <p  onclick="handleUpdateWishlistItemAmount('<%= item.id %>' ,'<%= i %>', '<%= token %>')" data-wert="<%= i %>"><%= i %></p>
+                                <% } %>               
+                            </div>
+                        </div>
                     <button id="buy" onclick="handleAddtocart('<%= item.product.id %>', '<%= token %>')">In den Warenkorb</button>
+
                     <img class="trash" src="http://localhost:3000/img/depositphotos_649330112-stock-illustration-garbage-bin-line-icon-linear-removebg-preview.png" alt="Löschen">
                 </div>
             </div>
