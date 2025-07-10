@@ -1,5 +1,7 @@
 
 import { logInUser, registerUser, SendVerifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
+import { loginWithToken } from "../api/VerifactionApiHandler.js"
+import { showToast } from "../helper.js";
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -10,10 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             registerUser(username, email, password).then((res) => {
-                document.cookie = "token=" + res.jwt.token;
+                var now = new Date(res.jwt.epiresAt)
+                document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 document.getElementById('kontoerstelltOverlay').style.display = 'flex'
             }).catch((err) => {
-                alert("❌ Failed to sign up user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign up user: " + (err.message || "Unknown error"))
                 console.error(err);
             });
         });
@@ -26,10 +29,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             logInUser(email, password).then((res) => {
-                document.cookie = "token=" + res.jwt.token;
+                var now = new Date(res.jwt.epiresAt)
+                document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 window.location.href = '/';
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
@@ -48,12 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Element with ID "emailSentOverlay" not found');
                 }
             }).catch((err) => {
-                alert("❌ Failed to send email again: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to send email again: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
     }
-  
+
     const loginFormLink = document.getElementById("LoginFormLink");
     if (loginFormLink) {
         loginFormLink.addEventListener("submit", function handleLogIn(event) {
@@ -62,16 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
             SendSignInMail(email).then((res) => {
                 document.getElementById('emailSentOverlay').style.display = 'flex'
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
-      
+    }
+
+    const loginToken = document.getElementById("loginToken-content");
+    if (loginToken) {
         let params = new URLSearchParams(document.location.search)
         const token = params.get("token")
-        if (token != null) {
-            document.cookie = "token=" + token + "; path=/"
+        loginWithToken(token).then((res) => {
+            var now = new Date(res.jwt.epiresAt)
+            document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
             window.location.href = '/';
-        }
+        }).catch((err) => {
+            showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+            console.error(err);
+        });
     }
 });

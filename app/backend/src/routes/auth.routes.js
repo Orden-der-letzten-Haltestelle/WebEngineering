@@ -37,11 +37,6 @@ router.post(
 )
 
 router.get(
-    "/login/withtoken",
-    AuthController.loginWithToken
-)
-
-router.get(
     "/protected",
     AuthController.verifyJWTtoken(Roles.user),
     (req, res) => {
@@ -50,9 +45,15 @@ router.get(
         )
     }
 )
-router.put("/verify/:token", 
+
+router.put("/login/:token",
+    AuthController.singleLogin
+)
+
+router.put("/verify/:token",
     AuthController.verifyEmail
 )
+
 router.post("/verify/sendMail",
     AuthController.sendVerifyMail
 )
