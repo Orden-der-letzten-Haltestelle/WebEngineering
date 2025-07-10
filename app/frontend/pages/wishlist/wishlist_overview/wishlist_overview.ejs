@@ -25,11 +25,11 @@
 <!-- Wunschliste-Erstellen-Overlay -->
 <div id="wishlistCreateOverlay" class="overlay" style="display: none">
     <div class="modal">
-        <form id="newWishlist" onsubmit='handleCreateWishlist(event, token); document.getElementById("wishlistCreateOverlay").style.display = "none";'>
-            <label for="name-new">Name</label>
+        <form id="newWishlist" onsubmit=' document.getElementById("wishlistCreateOverlay").style.display = "none"; handleCreateWishlist(event, token);'>
+            <label for="name">Name</label>
             <input type="text" id="name-new" name="name-new" required>
             
-            <label for="description-new">Beschreibung</label>
+            <label for="description">Beschreibung</label>
             <input type="text" id="description-new" name="description-new" required>
             <div class="button-wrapper">
                 <button type="submit">Wunschliste erstellen</button>
