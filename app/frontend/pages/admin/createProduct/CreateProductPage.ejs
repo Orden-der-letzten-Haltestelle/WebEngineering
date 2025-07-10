@@ -1,0 +1,28 @@
+<div id="create-product-page-container">
+    <form class="create-form" onsubmit="handleCreateProduct(event, '<%= token %>')">
+        <h3 class="title">Neues Produkt erstellen:</h3>
+        <div class="input-container name">
+            <label for="productName">Name:</label>
+            <input id="productName" placeholder="T-Shirt" name="productName" required />
+        </div>
+        <div class="input-container textarea-container description">
+            <label for="description">Beschreibung:</label>
+            <textarea id="description" name="description"></textarea>
+        </div>
+        <div class="input-container price">
+            <label for="price">Preis (€):</label>
+            <input name="price" step="0.01" type="number" id="price" required />
+        </div>
+        <div class="input-container amount">
+            <label for="amount">Auf Lager:</label>
+            <input name="amount" step="1" id="amount" type="number" required />
+        </div>
+        <div class="buttons-container">
+            <a href="http://localhost:3000/admin">
+                <button class="button abbruch" type="button">Abbrechen</button>
+            </a>
+
+            <button class="button Erstellen">Erstellen</button>
+        </div>
+    </form>
+</div>

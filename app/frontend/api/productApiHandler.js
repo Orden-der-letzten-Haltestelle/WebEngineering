@@ -53,11 +53,12 @@ export async function updateProduct(
             Authorization: token,
         },
         body: JSON.stringify({
+
             name: name,
             description: description,
-            price: price,
             amount: amount,
-        }),
+            price: price,
+        })
     })
 
     if (!res.ok) {
@@ -67,6 +68,35 @@ export async function updateProduct(
     }
     return await res.json()
 }
+
+
+
+export async function createProduct(token, name, description, amount, price) {
+    const res = await fetch(`${config.host}/products/`, {
+        method: "POST",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+
+        },
+        body: JSON.stringify({
+            name: name,
+            description: description,
+            price: price,
+            amount: amount,
+
+        }),
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to create Product"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+
+
 
 export async function deleteProduct(productId, token) {
     const res = await fetch(`${config.host}/products/${productId}`, {
@@ -81,5 +111,4 @@ export async function deleteProduct(productId, token) {
         const errorMessage = errorData.message || "Failed to delete product"
         throw new ApiError(errorMessage, res.status, errorData)
     }
-    return await res.json()
 }
