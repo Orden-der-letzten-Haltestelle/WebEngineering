@@ -16,16 +16,14 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
-import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
-
+import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
-
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
 
@@ -167,10 +165,14 @@ router.get(
 router.get(
     "/wishlist",
     requireAuth,
-    handlePage(WishlistPageLoader, "pages/wishlist/WishlistPage", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        WishlistOverviewPageLoader,
+        "pages/wishlist/wishlist_overview/wishlist_overview",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* admin */
