@@ -1,4 +1,5 @@
-import { isTokenGiven } from "../../helper.js"
+import { isTokenGiven,
+ } from "../../helper.js"
 
 // Function to load the navbar HTML and attach event listeners
 async function loadNavbar() {
@@ -108,6 +109,22 @@ async function loadNavbar() {
             }
         }
         handleHamburgerNavigation()
+
+            
+        const adminLink = document.getElementById(
+            "adminLink"
+        )
+        const adminLinkHamburger = document.getElementById(
+            "AdminHamburger"
+        )
+        const userAdmin= isTokenGiven()
+        if (userAdmin) {
+            adminLink.classList.add("display")
+            adminLinkHamburger.classList.add("display")
+        } else {
+            adminLink.classList.add("hide")
+            adminLinkHamburger.classList.add("hide")
+        }
 
         // Import css
         const link = document.createElement("link")

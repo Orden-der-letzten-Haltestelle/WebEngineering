@@ -15,3 +15,18 @@ export function isTokenGiven() {
 export function getToken(req) {
     return req.cookies?.token || null
 }
+
+
+/**
+    /**
+     * Returns if user is an admin
+     * @returns
+     
+    export function isUserAdmin(token) {
+        const user = fetchUser(token)
+        if (user.rows[0].roles.contains("admin")){
+            return true
+        }
+        return false
+    }
+*/
