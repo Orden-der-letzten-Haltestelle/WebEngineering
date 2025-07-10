@@ -199,8 +199,7 @@ async function sendMail(req, res) {
         const result = await AuthService.sendLoginMail(email)
 
         res.json({
-            email: email,
-            link: result
+            email: email
         })
     } catch (error) {
         const statusCode = error?.statusCode || 500
