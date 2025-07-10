@@ -203,7 +203,6 @@ async function renderErrorPage(req, res, error) {
 /* Secure Pages, that require signIn */
 async function notRequiredAuth(req, res, next) {
     const token = getToken(req)
-    console.log(token)
 
     //redirect to login page, if no token set
     if (!token) {
