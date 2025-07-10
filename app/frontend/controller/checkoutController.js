@@ -1,4 +1,4 @@
-import { addProductToCart } from "../api/productApiHandler.js"
+import { updateAmount } from "../api/checkoutApiHandler.js"
 
 window.handleCheckout = function handleCheckout(productId, token) {
     if (token == undefined) {
@@ -12,15 +12,29 @@ window.handleCheckout = function handleCheckout(productId, token) {
     })
 }
 
-  window.handleUpdateCartItemAmount = async function(cartItemId, newAmount, token) {
+  window.handleUpdateCheckoutItemAmount = async function(cartItemId, newAmount, token) {
     if (!token) {
         window.location.href = "/login";
         return;
     }
-     updateAmount(cartItemId, newAmount, token).then(() => {
-         window.location.reload();
-     }).catch((err) => {
-         alert("❌ Failed to update amount of CartItem: " + (err.message || "Unknown error"));
-         console.error(err)
-     })
+try {
+    await updateAmount(cartItemId, newAmount, token); // sendet PUT-Request
+
+    // 🔁 Anzahl im Button live aktualisieren
+    const displaySpan = document.querySelector(`.quantity-display[data-id="${cartItemId}"]`);
+    if (displaySpan) {
+      displaySpan.textContent = `Anzahl: ${newAmount}`;
+    }
+
+    // ❌ Dropdown schließen (optional)
+    const allDropdowns = document.querySelectorAll('.dropdown-content');
+    allDropdowns.forEach(d => d.classList.add('hide'));
+
+    // 🔁 Optional: Gesamtpreis und Artikelanzahl aktualisieren
+    recalculateSummary();
+
+  } catch (err) {
+    alert("❌ Failed to update amount of CartItem: " + (err.message || "Unknown error"));
+    console.error(err);
+  }
   }
