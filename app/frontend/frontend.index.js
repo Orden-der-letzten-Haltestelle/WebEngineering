@@ -25,7 +25,6 @@ import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 
-import AdminPageLoader from "./pages/admin/AdminPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
 
