@@ -25,7 +25,6 @@ window.handleAddtocartWithEvent = function handleAddtocartWithEvent(
 }
 
 window.handleCreateProduct = function handleCreateProduct(event, token) {
-    console.log("here")
     event.preventDefault()
 
     const name = document.getElementById("productName").value
