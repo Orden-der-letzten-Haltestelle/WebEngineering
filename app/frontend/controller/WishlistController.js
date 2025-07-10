@@ -1,4 +1,4 @@
-import { deleteWishlistItemById, updateWishlistItemAmount } from "../api/WishlistApiHandler.js";
+import { deleteWishlistItemById, updateWishlistItemAmount, deleteWishlistItemById } from "../api/WishlistApiHandler.js";
 
 window.handleDeleteWishlistItemById = function handleDeleteWishlistItemById(id, token) {
     deleteWishlistItemById(id, token).then(() => {
@@ -16,6 +16,15 @@ window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(
         window.location.reload()
     }).catch((err) => {
         alert("❌ Failed to update amount of WishlistItem: " + (err.message || "Unknown error"));
+        console.error(err)
+    })
+}
+
+window.handleDeleteWishlistItemById = function handleDeleteWishlistItemById(id, token) {
+    deleteWishlistItemById(id, token).then(() => {
+        window.location.reload()
+    }).catch((err) => {
+        alert("❌ Failed to delete WishlistItem: " + (err.message || "Unknown error"));
         console.error(err)
     })
 }
