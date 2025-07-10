@@ -1,17 +1,9 @@
 <div id="create-product-page-container">
-    <form
-        class="create-form"
-        onsubmit="handleCreateProduct(event, '<%= token %>')"
-    >
+    <form class="create-form" onsubmit="handleCreateProduct(event, '<%= token %>')">
         <h3 class="title">Neues Produkt erstellen:</h3>
         <div class="input-container name">
             <label for="productName">Name:</label>
-            <input
-                id="productName"
-                placeholder="T-Shirt"
-                name="productName"
-                required
-            />
+            <input id="productName" placeholder="T-Shirt" name="productName" required />
         </div>
         <div class="input-container textarea-container description">
             <label for="description">Beschreibung:</label>
@@ -27,7 +19,7 @@
         </div>
         <div class="buttons-container">
             <a href="http://localhost:3000/admin">
-                <button class="button abbruch">Abbrechen</button>
+                <button class="button abbruch" type="button">Abbrechen</button>
             </a>
 
             <button class="button Erstellen">Erstellen</button>
