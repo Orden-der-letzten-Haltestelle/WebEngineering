@@ -12,29 +12,18 @@ window.handleCheckout = function handleCheckout(productId, token) {
     })
 }
 
-  window.handleUpdateCheckoutItemAmount = async function(cartItemId, newAmount, token) {
+window.handleUpdateCheckoutItemAmount = function handleUpdateCartItemAmount(cartItemId, newAmount, token) {
+    newAmount = parseInt(newAmount);
+
     if (!token) {
         window.location.href = "/login";
         return;
     }
-try {
-    await updateAmount(cartItemId, newAmount, token); // sendet PUT-Request
+    updateAmount(cartItemId, newAmount, token).then(() => {
+        window.location.reload();
 
-    // 🔁 Anzahl im Button live aktualisieren
-    const displaySpan = document.querySelector(`.quantity-display[data-id="${cartItemId}"]`);
-    if (displaySpan) {
-      displaySpan.textContent = `Anzahl: ${newAmount}`;
-    }
-
-    // ❌ Dropdown schließen (optional)
-    const allDropdowns = document.querySelectorAll('.dropdown-content');
-    allDropdowns.forEach(d => d.classList.add('hide'));
-
-    // 🔁 Optional: Gesamtpreis und Artikelanzahl aktualisieren
-    recalculateSummary();
-
-  } catch (err) {
-    alert("❌ Failed to update amount of CartItem: " + (err.message || "Unknown error"));
-    console.error(err);
-  }
-  }
+    }).catch((err) => {
+        alert("❌ Failed to update amount of CheckoutItem: " + (err.message || "Unknown error"));
+        console.error(err)
+    })
+}

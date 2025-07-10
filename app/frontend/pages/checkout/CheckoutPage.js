@@ -1,12 +1,12 @@
-import { fetchCart } from "../../api/CartApiHandler.js"
+import { fetchCheckout } from "../../api/checkoutApiHandler.js"
 
 export default async function CheckoutPageLoader(req, res) {
-    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
-    const cartItems = await fetchCart(req.token);
+    const checkoutItems = await fetchCheckout(req.token);
     return {
         title: "CheckoutPage",
-        cartItems: cartItems,
+        checkoutItems: checkoutItems,
         token: req.token,
+        url: "http://localhost:3000",
 
     }
 }
