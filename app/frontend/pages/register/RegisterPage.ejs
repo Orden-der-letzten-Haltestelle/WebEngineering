@@ -1,33 +1,57 @@
 <div id="registerPage-content">
     <!-- Hier werden die Beispiel Componenten geladen. -->
     <div class="text-container">
-    <h1 class="no-margin" id="welcome">Wilkommen im Online-Shop des</h1>
-    <h1 class="no-margin" id="golden-writing">Ordens der letzten Haltestelle</h1>
-    <p class="no-margin" id="small-text">Haben Sie schon einen Account?
-    <a href="/login">
-        <u><b>Log in</b></u>
-    </a>
-    </p>
-    <div class="form-container">
-        <form id="RegisterForm">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" required>
+        <h1 class="no-margin" id="welcome">Wilkommen im Online-Shop des</h1>
+        <h1 class="no-margin" id="golden-writing">Ordens der letzten Haltestelle</h1>
+        <p class="no-margin" id="small-text">Haben Sie schon einen Account?
+            <a href="/login">
+                <u><b>Log in</b></u>
+            </a>
+        </p>
+        <div class="form-container">
+            <form id="RegisterForm">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required>
 
-            <label for="username">Benutzername</label>
-            <input type="text" id="username" name="username" required>
-            
-            <label for="password">Passwort</label>
-            <input type="password" id="password" name="password" required>
-            <div class="button-wrapper">
-                <button type="submit">Account erstellen</button>
-            </div>
-        </form>
-    </div>
-    
+                <label for="username">Benutzername</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Passwort</label>
+                <input type="password" id="password" name="password" required>
+                <div class="button-wrapper">
+                    <button type="submit">Account erstellen</button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <div class="picture">
-        <img id="picture" src="http://localhost:3000/img/Haltestelle_Register.png" alt="picture of bus stop" style="width: auto; height: 100%;">
+        <img id="picture" src="http://localhost:3000/img/Haltestelle_Register.png" alt="picture of bus stop"
+            style="width: auto; height: 100%;">
     </div>
     <script src="RegisterPage.js"></script>
+</div>
+
+<!-- Konto-Bestätigen-Overlay -->
+<div id="kontoerstelltOverlay" class="overlay" style="display: none">
+    <div class="overlay-box">
+        <h2>Ihr Konto wurde erstellt!</h2>
+        <p>
+            Überprüfen Sie bitte Ihr Email-Postfach, um sich zu verifizieren.
+        </p>
+        <div class="bottom-buttons">
+            <button class="button" id="button-leave"
+                onclick='document.getElementById("kontoerstelltOverlay").style.display = "flex";'>
+                <a href="http://localhost:3000/" id="Shoppen"><b>Shoppen</b></a>
+            </button>
+            <button class="button" id="button-sendAgain" onclick="handleSendVerifyMail()">
+                Email erneut senden
+            </button>
+        </div>
+        <p>
+            Sollte keine Email ankommen, so melden Sie sich bitte bei unserem <a id="support"
+                href="mailto:ordenderletztenhaltestelle@gmail.com">Support</a>
+        </p>
+    </div>
 </div>

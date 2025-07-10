@@ -40,8 +40,22 @@ export async function logInUser(email, password) {
     return await res.json()
 }
 
-export async function verifyMail(email, token){
-  
+export async function SendVerifyMail(email) {
+    const res = await fetch(`${config.host}/auth/verify/sendmail`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email
+        })
+    })
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || "Failed to login"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
 }
 
 export async function SendSignInMail(email) {
