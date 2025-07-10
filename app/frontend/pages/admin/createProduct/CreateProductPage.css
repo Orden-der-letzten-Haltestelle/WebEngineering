@@ -1,0 +1,97 @@
+#create-product-page-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.create-form {
+    padding: 20px;
+    display: grid;
+    width: 700px;
+    background-color: gray;
+    border-radius: 8px;
+    min-height: 40%;
+    gap: 8px;
+}
+
+.input-container {
+    display: grid;
+    grid-template-rows: min-content auto;
+    height: 50px;
+    gap: 5px;
+}
+.input-container input {
+    height: 30px;
+}
+
+.input-container input,
+.input-container textarea {
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.input-container input:focus,
+.input-container textarea:focus {
+    border: 1px solid black;
+    outline: none;
+}
+
+.create-form .title {
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.textarea-container {
+    height: 80px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.buttons-container .button {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    width: 90px;
+    cursor: pointer;
+}
+
+.buttons-container .button.Erstellen {
+    background-color: var(--highlight-color);
+}
+
+.buttons-container .button:hover {
+    opacity: 0.8;
+}
+
+@media screen and (min-width: 800px) {
+    .create-form {
+        grid-template-columns: 1fr 1fr;
+    }
+    .create-form .title,
+    .input-container.name,
+    .input-container.description,
+    .buttons-container {
+        grid-column: 1 / 3;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .create-form {
+        max-width: 400px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    .create-form {
+        padding: 8px;
+        border-radius: 3px;
+        max-width: 260px;
+    }
+}
