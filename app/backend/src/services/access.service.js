@@ -5,6 +5,7 @@ import CartService from "./cart.service.js"
 import OrderService from "./order.service.js"
 import UserService from "./user.service.js"
 import WishlistService from "./wishlist.service.js"
+import WishlistitemModel from "../models/wishlistitem.model.js"
 import UserWishlistRelationModel from "../models/user_wishlist_relation.model.js"
 
 //errors
@@ -18,6 +19,7 @@ import NotImplementedError from "../exceptions/NotImplementedError.js"
 import Roles from "../objects/user/Roles.js"
 import WishlistRoles from "../objects/user/WishlistRoles.js"
 import wishlistModel from "../models/wishlist.model.js"
+import WishlistItem from "../objects/items/WishlistItem.js"
 
 /**
  * Admin should be abel to access this endpoint, to verify, if the user given with the id
@@ -31,11 +33,12 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
     const user = await AuthService.getAuthUser(userId)
 
     //TODO proof, that valid action is given
+    //handled in
 
     switch (ressource) {
         case "products":
             return await hasUserAccessToProduct(user, resourceId, action)
-        //??? cartItems and orderItems are the same?? bc. in same table??
+        //TODO ???? cartItems and orderItems are the same?? bc. in same table??
         case "cartItems":
             return await hasUserAccessToCartItem(user, resourceId, action)
         case "orderItems":
@@ -53,8 +56,8 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
         case "wishlists":
             return await hasUserAccessToWishlist(user, resourceId, action)
         case "wishlistItems":
-            //TODO
-            return
+            return await hasUserAccessToWishlistItems(user, resourceId, action)
+
         case "roles":
             return user.hasRole(Roles.admin)
         case "wishlistroles":
@@ -246,6 +249,8 @@ async function hasUserAccessToUser(user, id, action) {
             case "POST":
             case "DELETE":
                 return true
+            default:
+                throw NotImplementedError(`${action} isnt Supported.`)
         }
     } catch (error) {
         if (
@@ -269,6 +274,8 @@ async function hasUserAccessToUser_Has_Role(user, id, action) {
             case "POST":
             case "DELETE":
                 return user.hasRole(Roles.admin)
+            default:
+                throw NotImplementedError(`${action} isnt Supported.`)
         }
     } catch (error) {
         if (
@@ -324,7 +331,6 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
                 throw error
             }
         }
-        console.log(wishlistMember)
 
         switch (action) {
             case "GET":
@@ -338,7 +344,7 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
                 //only owner can delete
                 return wishlistMember.hasRole(WishlistRoles.owner)
             default:
-                return false
+                throw NotImplementedError(`${action} isnt Supported.`)
         }
     } catch (error) {
         if (
@@ -350,6 +356,126 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
             throw error
         }
         throw new ServerError("Failed proofing hasUserAccessToUser_Has_Role", {
+            originalError: error,
+        })
+    }
+}
+
+async function hasUserAccessToWishlist(user, id, action) {
+    try {
+        //TODO admin shouldnt be abel to access wishlists???
+        let wishlist
+        try {
+            wishlist = await WishlistService.getWishlistByIdNoVerify(
+                user.id,
+                id
+            )
+        } catch (error) {
+            if (error instanceof NotFoundError) {
+                //user isnt a member of this wishlist
+                return false
+            }
+            throw error
+        }
+        const wishlistMember = wishlist.member
+
+        switch (action) {
+            case "GET":
+                //only read or higher can get
+                return wishlistMember.hasRole(WishlistRoles.read)
+            case "PUT":
+                //only write or higher can edit
+                return wishlistMember.hasRole(WishlistRoles.write)
+            case "POST":
+                //everyone can create wishlists.
+                return true
+            case "DELETE":
+                //only owner can delete
+                return wishlistMember.hasRole(WishlistRoles.owner)
+            default:
+                throw NotImplementedError(`${action} isnt Supported.`)
+        }
+    } catch (error) {
+        if (
+            error instanceof NotFoundError ||
+            error instanceof DatabaseError ||
+            error instanceof BadRequestError ||
+            error instanceof NotImplementedError
+        ) {
+            throw error
+        }
+        throw new ServerError("Failed proofing hasUserAccessToWishlistItems", {
+            originalError: error,
+        })
+    }
+}
+
+async function hasUserAccessToWishlistItems(user, id, action) {
+    try {
+        if (id == null) {
+            throw BadRequestError("WishlistItems, requires an id")
+        }
+
+        let wishlist
+        let wishlistMember
+        let wishlistItem
+        if (action == "POST") {
+            //special case, on post we get wishlist Id
+            try {
+                wishlist = await WishlistService.getWishlistByIdNoVerify(
+                    user.id,
+                    id
+                )
+                wishlistMember = wishlist.member
+            } catch (error) {
+                if (error instanceof NotFoundError) {
+                    //user isnt a member of this wishlist
+                    return false
+                }
+                throw error
+            }
+        } else {
+            //in other cases, we get wishlistItemId
+            wishlistItem = await WishlistitemModel.findBasicWishlistItemById(id)
+
+            try {
+                wishlist = await WishlistService.getWishlistByIdNoVerify(
+                    user.id,
+                    wishlistItem.wishlistid
+                )
+
+                wishlistMember = wishlist.member
+            } catch (error) {
+                if (error instanceof NotFoundError) {
+                    //user isn't member of wishlist
+                    return false
+                }
+                throw error
+            }
+        }
+
+        switch (action) {
+            case "GET":
+                //only read or higher can get
+                return wishlistMember.hasRole(WishlistRoles.read)
+            case "PUT":
+            case "POST":
+            case "DELETE":
+                //only write or higher can edit/create/delete
+                return wishlistMember.hasRole(WishlistRoles.write)
+            default:
+                throw NotImplementedError(`${action} isnt Supported.`)
+        }
+    } catch (error) {
+        if (
+            error instanceof NotFoundError ||
+            error instanceof DatabaseError ||
+            error instanceof BadRequestError ||
+            error instanceof NotImplementedError
+        ) {
+            throw error
+        }
+        throw new ServerError("Failed proofing hasUserAccessToWishlistItems", {
             originalError: error,
         })
     }

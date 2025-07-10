@@ -187,6 +187,7 @@ async function verifyEmail(req, res) {
     try {
         const userVerified = await AuthService.verifyEmail(token)
         console.log(`User successfully verified`)
+        console.log(userVerified)
         res.json({
             ...userVerified,
         })
