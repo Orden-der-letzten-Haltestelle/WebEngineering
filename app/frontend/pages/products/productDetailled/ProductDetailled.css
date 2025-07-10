@@ -226,10 +226,13 @@
 }
 
 .edit-button {
-    background-color: #DBC70C;
+    background-color: #dbc70c;
     color: black;
 }
 
+button {
+    cursor: pointer;
+}
 
 .overlay {
     position: fixed;
@@ -347,7 +350,7 @@
     border-radius: 6px;
     border: none;
     font-weight: bold;
-    background-color: #DBC70C;
+    background-color: #dbc70c;
     color: black;
 }
 
@@ -361,7 +364,7 @@
     padding: 1em;
     border-radius: 6px;
     font-weight: bold;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     color: black;
     border: none;
 }
@@ -369,7 +372,6 @@
 .stop-button:hover {
     background-color: gray;
 }
-
 
 .hide {
     display: none;
