@@ -6,11 +6,12 @@
 }
 
 .newprofile {
-  margin-bottom: 2%;
-  white-space: nowrap;
-  background-color: var(--highlight-color);
-  border-radius: 5px;
-  border: none;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    white-space: nowrap;
+    background-color: var(--highlight-color);
+    border-radius: 5px;
+    border: none;
 }
 
 .newprofile:hover {
@@ -25,7 +26,7 @@
     margin-top: 1%;
     margin-bottom: 1%;
     width: 60vw;
-    height: 20vh;
+    height: 20%;
     gap: 25%;
 }
 
@@ -49,6 +50,9 @@
 .Spalte2 {
     width: 40%;
     height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .heart {
     height: 50px;
@@ -85,6 +89,42 @@
     transform: scale(1.1);
     transition: 0.2s;
     cursor: pointer;
+}
+
+.modal button {
+    white-space: nowrap;
+    background-color: var(--highlight-color);
+    border-radius: 5px;
+    border: none;
+}
+
+.modal .Felder {
+    margin-bottom: 6%;
+}
+
+.modal button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.Felder {
+    display: flex;
+    flex-direction: column; 
+    gap: 1rem;               
+}
+
+.Feld1, .Feld2 {
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.Felder label,
+.Felder input {
+  width: 60%;            
+  box-sizing: border-box;  
 }
 
 @media (min-width: 935px) and (max-width: 1130px) {
