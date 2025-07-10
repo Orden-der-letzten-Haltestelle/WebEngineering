@@ -67,6 +67,35 @@ async function createUser(username, password, email) {
 }
 
 /**
+ * Create an Admin in the DB, hashes the password and sends out an Email
+ * @param {string} username
+ * @param {string} password
+ * @param {string} email
+ * @returns {Promise<Object>} [user, jwt]
+ */
+async function createAdmin(username, password, email) {
+    //verify, that email and password are fitting requirements.
+    AuthValidator.isSecurePassword(password)
+    await AuthValidator.isValidEmail(email)
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, PASSWORD_HASH_SALT)
+
+    //create user
+    const user = await AuthModel.createAdmin(username, hashedPassword, email)
+
+    // TODO Send out the Email if succesfull
+    await sendVerificationEmail(email)
+
+    //generate jwtToken
+    const jwt = generateJWTtoken(user)
+    return {
+        user: user,
+        jwt: jwt,
+    }
+}
+
+/**
  * sends verification email, so that users verify themselves via a link provided in the mail
  */
 async function sendVerificationEmail(email) {
@@ -286,16 +315,23 @@ async function sendLoginMail(email) {
                     color: #333;
                     text-align: center;
                 }
+                p {
+                    color: #000;
+                    font-size: 12;
+                    text-align: center
+                    padding-bottom: 30px;
+                }
                 a {
-                    color: var(#dbc70c);
+                    color: #dbc70c;
                     text-decoration: underline;
                     font-size: 12px;
+                    text-align: center;
                 }
                 #login {
-                    margin-top: 30px;
-                    margin-bottom:20px;
+                    padding-top: 40px;
+                    padding-bottom:40px;
                     font-size: 20px;
-                    margin-left:97px;
+                    text-align: center
                 }
                 a:hover {
                     color:rgb(50, 48, 48); 
@@ -343,4 +379,6 @@ export default {
     verifyEmail,
     sendLoginMail,
     loginWithToken,
+    createAdmin,
+    sendVerificationEmail,
 }

@@ -1,4 +1,5 @@
-import { logInUser, registerUser, verifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
+
+import { logInUser, registerUser, SendVerifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
 
 document.addEventListener('DOMContentLoaded', () => {
     const registerForm = document.getElementById("RegisterForm");
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('password').value;
             registerUser(username, email, password).then((res) => {
                 document.cookie = "token=" + res.jwt.token;
-                window.location.href = '/';
+                document.getElementById('kontoerstelltOverlay').style.display = 'flex'
             }).catch((err) => {
                 alert("❌ Failed to sign up user: " + (err.message || "Unknown error"));
                 console.error(err);
@@ -34,15 +35,20 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const button = document.getElementById("verify");
+    const button = document.getElementById("button-sendAgain");
     if (button) {
-        button.addEventListener("click", function handleverifyMail(event) {
+        button.addEventListener("click", function handleSendVerifyMail(event) {
             event.preventDefault();
-            const email = req.
-            verifyMail(email, token).then((res) => {
-                window.location.href = '/';
+            const email = document.getElementById('email').value;
+            SendVerifyMail(email).then((res) => {
+                const emailSentOverlay = document.getElementById('emailSentOverlay');
+                if (emailSentOverlay) {
+                    emailSentOverlay.style.display = 'flex';
+                } else {
+                    console.error('Element with ID "emailSentOverlay" not found');
+                }
             }).catch((err) => {
-                alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
+                alert("❌ Failed to send email again: " + (err.message || "Unknown error"));
                 console.error(err);
             });
         });
@@ -54,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             const email = document.getElementById('email').value;
             SendSignInMail(email).then((res) => {
-                window.location.href = '/';
+                document.getElementById('emailSentOverlay').style.display = 'flex'
             }).catch((err) => {
                 alert("❌ Failed to sign in user: " + (err.message || "Unknown error"));
                 console.error(err);
