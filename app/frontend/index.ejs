@@ -14,6 +14,23 @@
             <% }) %>
                 <% } %>
 
+        <link rel="stylesheet" href="http://localhost:3000/index.css" />
+        <link
+            rel="stylesheet"
+            href="http://localhost:3000/style/deletebutton.css"
+        />
+        <link
+            rel="stylesheet"
+            href="http://localhost:3000/style/dropdown.css"
+        />
+        <link rel="stylesheet" href="http://localhost:3000/style/overlay.css" />
+    </head>
+    <% if (cssFiles && cssFiles.length) { %>
+        <% cssFiles.forEach(function(cssFile) { %>
+            <link rel="stylesheet" href="<%= cssFile %>" />
+            <% }) %>
+                <% } %>
+
                     <link rel="stylesheet" href="/index.css" />
                     <link rel="stylesheet" href="./style/deletebutton.css" />
                     <link rel="stylesheet" href="./style/dropdown.css" />

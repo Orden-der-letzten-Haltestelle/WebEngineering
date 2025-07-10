@@ -18,7 +18,8 @@ import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import WishlistPageLoader from "./pages/wishlist/WishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
-import ProductPageLoader from "./pages/products/ProductPage.js"
+import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
+import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
 
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
@@ -37,7 +38,18 @@ const __dirname = path.dirname(__filename)
 router.get(
     "/",
     notRequiredAuth,
-    handlePage(ProductPageLoader, "pages/products/ProductPage", {
+    handlePage(ProductPageLoader, "pages/products/productPage/ProductPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* ProductDetailled Page*/
+
+router.get(
+    "/product/:productId",
+    notRequiredAuth,
+    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
         excludeNavbar: false,
         excludeFooter: false,
     })
@@ -261,7 +273,8 @@ async function notRequiredAuth(req, res, next) {
 
     //when token given, then get user Information
     try {
-        req.user = await fetchUser(token)
+        const user = await fetchUser(token)
+        req.user = user
         req.token = token
         next()
     } catch (err) {
