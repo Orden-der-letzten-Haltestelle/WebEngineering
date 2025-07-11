@@ -16,13 +16,13 @@
             <div class="role-dropdown dropdown-content hide">
                 <button
                     class="dropdown-item"
-                    onclick="handleUpdateWishlistMemberRole('<%= token %>', '<%= member.id%>', 1)"
+                    onclick="handleUpdateWishlistMemberRole('<%= token %>', '<%= member.userWishlistRelationId%>', 1)"
                 >
                     Lesen
                 </button>
                 <button
                     class="dropdown-item"
-                    onclick="handleUpdateWishlistMemberRole('<%= token %>', '<%= member.id%>', 2)"
+                    onclick="handleUpdateWishlistMemberRole('<%= token %>', '<%= member.userWishlistRelationId%>', 2)"
                 >
                     Schreiben
                 </button>
@@ -30,7 +30,7 @@
         </div>
         <button
             class="trash-icon-button cartitem-delete"
-            onclick="handleDeleteWishlistMember('<%= token %>', '<%= member.id %>')"
+            onclick="handleDeleteWishlistMember('<%= token %>', '<%= member.userWishlistRelationId %>')"
         >
             <svg
                 viewBox="0 0 24 24"
