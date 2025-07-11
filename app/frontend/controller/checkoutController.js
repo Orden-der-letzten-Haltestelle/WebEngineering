@@ -1,4 +1,5 @@
 import { updateAmount, buyCart } from "../api/checkoutApiHandler.js"
+import { showToast } from "../helper.js"
 
 window.handleCheckout = function handleCheckout(token) {
     if (token == undefined) {
@@ -9,7 +10,7 @@ window.handleCheckout = function handleCheckout(token) {
             window.location.href = "http://localhost:3000/checkout/confirm"
         })
         .catch((err) => {
-            alert("❌ Failed to checkout: " + (err.message || "Unknown error"))
+            showToast("❌ Failed to checkout: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -30,10 +31,7 @@ window.handleUpdateCheckoutItemAmount = function handleUpdateCartItemAmount(
             window.location.reload()
         })
         .catch((err) => {
-            alert(
-                "❌ Failed to update amount of CheckoutItem: " +
-                    (err.message || "Unknown error")
-            )
+            showToast("❌ Failed to update amount of CheckoutItem: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
