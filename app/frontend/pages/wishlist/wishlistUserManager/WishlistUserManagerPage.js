@@ -12,9 +12,12 @@ export default async function WishlistUserManagerPageLoader(req, res) {
     const token = req.token
     const wishlist = await getWishlistById(wishlistId, token)
 
-    console.log(wishlist.members)
+    console.log(wishlist.members[0])
+    console.log(wishlist)
+    console.log(wishlist.members[0].roles)
     return {
         title: "WishlistUserManager",
+        wishlist: wishlist,
         members: wishlist.members,
         token: token,
         components: ["WishlistMember"],

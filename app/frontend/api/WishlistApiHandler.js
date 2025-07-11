@@ -137,3 +137,78 @@ export async function deleteWishlist(token, wishlistId) {
     }
     return await res.json()
 }
+
+export async function updateWishlistMemberRole(
+    token,
+    userWishlistRelationId,
+    newRoleLevel
+) {
+    const res = await fetch(
+        `${config.host}/wishlist/permission/${userWishlistRelationId}`,
+        {
+            method: "PUT",
+            headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                roleLevel: newRoleLevel,
+            }),
+        }
+    )
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage =
+            errorData.message || `Failed to update WishlistMemberRole`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+
+export async function deleteWishlistMember(token, userWishlistRelationId) {
+    console.log(token)
+    const res = await fetch(
+        `${config.host}/wishlist/permission/${userWishlistRelationId}`,
+        {
+            method: "DELETE",
+            headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+            },
+        }
+    )
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage =
+            errorData.message || `Failed to delete WishlistMember`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+
+export async function addWishlistMember(token, wishlistId, userId, roleLevel) {
+    
+    const res = await fetch(
+        `${config.host}/wishlist/${wishlistId}/permission`,
+        {
+            method: "POST",
+            headers: {
+                Authorization: token,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+                roleLevel: roleLevel,
+            }),
+        }
+    )
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || `Failed to add WishlistMember`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}

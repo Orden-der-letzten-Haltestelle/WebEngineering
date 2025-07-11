@@ -1,7 +1,29 @@
 <div id="wishlistUserManagerPage-container">
-    <div class="member-list">
-        <% members.forEach((member)=> { %> <%-
-        include("../../../components/WishlistMember/WishlistMember", { member:
-        member, token: token }) %> <% }) %>
+    <div class="inner-container">
+        <div class="header">
+            <h1><%= wishlist.name %></h1>
+        </div>
+        
+        <div class="member-list">
+            <% members.forEach((member)=> { %> <%-
+            include("../../../components/WishlistMember/WishlistMember", {
+            member: member, token: token, wishlist:wishlist }) %> <% }) %>
+            <div class="wishlist-member-container">
+                <div class="addNutzer">
+                    <input
+                        id="nutzerEmail"
+                        type="email"
+                        placeholder="email"
+                        class="default-input"
+                    />
+                    <button
+                        class="add-button"
+                        onclick="handleAddWishlistMember('<%= token %>', '<%= wishlist.id %>')"
+                    >
+                        Hinzufügen
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
