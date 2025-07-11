@@ -20,6 +20,21 @@ export async function fetchProducts(value, minPrice, maxPrice) {
     return res.json()
 }
 
+export async function addProductToCart(productId, token) {
+    const res = await fetch(`${config.host}/cart/product/${productId}`, {
+        method: "POST",
+        headers: {
+            Authorization: token,
+        },
+    })
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage =
+            errorData.message || "Failed to add product to cart"
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return res.json()
+}
 /**
  * Fetch products information from backend
  * @param {string} token
@@ -53,12 +68,11 @@ export async function updateProduct(
             Authorization: token,
         },
         body: JSON.stringify({
-
             name: name,
             description: description,
             amount: amount,
             price: price,
-        })
+        }),
     })
 
     if (!res.ok) {
@@ -69,22 +83,18 @@ export async function updateProduct(
     return await res.json()
 }
 
-
-
 export async function createProduct(token, name, description, amount, price) {
     const res = await fetch(`${config.host}/products/`, {
         method: "POST",
         headers: {
             Authorization: token,
             "Content-Type": "application/json",
-
         },
         body: JSON.stringify({
             name: name,
             description: description,
             price: price,
             amount: amount,
-
         }),
     })
 
@@ -95,8 +105,6 @@ export async function createProduct(token, name, description, amount, price) {
     }
     return await res.json()
 }
-
-
 
 export async function deleteProduct(productId, token) {
     const res = await fetch(`${config.host}/products/${productId}`, {

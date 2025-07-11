@@ -18,6 +18,7 @@ import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import DetailedWishlistPageLoader from "./pages/wishlist/detailedWishlist/DetailedWishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
+import CheckoutConfirmPageLoader from "./pages/checkoutConfirm/CheckoutConfirmPage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
@@ -74,6 +75,16 @@ router.get(
     "/checkout",
     requireAuth,
     handlePage(CheckoutPageLoader, "pages/checkout/CheckoutPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/*checkoutConfirmPage*/
+router.get(
+    "/checkout/confirm",
+    notRequiredAuth,
+    handlePage(CheckoutConfirmPageLoader, "pages/checkoutConfirm/CheckoutConfirmPage", {
         excludeNavbar: false,
         excludeFooter: false,
     })
