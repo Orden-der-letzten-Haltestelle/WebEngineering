@@ -13,21 +13,22 @@
         <link rel="stylesheet" href="/index.css" />
         <link rel="stylesheet" href="./style/deletebutton.css" />
         <link rel="stylesheet" href="./style/dropdown.css" />
+        <link rel="stylesheet" href="/components/footer/footer.css" />
     </head>
 
     <body>
         <div id="outer-container">
             <% if (!excludeNavbar) { %>
-            <div id="header-placeholder"></div>
+            <%- include('components/navbar/navbar.ejs') %>
             <% } %>
 
-            <main>
+            <main class="<% if (!excludeNavbar) { %> with-navbar <% } %>"">
                 <!-- Hier wird die jeweilige Seiten-Datei eingefügt -->
                 <%- bodyContent %>
             </main>
 
             <% if (!excludeFooter) { %>
-            <div id="footer-placeholder"></div>
+                <%- include('components/footer/footer.ejs') %>
             <% } %>
         </div>
         <script src="/components/navbar/navbar.js" type="module"></script>

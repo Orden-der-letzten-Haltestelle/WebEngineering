@@ -1,63 +1,53 @@
 /* General styles for the footer */
 .footer {
-    position: relative;
+    position: relative; /* Ensure footer follows the document flow */
+    bottom: 0;
     width: 100%;
     padding: 10px 20px;
     background-color: var(--highlight-color);
     border-top: 1px solid #e0e0e0;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between; /* Space items evenly */
+    align-items: center; /* Center items vertically */
 }
 
 /* Styles for the icon container */
 .footer-icon-container {
     display: flex;
-    align-items: left;
+    align-items: center; /* Center icons vertically */
 }
 
 .icon-button {
-    width: 5px;
+    width: 24px; /* Adjust width for better visibility */
     height: auto;
     fill: #000;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 1px;
-    padding-top: 10px;
+    padding: 5px; /* Adjust padding for better spacing */
 }
 
 /* Styles for the copyright container */
 .copyright-container {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 20px;
     font-size: 14px;
     color: #333;
-    padding-bottom: 25px;
-    padding-right: 25px;
-}
-footer {
-    display: flex;
-    align-items: right;
-    justify-content: left;
-}
-
-footer span {
-    display: inline-block;
+    padding: 20px;
+    /* Removed absolute positioning for better flexbox integration */
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    footer {
-        flex-direction: column;
+    .footer {
+        flex-direction: column; /* Stack items vertically on small screens */
         padding: 10px;
+        align-items: center; /* Center items on small screens */
     }
 
-    .footer-icon {
-        margin-right: 0;
-        margin-top: 5px;
+    .footer-icon-container {
+        margin-top: 10px; /* Add margin for spacing */
     }
 
     footer span {
-        text-align: center;
+        text-align: center; /* Center text on small screens */
     }
 }

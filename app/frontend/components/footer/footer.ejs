@@ -1,0 +1,48 @@
+<footer class="footer">
+    <!-- Icons -->
+    <div class="about-icon-container" id="footer-icon-container">
+        <a href="/about">
+            <button class="icon-button about">
+                <img src="https://www.svgrepo.com/show/480858/train.svg" alt="Train Icon" width="30" height="30">
+            </button>
+        </a>
+    </div>
+    <div class="copyright-container">
+        <span>&copy; OdlH 2025</span>
+    </div>
+</footer>
+
+<script>
+    // Function to load the footer HTML and attach event listener for possible about page
+    async function loadFooter() {
+        const footerPlaceholder = document.getElementById("footer-placeholder");
+
+        if (!footerPlaceholder) {
+            console.error("Placeholder div with ID 'footer-placeholder' not found.");
+            return;
+        }
+
+        try {
+            // Fetch the footer.html content
+            const response = await fetch("/components/footer/footer.html");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const footerHtml = await response.text();
+
+            // Insert the fetched HTML into the placeholder
+            footerPlaceholder.innerHTML = footerHtml;
+
+            // Import CSS
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "/components/footer/footer.css"; // Adjust path as necessary
+            document.head.appendChild(link);
+        } catch (error) {
+            console.error("Error loading or processing footer:", error);
+        }
+    }
+
+    // Ensure the main HTML document is ready before attempting to load the footer
+    document.addEventListener("DOMContentLoaded", loadFooter);
+</script>
