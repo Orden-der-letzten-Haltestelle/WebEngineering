@@ -26,6 +26,7 @@ import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPa
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
+import WishlistSelectionPageLoader from "./pages/wishlist/wishlistSelection/wishlistSelection.js"
 
 
 const router = express.Router()
@@ -48,6 +49,16 @@ router.get(
     "/product/:productId",
     notRequiredAuth,
     handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
+/* add product to Wishlist / WishlistSelection Page */
+router.get(
+    "/product/:productId/wishlists",
+    requireAuth,
+    handlePage(WishlistSelectionPageLoader, "pages/wishlist/wishlistSelection/wishlistSelection", {
         excludeNavbar: false,
         excludeFooter: false,
     })
