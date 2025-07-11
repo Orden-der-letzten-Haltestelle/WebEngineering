@@ -29,7 +29,7 @@ window.handleDeleteCart = function handleDeleteCart(token) {
 }
 window.handleAddtocart = function handleAddtocart(productId, token) {
     addproductTocart(productId, token).then(() => {
-        window.location.reload();
+        window.location.href = `http://localhost:3000/cart`
     }).catch((err) => {
         showToast("❌ Add to cart: " + (err.message || "Unknown error"));
         console.error(err)
