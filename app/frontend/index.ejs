@@ -14,34 +14,23 @@
             <% }) %>
                 <% } %>
 
-        <link rel="stylesheet" href="http://localhost:3000/index.css" />
-        <link
-            rel="stylesheet"
-            href="http://localhost:3000/style/deletebutton.css"
-        />
-        <link
-            rel="stylesheet"
-            href="http://localhost:3000/style/dropdown.css"
-        />
-        <link rel="stylesheet" href="http://localhost:3000/style/overlay.css" />
-    </head>
-    <% if (cssFiles && cssFiles.length) { %>
-        <% cssFiles.forEach(function(cssFile) { %>
-            <link rel="stylesheet" href="<%= cssFile %>" />
-            <% }) %>
-                <% } %>
-
-                    <link rel="stylesheet" href="/index.css" />
-                    <link rel="stylesheet" href="./style/deletebutton.css" />
-                    <link rel="stylesheet" href="./style/dropdown.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/index.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/style/deletebutton.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/style/dropdown.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/style/overlay.css" />
+                    <link rel="stylesheet" href="http://localhost:3000/style/input.css" />
 </head>
-
-<body>
-    <div id="outer-container">
-        <% if (!excludeNavbar) { %>
-            <div id="header-placeholder"></div>
+<% if (cssFiles && cssFiles.length) { %>
+    <% cssFiles.forEach(function(cssFile) { %>
+        <link rel="stylesheet" href="<%= cssFile %>" />
+        <% }) %>
             <% } %>
 
+                <body>
+                    <div id="outer-container">
+                        <% if (!excludeNavbar) { %>
+                            <div id="header-placeholder"></div>
+                            <% } %>
                 <main>
                     <!-- Hier wird die jeweilige Seiten-Datei eingefügt -->
                     <%- bodyContent %>
@@ -51,21 +40,26 @@
                     <% } %>
     </div>
 
-    <!-- Implement standard components -->
-    <script src="/components/navbar/navbar.js" type="module"></script>
-    <script src="/components/footer/footer.js" type="module"></script>
 
-    <!-- Implement api scripts -->
-    <script src="/controller/CartController.js" type="module"></script>
-    <script src="/controller/AuthController.js" type="module"></script>
-    <script src="/controller/AdminController.js" type="module"></script>
-    <script src="/controller/ProductController.js" type="module"></script>
-    <script src="/controller/UserController.js" type="module"></script>
-    <script src="/controller/WishlistController.js" type="module"></script>
+                        
+
+                    <!-- Implement standard components -->
+                    <script src="/components/navbar/navbar.js" type="module"></script>
+                    <script src="/components/footer/footer.js" type="module"></script>
+
+                    <!-- Implement api scripts -->
+                    <script src="/controller/CartController.js" type="module"></script>
+                    <script src="/controller/AuthController.js" type="module"></script>
+                    <script src="/controller/AdminController.js" type="module"></script>
+                    <script src="/controller/ProductController.js" type="module"></script>
+                    <script src="/controller/UserController.js" type="module"></script>
+                    <script src="/controller/WishlistController.js" type="module"></script>
+
+                    <!-- Toast Messages instead of alerts -->
+                    <div id="toast" class="toast"></div>
+                </body>
 </body>
 
 
-<!-- Toast Messages instead of alerts -->
-<div id="toast" class="toast"></div>
 
 </html>
