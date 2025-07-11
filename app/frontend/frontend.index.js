@@ -28,7 +28,6 @@ import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPa
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
-import WishlistSelectionPageLoader from "./pages/wishlist/wishlistSelection/wishlistSelection.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -57,16 +56,6 @@ router.get(
             excludeFooter: false,
         }
     )
-)
-
-/* add product to Wishlist / WishlistSelection Page */
-router.get(
-    "/product/:productId/wishlists",
-    requireAuth,
-    handlePage(WishlistSelectionPageLoader, "pages/wishlist/wishlistSelection/wishlistSelection", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
 )
 
 /* CartPage */
