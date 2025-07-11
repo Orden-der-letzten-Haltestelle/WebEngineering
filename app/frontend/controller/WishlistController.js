@@ -34,7 +34,7 @@ window.handleDeleteWishlist = function handleDeleteWishlist(event, token) {
         })
         .catch((err) => {
             showToast(
-                "❌ deleting Product Failed: " +
+                "❌ deleting Wishlist Failed: " +
                     (err.message || "Unknown error")
             )
             console.error(err)
