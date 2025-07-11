@@ -5,6 +5,15 @@ align-items: center;
 flex: 1;
 }
 
+#order-container {
+    border-radius: 12px;
+    background-color: rgb(222, 222, 222);
+    margin: 30px;
+    padding: 20px;
+    width: 90%;
+}
+
+
 #OrderhistoryItem {
     display: flex;
     justify-content: space-between;
