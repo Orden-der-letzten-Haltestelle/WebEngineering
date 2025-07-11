@@ -27,9 +27,9 @@ window.handleDeleteCart = function handleDeleteCart(token) {
         console.error(err)
     })
 }
-window.handleAddtocart = function handleAddtocart(productId, token) {
-    addproductTocart(productId, token).then(() => {
-        window.location.reload();
+window.handleAddtocart = function handleAddtocart(productId, token, amount = 1) {
+    addproductTocart(productId, token, amount).then(() => {
+        window.location.href = "http://localhost:3000/cart";
     }).catch((err) => {
         showToast("❌ Add to cart: " + (err.message || "Unknown error"));
         console.error(err)

@@ -16,6 +16,7 @@ import LoginSupportPageLoader from "./pages/login/PasswordSupport/passwordSuppor
 import LoginMailLinkPageLoader from "./pages/login/loginMail/Link/LoginPage.js"
 import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
+import DetailedWishlistPageLoader from "./pages/wishlist/detailedWishlist/DetailedWishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
@@ -26,7 +27,6 @@ import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPa
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
-
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -47,10 +47,14 @@ router.get(
 router.get(
     "/product/:productId",
     notRequiredAuth,
-    handlePage(ProductDetailledLoader, "pages/products/productDetailled/ProductDetailled", {
-        excludeNavbar: false,
-        excludeFooter: false,
-    })
+    handlePage(
+        ProductDetailledLoader,
+        "pages/products/productDetailled/ProductDetailled",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
 )
 
 /* CartPage */
@@ -161,13 +165,25 @@ router.get(
     })
 )
 
-/* wishlist */
 router.get(
     "/wishlist",
     requireAuth,
     handlePage(
         WishlistOverviewPageLoader,
         "pages/wishlist/wishlist_overview/wishlist_overview",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+router.get(
+    "/wishlist/:wishlistId",
+    requireAuth,
+    handlePage(
+        DetailedWishlistPageLoader,
+        "pages/wishlist/detailedWishlist/DetailedWishlistPage",
         {
             excludeNavbar: false,
             excludeFooter: false,
@@ -252,8 +268,9 @@ function handlePage(pageLoader, pagePath, layoutOptions = {}) {
  */
 async function renderErrorPage(req, res, error) {
     const errorPageContent = {
-        title: `Unexpected Error${error.status == undefined ? "" : " with Status:" + error.status
-            }, try again later`,
+        title: `Unexpected Error${
+            error.status == undefined ? "" : " with Status:" + error.status
+        }, try again later`,
         message: error.message == undefined ? "" : error.message,
     }
 
