@@ -137,3 +137,20 @@ export async function deleteWishlist(token, wishlistId) {
     }
     return await res.json()
 }
+
+export async function addProductToWishlist(token, wishlistId, productId) {
+    const res = await fetch(`${config.host}/wishlist/${wishlistId}/product/${productId}`, {
+        method: "POST",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || `Failed to add product to wishlist`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
