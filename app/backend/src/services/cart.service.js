@@ -125,7 +125,7 @@ async function sendBuyEmail(email, orderItems) {
                 }
             </style>
         </head>
-        <h1>Bestell Besätigung ${formattedDate}</h1>
+        <h1>Bestell Bestätigung ${formattedDate}</h1>
         <table>
             <thead>
                 <tr>

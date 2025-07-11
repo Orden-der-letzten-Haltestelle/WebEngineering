@@ -5,7 +5,7 @@ import {
     createWishlist,
     deleteWishlist,
     addProductToWishlist,
-} from "../api/wishlistApiHandler.js"
+} from "../api/WishlistApiHandler.js"
 import { showToast } from "../helper.js";
 
 window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(
@@ -18,10 +18,7 @@ window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(
             window.location.reload()
         })
         .catch((err) => {
-            alert(
-                "❌ Failed to update amount of WishlistItem: " +
-                    (err.message || "Unknown error")
-            )
+            showToast("❌ Failed to update amount of WishlistItem: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -35,10 +32,7 @@ window.handleDeleteWishlistItemById = function handleDeleteWishlistItemById(
             window.location.reload()
         })
         .catch((err) => {
-            alert(
-                "❌ Failed to delete WishlistItem: " +
-                    (err.message || "Unknown error")
-            )
+            showToast("❌ Failed to delete WishlistItem: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
@@ -52,10 +46,7 @@ window.handleUpdateWishlistInfo = function handleUpdateWishlistInfo(id, token) {
             window.location.reload()
         })
         .catch((err) => {
-            alert(
-                "❌ Failed to update wishlist info: " +
-                    (err.message || "Unknown error")
-            )
+            showToast("❌ Failed to update wishlist info: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }

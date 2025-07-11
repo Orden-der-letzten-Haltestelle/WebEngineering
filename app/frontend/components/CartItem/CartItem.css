@@ -27,11 +27,13 @@
 .cartitem-container>a>img {
     width: 45px;
     height: 45px;
+    object-fit: cover;
 }
 
 .cartitem-name {
     grid-area: 1 / 2 / 2 / 3;
     white-space: nowrap;
+    font-weight: bold;
 }
 
 .cartitem-id {
@@ -43,7 +45,10 @@
 .cartitem-dropdown {
     white-space: nowrap;
     justify-self: end;
-    background-color: #989898;
+    background-color: #D9D9D9;
+    border-radius: 6px;
+    color: black;
+    box-sizing: border-box;
 }
 
 .cartitem-delete {}
@@ -52,13 +57,16 @@
 .dropdown-button.cartitem {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     opacity: 0.5;
-    gap: 5px;
-    border-radius: 2px;
-    background-color: var(--button-color);
-    background-color: #989898;
+    gap: 0.5em;
+    padding: 0.5em;
+    border: none;
+    width: 120px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #ccc;
 
-    border: 1px solid transparent
 }
 
 .dropdown-button.cartitem:hover {
@@ -67,17 +75,35 @@
 
 
 .dropdown-content.cartitem>.dropdown-item {
-    background-color: #989898;
-    border: 1px solid transparent;
+    background: none;
+    border: none;
+    padding: 0.5em 0.8em;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-radius: 6px;
+
 }
 
 .dropdown-content {
-    background-color: #D9D9D9;
+      text-align: right;
+    background-color: #989898;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    border-radius: 6px;
+    margin-top: 5px;
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    min-width: 100%;
+    box-sizing: border-box;
 }
 
 .dropdown-content.cartitem>.dropdown-item:hover {
     opacity: 0.8;
-
+    background-color: #696969;
 }
 
 .dropdown-button.cartitem:hover {
@@ -87,7 +113,7 @@
 
 .cartitem.dropdown-arrow {
     width: 12px;
-    height:  12px;
+    height: 12px;
     transform: rotate(90deg);
 }
 
