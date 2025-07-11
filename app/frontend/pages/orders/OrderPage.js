@@ -6,7 +6,6 @@ import {orderHistory} from "../../api/orderPage_apiHandler.js"
  * @param {*} res
  */
 export default async function OrderPageLoader(req, res) {
-    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     const orderItems = await orderHistory(req.token)
 
     const ordersMap = new Map();
@@ -27,9 +26,8 @@ export default async function OrderPageLoader(req, res) {
         .sort(([dateA], [dateB]) => new Date(dateB) - new Date(dateA))
         .map(([date, { formattedDate, items }]) => ({ formattedDate, items }));
 
-    console.log(orders)
     return {
-        title: "OrderPage",
+        title: "Bestellhistorie",
         /* Hier werden die Daten der BeispielComponenten übergeben */
         orders: orders,
         url: "http://localhost:3000",
