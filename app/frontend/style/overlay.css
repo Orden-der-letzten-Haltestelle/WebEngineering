@@ -55,6 +55,7 @@
     border: 1px solid transparent;
     border-radius: 8px;
     height: 45px;
+    cursor: pointer;
 }
 
 .overlay-button:hover {

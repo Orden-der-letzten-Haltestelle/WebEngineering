@@ -3,30 +3,31 @@
     <!-- Hier werden die Beispiel Componenten geladen. -->
 
     <div class="products-grid">
-        <% products.forEach(product => {%>
-        <a href="http://localhost:3000/product/<%= product.id %>">
-            <div class="products-card">
-                <div class="image-wrapper">
-                    <img
-                        src="<%= product.image || '/img/BeispielImg.png' %>"
-                        alt="Produktblid"
-                    />
-                </div>
-                <div class="products-info">
-                    <h2><%= product.name %></h2>
-                    <p><%= product.description %></p>
-                    <div class="price-buy">
-                        <span class="price"><%= product.price / 100 %>.-</span>
-                        <button
-                            class="buy-button"
-                            onclick="handleAddtocartWithEvent(event, '<%= product.id %>', '<%= token %>')"
-                        >
-                            Warenkorb
-                        </button>
+        <% products.forEach(product=> {%>
+            <a href="http://localhost:3000/product/<%= product.id %>">
+                <div class="products-card">
+                    <div class="image-wrapper">
+                        <img src="<%= product.image || '/img/BeispielImg.png' %>" alt="Produktblid" />
+                    </div>
+                    <div class="products-info">
+                        <h2>
+                            <%= product.name %>
+                        </h2>
+                        <p class="description">
+                            <%= product.description %>
+                        </p>
+                        <div class="price-buy">
+                            <span class="price">
+                                <%= product.price / 100 %>.-
+                            </span>
+                            <button class="buy-button"
+                                onclick="handleAddtocartWithEvent(event, '<%= product.id %>', '<%= token %>')">
+                                Warenkorb
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </a>
-        <% }) %>
+            </a>
+            <% }) %>
     </div>
 </div>
