@@ -73,7 +73,6 @@ window.handleCreateWishlist = function handleCreateWishlist(event, token) {
 
     const res = createWishlist(token, name, description)
         .then(() => {
-            console.log(res)
             window.location.reload()
         })
         .catch((err) => {
@@ -93,7 +92,6 @@ window.handleDeleteWishlist = function handleDeleteWishlist(event, token) {
         .getAttribute("data-id")
     deleteWishlist(token, wishlistId)
         .then((res) => {
-            console.log(res)
             window.location.href = `http://localhost:3000/wishlist`
         })
         .catch((err) => {
@@ -109,8 +107,6 @@ window.handleAddWishlistMember = function handleAddWishlistMember(
     token,
     wishlistId
 ) {
-    console.log(token)
-    console.log(wishlistId)
     const email = document.getElementById("nutzerEmail").value
     fetchUserByEmail(token, email)
         .then((res) => {

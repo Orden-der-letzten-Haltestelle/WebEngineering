@@ -167,7 +167,6 @@ export async function updateWishlistMemberRole(
 }
 
 export async function deleteWishlistMember(token, userWishlistRelationId) {
-    console.log(token)
     const res = await fetch(
         `${config.host}/wishlist/permission/${userWishlistRelationId}`,
         {
