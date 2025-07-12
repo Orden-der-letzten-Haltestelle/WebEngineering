@@ -22,6 +22,8 @@ import CheckoutConfirmPageLoader from "./pages/checkoutConfirm/CheckoutConfirmPa
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
+import WishlistUserManagerPageLoader from "./pages/wishlist/wishlistUserManager/WishlistUserManagerPage.js"
+
 import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
@@ -183,6 +185,19 @@ router.get(
     handlePage(
         WishlistOverviewPageLoader,
         "pages/wishlist/wishlist_overview/wishlist_overview",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+router.get(
+    "/wishlist/:wishlistId/members",
+    requireAuth,
+    handlePage(
+        WishlistUserManagerPageLoader,
+        "pages/wishlist/wishlistUserManager/WishlistUserManagerPage",
         {
             excludeNavbar: false,
             excludeFooter: false,

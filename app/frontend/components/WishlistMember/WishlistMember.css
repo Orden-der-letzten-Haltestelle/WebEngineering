@@ -1,0 +1,56 @@
+.wishlist-member-container {
+    width: 100%;
+    max-width: 1200px;
+    min-width: 200px;
+    height: 60px;
+    border-radius: 6px;
+    background-color: #d9d9d9;
+    padding: 8px;
+    display: flex;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wishlist-member-container .info {
+    display: grid;
+}
+
+.info span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.end {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.role .role-button {
+    height: 30px;
+    width: 80px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.role .role-button:hover {
+    border-color: black;
+}
+
+.role-dropdown .dropdown-item {
+    border: 1px solid transparent;
+    height: 20px;
+}
+
+.role-dropdown .dropdown-item:hover {
+    border-color: black;
+}
+
+@media screen and (max-width: 650px) {
+    .wishlist-member-container:not(:last-of-type) {
+        display: grid;
+        height: 100px;
+    }
+}
