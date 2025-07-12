@@ -65,5 +65,14 @@
         const arrow = container.querySelector('.dropdown-arrow.cartitem');
         arrow.classList.toggle('rotated')
         content.classList.toggle('hide');
-    }
+
+        const rect = dropdownContent.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+
+        if (rect.bottom > viewportHeight) {
+            dropdownContent.style.top = `-${rect.height}px`;
+        } else {
+            dropdownContent.style.top = 'auto';
+        }
+        }
 </script>
