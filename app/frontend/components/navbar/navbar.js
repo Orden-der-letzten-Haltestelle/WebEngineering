@@ -1,4 +1,5 @@
 import { isTokenGiven,
+    isUserAdmin,
  } from "../../helper.js"
 
 // Function to load the navbar HTML and attach event listeners
@@ -117,7 +118,7 @@ async function loadNavbar() {
         const adminLinkHamburger = document.getElementById(
             "AdminHamburger"
         )
-        const userAdmin= isTokenGiven()
+        const userAdmin= isUserAdmin()
         if (userAdmin) {
             adminLink.classList.add("display")
             adminLinkHamburger.classList.add("display")

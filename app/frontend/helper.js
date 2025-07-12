@@ -17,16 +17,13 @@ export function getToken(req) {
 }
 
 
+
 /**
-    /**
-     * Returns if user is an admin
-     * @returns
-     
-    export function isUserAdmin(token) {
-        const user = fetchUser(token)
-        if (user.rows[0].roles.contains("admin")){
-            return true
-        }
-        return false
-    }
-*/
+ * Returns if user is an admin
+ * @returns
+**/ 
+export function isUserAdmin(token) {
+    return document.cookie
+        .split(";")
+        .some((cookie) => cookie.trim().startsWith("admin="))
+}

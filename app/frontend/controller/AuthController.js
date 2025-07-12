@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             logInUser(email, password).then((res) => {
+                if (res.user.roles.includes("admin")) {
+                    document.cookie = "admin=" + res.jwt.token
+                }
                 document.cookie = "token=" + res.jwt.token;
                 window.location.href = '/';
             }).catch((err) => {
