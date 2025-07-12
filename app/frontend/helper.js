@@ -16,8 +16,6 @@ export function getToken(req) {
     return req.cookies?.token || null
 }
 
-
-
 /**
  * Returns if user is an admin
  * @returns
@@ -26,4 +24,18 @@ export function isUserAdmin(token) {
     return document.cookie
         .split(";")
         .some((cookie) => cookie.trim().startsWith("admin="))
+}
+
+ /**
+ * Shows a Toast Message instead of an alert
+ * Since alerts are ugly
+ * @param {*} message any
+ * @param {*} type error or success
+ */
+export function showToast(message, type = "error") {
+    toast.textContent = message;
+    toast.className = `toast show ${type}`;
+    setTimeout(() => {
+        toast.className = 'toast';
+    }, 3000);
 }

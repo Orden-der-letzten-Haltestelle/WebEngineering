@@ -5,14 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title><%= title || "Webshop" %></title>
 
-        <% if (cssFiles && cssFiles.length) { %> <%
-        cssFiles.forEach(function(cssFile) { %>
-        <link rel="stylesheet" href="<%= cssFile %>" />
-        <% }) %> <% } %>
+        <% if (cssFiles && cssFiles.length) { %>
+            <% cssFiles.forEach(function(cssFile) { %>
+                <link rel="stylesheet" href="<%= cssFile %>" />
+            <% }) %>
+        <% } %>
 
-        <link rel="stylesheet" href="/index.css" />
-        <link rel="stylesheet" href="./style/deletebutton.css" />
-        <link rel="stylesheet" href="./style/dropdown.css" />
+        <link rel="stylesheet" href="http://localhost:3000/index.css" />
+        <link rel="stylesheet" href="http://localhost:3000/style/deletebutton.css" />
+        <link rel="stylesheet" href="http://localhost:3000/style/dropdown.css" />
+        <link rel="stylesheet" href="http://localhost:3000/style/overlay.css" />
+        <link rel="stylesheet" href="http://localhost:3000/style/input.css" />
     </head>
 
     <body>
@@ -25,11 +28,12 @@
                 <!-- Hier wird die jeweilige Seiten-Datei eingefügt -->
                 <%- bodyContent %>
             </main>
-
             <% if (!excludeFooter) { %>
-            <div id="footer-placeholder"></div>
+                <div id="footer-placeholder"></div>
             <% } %>
         </div>
+
+        <!-- Implement standard components -->
         <script src="/components/navbar/navbar.js" type="module"></script>
         <script src="/components/footer/footer.js" type="module"></script>
 
@@ -39,5 +43,12 @@
         <script src="/controller/AdminController.js" type="module"></script>
         <script src="/controller/ProductController.js" type="module"></script>
         <script src="/controller/UserController.js" type="module"></script>
+        <script src="/controller/WishlistController.js" type="module"></script>
+        <script src="/controller/checkoutController.js" type="module"></script>
+
+        <!-- Toast Messages instead of alerts -->
+        <div id="toast" class="toast"></div>
     </body>
+
 </html>
+

@@ -83,7 +83,7 @@ async function loadNavbar() {
             iconButtonsContainer.classList.add("hide")
         }
 
-        //handle hamburger navigatino
+        //handle hamburger navigation
         function handleHamburgerNavigation() {
             const hamburgerButton = document.getElementById(
                 "navbar-hamburger-button"
@@ -135,6 +135,12 @@ async function loadNavbar() {
     } catch (error) {
         console.error("Error loading or processing navbar:", error)
     }
+
+    // Show or not show the admin Link
+    // const adminLink = document.getElementById("adminLink");
+    // if (adminLink) {
+    //     adminLink.style.display = "flex"
+    // }
 }
 
 // Ensure the main HTML document is ready before attempting to load the navbar

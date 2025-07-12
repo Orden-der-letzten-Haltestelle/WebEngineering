@@ -1,0 +1,17 @@
+.default-input {
+
+    height: 30px;
+}
+
+.default-input,
+.default-textarea {
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+}
+
+.default-input:focus,
+.default-textarea:focus {
+    border: 1px solid black;
+    outline: none;
+}

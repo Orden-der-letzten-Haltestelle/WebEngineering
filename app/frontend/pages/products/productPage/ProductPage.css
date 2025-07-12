@@ -17,6 +17,7 @@
     margin: 2em auto;
     width: 100%;
     gap: 1.5em;
+    align-items: stretch;
     padding: 2em;
 }
 
@@ -32,6 +33,11 @@
     max-width: 300px;
     width: 100%;
     margin: auto;
+}
+
+
+.product-card a {
+    height: 100%;
 }
 
 .products-card:hover {
@@ -59,11 +65,18 @@
     color: #333;
 }
 
-.products-info p {
+.products-info p {}
+
+.description {
     font-size: 0.95em;
     color: #555;
     flex-grow: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
+
+
 
 .price-buy {
     display: flex;

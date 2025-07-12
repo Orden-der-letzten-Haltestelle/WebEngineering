@@ -1,0 +1,171 @@
+<div id="checkoutPage-content">
+    <div class="checkout-layout">
+        <div class="image-wrapper">
+            <img
+                src="<%= product.image || '/img/BeispielImg.png' %>"
+                alt="Produktbild"
+            />
+        </div>
+        <div class="checkoutItems-container">
+            <div class="checkoutItems-inner-container">
+                <div class="detailledProduct-card">
+                    <div class="summary-name"><%= product.name %></div>
+                    <div class="products-info">
+                        <p>Artikel-Nr.:&emsp;<%= product.id %></p>
+                    </div>
+                    <div class="price-buy">
+                        <span class="price">
+                            <%= (product.price / 100).toFixed(2) %> €
+                        </span>
+                    </div>
+                    <button
+                        class="addToCart-button"
+                        onclick="handleAddtocartWithEvent(this, '<%= product.id %>', '<%= token %>')"
+                    >
+                        In den Warenkorb
+                    </button>
+
+                    <a
+                        href="http://localhost:3000/product/<%= product.id %>/wishlists"
+                    >
+                        <button class="icon-button-heart">
+                            <svg
+                                viewBox="0 0 16 16"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g
+                                    id="SVGRepo_tracerCarrier"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                ></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M1.24264 8.24264L8 15L14.7574 8.24264C15.553 7.44699 16 6.36786 16 5.24264V5.05234C16 2.8143 14.1857 1 11.9477 1C10.7166 1 9.55233 1.55959 8.78331 2.52086L8 3.5L7.21669 2.52086C6.44767 1.55959 5.28338 1 4.05234 1C1.8143 1 0 2.8143 0 5.05234V5.24264C0 6.36786 0.44699 7.44699 1.24264 8.24264Z"
+                                        fill="#ff0000"
+                                    ></path>
+                                </g>
+                            </svg>
+                        </button>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="description-box-container">
+            <h3>Beschreibung des Produkts</h3>
+            <p class="descrpition"><%= product.description %></p>
+        </div>
+    </div>
+</div>
+
+<div class="admin-buttons">
+    <% if (isAdmin) { %>
+    <div class="button-row">
+        <button class="admin-button edit-button" onclick="toggleEditOverlay()">
+            Bearbeiten
+        </button>
+        <button
+            class="admin-button delete-button"
+            onclick="toggleDeleteOverlay()"
+        >
+            Löschen
+        </button>
+    </div>
+    <% } %>
+    <!-- Overlay (initial versteckt) -->
+    <div id="edit-overlay" class="overlay hide">
+        <div class="overlay-content">
+            <h2>Produkt bearbeiten</h2>
+            <form
+                onsubmit="handleUpdateProduct(event, '<%= product.id %>', '<%= token %>')"
+            >
+                <label class="label-name">Name:</label>
+                <input
+                    class="input-name"
+                    id="name"
+                    type="text"
+                    name="name"
+                    value="<%= product.name %>"
+                    required
+                />
+
+                <label class="label-description">Beschreibung:</label>
+                <textarea
+                    class="input-description"
+                    id="description"
+                    name="description"
+                >
+<%= product.description %></textarea
+                >
+
+                <label class="label-price">Preis (€):</label>
+                <input
+                    class="input-price"
+                    id="price"
+                    type="number"
+                    name="price"
+                    value="<%= (product.price / 100).toFixed(2) %>"
+                    step="0.01"
+                    required
+                />
+
+                <label class="label-amount">Anzahl:</label>
+                <input
+                    class="input-amount"
+                    id="amount"
+                    type="number"
+                    name="amount"
+                    value="<%= product.amount %>"
+                    required
+                    step="1"
+                />
+                <button class="save-button" type="submit">Speichern</button>
+                <button
+                    class="stop-button"
+                    type="button"
+                    onclick="toggleEditOverlay()"
+                >
+                    Abbrechen
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- Delete Overlay -->
+    <div class="delete-overlay overlay-container hide" id="delete-overlay">
+        <div class="blur" onclick="toggleDeleteOverlay()"></div>
+        <div class="overlay-inner">
+            <p>
+                Bist du sicher, dass du das Product mit der id: <%= product.id
+                %> Löschen möchtest?
+            </p>
+            <div class="overlay-button-container">
+                <div
+                    class="overlay-button confirm"
+                    onclick="handleDeleteProduct('<%= product.id %>', '<%= token %>')"
+                >
+                    Löschen
+                </div>
+                <div
+                    class="overlay-button abbruch"
+                    onclick="toggleDeleteOverlay()"
+                >
+                    Abbrechen
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleDeleteOverlay() {
+        const overlay = document.getElementById("delete-overlay")
+        overlay.classList.toggle("hide")
+    }
+
+    function toggleEditOverlay() {
+        const overlay = document.getElementById("edit-overlay")
+        overlay.classList.toggle("hide")
+    }
+</script>
