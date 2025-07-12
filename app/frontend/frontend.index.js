@@ -28,6 +28,7 @@ import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPa
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
+import notAllowedPageLoader from "./pages/notAllowed/notAllowedPage.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -254,6 +255,15 @@ router.get(
     })
 )
 
+/*Not allowed*/
+router.get(
+    "/notAllowed",
+    handlePage(notAllowedPageLoader, "pages/notAllowed/notAllowedPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
 /**
  * handles page loading, and loads error page when PageLoader throws an error
  * @param {*} pageLoader
@@ -348,13 +358,13 @@ async function requireAuth(req, res, next) {
 async function requireAdmin(req, res, next) {
     const token = req.token
     if (!token) {
-        throw new Error("Token is required")
+        return res.redirect("/login")
     }
 
     const user = req.user
 
     if (!user.roles.includes("admin")) {
-        throw new Error("you are not allowed to enter this page")
+        return res.redirect("/notAllowed")
     }
     next()
 }
