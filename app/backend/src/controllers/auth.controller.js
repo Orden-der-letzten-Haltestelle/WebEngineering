@@ -2,6 +2,7 @@
 import AuthService from "../services/auth.service.js"
 import AccessService from "../services/access.service.js"
 import Roles from "../objects/user/Roles.js"
+import ForbiddenError from "../exceptions/ForbiddenError.js"
 
 /**
  * Used for the responses and error handling
@@ -264,6 +265,25 @@ async function singleLogin(req, res) {
     }
 }
 
+async function verifyNotSame(req, res, next) {
+    const userId = req.params.userId
+    try {
+        if (userId == req.user.id) {
+            throw new ForbiddenError()
+        }
+        next()
+    } catch (error) {
+        console.log(
+            `Failed To check if userIds where the same; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
 export default {
     getAuthUser,
     register,
@@ -275,4 +295,5 @@ export default {
     registerAdmin,
     sendVerifyMail,
     singleLogin,
+    verifyNotSame,
 }
