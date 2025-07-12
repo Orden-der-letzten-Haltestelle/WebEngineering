@@ -1,4 +1,4 @@
-import { getWishlists } from "../../../api/wishlistApiHandler.js"
+import { getWishlists } from "../../../api/WishlistApiHandler.js"
 
 export default async function WishlistSelectionPageLoader(req, res) {
 
