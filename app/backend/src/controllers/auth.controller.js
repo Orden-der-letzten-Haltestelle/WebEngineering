@@ -1,5 +1,6 @@
 // Import
 import AuthService from "../services/auth.service.js"
+import AccessService from "../services/access.service.js"
 import Roles from "../objects/user/Roles.js"
 
 /**
@@ -16,7 +17,7 @@ async function getAuthUser(req, res) {
     try {
         const userId = req.user.id
 
-        const authUser = await AuthService.getAuthUser(userId)
+        const authUser = (await AuthService.getAuthUser(userId)).getDAO()
 
         res.status(200).json({
             ...authUser,
@@ -108,7 +109,9 @@ async function registerAdmin(req, res) {
             email
         )
 
-        console.log(`Signed up Admin Successfully, with id ${userAndToken.user.id}`)
+        console.log(
+            `Signed up Admin Successfully, with id ${userAndToken.user.id}`
+        )
         res.status(201).json({
             ...userAndToken,
         })
@@ -149,13 +152,42 @@ async function login(req, res) {
     }
 }
 
+async function hasUserAccessToResource(req, res) {
+    try {
+        const { userId, resourceId, resource, action } = req.body
+
+        const result = await AccessService.hasUserAccessToResource(
+            userId,
+            resourceId,
+            resource,
+            action
+        )
+        res.json({
+            userId: userId,
+            resource: {
+                id: resourceId,
+                name: resource,
+                action: action,
+            },
+            hasAccess: result,
+        })
+    } catch (error) {
+        console.log(
+            `Failed hasUserAccessToREsource; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+        )
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
 async function verifyEmail(req, res) {
     const token = req.params.token
     try {
-        const userVerified = await AuthService.verifyEmail(
-            token
-        )
+        const userVerified = await AuthService.verifyEmail(token)
         console.log(`User successfully verified`)
+        console.log(userVerified)
         res.json({
             ...userVerified,
         })
@@ -174,10 +206,10 @@ async function verifyEmail(req, res) {
 async function sendVerifyMail(req, res) {
     const email = req.body.email
     try {
-        const mailSent = await AuthService.sendVerificationEmail(
-            email
+        const mailSent = await AuthService.sendVerificationEmail(email)
+        console.log(
+            `User with the email ${email}, successfully got sent another Mail`
         )
-        console.log(`User with the email ${email}, successfully got sent another Mail`)
         res.json({
             ...mailSent,
         })
@@ -237,6 +269,7 @@ export default {
     register,
     login,
     verifyJWTtoken,
+    hasUserAccessToResource,
     verifyEmail,
     sendMail,
     registerAdmin,

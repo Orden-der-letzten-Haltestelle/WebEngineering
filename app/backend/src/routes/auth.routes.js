@@ -16,25 +16,18 @@ router.get(
     AuthController.verifyJWTtoken(Roles.user),
     AuthController.getAuthUser
 )
-router.post(
-    "/register",
-    AuthController.register
-)
+
+router.get("/hasAccess", AuthController.hasUserAccessToResource)
+router.post("/register", AuthController.register)
 router.post(
     "/registerAdmin",
     AuthController.verifyJWTtoken(Roles.admin),
     AuthController.registerAdmin
 )
 
-router.post(
-    "/login",
-    AuthController.login
-)
+router.post("/login", AuthController.login)
 
-router.post(
-    "/login/sendmail",
-    AuthController.sendMail
-)
+router.post("/login/sendmail", AuthController.sendMail)
 
 router.get(
     "/protected",

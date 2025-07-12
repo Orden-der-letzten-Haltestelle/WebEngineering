@@ -73,7 +73,7 @@ async function findAuthUserById(id) {
         //extract roles
         const roles = []
         rows.forEach((row) => {
-            roles.push(row.rolename)
+            roles.push(Object.values(Roles).find(role => role.roleName === row.rolename))
         })
 
         const row = result.rows[0]
@@ -162,7 +162,7 @@ async function findAdvancedAuthUserByEmail(email) {
         //extract roles
         const roles = []
         rows.forEach((row) => {
-            roles.push(row.rolename)
+            roles.push(Object.values(Roles).find(role => role.roleName === row.rolename))
         })
         //create user
         const user = new AdvancedAuthUser(
