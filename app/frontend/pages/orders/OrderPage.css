@@ -1,16 +1,22 @@
 #orderPage-content{
+padding: 0px 0.5%;
 display: flex;
 flex-direction: column; 
 align-items: center;
 flex: 1;
 }
 
+.Bestelldatum {
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+}
 #order-container {
     border-radius: 12px;
     background-color: rgb(222, 222, 222);
     margin: 30px;
     padding: 20px;
-    width: 90%;
+    width: 100%;
 }
 
 

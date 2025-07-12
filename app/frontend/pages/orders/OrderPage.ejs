@@ -1,7 +1,7 @@
 <div id="orderPage-content">
     <% orders.forEach((order) => { %>
         <div id="order-container">
-            <h3>Bestelldatum: <%= order.formattedDate %></h3>
+            <h3 class="Bestelldatum"> <%= order.formattedDate %></h3>
             <% order.items.forEach((item) => { %>
                 <div id="OrderhistoryItem">
                     <a href="/product/<%= item.product.id %>" class="produktlink">
