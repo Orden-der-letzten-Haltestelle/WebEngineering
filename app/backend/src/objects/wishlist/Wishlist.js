@@ -15,4 +15,13 @@ export default class Wishlist extends BasicWishlist {
         this.members = members
         this.wishlistItems = wishlistItems
     }
+
+    /**
+     * Find a WishlistMember in members by id.
+     * @param {int} userId - The userId of the WishlistMember to find.
+     * @returns {WishlistMember|null} - The WishlistMember found, or null if not found.
+     */
+    findMemberByUserId(userId) {
+        return this.members.find((member) => member.id === userId) || null
+    }
 }

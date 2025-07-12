@@ -27,6 +27,7 @@ window.handleDeleteCart = function handleDeleteCart(token) {
         console.error(err)
     })
 }
+
 window.handleAddtocart = function handleAddtocart(productId, token, amount = 1) {
     addproductTocart(productId, token, amount).then(() => {
         window.location.href = "http://localhost:3000/cart";

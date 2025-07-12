@@ -1,21 +1,33 @@
-//import
+//service
 import AuthModel from "../models/auth.model.js"
-import TokenVerificationError from "../exceptions/TokenVerificationError.js"
+import ProductService from "../services/product.service.js"
+import CartService from "../services/cart.service.js"
+
+//jwt
+import bcrypt from "bcryptjs"
+import ms from "ms"
+import jwt from "jsonwebtoken"
 
 // Import EmailService
 import EmailService from "./email.service.js"
 
-// Import other
+//objects
+import AuthUser from "../objects/user/AuthUser.js"
+import Roles from "../objects/user/Roles.js"
+import OrderItem from "../objects/items/OrderItem.js"
+import cartModel from "../models/cart.model.js"
+
+//errors
+import NotImplementedError from "../exceptions/NotImplementedError.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
+import TokenVerificationError from "../exceptions/TokenVerificationError.js"
 import UnauthorizedError from "../exceptions/UnauthorizedError.js"
-import bcrypt from "bcryptjs"
-import ms from "ms"
-import jwt from "jsonwebtoken"
 import AuthenticationError from "../exceptions/AuthenticationError.js"
 import AuthValidator from "../validator/validator.auth.js"
-import AuthUser from "../objects/user/AuthUser.js"
 import DatabaseError from "../exceptions/DatabaseError.js"
 import NotFoundError from "../exceptions/NotFoundError.js"
+import ServerError from "../exceptions/ServerError.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 const SECRET_KEY = "your-secret-key" // In production, use environment variables
 const JWT_TOKEN_EXPIRES_IN = "1d"
@@ -101,12 +113,12 @@ async function createAdmin(username, password, email) {
 async function sendVerificationEmail(email) {
     const subject = "Bitte verifizieren Sie Ihre Email"
     const rand = () => {
-        return Math.random().toString(36).substr(2);
-    };
+        return Math.random().toString(36).substr(2)
+    }
 
     const generateToken = () => {
-        return rand() + rand();
-    };
+        return rand() + rand()
+    }
     const token = generateToken()
 
     const resultTokenSave = AuthModel.saveTokenVerification(email, token, "verify")
@@ -153,11 +165,7 @@ async function sendVerificationEmail(email) {
         </html>
     `
 
-    EmailService.sendHtmlMail(
-        email,
-        subject,
-        emailBody
-    )
+    EmailService.sendHtmlMail(email, subject, emailBody)
 }
 
 /**
@@ -222,16 +230,17 @@ async function extractTokenAndVerify(token, requiredRole) {
     //proof token and extract information from token
     const user = await getUserInformationByJWTtoken(token)
 
+    //gets an AuthUser Object to verify whether the user is banned
+    const authUser = await getAuthUser(user.id)
+
+    //TODO replace with has user access
     //check if the user has the required role
     if (
         requiredRole !== undefined &&
-        (!user.roles || !user.roles.includes(requiredRole.roleName))
+        (!authUser.roles || !authUser.hasRole(requiredRole))
     ) {
         throw new ForbiddenError()
     }
-
-    //gets an AuthUser Object to verify whether the user is banned
-    const authUser = await getAuthUser(user.id)
 
     if (authUser.isBanned) {
         throw new ForbiddenError()

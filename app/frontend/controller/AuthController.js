@@ -31,6 +31,10 @@ document.addEventListener('DOMContentLoaded', () => {
             logInUser(email, password).then((res) => {
                 var now = new Date(res.jwt.epiresAt)
                 document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
+                //admin cookie for navbar
+                if (res.user.roles.includes("admin")) {
+                    document.cookie = "admin=" + res.jwt.token + ";expires=" + now + ";path=/";
+                }
                 window.location.href = '/';
             }).catch((err) => {
                 showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));

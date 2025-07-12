@@ -10,16 +10,17 @@ import DatabaseError from "../exceptions/DatabaseError.js"
 
 /**
  * retruns a wishlistItem, by productId and wishlistId
- * 
- * @param {int} productId 
- * @param {int} wishlistId 
+ *
+ * @param {int} productId
+ * @param {int} wishlistId
  * @returns {Promise<WishlistItem>}
  * @throws {NotFoundError}
  * @throws {DatabaseError}
  */
 async function findByProductIdAndWishlistId(productId, wishlistId) {
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             SELECT
 	            wi.id,
 	            wi.amount,
@@ -37,16 +38,30 @@ async function findByProductIdAndWishlistId(productId, wishlistId) {
             WHERE 
                 wi.productid = $1 AND 
                 wishlistid = $2;`,
-            [productId, wishlistId])
-
+            [productId, wishlistId]
+        )
 
         if (result?.rows?.length <= 0) {
-            throw new NotFoundError(`WishlistItem with the productId ${productId} and the wishlistId ${wishlistId} doesnt exist.`)
+            throw new NotFoundError(
+                `WishlistItem with the productId ${productId} and the wishlistId ${wishlistId} doesnt exist.`
+            )
         }
 
         const row = result.rows[0]
-        const product = new Product(row.productid, row.name, row.description, row.storage, row.price)
-        const wishlistItem = new WishlistItem(row.id, product, row.amount, row.addedat, row.wishlistid)
+        const product = new Product(
+            row.productid,
+            row.name,
+            row.description,
+            row.storage,
+            row.price
+        )
+        const wishlistItem = new WishlistItem(
+            row.id,
+            product,
+            row.amount,
+            row.addedat,
+            row.wishlistid
+        )
         return wishlistItem
     } catch (error) {
         if (error instanceof NotFoundError) {
@@ -59,6 +74,35 @@ async function findByProductIdAndWishlistId(productId, wishlistId) {
     }
 }
 
+async function findBasicWishlistItemById(id) {
+    try {
+        const result = await pool.query(
+            `
+            SELECT 
+                *
+            FROM 
+                webshop.wishlistitems as i
+            WHERE 
+                i.id = $1
+            `,
+            [id]
+        )
+        if (result.rows.length <= 0) {
+            throw new NotFoundError(`WishlistItem with id ${id} doesn't exist`)
+        }
+        return result.rows[0]
+    } catch (error) {
+        if (error instanceof NotFoundError) {
+            throw error
+        }
+        throw new DatabaseError(
+            `Failed fetching BasicWishlistItem with id ${id}`,
+            {
+                originalError: error,
+            }
+        )
+    }
+}
 
 /**
  * Finds an wishlistItem by its id
@@ -115,7 +159,6 @@ async function findWishlistItemById(id) {
         })
     }
 }
-
 
 /**
  * Finds all wishlistItems that in the given wishlist
@@ -175,20 +218,23 @@ async function findWishlistItemsByWishlistId(wishlistId) {
 
 /**
  * Adds a new wishlistitme to the wishlist
- * @param {int} wishlistId 
- * @param {int} productId 
+ * @param {int} wishlistId
+ * @param {int} productId
  * @returns {Promise}
  * @throws {DatabaseError}
  */
 async function createWishlistItem(wishlistId, productId, amount) {
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             INSERT INTO webshop.wishlistitems 
                 (wishlistid, productid, amount)
             VALUES
                 ($1, $2, $3)
             RETURNING *;
-            `, [wishlistId, productId, amount])
+            `,
+            [wishlistId, productId, amount]
+        )
         if (result.length <= 0) {
             throw new DatabaseError("Failed creating item in DB")
         }
@@ -198,13 +244,13 @@ async function createWishlistItem(wishlistId, productId, amount) {
             `Failed creating new wishlistItem in DB: ${error.message}`,
             { originalError: error }
         )
-
     }
 }
 
 async function updateWishlistItem(wishlistId, productId, amount) {
     try {
-        const result = await pool.query(`
+        const result = await pool.query(
+            `
             UPDATE 
                 webshop.wishlistitems as i
             SET
@@ -212,7 +258,9 @@ async function updateWishlistItem(wishlistId, productId, amount) {
             WHERE
                 i.wishlistId=$1 and i.productId=$2
             RETURNING *;
-            `, [wishlistId, productId, amount])
+            `,
+            [wishlistId, productId, amount]
+        )
         if (result.length <= 0) {
             throw new DatabaseError("Failed update item in DB")
         }
@@ -245,6 +293,7 @@ async function deleteWishlistitem(wishlistitemId) {
 }
 
 export default {
+    findBasicWishlistItemById,
     findWishlistItemById,
     findByProductIdAndWishlistId,
     findWishlistItemsByWishlistId,
