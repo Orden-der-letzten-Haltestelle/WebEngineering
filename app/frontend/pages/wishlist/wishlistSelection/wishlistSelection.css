@@ -175,11 +175,24 @@
 }
 
 .modal .bottom-buttons {
+    color: var(--highlight-color);
     display: flex;
     flex-direction: row;
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
+}
+button {
+    background-color: var(--highlight-color);
+    border: none;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: rgb(222, 222, 222);
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
 }
 
 .modal .bottom-buttons button {
