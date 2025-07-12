@@ -354,7 +354,7 @@ async function sendLoginMail(email) {
         </head>
         <body>
         <h1>Link zur Anmeldung - OdlH</h1>
-        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige anmeldung abzuschließen:<p>
+        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige Anmeldung abzuschließen:<p>
         <a href="${link}"><b>Anmelden</b></a>
         </body>
         </html>
