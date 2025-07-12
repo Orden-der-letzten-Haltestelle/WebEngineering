@@ -17,6 +17,16 @@ export function getToken(req) {
 }
 
 /**
+ * Returns if user is an admin
+ * @returns
+**/ 
+export function isUserAdmin(token) {
+    return document.cookie
+        .split(";")
+        .some((cookie) => cookie.trim().startsWith("admin="))
+}
+
+ /**
  * Shows a Toast Message instead of an alert
  * Since alerts are ugly
  * @param {*} message any
