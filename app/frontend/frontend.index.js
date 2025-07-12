@@ -28,6 +28,7 @@ import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPa
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
+import WishlistSelectionPageLoader from "./pages/wishlist/wishlistSelection/wishlistSelection.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -99,7 +100,7 @@ router.get(
 /* LoginPage with Password */
 router.get(
     "/loginPassword",
-    handlePage(LoginPasswordPageLoader, "pages/login/LoginPassword/LoginPage", {
+    handlePage(LoginPasswordPageLoader, "pages/login/loginPassword/LoginPage", {
         excludeNavbar: true,
         excludeFooter: true,
     })
@@ -201,6 +202,22 @@ router.get(
         }
     )
 )
+
+router.get(
+    "/product/:productId/wishlists",
+    requireAuth,
+    handlePage(
+        WishlistSelectionPageLoader,
+        "pages/wishlist/wishlistSelection/wishlistSelection",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+
+
 
 /* admin */
 router.get(

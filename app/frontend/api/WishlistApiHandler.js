@@ -19,23 +19,6 @@ export async function getWishlistById(id, token) {
     return await res.json()
 }
 
-export async function getWishlists(token) {
-    const res = await fetch(`${config.host}/wishlist`, {
-        method: "GET",
-        headers: {
-            Authorization: token,
-            "Content-Type": "application/json",
-        },
-    })
-
-    if (!res.ok) {
-        const errorData = await res.json()
-        const errorMessage = errorData.message || `Failed to fetch wishlists`
-        throw new ApiError(errorMessage, res.status, errorData)
-    }
-    return await res.json()
-}
-
 export async function updateWishlistItemAmount(id, amount, token) {
     const res = await fetch(
         `${config.host}/wishlist/item/${id}?amount=${amount}`,
@@ -58,42 +41,39 @@ export async function updateWishlistItemAmount(id, amount, token) {
     return await res.json()
 }
 
-export async function createWishlist(token, name, description) {
-    const res = await fetch(`${config.host}/wishlist/`, {
-        method: "POST",
-
+export async function getWishlists(token) {
+    const res = await fetch(`${config.host}/wishlist`, {
+        method: "GET",
         headers: {
             Authorization: token,
             "Content-Type": "application/json",
         },
-
-        body: JSON.stringify({
-            name: name,
-            description: description,
-        }),
     })
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage = errorData.message || `Failed to create wishlist`
+        const errorMessage = errorData.message || `Failed to fetch wishlists`
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
 }
 
-export async function deleteWishlistItemById(id, token) {
-    const res = await fetch(`${config.host}/wishlist/item/${id}`, {
-        method: "DELETE",
+export async function createWishlist(token, name, description) {
+    const res = await fetch(`${config.host}/wishlist/`, {
+        method: "POST",
         headers: {
             Authorization: token,
             "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+            name: name,
+            description: description,
+        })
     })
 
     if (!res.ok) {
         const errorData = await res.json()
-        const errorMessage =
-            errorData.message || `Failed to delete WishlistItem with id ${id}`
+        const errorMessage = errorData.message || `Failed to create wishlist`
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
@@ -133,6 +113,41 @@ export async function deleteWishlist(token, wishlistId) {
     if (!res.ok) {
         const errorData = await res.json()
         const errorMessage = errorData.message || `Failed to delete wishlist`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+
+export async function addProductToWishlist(token, wishlistId, productId) {
+    const res = await fetch(`${config.host}/wishlist/${wishlistId}/product/${productId}`, {
+        method: "POST",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || `Failed to add product to wishlist`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}
+
+export async function deleteWishlistItemById(id, token) {
+    const res = await fetch(`${config.host}/wishlist/item/${id}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage =
+            errorData.message || `Failed to delete WishlistItem with id ${id}`
         throw new ApiError(errorMessage, res.status, errorData)
     }
     return await res.json()
