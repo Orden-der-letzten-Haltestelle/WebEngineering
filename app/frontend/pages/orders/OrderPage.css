@@ -80,7 +80,7 @@ flex: 1;
 .produktlink p:hover {
     text-decoration: underline;
 }
-@media (min-width: 660px) and (max-width: 860px) {
+@media (min-width: 725px) and (max-width: 860px) {
     #OrderhistoryItem p {
         font-size: 13px;
     }
@@ -89,7 +89,7 @@ flex: 1;
     }
 }
 
-@media (max-width: 660px) {
+@media (max-width: 725px) {
   #OrderhistoryItem {
     flex-direction: column;       
     height: auto;                 
