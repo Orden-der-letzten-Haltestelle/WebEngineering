@@ -236,13 +236,13 @@ async function singleLogin(req, res) {
 async function verifyNotSame(req, res, next) {
     const userId = req.params.userId
     try {
-        if(userId == req.user.id){
+        if (userId == req.user.id) {
             throw new ForbiddenError()
         }
         next()
     } catch (error) {
         console.log(
-            `Failed Sign In; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
+            `Failed To check if userIds where the same; \nMessage: ${error?.message}; \nStack: ${error?.stack}`
         )
         const statusCode = error?.statusCode || 500
         res.status(statusCode).json({
