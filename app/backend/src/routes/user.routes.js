@@ -10,6 +10,11 @@ router.delete("/delete",
     AuthController.verifyJWTtoken(Roles.user),
     UserController.deleteUser
 )
+router.delete("/byId/delete/:userId",
+    AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.verifyNotSame,
+    UserController.deleteUserbyId
+)
 router.put("/:userId/bann",
     AuthController.verifyJWTtoken(Roles.admin),
     AuthController.verifyNotSame,
