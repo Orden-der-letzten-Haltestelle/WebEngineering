@@ -332,3 +332,13 @@
         height: 102px;
     }
 }
+
+#homePageFromHamburger {
+    color: black;
+    text-decoration: none;
+}
+#homePageFromHamburger:hover {
+    border: 1px black solid;
+    border-radius: 8px;
+    cursor: pointer;
+}

@@ -36,3 +36,20 @@ export async function deleteUser(token) {
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }
+
+export async function fetchUserByEmail(token, email) {
+    const res = await fetch(`${config.host}/user/userByMail/${email}`, {
+        method: "GET",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage = errorData.message || `Failed to get User By email`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+    return await res.json()
+}

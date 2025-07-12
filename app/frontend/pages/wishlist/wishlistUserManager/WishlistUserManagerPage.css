@@ -1,0 +1,60 @@
+#wishlistUserManagerPage-container {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+}
+.inner-container {
+    max-width: 1200px;
+    width: 100%;
+    height: 100%;
+    display: grid;
+}
+
+.member-list {
+    width: 100%;
+    justify-items: center;
+    display: grid;
+    row-gap: 10px;
+    height: 100%;
+}
+
+.addNutzer {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+
+}
+
+.addNutzer input{
+    width: 100%;
+}
+.add-button {
+    border: 1px solid transparent;
+    height: 30px;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+@media screen and (max-width: 1300px) {
+    .inner-container {
+        max-width: 800px;
+    }
+}
+@media screen and (max-width: 830px) {
+    .inner-container {
+        max-width: 500px;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .inner-container {
+        max-width: 300px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .inner-container {
+        max-width: 280px;
+    }
+}

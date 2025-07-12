@@ -12,10 +12,12 @@ router.delete("/delete",
 )
 router.put("/:userId/bann",
     AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.verifyNotSame,
     UserController.bannUser
 )
 router.put("/:userId/unbann",
     AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.verifyNotSame,
     UserController.unBannUser
 )
 router.get("/",
@@ -28,10 +30,12 @@ router.get("/byId/:userId",                     //had to change endpoint because
 )
 router.put("/:userId/role/makeAdmin",
     AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.verifyNotSame,
     UserController.makeAdmin
 )
 router.put("/:userId/role/makeNoAdmin",
     AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.verifyNotSame,
     UserController.makeNoAdmin
 )
 router.get("/userByMail/:mailaddress",

@@ -6,19 +6,17 @@ import { getWishlistById } from "../../../api/WishlistApiHandler.js"
  * @param {*} req
  * @param {*} res
  */
-export default async function DetailedWishlistPageLoader(req, res) {
-    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.#
+export default async function WishlistUserManagerPageLoader(req, res) {
+    //hier code einfügen, um inhalte dynamisch auf die seite zuladen.
     const wishlistId = req.params.wishlistId
     const token = req.token
     const wishlist = await getWishlistById(wishlistId, token)
 
     return {
-        title: "DetailedWishlistPage",
-        token: req.token,
-        /* Hier werden die Daten der BeispielComponenten übergeben */
+        title: "WishlistUserManager",
         wishlist: wishlist,
+        members: wishlist.members,
         token: token,
-        /* Hier werden alle genutzten Componenten übergeben, damit das .css automatisch importiert wird. */
-        components: [],
+        components: ["WishlistMember"],
     }
 }

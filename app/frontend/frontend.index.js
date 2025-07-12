@@ -18,15 +18,19 @@ import OrderPageLoader from "./pages/orders/OrderPage.js"
 import RegisterPageLoader from "./pages/register/RegisterPage.js"
 import DetailedWishlistPageLoader from "./pages/wishlist/detailedWishlist/DetailedWishlistPage.js"
 import ProfilePageLoader from "./pages/profile/ProfilePage.js"
+import CheckoutConfirmPageLoader from "./pages/checkoutConfirm/CheckoutConfirmPage.js"
 import ProductPageLoader from "./pages/products/productPage/ProductPage.js"
 import ProductDetailledLoader from "./pages/products/productDetailled/ProductDetailled.js"
 import verifyMailLoader from "./pages/verifyMail/verifyMail.js"
+import WishlistUserManagerPageLoader from "./pages/wishlist/wishlistUserManager/WishlistUserManagerPage.js"
+
 import WishlistOverviewPageLoader from "./pages/wishlist/wishlist_overview/wishlist_overview.js"
 import UserManagerPageLoader from "./pages/admin/userManager/UserManagerPage.js"
 import CreateProductPageLoader from "./pages/admin/createProduct/CreateProductPage.js"
 import AdminDashboardPageLoader from "./pages/admin/adminDashboard/AdminDashboardPage.js"
 import loginToken from "./pages/loginToken/loginToken.js"
 import AboutPageLoader from "./pages/about/AboutPage.js"
+import WishlistSelectionPageLoader from "./pages/wishlist/wishlistSelection/wishlistSelection.js"
 
 const router = express.Router()
 const __filename = fileURLToPath(import.meta.url)
@@ -77,6 +81,16 @@ router.get(
     })
 )
 
+/*checkoutConfirmPage*/
+router.get(
+    "/checkout/confirm",
+    notRequiredAuth,
+    handlePage(CheckoutConfirmPageLoader, "pages/checkoutConfirm/CheckoutConfirmPage", {
+        excludeNavbar: false,
+        excludeFooter: false,
+    })
+)
+
 /* LoginPage Choice */
 router.get(
     "/login",
@@ -88,7 +102,7 @@ router.get(
 /* LoginPage with Password */
 router.get(
     "/loginPassword",
-    handlePage(LoginPasswordPageLoader, "pages/login/LoginPassword/LoginPage", {
+    handlePage(LoginPasswordPageLoader, "pages/login/loginPassword/LoginPage", {
         excludeNavbar: true,
         excludeFooter: true,
     })
@@ -179,6 +193,19 @@ router.get(
 )
 
 router.get(
+    "/wishlist/:wishlistId/members",
+    requireAuth,
+    handlePage(
+        WishlistUserManagerPageLoader,
+        "pages/wishlist/wishlistUserManager/WishlistUserManagerPage",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+router.get(
     "/wishlist/:wishlistId",
     requireAuth,
     handlePage(
@@ -190,6 +217,22 @@ router.get(
         }
     )
 )
+
+router.get(
+    "/product/:productId/wishlists",
+    requireAuth,
+    handlePage(
+        WishlistSelectionPageLoader,
+        "pages/wishlist/wishlistSelection/wishlistSelection",
+        {
+            excludeNavbar: false,
+            excludeFooter: false,
+        }
+    )
+)
+
+
+
 
 /* admin */
 router.get(

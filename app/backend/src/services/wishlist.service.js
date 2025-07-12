@@ -142,6 +142,25 @@ async function getBasicWishlistById(userId, wishlistId) {
 }
 
 /**
+ * Returns the basicwishlist with the given wishlist id
+ * @param {int} wishlistId
+ * @returns {Promise<BasicWishlist>}
+ * @throws {DatabaseError}
+ * @throws {NotFoundError}
+ */
+async function getBasicWishlistByIdNoVerify(userId, wishlistId) {
+    const wishlistMember = await getWishlistMemberByUserIdAndWishlistId(
+        userId,
+        wishlistId
+    )
+    const basicWishlist = await WishlistModel.findBasicWishlistByWishlistId(
+        wishlistId
+    )
+    basicWishlist.member = wishlistMember
+    return basicWishlist
+}
+
+/**
  * Returns the wishlistMember for a wishlist.
  * @param {int} userId
  * @param {int} wishlistId
@@ -156,6 +175,32 @@ async function getWishlistMemberByUserIdAndWishlistId(userId, wishlistId) {
             wishlistId
         )
     return wishlistMember
+}
+
+/**
+ * Returns a wishlist by its id,
+ * @param {int} wishlistId
+ * @returns {Promise<Wishlist>}
+ * @throws {NotFoundError}
+ * @throws {DatabaseError}
+ * @throws {ServerError}
+ */
+async function getWishlistByIdNoVerify(userId, wishlistId) {
+    //get all wishlist informations
+    const basicWishlist = await getBasicWishlistByIdNoVerify(userId, wishlistId)
+    const wishlistMembers = await getWishlistMembersByWishlistId(wishlistId)
+    const wishlistItems = await getWishlistItemsByWishlistId(wishlistId)
+
+    //build full wishlist
+    const wishlist = new Wishlist(
+        basicWishlist.id,
+        basicWishlist.name,
+        basicWishlist.description,
+        basicWishlist.member,
+        wishlistMembers,
+        wishlistItems
+    )
+    return wishlist
 }
 
 /**
@@ -422,7 +467,9 @@ async function deleteWishlist(ownerId, wishlistId) {
 
 export default {
     getWishlistById,
+    getWishlistByIdNoVerify,
     getWishlistsByUserId,
+    getWishlistMemberByUserIdAndWishlistId,
     createWishlist,
     addProductToWishlist,
     updateWishlist,
