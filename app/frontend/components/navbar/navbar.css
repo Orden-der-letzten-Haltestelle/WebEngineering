@@ -245,7 +245,7 @@
     justify-self: right;
     display: flex;
     gap: 8px;
-    margin-right: 20%;
+    margin-right: 10%;
 }
 
 .navbar-container > .icons-container.hide > a .icon-button {

@@ -40,12 +40,3 @@ main {
     height: 100%;
     width: 100%;
 }
-main.with-navbar {
-    padding-top: 100px; /* Adjust this value based on the navbar's height */
-}
-.footer {
-    grid-row: 3; /* Ensure the footer is in the last row of the grid */
-    background-color: #f1f1f1;
-    text-align: center;
-    padding: 10px;
-}
