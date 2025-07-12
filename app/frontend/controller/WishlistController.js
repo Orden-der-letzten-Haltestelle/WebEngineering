@@ -4,6 +4,7 @@ import {
     updateWishlistInfo,
     createWishlist,
     deleteWishlist,
+    addProductToWishlist
 } from "../api/WishlistApiHandler.js"
 import { showToast } from "../helper.js"
 
