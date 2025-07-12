@@ -1,9 +1,24 @@
 #orderPage-content{
+padding: 0px 0.5%;
 display: flex;
 flex-direction: column; 
 align-items: center;
 flex: 1;
 }
+
+.Bestelldatum {
+    display: flex;
+    justify-content: center;
+    text-decoration: underline;
+}
+#order-container {
+    border-radius: 12px;
+    background-color: rgb(222, 222, 222);
+    margin: 30px;
+    padding: 20px;
+    width: 100%;
+}
+
 
 #OrderhistoryItem {
     display: flex;
@@ -13,7 +28,7 @@ flex: 1;
     align-items: center;
     margin-top: 1%;
     margin-bottom: 1%;
-    width: 95vw;
+    width: 100%;
     height: 15vh;
     background-color: rgb(231, 231, 231);
     box-shadow: 0px 8px 6px rgba(0, 0, 0, 0.3);
@@ -65,7 +80,7 @@ flex: 1;
 .produktlink p:hover {
     text-decoration: underline;
 }
-@media (min-width: 660px) and (max-width: 860px) {
+@media (min-width: 725px) and (max-width: 860px) {
     #OrderhistoryItem p {
         font-size: 13px;
     }
@@ -74,7 +89,7 @@ flex: 1;
     }
 }
 
-@media (max-width: 660px) {
+@media (max-width: 725px) {
   #OrderhistoryItem {
     flex-direction: column;       
     height: auto;                 
