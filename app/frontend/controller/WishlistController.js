@@ -4,9 +4,8 @@ import {
     updateWishlistInfo,
     createWishlist,
     deleteWishlist,
-    addProductToWishlist,
 } from "../api/WishlistApiHandler.js"
-import { showToast } from "../helper.js";
+import { showToast } from "../helper.js"
 
 window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(
     WishlistItemId,
@@ -81,25 +80,7 @@ window.handleDeleteWishlist = function handleDeleteWishlist(event, token) {
             window.location.href = `http://localhost:3000/wishlist`
         })
         .catch((err) => {
-            showToast(
-                "❌ deleting Wishlist Failed: " +
-                    (err.message || "Unknown error")
-            )
-            console.error(err)
-        })
-}
-
-window.handleAddProductToWishlist = function handleAddProductToWishlist(token, wishlistId, productId) {
-    addProductToWishlist(token, wishlistId, productId)
-        .then((res) => {
-            console.log(res)
-            window.location.href = `http://localhost:3000/wishlist/${wishlistId}`
-        })
-        .catch((err) => {
-            showToast(
-                "❌ adding Product to wishlist Failed: " +
-                    (err.message || "Unknown error")
-            )
+            showToast("❌ deleting Product Failed: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }
