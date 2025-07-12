@@ -9,9 +9,6 @@ import {
     deleteWishlistMember,
 } from "../api/WishlistApiHandler.js"
 import { showToast } from "../helper.js"
-
-import { showToast } from "../helper.js"
-
 import { fetchUserByEmail } from "../api/user.js"
 
 window.handleUpdateWishlistItemAmount = function handleUpdateWishlistItemAmount(
