@@ -346,8 +346,11 @@ async function requireAuth(req, res, next) {
         next()
     } catch (err) {
         //error, if set token isn't valid, then also redirect to /login
-        if (err.status === 403 || err.status === 401) {
+        if (err.status === 401) {
             return res.redirect("/login")
+        }
+        else if (err.status === 403) {
+            return res.redirect("/notAllowed")
         }
 
         // Render a server error page
