@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var now = new Date(res.jwt.epiresAt)
                 document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 //admin cookie for navbar
-                if (res.user.roles.includes("admin")) {
+                if (res.user.roles.some(role => role.roleName === 'admin')) {
                     document.cookie = "admin=" + res.jwt.token + ";expires=" + now + ";path=/";
                 }
                 window.location.href = '/';
