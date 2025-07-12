@@ -57,11 +57,14 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
             return await hasUserAccessToWishlist(user, resourceId, action)
         case "wishlistItems":
             return await hasUserAccessToWishlistItems(user, resourceId, action)
-
         case "roles":
             return user.hasRole(Roles.admin)
         case "wishlistroles":
             return user.hasRole(Roles.admin)
+        default:
+            throw new BadRequestError(
+                `We don't have resource '${ressource}' in our service`
+            )
     }
 }
 
@@ -232,11 +235,6 @@ async function hasUserAccessToOrderItem(user, id, action) {
 
 async function hasUserAccessToUser(user, id, action) {
     try {
-        let item
-        if (id != null) {
-            item = await getAuthUser(id)
-        }
-
         //if id given and user not admin => id has to be userId
         if (id != null && !user.hasRole(Roles.admin) && id != user.id) {
             return false
@@ -298,6 +296,7 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
 
         //admin can do anything
         if (user.hasRole(Roles.admin)) {
+            console.log(true)
             return true
         }
 
