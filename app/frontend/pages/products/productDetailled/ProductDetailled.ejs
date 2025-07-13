@@ -2,7 +2,7 @@
     <div class="checkout-layout">
         <div class="image-wrapper">
             <img
-                src="<%= product.image || '/img/BeispielImg.png' %>"
+                src="<%= `/img/detailledProducts/${product.id}.png` || '/img/BeispielImg.png' %>"
                 alt="Produktbild"
             />
         </div>
@@ -129,6 +129,8 @@
                 >
                     Abbrechen
                 </button>
+                <p>Wenn Sie ein Bild zu dem Produkt hinzufügen möchten, melden Sie sich bei uns: 
+                <a href="mailto:ordenderletztenhaltestelle@gmail.com">Support</a></p>
             </form>
         </div>
     </div>

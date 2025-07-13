@@ -5,7 +5,7 @@
         <% checkoutItems.forEach((item)=> { %>
           <div class="cartitem-container">
             <a href="#">
-              <img src="<%= url %>/img/BeispielImg.png" alt="Product Image"> 
+              <img src="<%= `/img/cartItem/${item?.product?.id}.png`%>" alt="Product Image"> 
               <span class="cartitem-name"><%= item?.product?.name %></span>
               <span class="cartitem-id">ID: <%= item?.product?.id %></span>
             </a>

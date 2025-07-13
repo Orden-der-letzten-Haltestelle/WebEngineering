@@ -1,6 +1,6 @@
 <div class="cartitem-container">
     <a href="<%= url %>/product/<%= item.product.id %>">
-        <img class="cartitem-img" src="<%= url %>/img/BeispielImg.png" />
+        <img class="cartitem-img" src="<%= `/img/cartItem/${item?.product?.id}.png`%>" alt="Produktbild"/>
         <span class="cartitem-name">
             <%= item?.product?.name %>
         </span>

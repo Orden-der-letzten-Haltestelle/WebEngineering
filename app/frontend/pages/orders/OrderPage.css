@@ -49,6 +49,7 @@ flex: 1;
     margin-right: 10%;
     height: 80%;
     object-fit: cover;
+    max-width: 80px;
 }
 
 #OrderhistoryItem button {

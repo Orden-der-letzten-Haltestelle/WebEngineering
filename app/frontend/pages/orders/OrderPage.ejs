@@ -5,7 +5,7 @@
             <% order.items.forEach((item) => { %>
                 <div id="OrderhistoryItem">
                     <a href="/product/<%= item.product.id %>" class="produktlink">
-                        <img src="http://localhost:3000/img/BeispielImg.png" alt="Produktbild">
+                        <img src="<%= `/img/cartItem/${item?.product?.id}.png`%>" alt="Produktbild">
                         <div> 
                             <p>Artikel-Name: <%= item.product.name %></p>
                             <p>Artikel-Nr.: <%= item.product.id %></p>
