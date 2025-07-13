@@ -247,7 +247,7 @@ async function extractTokenAndVerify(token, requiredRole) {
     }
 
     if (authUser.isBanned) {
-        throw new ForbiddenError()
+        throw new ForbiddenError("User is banned!")
     }
 
     //or not yet verified and therefore can't access
