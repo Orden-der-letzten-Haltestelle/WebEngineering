@@ -31,9 +31,12 @@ body,
 }
 
 #header-placeholder,
-footer,
 header {
-    z-index: 1000;
+    z-index: 1001;
+}
+
+footer {
+    z-index: 999;
 }
 
 main {

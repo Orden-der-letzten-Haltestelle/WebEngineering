@@ -2,43 +2,43 @@
     background-color: #D9D9D9;
     width: 80%;
     min-width: 300px;
-
     border-radius: 8px;
-    height: 65px;
+    height: auto; /* Adjust height to accommodate multiple rows */
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    column-gap: 15px;
-
     padding: 10px 15px;
+    column-gap: 15px;
+    flex-wrap: nowrap; /* Prevent wrapping initially */
 }
 
-.cartitem-container>a {
+.cartitem-container > a {
     text-decoration: none;
-    display: grid;
-    grid-template-columns: min-content min-content;
-    grid-template-rows: 50% 50%;
-    height: 100%;
+    display: flex; /* Use flex for better control */
+    align-items: center;
     column-gap: 12px;
     color: black;
-    margin-right: auto;
+    flex-grow: 1; /* Allow it to grow within available space */
+    overflow: hidden; /* Ensure overflow is hidden */
 }
 
-.cartitem-container>a>img {
+.cartitem-container > a > img {
     width: 45px;
     height: 45px;
     object-fit: cover;
+    flex-shrink: 0; /* Prevent image from shrinking */
 }
 
 .cartitem-name {
-    grid-area: 1 / 2 / 2 / 3;
-    white-space: nowrap;
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1; /* Allow it to grow but not shrink */
 }
 
 .cartitem-id {
     white-space: nowrap;
-    grid-area: 2 / 2 / 3 / 3;
+    flex-shrink: 0; /* Prevent ID from shrinking */
 }
 
 .cartitem-amount,
@@ -49,11 +49,9 @@
     border-radius: 6px;
     color: black;
     box-sizing: border-box;
+    flex-shrink: 0; /* Prevent dropdown from shrinking */
 }
 
-.cartitem-delete {}
-
-/* Special dropdown design for cartitems */
 .dropdown-button.cartitem {
     display: flex;
     align-items: center;
@@ -66,15 +64,14 @@
     border-radius: 6px;
     cursor: pointer;
     border: 1px solid #ccc;
-
+    flex-shrink: 0; /* Prevent button from shrinking */
 }
 
 .dropdown-button.cartitem:hover {
     opacity: 0.7;
 }
 
-
-.dropdown-content.cartitem>.dropdown-item {
+.dropdown-content.cartitem > .dropdown-item {
     background: none;
     border: none;
     padding: 0.5em 0.8em;
@@ -82,11 +79,10 @@
     cursor: pointer;
     transition: background 0.2s ease;
     border-radius: 6px;
-
 }
 
 .dropdown-content {
-      text-align: right;
+    text-align: right;
     background-color: #989898;
     display: flex;
     flex-direction: column;
@@ -101,15 +97,10 @@
     box-sizing: border-box;
 }
 
-.dropdown-content.cartitem>.dropdown-item:hover {
+.dropdown-content.cartitem > .dropdown-item:hover {
     opacity: 0.8;
     background-color: #696969;
 }
-
-.dropdown-button.cartitem:hover {
-    opacity: 0.8;
-}
-
 
 .cartitem.dropdown-arrow {
     width: 12px;
@@ -119,4 +110,39 @@
 
 .cartitem.dropdown-arrow.rotated {
     transform: rotate(180deg);
+}
+
+.trash-icon-button {
+    flex-shrink: 0; /* Prevent delete button from shrinking */
+    width: 24px; /* Ensure consistent size */
+    height: 24px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    padding: 0;
+}
+
+/* Media query for devices with width less than 700px */
+@media (max-width: 700px) {
+    .cartitem-container {
+        flex-direction: column; /* Stack items vertically */
+        align-items: flex-start; /* Align items to the start */
+        height: auto; /* Adjust height to accommodate multiple rows */
+    }
+
+    .cartitem-container > a {
+        width: 100%; /* Ensure full width for the top row */
+        margin-bottom: 10px; /* Add space between rows */
+    }
+
+    .cartitem-name {
+        max-width: calc(100% - 60px); /* Ensure name fits within the container */
+    }
+
+    .cartitem-amount,
+    .trash-icon-button {
+        width: 100%; /* Ensure full width for the bottom row */
+        display: flex;
+        justify-content: space-between; /* Distribute items evenly */
+    }
 }

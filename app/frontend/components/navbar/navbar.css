@@ -87,10 +87,10 @@
 /* filter overlay */
 .filterOverlay {
     position: absolute;
-    z-index: 1001;
+    z-index: 1002;
     bottom: -93px;
     height: 93px;
-    width: 100%;
+    width: fit-content;
     background-color: #464545;
     border-radius: 8px;
     display: grid;
@@ -287,8 +287,9 @@
         height: 55px;
     }
 
-    .navbar-container > .searchBar-container {
-        width: 100%;
+    .navbar-container > .searchBar-container,
+    #filterOverlay {
+        width: fit-content;
     }
 
     .navbar-container > a > .title.big {
@@ -319,8 +320,10 @@
         row-gap: 8px;
     }
 
-    .navbar-container > .searchBar-container {
+    .navbar-container > .searchBar-container,
+    #filterOverlay {
         grid-area: 2 / 1 / 3 / 3;
+        width: fit-content;
     }
 
     .navbar-container > .icons-container,
