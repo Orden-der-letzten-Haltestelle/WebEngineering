@@ -8,14 +8,14 @@ INSERT INTO webshop.Users (name, password, email, isBanned, isVerified, createdA
   ( 'admin2', '$2b$10$aFcNkMCp5MTydjaSRCfQ1O3WjkqPmNozdQMQQGplm7OlwqidbBJkS', 'admin@letzteHaltestelle.de', FALSE, TRUE, NOW()), -- password is admin
   ( 'User', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'user@mail.de', FALSE, TRUE, NOW()), -- password is test
   ( 'Unverified', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'unverified@mail.de', FALSE, FALSE, NOW()), -- password is test
-  ( 'Banned', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'banned@mail.de', TRUE, TRUE, NOW()), -- password is test
+  ( 'Banned', '$2b$10$dNkEhSw0iZqujO6rIzvhQ.RpLwwwyNwiWQkyzjDnm8vIoJKVGciTi', 'banned@mail.de', TRUE, TRUE, NOW()); -- password is test
 
 -- Rollenvergabe an Benutzer
 INSERT INTO webshop.User_has_Role (userId, roleId) VALUES
   (1, 2), -- admin2 -> admin
   (1, 1), -- admin2 -> user
   (2, 1), -- Unverified -> user
-  (3, 1), -- Banned -> user
+  (3, 1); -- Banned -> user
 
 -- Produkte
 INSERT INTO webshop.Products (name, description, amount, price) VALUES
@@ -39,7 +39,7 @@ INSERT INTO webshop.CartItems (userId, productId, amount, bought, boughtAt, adde
 -- Wunschlisten
 INSERT INTO webshop.Wishlists (name, description) VALUES
   ('Moritz Wunschliste', 'Alles was Moritz sich wünscht'),
-  ('Leons Liste', 'Lieblingsprodukte von Leon'),
+  ('Leons Liste', 'Lieblingsprodukte von Leon');
 
 -- Wishlist-Rollen
 INSERT INTO webshop.WishlistRoles (roleName) VALUES
@@ -52,7 +52,7 @@ INSERT INTO webshop.User_wishlist_relation (userId, wishlistId, wishlistRoleId) 
   (2, 1, 1), -- moritz ist owner seiner Liste
   (3, 1, 3), -- leon sieht moritz seine Liste
   (3, 2, 1), -- leon ist owner seiner Liste
-  (2, 2, 2), -- moritz darf leons liste bearbeiten
+  (2, 2, 2); -- moritz darf leons liste bearbeiten
 
 -- Wunschlisten-Einträge
 INSERT INTO webshop.WishlistItems (productId, wishlistId, amount, addedAt) VALUES
