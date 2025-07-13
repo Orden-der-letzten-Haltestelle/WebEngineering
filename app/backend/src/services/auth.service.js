@@ -121,7 +121,11 @@ async function sendVerificationEmail(email) {
     }
     const token = generateToken()
 
-    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "verify")
+    const resultTokenSave = AuthModel.saveTokenVerification(
+        email,
+        token,
+        "verify"
+    )
 
     let emailBody = `
         <html>
@@ -284,7 +288,6 @@ async function getUserInformationByJWTtoken(token) {
     //verify token
     try {
         const user = jwt.verify(extractedToken, SECRET_KEY)
-        console.log(`validated User: `, user)
         return user
     } catch (error) {
         throw new TokenVerificationError(
@@ -296,15 +299,19 @@ async function getUserInformationByJWTtoken(token) {
 
 async function sendLoginMail(email) {
     const rand = () => {
-        return Math.random().toString(36).substr(2);
-    };
+        return Math.random().toString(36).substr(2)
+    }
 
     const generateToken = () => {
-        return rand() + rand();
-    };
+        return rand() + rand()
+    }
     const token = generateToken()
 
-    const resultTokenSave = AuthModel.saveTokenVerification(email, token, "login")
+    const resultTokenSave = AuthModel.saveTokenVerification(
+        email,
+        token,
+        "login"
+    )
 
     // create the link
     const host = `http://localhost:3000` // TO DO: Dynamic from config.js
@@ -354,17 +361,13 @@ async function sendLoginMail(email) {
         </head>
         <body>
         <h1>Link zur Anmeldung - OdlH</h1>
-        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige anmeldung abzuschließen:<p>
+        <p>Bitte klicken Sie auf diesen Link, um ihre einmalige Anmeldung abzuschließen:<p>
         <a href="${link}"><b>Anmelden</b></a>
         </body>
         </html>
     `
 
-    EmailService.sendHtmlMail(
-        email,
-        subject,
-        emailBody
-    )
+    EmailService.sendHtmlMail(email, subject, emailBody)
 
     return link
 }
@@ -378,7 +381,7 @@ async function singleLogin(token) {
     //return user with out password and jwt token
     return {
         user: advancedAuthUser.getAuthUser(),
-        jwt: jwt
+        jwt: jwt,
     }
 }
 

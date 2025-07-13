@@ -1,6 +1,6 @@
-
 import { logInUser, registerUser, SendVerifyMail, SendSignInMail } from "../api/AuthApiHandler.js"
 import { loginWithToken } from "../api/VerifactionApiHandler.js"
+import { fetchUser} from "../api/user.js"
 import { showToast } from "../helper.js";
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 var now = new Date(res.jwt.epiresAt)
                 document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
                 //admin cookie for navbar
-                if (res.user.roles.includes("admin")) {
+                if (res.user.roles.some(role => role.roleName === 'admin')) {
                     document.cookie = "admin=" + res.jwt.token + ";expires=" + now + ";path=/";
                 }
                 window.location.href = '/';
@@ -80,9 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginToken) {
         let params = new URLSearchParams(document.location.search)
         const token = params.get("token")
+        
         loginWithToken(token).then((res) => {
             var now = new Date(res.jwt.epiresAt)
             document.cookie = "token=" + res.jwt.token + ";expires=" + now + ";path=/";
+            const resultUser = fetchUser(res.jwt.token)
+            //admin cookie for navbar
+            if (res.user.roles.some(role => role.roleName === 'admin')) {
+                document.cookie = "admin=" + res.jwt.token + ";expires=" + now + ";path=/";
+            }
             window.location.href = '/';
         }).catch((err) => {
             showToast("❌ Failed to sign in user: " + (err.message || "Unknown error"));

@@ -146,7 +146,7 @@ async function sendBuyEmail(email, orderItems) {
                     <th>Beschreibung</th>
                     <th>Einzel Preis</th>
                     <th>Menge</th>
-                    <th>Gesammt Preis</th>
+                    <th>Gesamt Preis</th>
                 </tr>
             </thead>
             <tbody>
