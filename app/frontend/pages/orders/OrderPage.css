@@ -47,9 +47,9 @@ flex: 1;
 
 .produktlink img {
     margin-right: 10%;
-    height: 80%;
+    width: 110px;
+    height: 15vh;
     object-fit: cover;
-    max-width: 80px;
 }
 
 #OrderhistoryItem button {

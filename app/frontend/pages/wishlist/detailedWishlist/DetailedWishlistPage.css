@@ -5,7 +5,9 @@
     flex: 1;
 }
 .Produktbild {
-    max-width: 80px;
+    width: 90px;
+    height: 45px;
+    object-fit: cover;
 }
 
 .dropdown-item {
