@@ -2,7 +2,7 @@
     <div class="checkout-layout">
         <div class="image-wrapper">
             <img
-                src="<%= product.image || '/img/BeispielImg.png' %>"
+                src="<%= `/img/detailledProducts/${product.id}.png` || '/img/BeispielImg.png' %>"
                 alt="Produktbild"
             />
         </div>

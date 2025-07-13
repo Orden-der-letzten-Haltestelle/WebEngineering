@@ -7,7 +7,7 @@
             <a href="http://localhost:3000/product/<%= product.id %>">
                 <div class="products-card">
                     <div class="image-wrapper">
-                        <img src="<%= product.image || '/img/BeispielImg.png' %>" alt="Produktblid" />
+                        <img src="<%= `/img/products/${product.id}.png` || '/img/BeispielImg.png' %>" alt="Produktblid" />
                     </div>
                     <div class="products-info">
                         <h2>

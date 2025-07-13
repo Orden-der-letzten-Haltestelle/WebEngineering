@@ -95,3 +95,14 @@
         max-width: 260px;
     }
 }
+
+a {
+    color: var(--highlight-color);
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+a:hover {
+    color: rgb(50, 48, 48);
+    cursor: pointer;
+}
