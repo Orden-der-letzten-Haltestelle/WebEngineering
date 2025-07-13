@@ -34,7 +34,7 @@
             <a href="/product/<%= item.product.id %>" class="produktlink">
                 <img
                     class="Produktbild"
-                    src="http://localhost:3000/img/BeispielImg.png"
+                    src="<%= `/img/products/${item.product.id}.png` || '/img/BeispielImg.png' %>"
                     alt="Produktbild"
                 />
                 <div class="Artikelinformationen">
