@@ -3,6 +3,7 @@ import AuthService from "../services/auth.service.js"
 import AccessService from "../services/access.service.js"
 import Roles from "../objects/user/Roles.js"
 import ForbiddenError from "../exceptions/ForbiddenError.js"
+import BadRequestError from "../exceptions/BadRequestError.js"
 
 /**
  * Used for the responses and error handling
@@ -232,7 +233,7 @@ async function sendMail(req, res) {
         const result = await AuthService.sendLoginMail(email)
 
         res.json({
-            email: email
+            email: email,
         })
     } catch (error) {
         const statusCode = error?.statusCode || 500
@@ -246,9 +247,7 @@ async function sendMail(req, res) {
 async function singleLogin(req, res) {
     const token = req.params.token
     try {
-        const userAndToken = await AuthService.singleLogin(
-            token
-        )
+        const userAndToken = await AuthService.singleLogin(token)
         console.log(`User successfully singed In`)
         res.json({
             ...userAndToken,
@@ -269,7 +268,9 @@ async function verifyNotSame(req, res, next) {
     const userId = req.params.userId
     try {
         if (userId == req.user.id) {
-            throw new ForbiddenError()
+            throw new BadRequestError(
+                "You can't make this request on your own User."
+            )
         }
         next()
     } catch (error) {
