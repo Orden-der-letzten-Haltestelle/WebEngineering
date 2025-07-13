@@ -39,7 +39,7 @@ INSERT INTO webshop.Products (name, description, amount, price) VALUES
   ('Tasse', 'Tasse für den besonderen Genuß von Heißgetränken und Erinnerungsstück an den Heiligen', 150, 1099),
   ('Schlüsselanhänger', 'Für den stetigen Begleiter im Alltag', 150, 599),
   ('Aufkleber', 'Zur Verbreitung der frohen Kunde', 250, 299),
-  ('Handyhülle', 'Für den stetigen Begleiter im Alltag und als Schutz vor schädlicher Strahlung des Mobilgeräts', 80, 1999),
+  ('Handyhülle', 'Für den stetigen Begleiter im Alltag und als Schutz vor schädlicher Strahlung des Mobilgeräts für ein iPhone 15 ', 80, 1999),
   ('Kissen', 'Als Verschönerung des Wohnraums und Bequemlichkeit', 50, 2599);
 
 -- Warenkorb-Einträge
