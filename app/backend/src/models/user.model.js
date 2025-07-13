@@ -78,9 +78,6 @@ async function deleteUserById(userId) {
                 `,
                 [idWishlist]
             )
-            if (deleteWishlistItems.rows.length <= 0) {
-                throw new DatabaseError("Failed to delete wishlist items")
-            }
             const deleteRolesOfOthers = await pool.query(
                 `DELETE FROM webshop.user_wishlist_relation as wu
                 WHERE wu.wishlistid = $1

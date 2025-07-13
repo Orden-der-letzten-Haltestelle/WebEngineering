@@ -65,6 +65,11 @@
     background-color: rgb(192, 191, 191);
 }
 
+/* delete user*/
+.adminpage-button.Löschen {
+    background-color: #ff0000;
+}
+
 /* overlay */
 .adminPage-user-container {
     display: grid;

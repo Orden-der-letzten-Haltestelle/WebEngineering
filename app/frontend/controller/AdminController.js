@@ -3,6 +3,7 @@ import {
     unbannUser,
     makeUserAdmin,
     removeAdminRoleFromUser,
+    deleteUserAdmin,
 } from "../api/AdminApiHandler.js"
 import { showToast } from "../helper.js"
 
@@ -57,6 +58,19 @@ window.handleRemoveAdminFromUser = function handleRemoveAdminFromUser(
                 "❌ Failed to remove Admin role from user: " +
                 (err.message || "Unknown error")
             )
+            console.error(err)
+        })
+}
+
+window.handleDeleteUserAdmin = function handleDeleteUserAdmin(userId, token) {
+    console.log("test")
+    deleteUserAdmin(userId, token)
+        .then(() => {
+            
+            window.location.reload()
+        })
+        .catch((err) => {
+            showToast("❌ Failed to delete user: " + (err.message || "Unknown error"))
             console.error(err)
         })
 }

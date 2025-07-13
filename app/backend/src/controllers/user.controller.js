@@ -2,7 +2,28 @@ import UserService from "../services/user.service.js"
 
 async function deleteUser(req, res) {
     const userId = req.user.id
-    //const userId = 10    //hardcoded for testing, as else you delete yourself with testing :)
+    try {
+        const response = await UserService.deleteUser(userId)
+
+        const data = JSON.stringify(response)
+
+        res.writeHead(200, { "Content-Type": "application/json" })
+        res.end(data)
+    } catch (error) {
+        console.log(
+            `Failed delete user with id: ${userId}; \nMessage: ${error.message}; \nStack: ${error.stack}`
+        )
+
+        const statusCode = error?.statusCode || 500
+        res.status(statusCode).json({
+            message: error?.message || "Unexpected Error",
+            stack: error?.stack,
+        })
+    }
+}
+
+async function deleteUserbyId(req, res) {
+    const userId = req.params.userId
     try {
         const response = await UserService.deleteUser(userId)
 
@@ -170,6 +191,7 @@ async function getAllUsers(req, res) {
 
 export default {
     deleteUser,
+    deleteUserbyId,
     bannUser,
     unBannUser,
     getUserById,
