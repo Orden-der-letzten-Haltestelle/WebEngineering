@@ -4,6 +4,48 @@
     align-items: center;
     flex: 1;
 }
+.Produktbild {
+    width: 90px;
+    height: 45px;
+    object-fit: cover;
+}
+
+.dropdown-item {
+    line-height: normal;
+    margin-bottom: 2px;
+    margin-top: 0px;
+    background: none;
+    border: none;
+    padding: 0.2em 0.2em;
+    text-align: right;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-radius: 6px;
+}
+
+.wishlistitem.dropdown-arrow {
+    width: 12px;
+    height: 12px;
+    transform: rotate(90deg);
+}
+
+.wishlistitem.dropdown-arrow.rotated {
+    transform: rotate(180deg);
+}
+
+.dropdown-button.wishlistitem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5em;
+    padding: 0.5em;
+    border: none;
+    width: 120px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    flex-shrink: 0; 
+}
 
 .newprofile {
     margin-bottom: 2%;
@@ -45,15 +87,12 @@
     text-align: center;
 }
 
-.Überschrift button.userVerwalten-button {
-}
-
 .überschriftButton:hover {
     opacity: 0.7;
     cursor: pointer;
 }
 
-.Löschen {
+.trash-icon-button {
     height: 100%;
     display: flex;
     align-items: center;
@@ -66,7 +105,7 @@
     padding-right: 2%;
     align-items: center;
     margin-top: 1%;
-    margin-bottom: 2%;
+    margin-bottom: 3%;
     width: 95vw;
     height: 15vh;
     background-color: rgb(231, 231, 231);
@@ -120,37 +159,31 @@
     opacity: 0.7;
 }
 
-.anzahl-popup p {
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    border: 2px solid grey;
-    margin: 0;
-    user-select: none;
-}
 
-.anzahl-popup p:hover {
+
+.wishlistitem.dropdown-content p:hover {
     cursor: pointer;
     opacity: 0.6;
 }
 
-.anzahl-popup {
+.wishlistitem.dropdown-content {
+    text-align: right;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 0.5em;
+    border-radius: 6px;
+    margin-top: 5px;
     position: absolute;
-    top: 100%;
-    z-index: 10000;
+    z-index: 1000;
     left: 0;
-    background-color: rgb(227, 227, 227);
-    width: 86px;
-    margin: 0;
+    min-width: 100%;
+    max-height: fit-content;
+    box-sizing: border-box;
 }
 
-.anzahl-button {
-    position: relative;
-    display: inline-block;
-}
-
-.DetailedwishlistItem button,
-.DetailedwishlistItem .anzahl-button {
+.DetailedwishlistItem button {
     background-color: var(--highlight-color);
     width: 80px;
     list-style: none;
