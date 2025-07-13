@@ -85,3 +85,21 @@ export async function removeAdminRoleFromUser(userId, token) {
         throw new ApiError(errorMessage, res.status, errorData)
     }
 }
+
+export async function deleteUserAdmin(userId, token) {
+    console.log(token)
+    const res = await fetch(`${config.host}/user/byId/delete/${userId}`, {
+        method: "DELETE",
+        headers: {
+            Authorization: token,
+            "Content-Type": "application/json",
+        },
+    })
+
+    if (!res.ok) {
+        const errorData = await res.json()
+        const errorMessage =
+            errorData.message || `Failed to delete user with id ${userId}`
+        throw new ApiError(errorMessage, res.status, errorData)
+    }
+}

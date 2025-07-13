@@ -49,35 +49,39 @@
     </p>
 
     <div class="adminpage-user-button-container">
-        <% if (user.roles.includes("admin")) { %>
-        <button
-            class="adminpage-button Degradieren"
-            data-user-id="<%= user.id %>"
-        >
-            Zum <strong>User</strong><br />Degradieren
-        </button>
-        <% } else { %>
-        <button
-            class="adminpage-button Befördern"
-            data-user-id="<%= user.id %>"
-        >
-            Zum Admin<br />Befördern
-        </button>
-        <% } %> <% if (user.isBanned) { %>
+        <% if (user.isBanned) { %>
         <button
             class="adminpage-button Entbannen"
             data-user-id="<%= user.id %>"
         >
             Entbannen
         </button>
+        <button class="adminpage-button Löschen" data-user-id="<%= user.id %>">
+            Löschen
+        </button>
         <% } else { %>
         <button class="adminpage-button Bannen" data-user-id="<%= user.id %>">
             Bannen
         </button>
+            <% if (user.roles.includes("admin")) { %>
+            <button
+                class="adminpage-button Degradieren"
+                data-user-id="<%= user.id %>"
+            >
+                Zum <strong>User</strong><br />Degradieren
+            </button>
+            <% } else { %>
+            <button
+                class="adminpage-button Befördern"
+                data-user-id="<%= user.id %>"
+            >
+                Zum Admin<br />Befördern
+            </button>
+            <% } %> 
         <% } %>
     </div>
 
-    <% ["Bannen", "Entbannen", "Befördern", "Degradieren"].forEach(action => {
+    <% ["Bannen", "Entbannen", "Befördern", "Degradieren", "Löschen"].forEach(action => {
     %>
     <div
         class="adminpage-overlay-container overlay-container <%= action %> hide"
@@ -120,6 +124,13 @@
                 >
                     Degradieren
                 </button>
+                <% } else if (action === "Löschen") { %>
+                <button
+                    class="adminpage-button overlay-button confirm"
+                    onclick="handleDeleteUserAdmin('<%= user.id %>', '<%= token %>')"
+                >
+                    Löschen
+                </button>
                 <% } %>
                 <button class="adminpage-button overlay-button abbruch">
                     Abbruch
@@ -132,7 +143,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const actions = ["Bannen", "Entbannen", "Befördern", "Degradieren"]
+        const actions = ["Bannen", "Entbannen", "Befördern", "Degradieren", "Löschen"]
 
         actions.forEach((action) => {
             const buttons = document.querySelectorAll(
