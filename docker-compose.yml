@@ -8,6 +8,7 @@ services:
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_NAME=webshop
+      - WEBSHOP_EMAIL_PASSWORD={Password}
     depends_on:
       - db
 
