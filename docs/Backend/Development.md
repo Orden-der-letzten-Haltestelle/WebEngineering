@@ -4,7 +4,7 @@ Das Backend wird in drei Schichten aufgeteilt, nach der [Schichten Architektur](
 In der Controller-Schicht, werden alle Endpunkte definiert. 
 Hier werden der Anfrage header und body ausgelesen, um die übergebenen Informationen nutzen zu können. Außerdem wird in dieser Schicht falls benötigt, der JWT-token extrahiert und ausgelesen. Um anschließend überprüfen zu können, ob der Nutzer berechtigt ist, Informationen von diesem Endpunkt zu erhalten.
 
-Zur besseren Lesbarkeit, wurde diese schicht in zwei Dateien aufgeteil. Einmal die controller und die routes. 
+Zur besseren Lesbarkeit, wurde diese schicht in zwei Dateien aufgeteilt. Einmal die controller und die routes. 
 In den Routes werden die eigentlichen Endpunkte für express definiert, während im controller die Logik ist, um den Endpunkt richtig zu verarbeiten.
 
 ## routes für Produkt Service
@@ -66,7 +66,7 @@ export default {
 
 # Service-Schicht
 In der Service-Schicht, ist die Business Logik untergebracht. 
-Bspw.: Prüfung von gebenen Daten, ob das Passwort langgenug ist, abschicken einer email zur verfizierung. 
+Bspw.: Prüfung von gebenen Daten, ob das Passwort lang genug ist, Abschicken einer Email zur Verfizierung. 
 
 ## Models-Schicht
 In dieser Schicht wird alles untergebracht, was mit der Datenbank zu tun hat. Bspw. querys und maping von Datenbank Rückgaben zu Javascript Objects 
