@@ -3,6 +3,7 @@ services:
     build: ./app
     ports:
       - "3000:3000"
+    restart: always
     environment:
       - DB_HOST=db
       - DB_USER=postgres
