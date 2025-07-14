@@ -1,0 +1,4318 @@
+{
+	"info": {
+		"_postman_id": "5d0856c2-22e2-4082-aea4-11a4898538ba",
+		"name": "WebShop",
+		"description": "Dokumentation of the API for the Webshop for the WebEngineering Webshop.\n\n## Adding JWT token\n\nThat the Authorization header is required for most Endpoints. When you login, you get back the jwt Token, which you can add to the Authorization tab in the WebShop folder\n\n<img src=\"https://content.pstmn.io/34575613-1b3f-4b5f-8973-a7c5ff0c5d27/aW1hZ2UucG5n\" alt=\"\" height=\"493\" width=\"784\">\n\nThis will then add the jwt token, in every subfolder. But Please note, that the jwt token send from the backend, has included the \"Bearer \" tag. This tag has to be removed, when adding it to the Authorization, bc. postman is including it automaticly, and our backend only accepts one \"Bearer \" tag.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19591266",
+		"_collection_link": "https://restless-zodiac-435593.postman.co/workspace/4ca71b9a-0fc5-4873-8072-20f65c368291/collection/19591266-5d0856c2-22e2-4082-aea4-11a4898538ba?action=share&source=collection_link&creator=19591266"
+	},
+	"item": [
+		{
+			"name": "Auth-service",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Send mail login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/auth/login/sendmail",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"login",
+										"sendmail"
+									]
+								},
+								"description": "Sends an Email, with an link, with that the user can sign in."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/auth/login/sendmail",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"login",
+												"sendmail"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"email\": \"leon@salenbacher.com\"\n}"
+								}
+							]
+						},
+						{
+							"name": "login",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\",\r\n    \"password\": \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/auth/login",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								},
+								"description": "Login an User"
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"leon@salenbacher.com\",\r\n    \"password\": \"leon\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/login",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\",\n            \"admin\"\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlsidXNlciIsImFkbWluIl0sImlhdCI6MTc1MTgwNzczNSwiZXhwIjoxNzUxODExMzM1fQ.T3LYwY39aGHhwKz-AtDg3A6klU7CWBG5mLa923QrjQE\",\n        \"epiresAt\": 1751811335969\n    }\n}"
+								},
+								{
+									"name": "wrong email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"leon@salenbacher.com\",\r\n    \"password\": \"leon\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/login",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with email leonalenbacher.com doesn't exist\",\n    \"stack\": \"Error: User with email leonalenbacher.com doesn't exist\\n    at Object.findAdvancedAuthUserByEmail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/auth.model.js:158:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.verifyLoginInformation (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:72:30)\\n    at async login (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:106:30)\"\n}"
+								},
+								{
+									"name": "wrong password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"leon@salenbacher.com\",\r\n    \"password\": \"leon\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/login",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"login"
+											]
+										}
+									},
+									"status": "Unauthorized",
+									"code": 401,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Invalid email or password\",\n    \"stack\": \"Error: Invalid email or password\\n    at Object.verifyLoginInformation (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:78:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async login (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:106:30)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Login Token",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auth/login/{{token}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"login",
+										"{{token}}"
+									]
+								},
+								"description": "Creates a jwt token from the one time token, send to the email by \"send mail login\""
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/auth/login/mmixqagep8dr7a3rl8ib?token=mmixqagep8dr7a3rl8ib",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"login",
+												"mmixqagep8dr7a3rl8ib"
+											],
+											"query": [
+												{
+													"key": "token",
+													"value": "mmixqagep8dr7a3rl8ib"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-07-10T15:48:15.645Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"user\",\n                \"level\": 1\n            },\n            {\n                \"id\": 2,\n                \"roleName\": \"admin\",\n                \"level\": 2\n            }\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlt7ImlkIjoxLCJyb2xlTmFtZSI6InVzZXIiLCJsZXZlbCI6MX0seyJpZCI6Miwicm9sZU5hbWUiOiJhZG1pbiIsImxldmVsIjoyfV0sImlhdCI6MTc1MjE3MDE1OCwiZXhwIjoxNzUyMjU2NTU4fQ.83MRkN8m4_uTEw37ZtHL56OCMiiNseM70vmM9FgYRqo\",\n        \"epiresAt\": 1752256558584\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/auth/register",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								},
+								"description": "Register a new User, the password needs at least 4 character and the email has to be a valid one."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"leon\",\r\n    \"password\": \"leon\",\r\n    \"email\": \"leon2d9223@33.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/register",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"user\": {\n        \"id\": 16,\n        \"name\": \"leon\",\n        \"email\": \"leon2d9223@33.com\",\n        \"createdAt\": 1751807616238,\n        \"isVerified\": false,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\"\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzUxODA3NjE2LCJleHAiOjE3NTE4MTEyMTZ9.6dDWrTw9QOhDJV9OC0fQhgOjx9re8poIgludJLDCb04\",\n        \"epiresAt\": 1751811216238\n    }\n}"
+								},
+								{
+									"name": "incorrect email",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"leon\",\r\n    \"password\": \"leon\",\r\n    \"email\": \"leon2d9223@33.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/register",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Given Email isn't a correct Email.\",\n    \"stack\": \"Error: Given Email isn't a correct Email.\\n    at Object.isValidEmail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/validator/validator.auth.js:30:15)\\n    at Object.createUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:47:25)\\n    at register (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:80:48)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at next (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:157:13)\\n    at Route.dispatch (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:117:3)\\n    at handle (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:435:11)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:295:15\\n    at processParams (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:582:12)\"\n}"
+								},
+								{
+									"name": "Bad Password",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"leon\",\r\n    \"password\": \"leon\",\r\n    \"email\": \"leon2d9223@33.com\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/auth/register",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"register"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"Given Password doesn't fit requirments, password needs at least 4 Characters.\",\n    \"stack\": \"Error: Given Password doesn't fit requirments, password needs at least 4 Characters.\\n    at Object.isSecurePassword (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/validator/validator.auth.js:14:15)\\n    at Object.createUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:46:19)\\n    at register (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:80:48)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at next (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:157:13)\\n    at Route.dispatch (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:117:3)\\n    at handle (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:435:11)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:295:15\\n    at processParams (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\index.js:582:12)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Register Admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/auth/registerAdmin",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"registerAdmin"
+									]
+								},
+								"description": "Creates an Admin account, only admins have access to it."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"email\": \"{{email}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/auth/registerAdmin",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"registerAdmin"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"user\": {\n        \"id\": 21,\n        \"name\": \"134\",\n        \"email\": \"324@elkfjs.ofdn\",\n        \"createdAt\": 1752169522133,\n        \"isVerified\": false,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\",\n            \"admin\"\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjEsInJvbGVzIjpbInVzZXIiLCJhZG1pbiJdLCJpYXQiOjE3NTIxNjk1MjIsImV4cCI6MTc1MjI1NTkyMn0.Ix8a-vypO85ztsX1uZ9lEMKhdIrDY1OjWm4CaqZG280\",\n        \"epiresAt\": 1752255922137\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "verify",
+					"item": [
+						{
+							"name": "Send Verify Email",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/auth/verify/sendMail",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"verify",
+										"sendMail"
+									]
+								},
+								"description": "Sends a mail, to the users email, so he can verify his account."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"email\": \"{{email}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://localhost:3000/api/auth/verify/sendMail",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"verify",
+												"sendMail"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						},
+						{
+							"name": "Verify Email",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auth/verify/{{token}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"verify",
+										"{{token}}"
+									]
+								},
+								"description": "Verifys the user, by taking the token, send to the user through \"Send Verify Email\""
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:3000/api/auth/verify/{{token}}",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"auth",
+												"verify",
+												"{{token}}"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get AuthUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/auth/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								""
+							]
+						},
+						"description": "Returns the requesting users information"
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/api/auth",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"leon\",\n    \"email\": \"leon@salenbacher.com\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\",\n        \"admin\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Has Access",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"{{userId}}\",\r\n    \"action\": \"{{action}}\",\r\n    \"resource\": \"{{resource}}\",\r\n    \"resourceId\": \"{{resourceId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/auth/hasAccess",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"hasAccess"
+							]
+						},
+						"description": "Returns the requesting users Personal informations."
+					},
+					"response": [
+						{
+							"name": "Get  Auth User",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": 3,\r\n    \"resourceId\": 8,\r\n    \"resource\": \"cartItem\",\r\n    \"action\": \"GET\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/auth",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": 17,\n    \"name\": \"leon\",\n    \"email\": \"leon2d923@333.com\",\n    \"createdAt\": \"2025-07-06T11:17:07.310Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+						}
+					]
+				}
+			],
+			"description": "Handels Authentication"
+		},
+		{
+			"name": "User-Service",
+			"item": [
+				{
+					"name": "Admin",
+					"item": [
+						{
+							"name": "Get user by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/byId/{{userId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"byId",
+										"{{userId}}"
+									]
+								},
+								"description": "Returns the user with the given Id."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 2,\n    \"name\": \"moritz\",\n    \"email\": \"moritz@letzteHaltestelle.de\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all users",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/allUsers",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"allUsers"
+									]
+								},
+								"description": "Returns all users, that are registered in our Webshop."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/allUsers",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"allUsers"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"admin\",\n        \"email\": \"admin@letzteHaltestelle.de\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\"\n        ]\n    },\n    {\n        \"id\": 2,\n        \"name\": \"moritz\",\n        \"email\": \"moritz@letzteHaltestelle.de\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\"\n        ]\n    }\n]"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Bann user",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/{{userId}}/bann",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"{{userId}}",
+										"bann"
+									]
+								},
+								"description": "Banns the given user"
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/2/bann",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"2",
+												"bann"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 1,\n    \"name\": \"admin\",\n    \"email\": \"admin@letzteHaltestelle.de\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": true,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								},
+								{
+									"name": "User Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/2/bann",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"2",
+												"bann"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with id 100 doesn't exist\",\n    \"stack\": \"Error: User with id 100 doesn't exist\\n    at Object.bannUserById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:177:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.bannUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:30:12)\\n    at async bannUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:30:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "unbann User",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/{{userid}}/unbann",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"{{userid}}",
+										"unbann"
+									]
+								},
+								"description": "Unbanns the given User."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/1/unbann",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"1",
+												"unbann"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 1,\n    \"name\": \"admin\",\n    \"email\": \"admin@letzteHaltestelle.de\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								},
+								{
+									"name": "User Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/100/unbann",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"100",
+												"unbann"
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with id 100 doesn't exist\",\n    \"stack\": \"Error: User with id 100 doesn't exist\\n    at Object.unBannUserById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:222:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.unBannUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:39:12)\\n    at async unBannUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:49:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Make User Admin",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/{{userid}}/role/makeAdmin",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"{{userid}}",
+										"role",
+										"makeAdmin"
+									]
+								},
+								"description": "Makes the given user Admin."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/1/role/makeAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"1",
+												"role",
+												"makeAdmin"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 1,\n    \"name\": \"admin\",\n    \"email\": \"admin@letzteHaltestelle.de\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\",\n        \"admin\"\n    ]\n}"
+								},
+								{
+									"name": "Already Admin",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/2/role/makeAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"2",
+												"role",
+												"makeAdmin"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with id 2 is already admin\",\n    \"stack\": \"Error: User with id 2 is already admin\\n    at Object.makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:295:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:58:12)\\n    at async makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:103:26)\"\n}"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								},
+								{
+									"name": "User Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/100/role/makeAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"100",
+												"role",
+												"makeAdmin"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with id 100 doesn't exist\",\n    \"stack\": \"Error: User with id 100 doesn't exist\\n    at Object.makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:288:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:58:12)\\n    at async makeAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:103:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Remove Admin role",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/{{userId}}/role/makeNoAdmin",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"{{userId}}",
+										"role",
+										"makeNoAdmin"
+									]
+								},
+								"description": "Removes the Admin role of the given User."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/2/role/makeNoAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"2",
+												"role",
+												"makeNoAdmin"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 1,\n    \"name\": \"admin\",\n    \"email\": \"admin@letzteHaltestelle.de\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+								},
+								{
+									"name": "Already no Admin",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/2/role/makeNoAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"2",
+												"role",
+												"makeNoAdmin"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"User with id 2 is already not an admin\",\n    \"stack\": \"Error: User with id 2 is already not an admin\\n    at Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:347:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:67:12)\\n    at async makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:121:26)\"\n}"
+								},
+								{
+									"name": "No Admin",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+								},
+								{
+									"name": "Remove Admin role",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/100/role/makeNoAdmin",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"100",
+												"role",
+												"makeNoAdmin"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"User with id 100 doesn't exist\",\n    \"stack\": \"Error: User with id 100 doesn't exist\\n    at Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:339:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:67:12)\\n    at async makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:121:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete User By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/byId/delete/{{userId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"byId",
+										"delete",
+										"{{userId}}"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/delete/3",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"delete",
+												"3"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": ""
+								},
+								{
+									"name": "Deleting my own user",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/user/byId/delete/3",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"user",
+												"byId",
+												"delete",
+												"3"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "Text",
+									"header": [],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\r\n    \"message\": \"You can't make this request on your own User.\",\r\n    \"stack\": \"Error: You can't make this request on your own User.\\n    at verifyNotSame (file:///D:/2.%20repo/WebEngineering/app/backend/src/controllers/auth.controller.js:271:19)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at next (D:\\\\2. repo\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:157:13)\\n    at file:///D:/2.%20repo/WebEngineering/app/backend/src/controllers/auth.controller.js:66:13\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\r\n}"
+								}
+							]
+						}
+					],
+					"description": "All Request, that are only allowed for admins."
+				},
+				{
+					"name": "Get User by email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/user/userByMail/{{email}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"userByMail",
+								"{{email}}"
+							]
+						},
+						"description": "Returns the user, that has the given Email. When the email doesn't match exactly, an Not Found error will be thrown."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/userByMail/leon@salenbacher.com",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"userByMail",
+										"leon@salenbacher.com"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": 3,\n    \"name\": \"leon\",\n    \"email\": \"leon@salenbacher.com\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/userByMail/leon@salenbacher.co",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"userByMail",
+										"leon@salenbacher.co"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User with email: leon@salenbacher.co doesn't exist\",\n    \"stack\": \"Error: User with email: leon@salenbacher.co doesn't exist\\n    at Object.findUserByEmail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/auth.model.js:114:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.getUserByMail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:383:24)\\n    at async Object.getUserByMail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:76:12)\\n    at async getUserByMail (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:139:26)\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get Your User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user"
+							]
+						},
+						"description": "Returns the User information of the requesting user."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": 17,\n    \"name\": \"leon\",\n    \"email\": \"leon2d923@333.com\",\n    \"createdAt\": \"2025-07-06T11:17:07.310Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/user/delete",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"user",
+								"delete"
+							]
+						},
+						"description": "Delete your own User."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/user/delete",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"user",
+										"delete"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				}
+			],
+			"description": "Handels all User Endpoints"
+		},
+		{
+			"name": "Cart-Service",
+			"item": [
+				{
+					"name": "Get Cart",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Get all Products, that are in your cart."
+					},
+					"response": [
+						{
+							"name": "get Cart",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 18,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:16:31.882Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 20,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 50,\n        \"addedAt\": \"2025-06-19T08:22:17.290Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 21,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:22:20.705Z\",\n        \"ownerId\": 3\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "get orderHistory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"orders"
+							]
+						},
+						"description": "Get all Products, that you have bought."
+					},
+					"response": [
+						{
+							"name": "get orderHistory",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart/orders",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"orders"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 4,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    },\n    {\n        \"id\": 16,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-18T17:48:39.132Z\",\n        \"boughtAt\": \"2025-06-18T17:48:45.997Z\"\n    },\n    {\n        \"id\": 12,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 28,\n        \"addedAt\": \"2025-06-18T17:43:30.997Z\",\n        \"boughtAt\": \"2025-06-18T17:45:02.798Z\"\n    },\n    {\n        \"id\": 2,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    },\n    {\n        \"id\": 15,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-18T17:48:35.025Z\",\n        \"boughtAt\": \"2025-06-18T17:48:45.997Z\"\n    },\n    {\n        \"id\": 14,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 6,\n        \"addedAt\": \"2025-06-18T17:44:36.246Z\",\n        \"boughtAt\": \"2025-06-18T17:45:02.798Z\"\n    },\n    {\n        \"id\": 3,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "buy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart/buy",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"buy"
+							]
+						},
+						"description": "Buy all products, that are in your cart. Sends an confirmation email."
+					},
+					"response": [
+						{
+							"name": "buy",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart/buy",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"buy"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 18,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:16:31.882Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    },\n    {\n        \"id\": 20,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 50,\n        \"addedAt\": \"2025-06-19T08:22:17.290Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    },\n    {\n        \"id\": 21,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:22:20.705Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "add product to cart",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart/product/{{productId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"product",
+								"{{productId}}"
+							]
+						},
+						"description": "Add a product to your cart. If the Product is already in your cart, the given amount will be added to it."
+					},
+					"response": [
+						{
+							"name": "add product to cart",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart/product/2?amount=20",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"product",
+										"2"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 22,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:55:37.515Z\",\n        \"ownerId\": 3\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "update amount",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart/item/{{cartItemId}}?amount={{amount}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"item",
+								"{{cartItemId}}"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "{{amount}}"
+								}
+							]
+						},
+						"description": "Update the amount of an Product, that is in your Cart."
+					},
+					"response": [
+						{
+							"name": "update amount",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart/item/20?amount=70",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"item",
+										"20"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "70"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 22,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 3,\n        \"addedAt\": \"2025-06-19T08:55:37.515Z\",\n        \"ownerId\": 3\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Delete CartItem",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart/item/{{cartItemId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart",
+								"item",
+								"{{cartItemId}}"
+							]
+						},
+						"description": "Remove an Product from your cart."
+					},
+					"response": [
+						{
+							"name": "Delete CartItem",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart/item/19",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart",
+										"item",
+										"19"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "[\n    {\n        \"id\": 23,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:56:30.203Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 24,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:56:32.264Z\",\n        \"ownerId\": 3\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Delete Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/cart",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"cart"
+							]
+						},
+						"description": "Remove all Products from your cart."
+					},
+					"response": [
+						{
+							"name": "Delete Cart",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/cart",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"cart"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": ""
+						}
+					]
+				}
+			],
+			"description": "Handels all Cart and Orderhistory Endpoints"
+		},
+		{
+			"name": "DB-Test",
+			"item": [
+				{
+					"name": "Test DB Connection",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/db/test",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"db",
+								"test"
+							]
+						},
+						"description": "Test if the backend is successfully connected to the Database."
+					},
+					"response": []
+				}
+			],
+			"description": "With that endpoint, you can test the Database connection."
+		},
+		{
+			"name": "Wishlist-Service",
+			"item": [
+				{
+					"name": "Overall",
+					"item": [
+						{
+							"name": "Get Wishlist By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/{{wishlistId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"{{wishlistId}}"
+									]
+								},
+								"description": "Returns the full Wishlist, by its Id."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"1"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"newName\",\r\n    \"description\": \"newDescription\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 3,\r\n                \"roleName\": \"read\",\r\n                \"level\": 1\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 15\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 3,\r\n                    \"roleName\": \"read\",\r\n                    \"level\": 1\r\n                },\r\n            ],\r\n            \"userWishlistRelationId\": 18\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"moritz\",\r\n            \"email\": \"moritz@letzteHaltestelle.de\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 1\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 1,\r\n            \"product\": {\r\n                \"id\": 2,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"This is a great shirt\",\r\n                \"amount\": 80,\r\n                \"price\": 8000\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": \"1\"\r\n        }\r\n    ]\r\n}"
+								},
+								{
+									"name": "Get Wishlist By Id",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"2"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 2\",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 2\\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:73:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async getBasicWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:131:5)\\n    at async Object.getWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:172:27)\\n    at async getWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:33:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all wishlists of User",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										""
+									]
+								},
+								"description": "Returns an array, with all wishlists, the requesting member is member of."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												""
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"newName\",\n        \"description\": \"newDescription\",\n        \"member\": {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 3,\n                    \"roleName\": \"read\",\n                    \"level\": 1\n                }\n            ],\n            \"userWishlistRelationId\": 15\n        }\n    },\n    {\n        \"id\": 7,\n        \"name\": \"New list\",\n        \"description\": \"test\",\n        \"member\": {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 14\n        }\n    }\n]"
+								}
+							]
+						},
+						{
+							"name": "create Wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"description\": \"{{description}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/wishlist",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist"
+									]
+								},
+								"description": "Creates a new Wishlist, with the given parameter.  \nWhen the parameters are not given, it will be set to empty string."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"New list\",\r\n    \"description\": \"test\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 8,\n    \"name\": \"New list\",\n    \"description\": \"test\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 20\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Wishlist",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"description\": \"{{description}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/wishlist/{{wishlistId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"{{wishlistId}}"
+									]
+								},
+								"description": "Updates the Wishlist, with the given id.  \nWhen an payload parameter isn't given, it will be set to an empty string."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"newName\",\r\n    \"description\": \"newDescription\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/9",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"9"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"id\": 9,\n    \"name\": \"newName\",\n    \"description\": \"newDescription\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 21\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 21\n        }\n    ],\n    \"wishlistItems\": []\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"name\": \"newName\",\r\n    \"description\": \"newDescription\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"1"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:279:5)\\n    at async updateWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:112:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Wishlist",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/{{wishlistId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"{{wishlistId}}"
+									]
+								},
+								"description": "Delete an Wishlist, by its id."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"2"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/{{wishlistId}}",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"{{wishlistId}}"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{\r\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 2\",\r\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 2\\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:73:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:385:5)\\n    at async deleteWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:214:26)\"\r\n}"
+								}
+							]
+						}
+					],
+					"description": "All Interactions, with the wishlist."
+				},
+				{
+					"name": "Items",
+					"item": [
+						{
+							"name": "Add Product to wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/{{wishlistId}}/product/{{productId}}?amount={{amount}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"{{wishlistId}}",
+										"product",
+										"{{productId}}"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "{{amount}}"
+										}
+									]
+								},
+								"description": "Adds a Product with the given id, to the wishlist with the given wishlistId. When amount is not given, the amount will be set to 1. When the product exists already in the wishlist, the given amount will be added to the already existing item."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/7/product/4?amount=4",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"7",
+												"product",
+												"4"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "4"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 7,\n    \"name\": \"New list\",\n    \"description\": \"test\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 14\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 14\n        }\n    ],\n    \"wishlistItems\": [\n        {\n            \"id\": 4,\n            \"product\": {\n                \"id\": 2,\n                \"name\": \"T-Shirt\",\n                \"description\": \"This is a great shirt\",\n                \"amount\": 80,\n                \"price\": 8000\n            },\n            \"amount\": 4,\n            \"addedAt\": \"2025-07-06T10:28:32.471Z\",\n            \"wishlistId\": \"7\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/1/product/2?amount=3",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"1",
+												"product",
+												"2"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "3"
+												}
+											]
+										}
+									},
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.addProductToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:245:5)\\n    at async addProductToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:83:26)\"\n}"
+								},
+								{
+									"name": "Amount to high",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/1/product/2?amount=60",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"1",
+												"product",
+												"2"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "60"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"New amount 140 is higher then storage amount of product\",\n    \"stack\": \"Error: New amount 140 is higher then storage amount of product\\n    at Object.isValidAmount (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/validator/validator.product.js:23:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:253:5)\\n    at async addProductToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:83:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Amount WishlistItem",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/item/{{wishlistItemId}}?amount={{amount}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"item",
+										"{{wishlistItemId}}"
+									],
+									"query": [
+										{
+											"key": "amount",
+											"value": "{{amount}}"
+										}
+									]
+								},
+								"description": "Update the amount of products, in your Wishlist."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/6?amount=1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"6"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 7,\n    \"name\": \"New list\",\n    \"description\": \"test\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 14\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 14\n        }\n    ],\n    \"wishlistItems\": [\n        {\n            \"id\": 6,\n            \"product\": {\n                \"id\": 4,\n                \"name\": \"Sneaker\",\n                \"description\": \"Weiße Sneaker, Größe 42\",\n                \"amount\": 500,\n                \"price\": 6999\n            },\n            \"amount\": 1,\n            \"addedAt\": \"2025-07-06T11:56:56.512Z\",\n            \"wishlistId\": 7\n        },\n        {\n            \"id\": 5,\n            \"product\": {\n                \"id\": 2,\n                \"name\": \"T-Shirt\",\n                \"description\": \"This is a great shirt\",\n                \"amount\": 80,\n                \"price\": 8000\n            },\n            \"amount\": 80,\n            \"addedAt\": \"2025-07-06T10:45:06.044Z\",\n            \"wishlistId\": 7\n        }\n    ]\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/2?amount=1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"2"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"WishlistItem with id 2 doesn't exist\",\n    \"stack\": \"Error: WishlistItem with id 2 doesn't exist\\n    at Object.findWishlistItemById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlistitem.model.js:91:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:241:26)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:111:26)\"\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/1?amount=1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"1"
+											],
+											"query": [
+												{
+													"key": "amount",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:246:5)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:111:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Wishlist Item",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/item/{{wishlistItemId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"item",
+										"{{wishlistItemId}}"
+									]
+								},
+								"description": "Remove an Product from your Wishlist."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/4",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"4"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 7,\n    \"name\": \"New list\",\n    \"description\": \"test\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 14\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 14\n        }\n    ],\n    \"wishlistItems\": []\n}"
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/4",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"4"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"WishlistItem with id 4 doesn't exist\",\n    \"stack\": \"Error: WishlistItem with id 4 doesn't exist\\n    at Object.findWishlistItemById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlistitem.model.js:91:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:368:28)\\n    at async deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:207:26)\"\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "localhost:3000/api/wishlist/item/1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"item",
+												"1"
+											]
+										}
+									},
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{\r\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\r\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:372:5)\\n    at async deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:207:26)\"\r\n}"
+								}
+							]
+						}
+					],
+					"description": "Edit and create wishlist Items"
+				},
+				{
+					"name": "Members",
+					"item": [
+						{
+							"name": "Add User To Wishlist",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"{{userId}}\",\r\n    \"roleLevel\": \"{{roleLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/wishlist/{{wishlistId}}/permission",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"{{wishlistId}}",
+										"permission"
+									]
+								},
+								"description": "Adds a new User to your wishlist, with the given role.\n\n## Roles\n\n``` json\n{\n    owner: {\n        id: 1,\n        roleName: \"owner\",\n        level: 3,\n    },\n    write: {\n        id: 2,\n        roleName: \"write\",\n        level: 2,\n    },\n    read: {\n        id: 3,\n        roleName: \"read\",\n        level: 1,\n    },\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userId\": 8,\r\n    \"roleLevel\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/{{wishlistId}}/permission",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"{{wishlistId}}",
+												"permission"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"id\": 2,\n    \"name\": \"My Wishlist\",\n    \"description\": \"Great Wishlist\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            },\n            {\n                \"id\": 2,\n                \"roleName\": \"write\",\n                \"level\": 2\n            },\n            {\n                \"id\": 3,\n                \"roleName\": \"read\",\n                \"level\": 1\n            }\n        ],\n        \"userWishlistRelationId\": 3\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 9\n        },\n        {\n            \"id\": 8,\n            \"name\": \"moritz\",\n            \"email\": \"moritz@letzteHaltestelle.de\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 2,\n                    \"roleName\": \"write\",\n                    \"level\": 2\n                }\n            ],\n            \"userWishlistRelationId\": 5\n        }\n    ],\n    \"wishlistItems\": [\n        {\n            \"id\": 3,\n            \"product\": {\n                \"id\": 1,\n                \"name\": \"T-Shirt\",\n                \"description\": \"Schwarzes T-Shirt, Größe M\",\n                \"amount\": 200,\n                \"price\": 1999\n            },\n            \"amount\": 1,\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\n            \"wishlistId\": \"2\"\n        }\n    ]\n}"
+								},
+								{
+									"name": "User already has role",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userId\": 6,\r\n    \"roleLevel\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/2/permission",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"2",
+												"permission"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"The user with id: 6 already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId\",\n    \"stack\": \"Error: The user with id: 6 already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId\\n    at Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlist.model.js:462:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:311:5)\\n    at async addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:140:26)\"\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"userId\": 6,\r\n    \"roleLevel\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/1/permission",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"1",
+												"permission"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:291:5)\\n    at async addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:140:26)\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Change Role of Member",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"roleLevel\": \"{{roleLevel}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/wishlist/permission/{{userWishlistRelationId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"permission",
+										"{{userWishlistRelationId}}"
+									]
+								},
+								"description": "Changes the Role of a WishlistMember.  \nYou can either give user write or read access.\n\nTakes the Rolelevel as a Payload.\n\n## Roles:\n\n``` json\n{\n    owner: {\n        id: 1,\n        roleName: \"owner\",\n        level: 3,\n    },\n    write: {\n        id: 2,\n        roleName: \"write\",\n        level: 2,\n    },\n    read: {\n        id: 3,\n        roleName: \"read\",\n        level: 1,\n    },\n}\n\n ```"
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"roleLevel\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/16",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"16"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\r\n    \"id\": 2,\r\n    \"name\": \"My Wishlist\",\r\n    \"description\": \"Great Wishlist\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"roleName\": \"owner\",\r\n                \"level\": 3\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 3\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 3\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"Moritz\",\r\n            \"email\": \"Moritz@gmail.com\",\r\n            \"createdAt\": \"2025-06-08T13:58:49.780Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 2,\r\n                    \"roleName\": \"write\",\r\n                    \"level\": 2\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 16\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 3,\r\n            \"product\": {\r\n                \"id\": 1,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n                \"amount\": 200,\r\n                \"price\": 1999\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": 2\r\n        }\r\n    ]\r\n}"
+								},
+								{
+									"name": "Wrong Role level",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"roleLevel\": 3\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/3",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"3"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You need to use a proper roleLevel. Recieved: roleLevel:3, but need to be ether 1 (read) or 2 (write)\",\n    \"stack\": \"Error: You need to use a proper roleLevel. Recieved: roleLevel:3, but need to be ether 1 (read) or 2 (write)\\n    at Object.changeRoleOfRelation (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:319:15)\\n    at changeRoleOfUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:159:48)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at next (D:\\\\2. repo\\\\1. DHBW\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:157:13)\\n    at file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:64:13\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\n}"
+								},
+								{
+									"name": "Not Allowed",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"roleLevel\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"1"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\r\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \",\r\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.changeRoleOfRelation (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:329:5)\\n    at async changeRoleOfUser (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:159:26)\"\r\n}"
+								}
+							]
+						},
+						{
+							"name": "Delete Wishlist Member",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/wishlist/permission/{{userWishlistRelationId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"wishlist",
+										"permission",
+										"{{userWishlistRelationId}}"
+									]
+								},
+								"description": "Remove the given User from your Wishlist."
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/16",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"16"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "Text",
+									"header": null,
+									"cookie": [],
+									"body": "{\r\n    \"id\": 2,\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"roleName\": \"owner\",\r\n                \"level\": 3\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"roleName\": \"write\",\r\n                \"level\": 2\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"roleName\": \"read\",\r\n                \"level\": 1\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 3\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 9\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"moritz\",\r\n            \"email\": \"moritz@letzteHaltestelle.de\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 2,\r\n                    \"roleName\": \"write\",\r\n                    \"level\": 2\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 5\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 3,\r\n            \"product\": {\r\n                \"id\": 1,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n                \"amount\": 200,\r\n                \"price\": 1999\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": 2\r\n        }\r\n    ]\r\n}"
+								},
+								{
+									"name": "Delete your self",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/3",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"3"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"message\": \"You can't delete your own user, from your Wishlist. If you want, to Delete the Wishlist, you can do that at DELETE /wishlist/2\",\n    \"stack\": \"Error: You can't delete your own user, from your Wishlist. If you want, to Delete the Wishlist, you can do that at DELETE /wishlist/2\\n    at Object.deleteRelationFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:357:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async deleteUserFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:178:26)\"\n}"
+								},
+								{
+									"name": "Delete Wishlist Member",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/1",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"1"
+											]
+										}
+									},
+									"status": "Forbidden",
+									"code": 403,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteRelationFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:349:5)\\n    at async deleteUserFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:178:26)\"\n}"
+								},
+								{
+									"name": "Member Not Found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "localhost:3000/api/wishlist/permission/2",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"api",
+												"wishlist",
+												"permission",
+												"2"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json",
+											"description": "",
+											"type": "text"
+										}
+									],
+									"cookie": [
+										{
+											"expires": "Invalid Date",
+											"domain": "",
+											"path": ""
+										}
+									],
+									"body": "{\n    \"message\": \"WishlistRealtion with id: 2 was not Found\",\n    \"stack\": \"Error: WishlistRealtion with id: 2 was not Found\\n    at Object.getRelationById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlist.model.js:501:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteRelationFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:345:44)\\n    at async deleteUserFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:178:26)\"\n}"
+								}
+							]
+						}
+					],
+					"description": "Handle Members, in the Wishlists."
+				}
+			],
+			"description": "Handels all Wishlist Endpoints."
+		},
+		{
+			"name": "Products-Service",
+			"item": [
+				{
+					"name": "Get Products with filter",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/products/?value={{value}}&minPrice={{minPrice}}&maxPrice={{maxPrice}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "value",
+									"value": "{{value}}"
+								},
+								{
+									"key": "minPrice",
+									"value": "{{minPrice}}"
+								},
+								{
+									"key": "maxPrice",
+									"value": "{{maxPrice}}"
+								}
+							]
+						},
+						"description": "Returns all Products, that fit the given filter parameter."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/?value=T-Shirt&minPrice=1000&maxPrice=5000",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										""
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "T-Shirt"
+										},
+										{
+											"key": "minPrice",
+											"value": "1000"
+										},
+										{
+											"key": "maxPrice",
+											"value": "5000"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "Text",
+							"header": null,
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"T-Shirt\",\r\n        \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n        \"amount\": 200,\r\n        \"price\": 1999\r\n    }\r\n]"
+						}
+					]
+				},
+				{
+					"name": "Get Product by id",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/products/{{productId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Get a Product by its id."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/{{productId}}",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"{{productId}}"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"name\": \"T-Shirt\",\n    \"description\": \"This is a great shirt\",\n    \"amount\": 80,\n    \"price\": 8000\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/100",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"100"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product with id 100 doesn't exist\",\n    \"stack\": \"Error: Product with id 100 doesn't exist\\n    at Object.findProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/product.model.js:82:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.getProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/product.service.js:27:20)\\n    at async getProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/product.controller.js:59:25)\"\n}"
+						}
+					]
+				},
+				{
+					"name": "create product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"amount\": \"{{amount}}\",\r\n    \"price\": \"{{price}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Creates a new Product, can only made by an Admin.  \nThe Price is given in cent."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"new product\",\r\n    \"description\": \"my new product\",\r\n    \"amount\": 200,\r\n    \"price\": 2000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 15,\n    \"name\": \"new product\",\n    \"description\": \"my new product\",\n    \"amount\": 200,\n    \"price\": 2000\n}"
+						},
+						{
+							"name": "No Admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"new product\",\r\n    \"description\": \"my new product\",\r\n    \"amount\": 200,\r\n    \"price\": 2000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/api/products",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+						}
+					]
+				},
+				{
+					"name": "update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"{{name}}\",\r\n    \"description\": \"{{description}}\",\r\n    \"amount\": \"{{amount}}\",\r\n    \"price\": \"{{price}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/api/products/{{productId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Update the Information of an existing Product, can only made by an Admin.  \nThe Price is given in cent."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"T-Shirt\",\r\n    \"description\": \"This is a great shirt\",\r\n    \"amount\": 80,\r\n    \"price\": 8000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/products/2",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"id\": \"2\",\n    \"name\": \"T-Shirt\",\n    \"description\": \"This is a great shirt\",\n    \"amount\": 80,\n    \"price\": 8000\n}"
+						},
+						{
+							"name": "NotFound",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"T-Shirt\",\r\n    \"description\": \"This is a great shirt\",\r\n    \"amount\": 80,\r\n    \"price\": 8000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/products/3",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"3"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product with id 3 doesn't exist\",\n    \"stack\": \"Error: Product with id 3 doesn't exist\\n    at Object.updateProduct (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/product.model.js:170:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateProduct (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/product.service.js:42:20)\\n    at async updateProduct (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/product.controller.js:79:25)\"\n}"
+						},
+						{
+							"name": "No Admin",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"T-Shirt\",\r\n    \"description\": \"This is a great shirt\",\r\n    \"amount\": 80,\r\n    \"price\": 8000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/products/2",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"2"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/api/products/{{productId}}",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"products",
+								"{{productId}}"
+							]
+						},
+						"description": "Deletes an Product."
+					},
+					"response": [
+						{
+							"name": "Success",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/3",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"domain": "",
+									"path": ""
+								}
+							],
+							"body": "{\n    \"message\": \"Deleted Product with Id: 15\"\n}"
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/3",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"3"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Product with id 15 doesn't exist\",\n    \"stack\": \"Error: Product with id 15 doesn't exist\\n    at Object.deleteProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/product.model.js:207:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/product.service.js:53:20)\\n    at async deleteProductById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/product.controller.js:104:25)\"\n}"
+						},
+						{
+							"name": "No Admin",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:3000/api/products/3",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"products",
+										"3"
+									]
+								}
+							},
+							"status": "Forbidden",
+							"code": 403,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"You are not allowed, to access this endpoint.\",\n    \"stack\": \"Error: You are not allowed, to access this endpoint.\\n    at Object.extractTokenAndVerify (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/auth.service.js:121:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/auth.controller.js:55:26\"\n}"
+						}
+					]
+				}
+			],
+			"description": "Handles all Product Endpoints."
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlt7ImlkIjoxLCJyb2xlTmFtZSI6InVzZXIiLCJsZXZlbCI6MX0seyJpZCI6Miwicm9sZU5hbWUiOiJhZG1pbiIsImxldmVsIjoyfV0sImlhdCI6MTc1MjM5ODg0MiwiZXhwIjoxNzUyNDg1MjQyfQ.wkp1HaBbr8hLMdHHZnU8kbQ7FUeYurW6gaM8lobjRk0",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -31,15 +31,15 @@ INSERT INTO webshop.Products (name, description, amount, price) VALUES
 
 -- Warenkorb-Einträge
 INSERT INTO webshop.CartItems (userId, productId, amount, bought, boughtAt, addedAt) VALUES
-  (2, 1, 2, FALSE, NULL, NOW()), -- moritz hat 2 T-Shirts im Warenkorb
-  (2, 3, 1, FALSE, NULL, NOW()), -- moritz hat 1 Cap im Warenkorb
-  (3, 4, 1, FALSE, NULL, NOW()), -- leon hat 1 Paar Sneaker im Warenkorb
-  (3, 1, 1, TRUE, NOW(), NOW()); -- leon hat 1 T-Shirt gekauft
+  (2, 1, 2, FALSE, NULL, NOW()), -- User hat 2 T-Shirts im Warenkorb
+  (2, 3, 1, FALSE, NULL, NOW()), -- User hat 1 Cap im Warenkorb
+  (3, 4, 1, FALSE, NULL, NOW()), -- Unverified hat 1 Paar Sneaker im Warenkorb
+  (3, 1, 1, TRUE, NOW(), NOW()); -- Unverified hat 1 T-Shirt gekauft
 
 -- Wunschlisten
 INSERT INTO webshop.Wishlists (name, description) VALUES
-  ('Moritz Wunschliste', 'Alles was Moritz sich wünscht'),
-  ('Leons Liste', 'Lieblingsprodukte von Leon');
+  ('Wunschliste von User', 'Alles was ich mir wünsche'),
+  ('Unverified wünscht sich', 'Lieblingsprodukte von Unverified');
 
 -- Wishlist-Rollen
 INSERT INTO webshop.WishlistRoles (roleName) VALUES
@@ -49,13 +49,13 @@ INSERT INTO webshop.WishlistRoles (roleName) VALUES
 
 -- Verknüpfung User <-> Wishlist <-> Rolle
 INSERT INTO webshop.User_wishlist_relation (userId, wishlistId, wishlistRoleId) VALUES
-  (2, 1, 1), -- moritz ist owner seiner Liste
-  (3, 1, 3), -- leon sieht moritz seine Liste
-  (3, 2, 1), -- leon ist owner seiner Liste
-  (2, 2, 2); -- moritz darf leons liste bearbeiten
+  (2, 1, 1), -- User ist owner seiner Liste
+  (3, 1, 3), -- Unverified sieht User seine Liste
+  (3, 2, 1), -- Unverified ist owner seiner Liste
+  (2, 2, 2); -- User darf Unverified liste bearbeiten
 
 -- Wunschlisten-Einträge
 INSERT INTO webshop.WishlistItems (productId, wishlistId, amount, addedAt) VALUES
-  (2, 1, 1, NOW()), -- Hoodie in Moritz Liste
-  (3, 1, 2, NOW()), -- 2x Cap in Moritz Liste
-  (1, 2, 1, NOW()); -- T-Shirt in Leons Liste
+  (2, 1, 1, NOW()), -- Hoodie in User Liste
+  (3, 1, 2, NOW()), -- 2x Cap in User Liste
+  (1, 2, 1, NOW()); -- T-Shirt in Unverified Liste
