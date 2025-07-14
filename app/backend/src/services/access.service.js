@@ -31,14 +31,9 @@ import WishlistItem from "../objects/items/WishlistItem.js"
  */
 async function hasUserAccessToResource(userId, resourceId, ressource, action) {
     const user = await AuthService.getAuthUser(userId)
-
-    //TODO proof, that valid action is given
-    //handled in
-
     switch (ressource) {
         case "products":
             return await hasUserAccessToProduct(user, resourceId, action)
-        //TODO ???? cartItems and orderItems are the same?? bc. in same table??
         case "cartItems":
             return await hasUserAccessToCartItem(user, resourceId, action)
         case "orderItems":
@@ -47,7 +42,7 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
             return await hasUserAccessToUser(user, resourceId, action)
         case "user_has_role":
             return await hasUserAccessToUser_Has_Role(user, resourceId, action)
-        case "user_wishlist_realtion":
+        case "user_wishlist_relation":
             return await hasUserAccessToUser_wishlist_relation(
                 user,
                 resourceId,
@@ -59,7 +54,7 @@ async function hasUserAccessToResource(userId, resourceId, ressource, action) {
             return await hasUserAccessToWishlistItems(user, resourceId, action)
         case "roles":
             return user.hasRole(Roles.admin)
-        case "wishlistroles":
+        case "wishlistRoles":
             return user.hasRole(Roles.admin)
         default:
             throw new BadRequestError(
@@ -91,7 +86,6 @@ async function hasUserAccessToProduct(user, productId, action) {
             case "POST":
             case "PUT":
             case "DELETE":
-                //TODO remove? wird das hier gehandelt???
                 //product needs to be given and needs to exist
                 if (productId == null || productId == undefined)
                     throw new BadRequestError(
@@ -185,9 +179,6 @@ async function hasUserAccessToCartItem(user, id, action) {
     }
 }
 
-//TODO ??? wenn wir cartitem und orderitems zusammen machen,
-// dann macht das garkein sinn, weil wir ja unterschiedliche post,put actions haben.
-// aber irgendwie ist es ja die selbe resource, ich check das nicht....
 async function hasUserAccessToOrderItem(user, id, action) {
     try {
         //if id given, item has to exist
@@ -362,7 +353,7 @@ async function hasUserAccessToUser_wishlist_relation(user, id, action) {
 
 async function hasUserAccessToWishlist(user, id, action) {
     try {
-        //TODO admin shouldnt be abel to access wishlists???
+        //admin cant access wishlists 
         let wishlist
         try {
             wishlist = await WishlistService.getWishlistByIdNoVerify(
