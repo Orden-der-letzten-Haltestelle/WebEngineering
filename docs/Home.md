@@ -39,7 +39,7 @@ DB_HOST=localhost
 DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=webshop
-WEBSHOP_EMAIL_PASSWORD=(password is in whatsapp chat)
+WEBSHOP_EMAIL_PASSWORD={PASSWORD} (replace with password from onetimesecret)
 ```
 
 ### run unittests
