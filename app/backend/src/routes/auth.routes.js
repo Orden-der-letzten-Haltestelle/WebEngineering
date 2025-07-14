@@ -17,7 +17,11 @@ router.get(
     AuthController.getAuthUser
 )
 
-router.get("/hasAccess", AuthController.hasUserAccessToResource)
+router.get(
+    "/hasAccess",
+    AuthController.verifyJWTtoken(Roles.admin),
+    AuthController.hasUserAccessToResource
+)
 router.post("/register", AuthController.register)
 router.post(
     "/registerAdmin",
@@ -39,16 +43,10 @@ router.get(
     }
 )
 
-router.put("/login/:token",
-    AuthController.singleLogin
-)
+router.put("/login/:token", AuthController.singleLogin)
 
-router.put("/verify/:token",
-    AuthController.verifyEmail
-)
+router.put("/verify/:token", AuthController.verifyEmail)
 
-router.post("/verify/sendMail",
-    AuthController.sendVerifyMail
-)
+router.post("/verify/sendMail", AuthController.sendVerifyMail)
 
 export default router

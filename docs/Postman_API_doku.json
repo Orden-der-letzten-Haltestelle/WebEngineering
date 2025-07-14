@@ -1,11 +1,11 @@
 {
 	"info": {
-		"_postman_id": "5d0856c2-22e2-4082-aea4-11a4898538ba",
+		"_postman_id": "fe5c00c6-f34a-4cd4-91c7-ec120c95d4d8",
 		"name": "WebShop",
 		"description": "Dokumentation of the API for the Webshop for the WebEngineering Webshop.\n\n## Adding JWT token\n\nThat the Authorization header is required for most Endpoints. When you login, you get back the jwt Token, which you can add to the Authorization tab in the WebShop folder\n\n<img src=\"https://content.pstmn.io/34575613-1b3f-4b5f-8973-a7c5ff0c5d27/aW1hZ2UucG5n\" alt=\"\" height=\"493\" width=\"784\">\n\nThis will then add the jwt token, in every subfolder. But Please note, that the jwt token send from the backend, has included the \"Bearer \" tag. This tag has to be removed, when adding it to the Authorization, bc. postman is including it automaticly, and our backend only accepts one \"Bearer \" tag.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19591266",
-		"_collection_link": "https://restless-zodiac-435593.postman.co/workspace/4ca71b9a-0fc5-4873-8072-20f65c368291/collection/19591266-5d0856c2-22e2-4082-aea4-11a4898538ba?action=share&source=collection_link&creator=19591266"
+		"_collection_link": "https://restless-zodiac-435593.postman.co/workspace/Webengineering~dfe2f2ba-7baa-4283-89ce-8cf3d5ec9ba4/collection/19591266-fe5c00c6-f34a-4cd4-91c7-ec120c95d4d8?action=share&source=collection_link&creator=19591266"
 	},
 	"item": [
 		{
@@ -162,9 +162,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\",\n            \"admin\"\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlsidXNlciIsImFkbWluIl0sImlhdCI6MTc1MTgwNzczNSwiZXhwIjoxNzUxODExMzM1fQ.T3LYwY39aGHhwKz-AtDg3A6klU7CWBG5mLa923QrjQE\",\n        \"epiresAt\": 1751811335969\n    }\n}"
@@ -314,9 +312,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"user\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-07-10T15:48:15.645Z\",\n        \"isVerified\": true,\n        \"isBanned\": false,\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"user\",\n                \"level\": 1\n            },\n            {\n                \"id\": 2,\n                \"roleName\": \"admin\",\n                \"level\": 2\n            }\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlt7ImlkIjoxLCJyb2xlTmFtZSI6InVzZXIiLCJsZXZlbCI6MX0seyJpZCI6Miwicm9sZU5hbWUiOiJhZG1pbiIsImxldmVsIjoyfV0sImlhdCI6MTc1MjE3MDE1OCwiZXhwIjoxNzUyMjU2NTU4fQ.83MRkN8m4_uTEw37ZtHL56OCMiiNseM70vmM9FgYRqo\",\n        \"epiresAt\": 1752256558584\n    }\n}"
@@ -400,9 +396,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"user\": {\n        \"id\": 16,\n        \"name\": \"leon\",\n        \"email\": \"leon2d9223@33.com\",\n        \"createdAt\": 1751807616238,\n        \"isVerified\": false,\n        \"isBanned\": false,\n        \"roles\": [\n            \"user\"\n        ]\n    },\n    \"jwt\": {\n        \"token\": \"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTYsInJvbGVzIjpbInVzZXIiXSwiaWF0IjoxNzUxODA3NjE2LCJleHAiOjE3NTE4MTEyMTZ9.6dDWrTw9QOhDJV9OC0fQhgOjx9re8poIgludJLDCb04\",\n        \"epiresAt\": 1751811216238\n    }\n}"
@@ -690,7 +684,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": null,
 									"header": null,
 									"cookie": [],
 									"body": "{}"
@@ -782,11 +776,11 @@
 								"hasAccess"
 							]
 						},
-						"description": "Returns the requesting users Personal informations."
+						"description": "Returns if the user has access\n\n## UserId:\n\nProofs, if the user with the given Id has access\n\n## Action\n\n- GET\n    \n- POST\n    \n- PUT\n    \n- DELETE\n    \n\n# resource\n\n- products\n    \n- cartItems\n    \n- orderItems\n    \n- users\n    \n- user_has_role\n    \n- user_wishlist_relation\n    \n- wishlists\n    \n- wishlistItems\n    \n- roles\n    \n- wishlistRoles\n    \n\n## resourceId\n\nTests if the user has access to this resource.\n\n# Note:\n\nAdmins dont have access to wishlists. Thats a private thing, and admins shouldnt be abel to view it."
 					},
 					"response": [
 						{
-							"name": "Get  Auth User",
+							"name": "No Access",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -811,6 +805,8 @@
 									]
 								}
 							},
+							"status": "OK",
+							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -822,12 +818,48 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
-							"body": "{\n    \"id\": 17,\n    \"name\": \"leon\",\n    \"email\": \"leon2d923@333.com\",\n    \"createdAt\": \"2025-07-06T11:17:07.310Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
+							"body": "{\n    \"userId\": \"2\",\n    \"resource\": {\n        \"id\": \"3\",\n        \"name\": \"products\",\n        \"action\": \"POST\"\n    },\n    \"hasAccess\": false\n}"
+						},
+						{
+							"name": "Has Access",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"userId\": \"{{userId}}\",\r\n    \"action\": \"{{action}}\",\r\n    \"resource\": \"{{resource}}\",\r\n    \"resourceId\": \"{{resourceId}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:3000/api/auth/hasAccess",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"api",
+										"auth",
+										"hasAccess"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "",
+							"header": [],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\r\n    \"userId\": \"3\",\r\n    \"resource\": {\r\n        \"id\": \"3\",\r\n        \"name\": \"products\",\r\n        \"action\": \"GET\"\r\n    },\r\n    \"hasAccess\": true\r\n}"
 						}
 					]
 				}
@@ -1571,9 +1603,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"User with id 100 doesn't exist\",\n    \"stack\": \"Error: User with id 100 doesn't exist\\n    at Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/user.model.js:339:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/user.service.js:67:12)\\n    at async makeNoAdmin (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/user.controller.js:121:26)\"\n}"
@@ -1623,13 +1653,11 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": "",
 									"header": [],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": ""
@@ -1656,13 +1684,11 @@
 									},
 									"status": "Bad Request",
 									"code": 400,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": "",
 									"header": [],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\r\n    \"message\": \"You can't make this request on your own User.\",\r\n    \"stack\": \"Error: You can't make this request on your own User.\\n    at verifyNotSame (file:///D:/2.%20repo/WebEngineering/app/backend/src/controllers/auth.controller.js:271:19)\\n    at Layer.handleRequest (D:\\\\2. repo\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\layer.js:152:17)\\n    at next (D:\\\\2. repo\\\\WebEngineering\\\\app\\\\node_modules\\\\router\\\\lib\\\\route.js:157:13)\\n    at file:///D:/2.%20repo/WebEngineering/app/backend/src/controllers/auth.controller.js:66:13\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\r\n}"
@@ -1725,9 +1751,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "{\n    \"id\": 3,\n    \"name\": \"leon\",\n    \"email\": \"leon@salenbacher.com\",\n    \"createdAt\": \"2025-06-08T13:06:11.188Z\"\n}"
@@ -1816,9 +1840,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "{\n    \"id\": 17,\n    \"name\": \"leon\",\n    \"email\": \"leon2d923@333.com\",\n    \"createdAt\": \"2025-07-06T11:17:07.310Z\",\n    \"isVerified\": true,\n    \"isBanned\": false,\n    \"roles\": [\n        \"user\"\n    ]\n}"
@@ -1865,7 +1887,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
 							"body": null
@@ -1927,9 +1949,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 18,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:16:31.882Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 20,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 50,\n        \"addedAt\": \"2025-06-19T08:22:17.290Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 21,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:22:20.705Z\",\n        \"ownerId\": 3\n    }\n]"
@@ -1987,9 +2007,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 4,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    },\n    {\n        \"id\": 16,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-18T17:48:39.132Z\",\n        \"boughtAt\": \"2025-06-18T17:48:45.997Z\"\n    },\n    {\n        \"id\": 12,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 28,\n        \"addedAt\": \"2025-06-18T17:43:30.997Z\",\n        \"boughtAt\": \"2025-06-18T17:45:02.798Z\"\n    },\n    {\n        \"id\": 2,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    },\n    {\n        \"id\": 15,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-18T17:48:35.025Z\",\n        \"boughtAt\": \"2025-06-18T17:48:45.997Z\"\n    },\n    {\n        \"id\": 14,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 6,\n        \"addedAt\": \"2025-06-18T17:44:36.246Z\",\n        \"boughtAt\": \"2025-06-18T17:45:02.798Z\"\n    },\n    {\n        \"id\": 3,\n        \"product\": {\n            \"id\": 4,\n            \"name\": \"Sneaker\",\n            \"description\": \"Weiße Sneaker, Größe 42\",\n            \"amount\": 30,\n            \"price\": 6999\n        },\n        \"amount\": 1,\n        \"addedAt\": \"2025-06-08T13:06:11.193Z\",\n        \"boughtAt\": \"2025-06-17T18:34:27.933Z\"\n    }\n]"
@@ -2047,9 +2065,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 18,\n        \"product\": {\n            \"id\": 1,\n            \"name\": \"T-Shirt\",\n            \"description\": \"Schwarzes T-Shirt, Größe M\",\n            \"amount\": 100,\n            \"price\": 1999\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:16:31.882Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    },\n    {\n        \"id\": 20,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 50,\n        \"addedAt\": \"2025-06-19T08:22:17.290Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    },\n    {\n        \"id\": 21,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 10,\n        \"addedAt\": \"2025-06-19T08:22:20.705Z\",\n        \"boughtAt\": \"2025-06-19T08:55:21.979Z\"\n    }\n]"
@@ -2115,9 +2131,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 22,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:55:37.515Z\",\n        \"ownerId\": 3\n    }\n]"
@@ -2189,9 +2203,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 22,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 3,\n        \"addedAt\": \"2025-06-19T08:55:37.515Z\",\n        \"ownerId\": 3\n    }\n]"
@@ -2251,9 +2263,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "[\n    {\n        \"id\": 23,\n        \"product\": {\n            \"id\": 2,\n            \"name\": \"Hoodie\",\n            \"description\": \"Grauer Hoodie, Größe L\",\n            \"amount\": 50,\n            \"price\": 3999\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:56:30.203Z\",\n        \"ownerId\": 3\n    },\n    {\n        \"id\": 24,\n        \"product\": {\n            \"id\": 3,\n            \"name\": \"Cap\",\n            \"description\": \"Baseball Cap, schwarz\",\n            \"amount\": 200,\n            \"price\": 1499\n        },\n        \"amount\": 20,\n        \"addedAt\": \"2025-06-19T08:56:32.264Z\",\n        \"ownerId\": 3\n    }\n]"
@@ -2298,13 +2308,11 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": "",
 							"header": [],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": ""
@@ -2387,7 +2395,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": null,
 									"header": null,
 									"cookie": [],
 									"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"newName\",\r\n    \"description\": \"newDescription\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 3,\r\n                \"roleName\": \"read\",\r\n                \"level\": 1\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 15\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 3,\r\n                    \"roleName\": \"read\",\r\n                    \"level\": 1\r\n                },\r\n            ],\r\n            \"userWishlistRelationId\": 18\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"moritz\",\r\n            \"email\": \"moritz@letzteHaltestelle.de\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 1\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 1,\r\n            \"product\": {\r\n                \"id\": 2,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"This is a great shirt\",\r\n                \"amount\": 80,\r\n                \"price\": 8000\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": \"1\"\r\n        }\r\n    ]\r\n}"
@@ -2423,9 +2431,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 2\",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 2\\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:73:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async getBasicWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:131:5)\\n    at async Object.getWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:172:27)\\n    at async getWishlistById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:33:26)\"\n}"
@@ -2625,9 +2631,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"id\": 9,\n    \"name\": \"newName\",\n    \"description\": \"newDescription\",\n    \"member\": {\n        \"id\": 3,\n        \"name\": \"leon\",\n        \"email\": \"leon@salenbacher.com\",\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n        \"roles\": [\n            {\n                \"id\": 1,\n                \"roleName\": \"owner\",\n                \"level\": 3\n            }\n        ],\n        \"userWishlistRelationId\": 21\n    },\n    \"members\": [\n        {\n            \"id\": 3,\n            \"name\": \"leon\",\n            \"email\": \"leon@salenbacher.com\",\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\n            \"roles\": [\n                {\n                    \"id\": 1,\n                    \"roleName\": \"owner\",\n                    \"level\": 3\n                }\n            ],\n            \"userWishlistRelationId\": 21\n        }\n    ],\n    \"wishlistItems\": []\n}"
@@ -2672,9 +2676,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:279:5)\\n    at async updateWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:112:26)\"\n}"
@@ -2732,9 +2734,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{}"
@@ -2759,7 +2759,7 @@
 									},
 									"status": "Forbidden",
 									"code": 403,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": null,
 									"header": null,
 									"cookie": [],
 									"body": "{\r\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 2\",\r\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 2\\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:73:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:385:5)\\n    at async deleteWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:214:26)\"\r\n}"
@@ -2915,9 +2915,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"New amount 140 is higher then storage amount of product\",\n    \"stack\": \"Error: New amount 140 is higher then storage amount of product\\n    at Object.isValidAmount (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/validator/validator.product.js:23:15)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:253:5)\\n    at async addProductToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:83:26)\"\n}"
@@ -3028,9 +3026,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"WishlistItem with id 2 doesn't exist\",\n    \"stack\": \"Error: WishlistItem with id 2 doesn't exist\\n    at Object.findWishlistItemById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlistitem.model.js:91:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:241:26)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:111:26)\"\n}"
@@ -3073,9 +3069,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:246:5)\\n    at async updateWishlistItem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:111:26)\"\n}"
@@ -3188,7 +3182,7 @@
 											]
 										}
 									},
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": null,
 									"header": null,
 									"cookie": [],
 									"body": "{\r\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \",\r\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role write \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:372:5)\\n    at async deleteWishlistitem (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:207:26)\"\r\n}"
@@ -3314,9 +3308,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"The user with id: 6 already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId\",\n    \"stack\": \"Error: The user with id: 6 already has a role. You can change this Role under PUT /api/wishlist/permission/:userWishlistRelationId\\n    at Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlist.model.js:462:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:311:5)\\n    at async addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:140:26)\"\n}"
@@ -3362,9 +3354,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:291:5)\\n    at async addUserToWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:140:26)\"\n}"
@@ -3441,9 +3431,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\r\n    \"id\": 2,\r\n    \"name\": \"My Wishlist\",\r\n    \"description\": \"Great Wishlist\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"roleName\": \"owner\",\r\n                \"level\": 3\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 3\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 3\r\n        },\r\n        {\r\n            \"id\": 6,\r\n            \"name\": \"Moritz\",\r\n            \"email\": \"Moritz@gmail.com\",\r\n            \"createdAt\": \"2025-06-08T13:58:49.780Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 2,\r\n                    \"roleName\": \"write\",\r\n                    \"level\": 2\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 16\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 3,\r\n            \"product\": {\r\n                \"id\": 1,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n                \"amount\": 200,\r\n                \"price\": 1999\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": 2\r\n        }\r\n    ]\r\n}"
@@ -3580,7 +3568,7 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "Text",
+									"_postman_previewlanguage": null,
 									"header": null,
 									"cookie": [],
 									"body": "{\r\n    \"id\": 2,\r\n    \"name\": \"\",\r\n    \"description\": \"\",\r\n    \"member\": {\r\n        \"id\": 3,\r\n        \"name\": \"leon\",\r\n        \"email\": \"leon@salenbacher.com\",\r\n        \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n        \"roles\": [\r\n            {\r\n                \"id\": 1,\r\n                \"roleName\": \"owner\",\r\n                \"level\": 3\r\n            },\r\n            {\r\n                \"id\": 2,\r\n                \"roleName\": \"write\",\r\n                \"level\": 2\r\n            },\r\n            {\r\n                \"id\": 3,\r\n                \"roleName\": \"read\",\r\n                \"level\": 1\r\n            }\r\n        ],\r\n        \"userWishlistRelationId\": 3\r\n    },\r\n    \"members\": [\r\n        {\r\n            \"id\": 3,\r\n            \"name\": \"leon\",\r\n            \"email\": \"leon@salenbacher.com\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 1,\r\n                    \"roleName\": \"owner\",\r\n                    \"level\": 3\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 9\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"name\": \"moritz\",\r\n            \"email\": \"moritz@letzteHaltestelle.de\",\r\n            \"createdAt\": \"2025-06-08T13:06:11.188Z\",\r\n            \"roles\": [\r\n                {\r\n                    \"id\": 2,\r\n                    \"roleName\": \"write\",\r\n                    \"level\": 2\r\n                }\r\n            ],\r\n            \"userWishlistRelationId\": 5\r\n        }\r\n    ],\r\n    \"wishlistItems\": [\r\n        {\r\n            \"id\": 3,\r\n            \"product\": {\r\n                \"id\": 1,\r\n                \"name\": \"T-Shirt\",\r\n                \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n                \"amount\": 200,\r\n                \"price\": 1999\r\n            },\r\n            \"amount\": 1,\r\n            \"addedAt\": \"2025-06-08T13:06:11.200Z\",\r\n            \"wishlistId\": 2\r\n        }\r\n    ]\r\n}"
@@ -3658,9 +3646,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \",\n    \"stack\": \"Error: You are not allowed to make this action for the wishlist with the id 1, you need to at least the role owner \\n    at verifyWishlistRoleByWishlistId (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:67:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteRelationFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:349:5)\\n    at async deleteUserFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:178:26)\"\n}"
@@ -3701,9 +3687,7 @@
 									],
 									"cookie": [
 										{
-											"expires": "Invalid Date",
-											"domain": "",
-											"path": ""
+											"expires": "Invalid Date"
 										}
 									],
 									"body": "{\n    \"message\": \"WishlistRealtion with id: 2 was not Found\",\n    \"stack\": \"Error: WishlistRealtion with id: 2 was not Found\\n    at Object.getRelationById (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/models/wishlist.model.js:501:19)\\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\\n    at async Object.deleteRelationFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/services/wishlist.service.js:345:44)\\n    at async deleteUserFromWishlist (file:///D:/2.%20repo/1.%20DHBW/WebEngineering/app/backend/src/controllers/wishlist.controller.js:178:26)\"\n}"
@@ -3790,7 +3774,7 @@
 							},
 							"status": "OK",
 							"code": 200,
-							"_postman_previewlanguage": "Text",
+							"_postman_previewlanguage": null,
 							"header": null,
 							"cookie": [],
 							"body": "[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"T-Shirt\",\r\n        \"description\": \"Schwarzes T-Shirt, Größe M\",\r\n        \"amount\": 200,\r\n        \"price\": 1999\r\n    }\r\n]"
@@ -4053,6 +4037,7 @@
 									]
 								}
 							},
+							"code": 200,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -4064,9 +4049,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "{\n    \"id\": \"2\",\n    \"name\": \"T-Shirt\",\n    \"description\": \"This is a great shirt\",\n    \"amount\": 80,\n    \"price\": 8000\n}"
@@ -4206,9 +4189,7 @@
 							],
 							"cookie": [
 								{
-									"expires": "Invalid Date",
-									"domain": "",
-									"path": ""
+									"expires": "Invalid Date"
 								}
 							],
 							"body": "{\n    \"message\": \"Deleted Product with Id: 15\"\n}"
@@ -4288,7 +4269,7 @@
 		"bearer": [
 			{
 				"key": "token",
-				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywicm9sZXMiOlt7ImlkIjoxLCJyb2xlTmFtZSI6InVzZXIiLCJsZXZlbCI6MX0seyJpZCI6Miwicm9sZU5hbWUiOiJhZG1pbiIsImxldmVsIjoyfV0sImlhdCI6MTc1MjM5ODg0MiwiZXhwIjoxNzUyNDg1MjQyfQ.wkp1HaBbr8hLMdHHZnU8kbQ7FUeYurW6gaM8lobjRk0",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOlt7ImlkIjoyLCJyb2xlTmFtZSI6ImFkbWluIiwibGV2ZWwiOjJ9LHsiaWQiOjEsInJvbGVOYW1lIjoidXNlciIsImxldmVsIjoxfV0sImlhdCI6MTc1MjUwODAwNiwiZXhwIjoxNzUyNTk0NDA2fQ.3qBxJLusz7LYsOy-2H198ez9s9hePbj5uY4CtwDVMBQ",
 				"type": "string"
 			}
 		]
