@@ -1,6 +1,6 @@
 # Routes
-Definiere den endpunkt in der datei `app/backend/src/routes/*.routes.js`
-Als pfad muss nur der teil des pfads innerhalb des services angegeben werden, da in der index.js die anfrage bereits dem richtigen service zugeordnet wird.
+Definiere den Endpunkt in der Datei `app/backend/src/routes/*.routes.js`
+Als Pfad muss nur der Teil des Pfads innerhalb des Services angegeben werden, da in der index.js die Anfrage bereits dem richtigen Service zugeordnet wird.
 index.js:
 ```javascript
 app.use("/api/auth", AuthRouter)
@@ -14,8 +14,8 @@ router.post("/register", AuthController.register)
 ```
 
 ## Secure Endpoint
-Sollte überprüft werden, ob ein JWT token vorhanden ist, kann die funktion aufgerufen werden. Diese überprüft den JWT token und extrahiert die informationen und speichert sie in req.user
-Desweiteren kann dieser function ein optionaler parameter 'requiredRole' übergeben werden. Durch welchen nur Nutzer zugelassen werden, die die jeweilige rolle haben.
+Sollte überprüft werden, ob ein JWT token vorhanden ist, kann die Funktion aufgerufen werden. Diese überprüft den JWT token und extrahiert die Informationen und speichert sie in req.user
+Desweiteren kann dieser function ein optionaler Parameter 'requiredRole' übergeben werden. Durch welchen nur Nutzer zugelassen werden, die die jeweilige Rolle haben.
 
 ```javascript
 import Roles from "../objects/user/Roles.js"
@@ -30,7 +30,8 @@ router.get("/protected", AuthController.verifyJWTtoken(Roles.user), (req, res) =
 
 # Controller
 Im Router wird eine Funktion definiert/aufgerufen. Diese sollte in der Datei `app/backend/src/controllers/*.controllers.js` definiert sein.
-Hier werden parameter aus der anfrage extrahiert und die antwort zurück an den client aufgebaut und abgeschickt.
+Hier werden Parameter aus der Anfrage extrahiert und die Antwort zurück an den client aufgebaut und abgeschickt.
+
 ```javascript
 import AuthService from "../services/auth.service.js"
 
@@ -51,7 +52,8 @@ async function listProducts(req, res) {
 ```
 
 # Service 
-Im Service sollte die Logik sein, wie bspw. kontrollieren, ob die angegebenen parameter den anforderungen entsprechen.
+Im Service sollte die Logik sein, wie bspw. kontrollieren, ob die angegebenen Parameter den Anforderungen entsprechen.
+
 ```javascript
 import AuthValidator from "../validator/validator.auth.js"
 import AuthModel from "../models/auth.model.js"
@@ -86,7 +88,8 @@ async function createUser(username, password, email) {
 ```
 
 # validator 
-Hier sollten Überprüfungen definiert sein, wie z.B. ob ein password die richtige länge hat.
+Hier sollten Überprüfungen definiert sein, wie z.B. ob ein password die richtige Länge hat.
+
 ```javascript
 import authModel from "../models/auth.model.js"
 
@@ -106,7 +109,7 @@ function isSecurePassword(password) {
 
 
 # Model
-In diesem file sollten alle Datenbank zugriffe definiert sein. 
+In diesem file sollten alle Datenbankzugriffe definiert sein. 
 
 ```javascript
 /**
@@ -131,7 +134,8 @@ async function existByEmail(email) {
 ```
 
 ## Mit roleback option
-Wenn mehrere querys nötig sind, um ein Objekt zu erstellen, sollte die option genutzt werden, um bei einem fehler wieder alles rückgängig zu machen, um zu verhindern das nur das halbe objekt abgespeichert wird.
+Wenn mehrere querys nötig sind, um ein Objekt zu erstellen, sollte die Option genutzt werden, um bei einem Fehler wieder alles rückgängig zu machen, um zu verhindern das nur das halbe Objekt abgespeichert wird.
+
 ```javascript
 /**
  * Creates a User in the Database
