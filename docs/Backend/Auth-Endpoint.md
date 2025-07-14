@@ -38,7 +38,7 @@ GET /api/auth/hasAccess
 Always true 
 
 ## POST 
-Reuquires Admin 
+Requires Admin 
 
 ## PUT 
 Requires Role Admin and resourceId
